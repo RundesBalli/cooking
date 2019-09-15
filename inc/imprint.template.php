@@ -17,7 +17,7 @@ $content.= "<div class='spacer-m'></div>".PHP_EOL;
 $content.= "<h1>Quellenangaben</h1>".PHP_EOL;
 $content.= "<div class='row'>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'>Programmierung: <a href='https://RundesBalli.com' target='_blank' rel='noopener'>RundesBalli</a></div>".PHP_EOL.
-"<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='https://www.w3schools.com/howto/howto_css_sidebar_responsive.asp' target='_blank' rel='noopener'>Layouot</a></div>".PHP_EOL.
+"<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='https://www.w3schools.com/howto/howto_css_sidebar_responsive.asp' target='_blank' rel='noopener'>Layout</a></div>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'>Die Headergrafik und das Favicon stammen von <a href='https://pr0gramm.com/user/Soldiermelly' target='_blank' rel='noopener'>Soldiermelly</a>.</div>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'>Haftungsausschluss von <a href='http://www.mustervorlage.net/disclaimer-muster' target='_blank' rel='noopener'>mustervorlage.net</a>.</div>".PHP_EOL.
 "</div>".PHP_EOL;
