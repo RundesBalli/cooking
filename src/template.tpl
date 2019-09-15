@@ -28,7 +28,11 @@ https://github.com/RundesBalli/pr0cooking
       <a class="toggle" id="toggle"></a>
       <a href="/">Startseite</a>
       {NAV}
-      <div id="footer"><a href="/imprint">Impressum</a></div>
+      <div id="footer">
+        <a href="/imprint">Impressum</a>
+        <a href="https://nezos.wtf">Nezos</a>
+        <a href="https://github.com/RundesBalli/pr0cooking">GitHub</a>
+      </div>
     </div>
     <div id="content">
       {CONTENT}
