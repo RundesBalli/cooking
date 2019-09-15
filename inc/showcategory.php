@@ -27,13 +27,13 @@ if(!isset($_GET['category']) OR empty(trim($_GET['category']))) {
   if(mysqli_num_rows($result) == 1) {
     $row = mysqli_fetch_array($result);
     $title = $row['title'];
-    $content.= "<h1><span class='fas'>&#xf07c;</span> Kategorie: ".$row['title']."</h1>".PHP_EOL;
+    $content.= "<h1>Kategorie: ".$row['title']."</h1>".PHP_EOL;
     /**
      * Kategorienbeschreibung anzeigen, sofern vorhanden.
      */
     if($row['description'] !== NULL) {
       $content.= "<div class='row'>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><span class='fas'>&#xf10d;</span> ".nl2br($row['description'])."</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'>".nl2br($row['description'])."</div>".PHP_EOL.
       "</div>".PHP_EOL;
     }
     $content.= "<div class='spacer-l'></div>".PHP_EOL;
@@ -47,7 +47,7 @@ if(!isset($_GET['category']) OR empty(trim($_GET['category']))) {
       "<div class='col-x-12 col-s-12 col-m-12 col-l-9 col-xl-9'>".PHP_EOL.
       "<div class='row'>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12 bigger'><span class='bold highlight'>".$row['title']."</span> <span class='italic'>von ".($row['author'] == NULL ? "unbekannt" : "<a href='https://pr0gramm.com/user/".$row['author']."' target='_blank' rel='noopener'>".$row['author']."</a>")."</span><span class='right'><a href='".$row['url']."' target='_blank' rel='noopener'><span class='fas'>&#xf35d;</span> zur Seite</a></span></div>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><span class='fas'>&#xf10d;</span> ".($row['description'] == NULL ? "<span class='italic'>Keine Beschreibung vorhanden</span>" : nl2br($row['description']))."</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'>".($row['description'] == NULL ? "<span class='italic'>Keine Beschreibung vorhanden</span>" : nl2br($row['description']))."</div>".PHP_EOL.
       "</div>".PHP_EOL.
       "</div>".PHP_EOL.
       "</div>".PHP_EOL;
