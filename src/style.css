@@ -307,6 +307,11 @@ label {
   padding: 10px 25px;
 }
 
+#footer {
+  position: absolute;
+  bottom: 0px;
+}
+
 @media screen and (max-width: 700px) {
   #sidebar {
     width: 100%;
@@ -351,6 +356,12 @@ label {
 
   #sidebar.responsive a {
     display: inline-block;
+  }
+
+  #footer {
+    position: absolute;
+    top: 0px;
+    right: 0px;
   }
 
   #content {

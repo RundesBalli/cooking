@@ -28,6 +28,7 @@ https://github.com/RundesBalli/pr0cooking
       <a class="toggle" id="toggle"></a>
       <a href="/">Startseite</a>
       {NAV}
+      <div id="footer"><a href="/imprint">Impressum</a></div>
     </div>
     <div id="content">
       {CONTENT}
