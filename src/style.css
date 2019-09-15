@@ -1,0 +1,360 @@
+/*
+CSS stylesheet for https://pr0.cooking
+
+https://nezos.wtf
+https://RundesBalli.com/
+
+Contents:
+1. General
+2. Grid
+3. Forms
+*/
+
+/*
+  1. General
+*/
+
+html, body {
+  padding: 0px;
+  margin: 0px;
+  background: #161618;
+  width: 100%;
+  height: 100%;
+  font-family: sans-serif;
+  font-size: 14px;
+  color: #f2f5f4;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+img.thumb {
+  border: 1px solid #f2f5f4;
+}
+
+a {
+  outline: none;
+  color: #75c0c7;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+a:active, a:hover, a:focus {
+  color: #f2f5f4;
+  text-decoration: underline;
+}
+
+.warn {
+  color: #c52b2f;
+}
+
+.highlight {
+  color: #ee4d2e;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+.center {
+  text-align: center;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+.clear {
+  clear: both;
+}
+
+.bigger {
+  font-size: 22px;
+}
+
+/*
+  2. Grid
+*/
+
+#wrapper {
+  max-width: 1200px;
+  width: 100%;
+  margin: 12px auto;
+  flex: auto;
+}
+
+[class*="col-"] {
+  float: left;
+  padding: 5px 5px;
+  border: 0;
+}
+
+ /* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  [class*="col-"] {
+    padding: 5px 5px;
+  }
+  .col-x-0 {width: 0%; display: none;}
+  .col-x-1 {width: 8.33%;}
+  .col-x-2 {width: 16.66%;}
+  .col-x-3 {width: 25%;}
+  .col-x-4 {width: 33.33%;}
+  .col-x-5 {width: 41.66%;}
+  .col-x-6 {width: 50%;}
+  .col-x-7 {width: 58.33%;}
+  .col-x-8 {width: 66.66%;}
+  .col-x-9 {width: 75%;}
+  .col-x-10 {width: 83.33%;}
+  .col-x-11 {width: 91.66%;}
+  .col-x-12 {width: 100%;}
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  [class*="col-"] {
+    padding: 5px 8px;
+  }
+  .col-s-0 {width: 0%; display: none;}
+  .col-s-1 {width: 8.33%;}
+  .col-s-2 {width: 16.66%;}
+  .col-s-3 {width: 25%;}
+  .col-s-4 {width: 33.33%;}
+  .col-s-5 {width: 41.66%;}
+  .col-s-6 {width: 50%;}
+  .col-s-7 {width: 58.33%;}
+  .col-s-8 {width: 66.66%;}
+  .col-s-9 {width: 75%;}
+  .col-s-10 {width: 83.33%;}
+  .col-s-11 {width: 91.66%;}
+  .col-s-12 {width: 100%;}
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  [class*="col-"] {
+    padding: 7px 10px;
+  }
+  .col-m-0 {width: 0%; display: none;}
+  .col-m-1 {width: 8.33%;}
+  .col-m-2 {width: 16.66%;}
+  .col-m-3 {width: 25%;}
+  .col-m-4 {width: 33.33%;}
+  .col-m-5 {width: 41.66%;}
+  .col-m-6 {width: 50%;}
+  .col-m-7 {width: 58.33%;}
+  .col-m-8 {width: 66.66%;}
+  .col-m-9 {width: 75%;}
+  .col-m-10 {width: 83.33%;}
+  .col-m-11 {width: 91.66%;}
+  .col-m-12 {width: 100%;}
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  [class*="col-"] {
+    padding: 8px 12px;
+  }
+  .col-l-0 {width: 0%; display: none;}
+  .col-l-1 {width: 8.33%;}
+  .col-l-2 {width: 16.66%;}
+  .col-l-3 {width: 25%;}
+  .col-l-4 {width: 33.33%;}
+  .col-l-5 {width: 41.66%;}
+  .col-l-6 {width: 50%;}
+  .col-l-7 {width: 58.33%;}
+  .col-l-8 {width: 66.66%;}
+  .col-l-9 {width: 75%;}
+  .col-l-10 {width: 83.33%;}
+  .col-l-11 {width: 91.66%;}
+  .col-l-12 {width: 100%;}
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  [class*="col-"] {
+    padding: 10px 15px;
+  }
+  .col-xl-0 {width: 0%; display: none;}
+  .col-xl-1 {width: 8.33%;}
+  .col-xl-2 {width: 16.66%;}
+  .col-xl-3 {width: 25%;}
+  .col-xl-4 {width: 33.33%;}
+  .col-xl-5 {width: 41.66%;}
+  .col-xl-6 {width: 50%;}
+  .col-xl-7 {width: 58.33%;}
+  .col-xl-8 {width: 66.66%;}
+  .col-xl-9 {width: 75%;}
+  .col-xl-10 {width: 83.33%;}
+  .col-xl-11 {width: 91.66%;}
+  .col-xl-12 {width: 100%;}
+}
+
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.spacer-s {
+  height: 15px;
+}
+
+.spacer-m {
+  height: 30px;
+}
+
+.spacer-l {
+  height: 50px;
+}
+
+/*
+  3. Forms
+*/
+
+input[type=text], input[type=password], select, textarea {
+  width: 100%;
+  border: 1px solid #f2f5f4;
+  padding: 8px;
+  background-color: #161618;
+  color: #f2f5f4;
+}
+
+textarea {
+  resize: none;
+  height: 120px;
+}
+
+input[type=text]:focus, input[type=password]:focus, select:focus, textarea:focus {
+  background-color: #212121;
+  border: 1px solid #ee4d2e;
+  outline-color: #ee4d2e
+}
+
+input[type=submit], input[type=reset], input[type=button] {
+  width: 30%;
+  cursor: pointer;
+  padding: 8px 12px;
+  background-color: #161618;
+  color: #f2f5f4;
+  border: 1px solid #f2f5f4;
+}
+
+input[type=submit]:hover, input[type=reset]:hover, input[type=button]:hover {
+  background-color: #212121;
+}
+
+label {
+  display: inline-block;
+  color: #f2f5f4;
+}
+
+/*
+  4. Layout
+  https://www.w3schools.com/howto/howto_css_sidebar_responsive.asp
+*/
+
+#sidebar {
+  margin: 0;
+  padding: 0;
+  width: 200px;
+  background-color: #212121;
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+  border-right: 5px solid #ee4d2e;
+}
+
+#sidebar a {
+  display: block;
+  color: #75c0c7;
+  padding: 16px;
+  text-decoration: none;
+}
+
+#sidebar img {
+  display: block;
+}
+
+#sidebar a.toggle {
+  display: none;
+}
+
+#sidebar a:hover:not(.toggle) {
+  background-color: #2a2e31;
+  color: #ee4d2e;
+}
+
+#content {
+  margin-left: 200px;
+  padding: 10px 25px;
+  height: 1000px;
+}
+
+@media screen and (max-width: 700px) {
+  #sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    border-right: 0;
+    border-bottom: 5px solid #ee4d2e;
+  }
+
+  #sidebar::after {
+    clear: both;
+  }
+
+  #sidebar a {
+    display: inline;
+  }
+  
+  #sidebar img {
+    margin: 0 auto;
+    display: block;
+  }
+
+  #sidebar a.toggle {
+    display: inline;
+    position: absolute;
+    font-size: 30px;
+    top: 0px;
+    left: 0px;
+  }
+
+  #sidebar a.toggle::after {
+    content: '☰';
+  }
+
+  #sidebar.responsive a.toggle::after {
+    content: '▲';
+  }
+
+  #sidebar a {
+    display: none;
+  }
+
+  #sidebar.responsive a {
+    display: inline-block;
+  }
+
+  #content {
+    margin-left: 0px;
+  }
+}
