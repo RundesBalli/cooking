@@ -4,7 +4,7 @@
  */
 $title = "Impressum";
 
-$content.= "<h1><span class='fas'>&#xf21b;</span> Impressum</h1>".PHP_EOL;
+$content.= "<h1>Impressum</h1>".PHP_EOL;
 $content.= "<div class='row'>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'></a></div>".PHP_EOL.
 "</div>".PHP_EOL;
@@ -14,7 +14,7 @@ $content.= "<div class='spacer-m'></div>".PHP_EOL;
 /**
  * Quellenangaben, wie es sich gehört :-)
  */
-$content.= "<h1><span class='fas'>&#xf0c1;</span> Quellenangaben</h1>".PHP_EOL;
+$content.= "<h1>Quellenangaben</h1>".PHP_EOL;
 $content.= "<div class='row'>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'>Programmierung: <a href='https://RundesBalli.com' target='_blank' rel='noopener'>RundesBalli</a></div>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='https://www.w3schools.com/howto/howto_css_sidebar_responsive.asp' target='_blank' rel='noopener'>Layouot</a></div>".PHP_EOL.
@@ -27,7 +27,7 @@ $content.= "<div class='spacer-m'></div>".PHP_EOL;
 /**
  * Haftungsausschluss
  */
-$content.= "<h1><span class='fas'>&#xf0c9;</span> Haftungsausschluss</h1>".PHP_EOL;
+$content.= "<h1>Haftungsausschluss</h1>".PHP_EOL;
 $content.= "<div class='row'>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-12 col-l-3 col-xl-3 bold'>1. Haftungsbeschränkung</div>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-12 col-l-9 col-xl-9'>Die Inhalte des Internetauftritts wurden mit größtmöglicher Sorgfalt und nach bestem Gewissen erstellt. Dennoch übernimmt der Anbieter dieser Webseite keine Gewähr für die Aktualität, Vollständigkeit und Richtigkeit der bereitgestellten Seiten und Inhalte.<div class='spacer-s'></div>Als Diensteanbieter ist der Anbieter dieser Webseite gemäß § 7 Abs. 1 TMG für eigene Inhalte und bereitgestellte Informationen auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich; nach den §§ 8 bis 10 TMG jedoch nicht verpflichtet, die übermittelten oder gespeicherten fremden Informationen zu überwachen. Eine Entfernung oder Sperrung dieser Inhalte erfolgt umgehend ab dem Zeitpunkt der Kenntnis einer konkreten Rechtsverletzung. Eine Haftung ist erst ab dem Zeitpunkt der Kenntniserlangung möglich.</div>".PHP_EOL.
