@@ -20,4 +20,10 @@ function defuse($defuse_string, $trim = TRUE) {
   global $dbl;
   return mysqli_real_escape_string($dbl, $defuse_string);
 }
+
+/**
+ * Slimdown
+ * https://gist.github.com/jbroadway/2836900
+ */
+require_once(__DIR__.DIRECTORY_SEPARATOR."Slimdown.php");
 ?>
