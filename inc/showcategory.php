@@ -40,7 +40,7 @@ if(!isset($_GET['category']) OR empty(trim($_GET['category']))) {
     /**
      * Inhalte der Kategorie anzeigen.
      */
-    $result = mysqli_query($dbl, "SELECT `items`.* FROM `category_items` JOIN `items` ON `category_items`.`item` = `items`.`shortTitle` WHERE `category`='".$category."' ORDER BY `category_items`.`sortindex` ASC, `items`.`title` ASC") OR DIE(MYSQLI_ERROR($dbl));
+    $result = mysqli_query($dbl, "SELECT `items`.* FROM `category_items` JOIN `items` ON `category_items`.`item_id` = `items`.`shortTitle` WHERE `category_id`='".$row['id']."' ORDER BY `category_items`.`sortindex` ASC, `items`.`title` ASC") OR DIE(MYSQLI_ERROR($dbl));
     while($row = mysqli_fetch_array($result)) {
       $content.= "<div class='row'>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-12 col-l-3 col-xl-3'><a href='".$row['url']."' target='_blank' rel='noopener'><img class='thumb' src='/".($row['thumb'] == NULL ? "src/nothumb.png" : "thumbs/".$row['thumb'])."' alt='Bild'></a></div>".PHP_EOL.
