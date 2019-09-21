@@ -33,10 +33,11 @@ if(!isset($_GET['category']) OR empty(trim($_GET['category']))) {
      */
     if($row['description'] !== NULL) {
       $content.= "<div class='row'>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'>".nl2br($row['description'])."</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'>".Slimdown::render($row['description'])."</div>".PHP_EOL.
       "</div>".PHP_EOL;
+      $content.= "<div class='spacer-l'></div>".PHP_EOL;
     }
-    $content.= "<div class='spacer-l'></div>".PHP_EOL;
+
     /**
      * Inhalte der Kategorie anzeigen.
      */

@@ -25,7 +25,7 @@ class Slimdown {
   public static $rules = array (
     '/(#+)(.*)/' => 'self::header',                                                        // headers
     '/\[([^\[]+)\]\(([^\)]+)\)/' => '<a href=\'\2\' rel=\'noopener\'>\1</a>',              // links
-    '\[([\w-\.]+)\.png\]\[(.+)\]' => '<img src=\'/img/\1.png\' title=\'\2\' alt=\'\2\'>',  // internal image
+    '/\[([\w-\.]+)\.png\]\[(.+)\]/' => '<img src=\'/img/\1.png\' title=\'\2\' alt=\'\2\'>',// internal image
     '/(\*\*|__)(.*?)\1/' => '<strong>\2</strong>',                                         // bold
     '/(\*|_)(.*?)\1/' => '<em>\2</em>',                                                    // emphasis
     '/\~\~(.*?)\~\~/' => '<s>\1</s>',                                                      // del
@@ -56,16 +56,38 @@ class Slimdown {
     return sprintf ("\n<ol>\n\t<li>%s</li>\n</ol>", trim ($item));
   }
 
-  private static function blockquote ($regs) {
-    $item = $regs[2];
-    return sprintf ("\n<blockquote>%s</blockquote>", trim ($item));
-  }
-
   private static function header ($regs) {
     list ($tmp, $chars, $header) = $regs;
     $level = strlen ($chars);
     return sprintf ('<h%d>%s</h%d>', $level, trim ($header), $level);
   }
+
+  /**
+   * Render some Markdown into HTML.
+   */
+  public static function render ($text) {
+    $text = "\n" . $text . "\n";
+    foreach (self::$rules as $regex => $replacement) {
+      if (is_callable ( $replacement)) {
+        $text = preg_replace_callback ($regex, $replacement, $text);
+      } else {
+        $text = preg_replace ($regex, $replacement, $text);
+      }
+    }
+    return trim ($text);
+  }
+}
+
+/**
+ * Slimdown für eine Zeile
+ */
+class SlimdownOneline {
+  public static $rules = array (
+    '/\[([^\[]+)\]\(([^\)]+)\)/' => '<a href=\'\2\' rel=\'noopener\'>\1</a>',              // links
+    '/(\*\*|__)(.*?)\1/' => '<strong>\2</strong>',                                         // bold
+    '/(\*|_)(.*?)\1/' => '<em>\2</em>',                                                    // emphasis
+    '/\~\~(.*?)\~\~/' => '<s>\1</s>'                                                       // del
+  );
 
   /**
    * Render some Markdown into HTML.
