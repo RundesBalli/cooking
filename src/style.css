@@ -90,6 +90,10 @@ a:active, a:hover, a:focus {
   font-size: 22px;
 }
 
+hr {
+  border: 2.5px solid #ee4d2e;
+}
+
 /*
   2. Grid
 */
@@ -290,6 +294,11 @@ label {
   transition: background-color 0.3s, color 0.3s;
 }
 
+#sidebar span {
+  display: block;
+  padding: 16px;
+}
+
 #sidebar img {
   display: block;
 }
@@ -360,12 +369,16 @@ label {
     content: '▲';
   }
 
-  #sidebar a {
+  #sidebar a, #sidebar hr, #sidebar span {
     display: none;
   }
 
-  #sidebar.responsive a {
+  #sidebar.responsive a, #sidebar.responsive span {
     display: inline-block;
+  }
+
+  #sidebar.responsive hr {
+    display: block;
   }
 
   #footer {
