@@ -238,7 +238,7 @@ hr {
 */
 
 input[type=text], input[type=password], select, textarea {
-  width: 100%;
+  min-width: 30%;
   border: 1px solid #f2f5f4;
   padding: 8px;
   background-color: #161618;
@@ -257,7 +257,7 @@ input[type=text]:focus, input[type=password]:focus, select:focus, textarea:focus
 }
 
 input[type=submit], input[type=reset], input[type=button] {
-  width: 30%;
+  min-width: 30%;
   cursor: pointer;
   padding: 8px 12px;
   background-color: #161618;
@@ -267,6 +267,8 @@ input[type=submit], input[type=reset], input[type=button] {
 
 input[type=submit]:hover, input[type=reset]:hover, input[type=button]:hover {
   background-color: #212121;
+  border: 1px solid #ee4d2e;
+  outline-color: #ee4d2e
 }
 
 label {
