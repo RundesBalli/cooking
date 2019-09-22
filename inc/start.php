@@ -2,7 +2,7 @@
 /**
  * start.php
  * 
- * Startseite mit kurzer Begrüßung und Erläuterung...
+ * Startseite mit kurzer Begrüßung und Erläuterung.
  */
 $title = "Startseite";
 $content.= "<h1>pr0.cooking</h1>".PHP_EOL;

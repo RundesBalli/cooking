@@ -1,5 +1,7 @@
 <?php
 /**
+ * imprint.php
+ * 
  * Impressum / Anbieterkennzeichnung
  */
 $title = "Impressum";

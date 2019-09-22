@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Slimdown.php
+ */
 /**
  * Slimdown - A very basic regex-based Markdown parser. Supports the
  * following elements (and can be extended via Slimdown::add_rule()):
