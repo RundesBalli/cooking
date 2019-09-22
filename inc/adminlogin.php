@@ -78,5 +78,4 @@ if((!isset($_COOKIE['cooking']) OR empty($_COOKIE['cooking'])) AND !isset($_POST
   header("Location: /adminindex");
   die();
 }
-
 ?>
