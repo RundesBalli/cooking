@@ -6,7 +6,7 @@ $title = "Impressum";
 
 $content.= "<h1>Impressum</h1>".PHP_EOL;
 $content.= "<div class='row'>".PHP_EOL.
-"<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'></a></div>".PHP_EOL.
+"<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'></div>".PHP_EOL.
 "</div>".PHP_EOL;
 
 $content.= "<div class='spacer-m'></div>".PHP_EOL;
