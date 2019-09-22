@@ -1,6 +1,7 @@
 User-agent: *
 Disallow: /src
 Disallow: /inc
+Disallow: /admin*
 
 User-agent: Mediapartners-Google
 Disallow: /
