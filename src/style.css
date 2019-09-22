@@ -111,6 +111,10 @@ hr {
   border: 0;
 }
 
+.borderleft {
+  border-left: 2px dotted #888888;
+}
+
  /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
   [class*="col-"] {
