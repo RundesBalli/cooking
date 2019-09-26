@@ -26,4 +26,33 @@ function defuse($defuse_string, $trim = TRUE) {
  * https://gist.github.com/jbroadway/2836900
  */
 require_once(__DIR__.DIRECTORY_SEPARATOR."Slimdown.php");
+
+/**
+ * Sternfunktion
+ * Mit dem Layout von @NLDev
+ * @link https://github.com/NLDev
+ * 
+ * @param  float  $stars Die Anzahl der Sterne (0-5)
+ * 
+ * @return string Das fertige Div-Element
+ */
+function stars(float $stars = 0) {
+  $layout = "<div class='rating' title='".$stars." Sterne'>
+  <div class='rating-upper' style='width: ".($stars/5*100)."%'>
+    <span>★</span>
+    <span>★</span>
+    <span>★</span>
+    <span>★</span>
+    <span>★</span>
+  </div>
+  <div class='rating-lower'>
+    <span>★</span>
+    <span>★</span>
+    <span>★</span>
+    <span>★</span>
+    <span>★</span>
+  </div>
+</div>";
+  return $layout;
+}
 ?>
