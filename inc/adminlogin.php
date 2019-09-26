@@ -42,22 +42,38 @@ if((!isset($_COOKIE['cooking']) OR empty($_COOKIE['cooking'])) AND !isset($_POST
    * Entschärfen der Usereingaben.
    */
   $username = defuse($_POST['username']);
-  $password = hash('sha256', $_POST['password']);
   /**
    * Abfragen ob eine Übereinstimmung in der Datenbank vorliegt.
    */
-  $result = mysqli_query($dbl, "SELECT * FROM `accounts` WHERE `username`='".$username."' AND `password`='".$password."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+  $result = mysqli_query($dbl, "SELECT * FROM `accounts` WHERE `username`='".$username."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
   if(mysqli_num_rows($result) == 1) {
     /**
-     * Wenn eine Übereinstimmung vorliegt, dann wird eine Sitzung generiert und im Cookie gespeichert.
-     * Danach erfolgt eine Weiterleitung zur Adminindex Seite.
+     * Wenn der User existiert, muss der Passworthash validiert werden.
      */
     $row = mysqli_fetch_array($result);
-    $sessionhash = hash('sha256', time().$_SERVER['REMOTE_ADDR'].rand(10000,99999));
-    mysqli_query($dbl, "INSERT INTO `sessions` (`userid`, `hash`) VALUES ('".$row['id']."', '".$sessionhash."')") OR DIE(MYSQLI_ERROR($dbl));
-    setcookie('cooking', $sessionhash, time()+(6*7*86400));
-    header("Location: /adminindex");
-    die();
+    if(password_verify($_POST['password'].$row['salt'], $row['password'])) {
+      /**
+       * Wenn das Passwort verifiziert werden konnte wird eine Sitzung generiert und im Cookie gespeichert.
+       * Danach erfolg eine Weiterleitung zur Adminindex-Seite.
+       */
+      $sessionhash = hash('sha256', time().$_SERVER['REMOTE_ADDR'].rand(10000,99999));
+      mysqli_query($dbl, "INSERT INTO `sessions` (`userid`, `hash`) VALUES ('".$row['id']."', '".$sessionhash."')") OR DIE(MYSQLI_ERROR($dbl));
+      setcookie('cooking', $sessionhash, time()+(6*7*86400));
+      header("Location: /adminindex");
+      die();
+    } else {
+      /**
+       * Wenn das Passwort nicht verifiziert werden konnte wird HTTP403 zurückgegeben und eine Fehlermeldung wird ausgegeben.
+       */
+      http_response_code(403);
+      $content.= "<h1>Login gescheitert</h1>".PHP_EOL;
+      $content.= "<div class='row'>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12 warn bold'>Die Zugangsdaten sind falsch.</div>".PHP_EOL.
+      "</div>".PHP_EOL;
+      $content.= "<div class='row'>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminlogin'>Erneut versuchen</a></div>".PHP_EOL.
+      "</div>".PHP_EOL;
+    }
   } else {
     /**
      * Wenn keine Übereinstimmung vorliegt, dann wird HTTP403 zurückgegeben und eine Fehlermeldung wird ausgegeben.
