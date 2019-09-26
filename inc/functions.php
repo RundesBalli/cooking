@@ -30,7 +30,7 @@ require_once(__DIR__.DIRECTORY_SEPARATOR."Slimdown.php");
 /**
  * Sternfunktion
  * Mit dem Layout von @NLDev
- * @link https://github.com/NLDev
+ * @link https://gist.github.com/NLDev/464b08135138f1c1a135053a898b1a79
  * 
  * @param  float  $stars Die Anzahl der Sterne (0-5)
  * 
