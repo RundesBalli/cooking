@@ -94,6 +94,10 @@ hr {
   border: 2.5px solid #ee4d2e;
 }
 
+.nowrap {
+  white-space: nowrap;
+}
+
 /*
   2. Grid
 */
