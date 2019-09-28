@@ -52,7 +52,7 @@ $top = 0;
 while($row = mysqli_fetch_array($result)) {
   $top++;
   $content.= "<div class='row hover'>".PHP_EOL.
-  "<div class='col-x-12 col-s-12 col-m-3 col-l-3 col-xl-3'>#".$top." (".$row['c']." Klicks)</div>".PHP_EOL.
+  "<div class='col-x-12 col-s-12 col-m-3 col-l-3 col-xl-3'><span class='highlight'>#".$top."</span> (".$row['c']." Klicks)</div>".PHP_EOL.
   "<div class='col-x-12 col-s-12 col-m-9 col-l-9 col-xl-9'><a href='/rezept/".$row['shortTitle']."' target='_blank'>".$row['title']."</a></div>".PHP_EOL.
   "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
   "</div>".PHP_EOL;
@@ -66,7 +66,7 @@ $top = 0;
 while($row = mysqli_fetch_array($result)) {
   $top++;
   $content.= "<div class='row hover'>".PHP_EOL.
-  "<div class='col-x-12 col-s-12 col-m-2 col-l-2 col-xl-2'>#".$top." (".$row['a']." Sterne)</div>".PHP_EOL.
+  "<div class='col-x-12 col-s-12 col-m-2 col-l-2 col-xl-2'><span class='highlight'>#".$top."</span> (".$row['a']." Sterne)</div>".PHP_EOL.
   "<div class='col-x-12 col-s-12 col-m-3 col-l-2 col-xl-2'>".stars($row['a'])."</div>".PHP_EOL.
   "<div class='col-x-12 col-s-12 col-m-7 col-l-8 col-xl-8'><a href='/rezept/".$row['shortTitle']."' target='_blank'>".$row['title']."</a></div>".PHP_EOL.
   "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
