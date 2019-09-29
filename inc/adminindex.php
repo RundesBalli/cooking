@@ -14,7 +14,7 @@ $title = "Index";
 
 $content.= "<h1>Index</h1>".PHP_EOL;
 $content.= "<div class='row'>".PHP_EOL.
-"<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'>Eingeloggt als: <span class='warn bold'>".$username."</span> - (<a href='/adminlogout'>Ausloggen</a>)</div>".PHP_EOL.
+"<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'>Eingeloggt als: <span class='warn bold'>".$username."</span> - (<a href='/adminlogout'>Ausloggen</a>) - <a href='/adminmarkdowninfo'>Markdown Info</a></div>".PHP_EOL.
 "</div>".PHP_EOL;
 
 $content.= "<h1>Zahlen, Daten, Fakten</h1>".PHP_EOL;
