@@ -10,8 +10,6 @@
  */
 require_once('admincookie.php');
 
-$title = "Kategorien";
-
 if(!isset($_GET['action'])) {
   /**
    * Wenn keine Action übergeben wurde, dann erfolgt eine Umleitung zur Auflistung aller Kategorien.
@@ -22,7 +20,8 @@ if(!isset($_GET['action'])) {
   /**
    * Auflistung aller Kategorien mit Anzahl der darin befindlichen Rezepte.
    */
-  $content.= "<h1>Kategorien</h1>".PHP_EOL;
+  $title = "Kategorien anzeigen";
+  $content.= "<h1>Kategorien anzeigen</h1>".PHP_EOL;
   $content.= "<div class='row'>".PHP_EOL.
   "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories'>Anlegen</a></div>".PHP_EOL.
   "</div>".PHP_EOL;
@@ -67,6 +66,12 @@ if(!isset($_GET['action'])) {
       "</div>".PHP_EOL;
     }
   }
-} ## elseif ...
+} elseif($_GET['action'] == 'add') {
+  $title = "Kategorie anlegen";
+} elseif($_GET['action'] == 'del') {
+  $title = "Kategorie löschen";
+} elseif($_GET['action'] == 'assign') {
+  $title = "Rezepte zuweisen";
+} ## elseif...
 
 ?>
