@@ -81,6 +81,7 @@ if(!isset($_GET['action'])) {
     /**
      * AUSWERTUNG, und falls alles ok dann FORM auf 1 lassen, sonst 0
      */
+    
   } else {
     /**
      * Erstaufruf = Formular wird angezeigt.
@@ -103,25 +104,25 @@ if(!isset($_GET['action'])) {
     "</div>".PHP_EOL;
     $content.= "<div class='row hover bordered'>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Kurztitel für URL</div>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='text' name='shortTitle' placeholder='/kategorie/xxx'></div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='text' name='shortTitle' placeholder='/kategorie/xxx' value='".(isset($_POST['shortTitle']) ? $_POST['shortTitle'] : NULL)."'></div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("`/kategorie/foo-bar`\n* muss einzigartig sein\n* max. 64 Zeichen\n* keine Leerzeichen\n* keine Umlaute\n* keine Sonderzeichen\n* nur Kleinbuchstaben oder Zahlen\n* zur Worttrennung `-` oder `_` benutzen\n`0-9a-z-_`")."</div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
     "</div>".PHP_EOL;
     $content.= "<div class='row hover bordered'>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Sortierindex</div>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='number' name='sortIndex' placeholder='z.B. 10' min='0'></div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='number' name='sortIndex' placeholder='z.B. 10' min='0' value='".(isset($_POST['sortIndex']) ? $_POST['sortIndex'] : NULL)."'></div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("* aufsteigend sortiert, 1 = oben, 100 = unten\n* Möglich sind alle positiven Zahlen und 0")."</div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
     "</div>".PHP_EOL;
     $content.= "<div class='row hover bordered'>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Beschreibung</div>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><textarea name='description' placeholder='Mehrzeilige Beschreibung'></textarea></div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><textarea name='description' placeholder='Mehrzeilige Beschreibung'>".(isset($_POST['description']) ? $_POST['description'] : NULL)."</textarea></div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("* [Markdown für mehrzeilige Textfelder](/adminmarkdowninfo)* möglich\n* wird beim Aufruf der Kategorie angezeigt")."</div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
     "</div>".PHP_EOL;
     $content.= "<div class='row hover bordered'>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Kurzeschreibung</div>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='text' name='shortDescription' placeholder='Kurzbeschreibung'></div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='text' name='shortDescription' placeholder='Kurzbeschreibung' value='".(isset($_POST['shortDescription']) ? $_POST['shortDescription'] : NULL)."'></div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("* [Markdown für einzeilige Textfelder](/adminmarkdowninfo)* möglich\n* wird auf der Startseite angezeigt")."</div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
     "</div>".PHP_EOL;
