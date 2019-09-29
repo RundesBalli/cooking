@@ -25,28 +25,19 @@
  */
 class Slimdown {
   public static $rules = array (
-    '/(#+)(.*)/' => 'self::header',                                                        // headers
-    '/\[([^\[]+)\]\(([^\)]+)\)/' => '<a href=\'\2\' rel=\'noopener\'>\1</a>',              // links
-    '/\[([\w-\.]+)\.png\]\[(.+)\]/' => '<img src=\'/img/\1.png\' title=\'\2\' alt=\'\2\'>',// internal image
-    '/(\*\*|__)(.*?)\1/' => '<strong>\2</strong>',                                         // bold
-    '/(\*|_)(.*?)\1/' => '<em>\2</em>',                                                    // emphasis
-    '/\~\~(.*?)\~\~/' => '<s>\1</s>',                                                      // del
-    '/`(.*?)`/' => '<code>\1</code>',                                                      // inline code
-    '/\n\*(.*)/' => 'self::ul_list',                                                       // ul lists
-    '/\n[0-9]+\.(.*)/' => 'self::ol_list',                                                 // ol lists
-    '/\n([^\n]+)\n/' => 'self::para',                                                      // add paragraphs
-    '/<\/ul>\s?<ul>/' => '',                                                               // fix extra ul
-    '/<\/ol>\s?<ol>/' => ''                                                                // fix extra ol
+    '/(#+)(.*)/' => 'self::header',                                                              // headers
+    '/\[([^\[]+)\]\(([^\)]+)\)\*/' => '<a href=\'\2\' target=\'blank\' rel=\'noopener\'>\1</a>', // links in blank tab
+    '/\[([^\[]+)\]\(([^\)]+)\)/' => '<a href=\'\2\' rel=\'noopener\'>\1</a>',                    // links
+    '/\[([\w-\.]+)\]\[(.+)\]/' => '<img src=\'/img/\1.png\' title=\'\2\' alt=\'\2\'>',           // internal image
+    '/(\*\*|__)(.*?)\1/' => '<strong>\2</strong>',                                               // bold
+    '/(\*|_)(.*?)\1/' => '<em>\2</em>',                                                          // emphasis
+    '/\~\~(.*?)\~\~/' => '<s>\1</s>',                                                            // del
+    '/`(.*?)`/' => '<code>\1</code>',                                                            // inline code
+    '/\n\*(.*)/' => 'self::ul_list',                                                             // ul lists
+    '/\n[0-9]+\.(.*)/' => 'self::ol_list',                                                       // ol lists
+    '/<\/ul>\s?<ul>/' => '',                                                                     // fix extra ul
+    '/<\/ol>\s?<ol>/' => ''                                                                      // fix extra ol
   );
-
-  private static function para ($regs) {
-    $line = $regs[1];
-    $trimmed = trim ($line);
-    if (preg_match ('/^<\/?(ul|ol|li|h|p|bl)/', $trimmed)) {
-      return "\n" . $line . "\n";
-    }
-    return sprintf ("\n<p>%s</p>\n", $trimmed);
-  }
 
   private static function ul_list ($regs) {
     $item = $regs[1];
@@ -85,10 +76,11 @@ class Slimdown {
  */
 class SlimdownOneline {
   public static $rules = array (
-    '/\[([^\[]+)\]\(([^\)]+)\)/' => '<a href=\'\2\' rel=\'noopener\'>\1</a>',              // links
-    '/(\*\*|__)(.*?)\1/' => '<strong>\2</strong>',                                         // bold
-    '/(\*|_)(.*?)\1/' => '<em>\2</em>',                                                    // emphasis
-    '/\~\~(.*?)\~\~/' => '<s>\1</s>'                                                       // del
+    '/\[([^\[]+)\]\(([^\)]+)\)\*/' => '<a href=\'\2\' target=\'blank\' rel=\'noopener\'>\1</a>', // links in blank tab
+    '/\[([^\[]+)\]\(([^\)]+)\)/' => '<a href=\'\2\' rel=\'noopener\'>\1</a>',                    // links
+    '/(\*\*|__)(.*?)\1/' => '<strong>\2</strong>',                                               // bold
+    '/(\*|_)(.*?)\1/' => '<em>\2</em>',                                                          // emphasis
+    '/\~\~(.*?)\~\~/' => '<s>\1</s>'                                                             // del
   );
 
   /**
