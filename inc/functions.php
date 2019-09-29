@@ -22,6 +22,17 @@ function defuse($defuse_string, $trim = TRUE) {
 }
 
 /**
+ * Ausgabefunktion
+ * 
+ * @param  string $string String, der ausgegeben werden soll.
+ * 
+ * @return string Der vorbereitete String.
+ */
+function output($string) {
+  return htmlentities($string, ENT_QUOTES);
+}
+
+/**
  * Slimdown
  * https://gist.github.com/jbroadway/2836900
  */

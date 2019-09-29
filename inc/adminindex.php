@@ -64,7 +64,7 @@ while($row = mysqli_fetch_array($result)) {
   $top++;
   $content.= "<div class='row hover bordered'>".PHP_EOL.
   "<div class='col-x-12 col-s-12 col-m-3 col-l-3 col-xl-3'><span class='highlight'>#".$top."</span> (".$row['c']." Klicks)</div>".PHP_EOL.
-  "<div class='col-x-12 col-s-12 col-m-9 col-l-9 col-xl-9'><a href='/rezept/".$row['shortTitle']."' target='_blank'>".$row['title']."</a></div>".PHP_EOL.
+  "<div class='col-x-12 col-s-12 col-m-9 col-l-9 col-xl-9'><a href='/rezept/".output($row['shortTitle'])."' target='_blank'>".output($row['title'])."</a></div>".PHP_EOL.
   "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
   "</div>".PHP_EOL;
 }
@@ -85,7 +85,7 @@ while($row = mysqli_fetch_array($result)) {
   $content.= "<div class='row hover bordered'>".PHP_EOL.
   "<div class='col-x-12 col-s-12 col-m-2 col-l-2 col-xl-2'><span class='highlight'>#".$top."</span> (".$row['a']." Sterne)</div>".PHP_EOL.
   "<div class='col-x-12 col-s-12 col-m-3 col-l-2 col-xl-2'>".stars($row['a'])."</div>".PHP_EOL.
-  "<div class='col-x-12 col-s-12 col-m-7 col-l-8 col-xl-8'><a href='/rezept/".$row['shortTitle']."' target='_blank'>".$row['title']."</a></div>".PHP_EOL.
+  "<div class='col-x-12 col-s-12 col-m-7 col-l-8 col-xl-8'><a href='/rezept/".output($row['shortTitle'])."' target='_blank'>".output($row['title'])."</a></div>".PHP_EOL.
   "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
   "</div>".PHP_EOL;
 }
@@ -101,7 +101,7 @@ if(mysqli_num_rows($result) != 0) {
   "</div>".PHP_EOL;
   while($row = mysqli_fetch_array($result)) {
     $content.= "<div class='row hover bordered'>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-9 col-l-9 col-xl-9'>".$row['title']."</div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-9 col-l-9 col-xl-9'>".output($row['title'])."</div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-3 col-l-3 col-xl-3'><a href='/admincategories/edit/".$row['id']."' class='nowrap'>Bearbeiten</a><br><a href='/admincategories/assign/".$row['id']."' class='nowrap'>Rezepte zuweisen</a></div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
     "</div>".PHP_EOL;
@@ -119,7 +119,7 @@ if(mysqli_num_rows($result) != 0) {
   "</div>".PHP_EOL;
   while($row = mysqli_fetch_array($result)) {
     $content.= "<div class='row hover bordered'>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-9 col-l-9 col-xl-9'>".$row['title']."</div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-9 col-l-9 col-xl-9'>".output($row['title'])."</div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-3 col-l-3 col-xl-3'><a href='/adminitems/edit/".$row['id']."' class='nowrap'>Bearbeiten</a><br><a href='/adminitems/assign/".$row['id']."' class='nowrap'>Zuweisen</a></div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
     "</div>".PHP_EOL;
