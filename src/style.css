@@ -98,6 +98,12 @@ hr {
   white-space: nowrap;
 }
 
+code {
+  font-family: monospace;
+  background: #2a2e31;
+  padding: 2px;
+}
+
 /*
   2. Grid
 */
