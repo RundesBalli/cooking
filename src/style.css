@@ -58,6 +58,20 @@ a:active, a:hover, a:focus {
   color: #ee4d2e;
 }
 
+.warnbox {
+  background-color: rgba(197, 43, 47, 0.5); /* c52b2f, 50% opacity */
+  border-left: 5px solid #c52b2f;
+  padding: 15px;
+  margin: 10px 0;
+}
+
+.successbox {
+  background-color: rgba(91, 185, 28, 0.5); /* 5bb91c, 50% opacity */
+  border-left: 5px solid #5bb91c;
+  padding: 15px;
+  margin: 10px 0;
+}
+
 .bold {
   font-weight: bold;
 }
@@ -102,6 +116,15 @@ code {
   font-family: monospace;
   background: #2a2e31;
   padding: 2px;
+}
+
+ul, ol {
+  margin: 0 0 10px;
+  padding-left: 5px;
+}
+
+p {
+  margin: 0 0 10px;
 }
 
 /*
@@ -255,8 +278,8 @@ code {
   3. Forms
 */
 
-input[type=text], input[type=password], select, textarea {
-  min-width: 30%;
+input[type=text], input[type=password], select, textarea, input[type=number] {
+  width: 100%;
   border: 1px solid #f2f5f4;
   padding: 8px;
   background-color: #161618;
@@ -266,16 +289,19 @@ input[type=text], input[type=password], select, textarea {
 textarea {
   resize: none;
   height: 120px;
+  width: 100%;
+  font-family: sans-serif;
+  font-size: 14px;
 }
 
-input[type=text]:focus, input[type=password]:focus, select:focus, textarea:focus {
+input[type=text]:focus, input[type=password]:focus, select:focus, textarea:focus, input[type=number]:focus {
   background-color: #212121;
   border: 1px solid #ee4d2e;
   outline-color: #ee4d2e
 }
 
 input[type=submit], input[type=reset], input[type=button] {
-  min-width: 30%;
+  width: 100%;
   cursor: pointer;
   padding: 8px 12px;
   background-color: #161618;
