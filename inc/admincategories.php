@@ -37,7 +37,7 @@ if(!isset($_GET['action'])) {
       UNION
     SELECT `categories`.`sortindex`, `categories`.`id`, `categories`.`title`, `categories`.`shortTitle`, COUNT(`category_items`.`id`) AS `itemcount` FROM `categories`
       LEFT JOIN `category_items` ON `category_items`.`category_id`=`categories`.`id`
-  ) AS results
+  ) AS results WHERE id IS NOT NULL
   ORDER BY `sortindex` ASC, `title` ASC;";
   $result = mysqli_query($dbl, $query) OR DIE(MYSQLI_ERROR($dbl));
   if(mysqli_num_rows($result) == 0) {
@@ -182,17 +182,12 @@ if(!isset($_GET['action'])) {
 } elseif($_GET['action'] == 'del') {
   $title = "Kategorie löschen";
   $content.= "<h1>Kategorie löschen</h1>".PHP_EOL;
-  /**
-   * 
-   * 
-   * 
-   */
 } elseif($_GET['action'] == 'edit') {
   $title = "Kategorie editieren";
   $content.= "<h1>Kategorie editieren</h1>".PHP_EOL;
   /**
    * 
-   * 
+   * Editierfunktion
    * 
    */
 } else {
