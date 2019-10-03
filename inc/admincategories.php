@@ -85,19 +85,19 @@ if(!isset($_GET['action'])) {
       $form_title = defuse($match[0]);
     } else {
       $form = 1;
-      $content.= "<div class='warnbox'>Der Name der Kategorie ist ungültig. Er muss zwischen 5 und 100 Zeichen lang sein.</div>";
+      $content.= "<div class='warnbox'>Der Name der Kategorie ist ungültig. Er muss zwischen 5 und 100 Zeichen lang sein.</div>".PHP_EOL;
     }
     if(preg_match('/^[0-9a-z-_]{5,64}$/', $_POST['shortTitle'], $match) === 1) {
       $shortTitle = defuse($match[0]);
     } else {
       $form = 1;
-      $content.= "<div class='warnbox'>Der Kurztitel ist ungültig. Er muss zwischen 5 und 64 Zeichen lang sein und darf nur aus <code>0-9a-z-_</code> bestehen.</div>";
+      $content.= "<div class='warnbox'>Der Kurztitel ist ungültig. Er muss zwischen 5 und 64 Zeichen lang sein und darf nur aus <code>0-9a-z-_</code> bestehen.</div>".PHP_EOL;
     }
     if(preg_match('/^\d{1,10}$/', $_POST['sortIndex'], $match) === 1) {
       $sortIndex = defuse($match[0]);
     } else {
       $form = 1;
-      $content.= "<div class='warnbox'>Der Sortierindex ist ungültig. Möglich sind alle positiven Ganzzahlen und 0.</div>";
+      $content.= "<div class='warnbox'>Der Sortierindex ist ungültig. Möglich sind alle positiven Ganzzahlen und 0.</div>".PHP_EOL;
     }
     if(!empty($_POST['description'])) {
       $description = defuse($_POST['description']);
@@ -114,7 +114,10 @@ if(!isset($_GET['action'])) {
        * Wenn durch die Postdaten-Validierung die Inhalte geprüft und entschärft wurden, kann der Query erzeugt und ausgeführt werden.
        */
       if(mysqli_query($dbl, "INSERT INTO `categories` (`title`, `shortTitle`, `sortIndex`, `description`, `shortDescription`) VALUES ('".$form_title."', '".$shortTitle."', '".$sortIndex."', ".($description === NULL ? "NULL" : "'".$description."'").", ".($shortDescription === NULL ? "NULL" : "'".$shortDescription."'").")")) {
-        $content.= "<div class='successbox'>Kategorie erfolgreich angelegt.<br><a href='/admincategories/add'>noch eine Kategorie anlegen</a><br><a href='/admincategories/list'>zur Übersicht</a></div>".PHP_EOL;
+        $content.= "<div class='successbox'>Kategorie erfolgreich angelegt.</div>".PHP_EOL;
+        $content.= "<div class='row'>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/list'>Zurück zur Übersicht</a></div>".PHP_EOL.
+        "</div>".PHP_EOL;
       } else {
         $form = 1;
         if(mysqli_errno($dbl) == 1062) {
@@ -180,8 +183,77 @@ if(!isset($_GET['action'])) {
     $content.= "</form>".PHP_EOL;
   }
 } elseif($_GET['action'] == 'del') {
+  /**
+   * Kategorie löschen.
+   */
   $title = "Kategorie löschen";
   $content.= "<h1>Kategorie löschen</h1>".PHP_EOL;
+  $id = (int)defuse($_GET['id']);
+  /**
+   * Prüfen ob die Kategorie existiert.
+   */
+  $result = mysqli_query($dbl, "SELECT `id`, `title` FROM `categories` WHERE `id`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+  if(mysqli_num_rows($result) == 0) {
+    /**
+     * Falls die Kategorie nicht existiert, wird ein 404er und eine Fehlermeldung zurückgegeben.
+     */
+    http_response_code(404);
+    $content.= "<div class='warnbox'>Die Kategorie mit der ID <span class='italic'>".$id."</span> existiert nicht.</div>".PHP_EOL;
+    $content.= "<div class='row'>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/list'>Zurück zur Übersicht</a></div>".PHP_EOL.
+    "</div>".PHP_EOL;
+  } else {
+    /**
+     * Wenn die Kategorie existiert, dann wird abgefragt ob wirklich gelöscht werden soll.
+     */
+    $row = mysqli_fetch_array($result);
+    if(!isset($_POST['submit'])) {
+      /**
+       * Formular wurde noch nicht gesendet.
+       */
+      $content.= "<div class='row'>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'>Soll die Kategorie <span class='italic highlight'>".$row['title']."</span> wirklich gelöscht werden? Alle Rezeptzuweisungen werden dabei ebenfalls gelöscht (die Rezepte bleiben aber erhalten).</div>".PHP_EOL.
+      "</div>".PHP_EOL;
+      /**
+       * Es wird ein "verwirrendes" Select-Feld gebaut, damit die "ja"-Option jedes mal woanders steht und man bewusster löscht.
+       */
+      $options = array(1 => "Ja, wirklich löschen", 2 => "nein, nicht löschen", 3 => "nope", 4 => "auf keinen Fall", 5 => "nö", 6 => "hab es mir anders überlegt");
+      $options1 = array();
+      foreach($options as $key => $val) {
+        $options1[] = "<option value='".$key."'>".$val."</option>";
+      }
+      shuffle($options1);
+      $content.= "<form action='/admincategories/del/".$id."' method='post' autocomplete='off'>".PHP_EOL;
+      $content.= "<div class='row'>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-4 col-xl-4'><select name='selection'><option value='' selected disabled hidden>Bitte wählen</option>".implode("", $options1)."</select></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-4 col-xl-4'><input type='submit' name='submit' value='Handeln'></div>".PHP_EOL.
+      "<div class='col-x-0 col-s-0 col-m-0 col-l-4 col-xl-4'></div>".PHP_EOL.
+      "</div>".PHP_EOL;
+      $content.= "</form>".PHP_EOL;
+    } else {
+      /**
+       * Formular wurde abgesendet. Jetzt muss das Select Feld geprüft werden.
+       */
+      if(isset($_POST['selection']) AND $_POST['selection'] == 1) {
+        /**
+         * Im Select wurde "ja" ausgewählt
+         */
+        mysqli_query($dbl, "DELETE FROM `categories` WHERE `id`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+        $content.= "<div class='successbox'>Kategorie erfolgreich gelöscht.</div>".PHP_EOL;
+        $content.= "<div class='row'>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/list'>Zurück zur Übersicht</a></div>".PHP_EOL.
+        "</div>".PHP_EOL;
+      } else {
+        /**
+         * Im Select wurde etwas anderes als "ja" ausgewählt.
+         */
+        $content.= "<div class='infobox'>Kategorie unverändert.</div>".PHP_EOL;
+        $content.= "<div class='row'>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/list'>Zurück zur Übersicht</a></div>".PHP_EOL.
+        "</div>".PHP_EOL;
+      }
+    }
+  }
 } elseif($_GET['action'] == 'edit') {
   $title = "Kategorie editieren";
   $content.= "<h1>Kategorie editieren</h1>".PHP_EOL;
