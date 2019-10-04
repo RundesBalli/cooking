@@ -305,14 +305,21 @@ if(!isset($_GET['action'])) {
       }
       if($form == 0) {
         /**
-         * 
-         * 
-         * Update
-         * 
-         * 
-         * 
-         * 
+         * Wenn durch die Postdaten-Validierung die Inhalte geprüft und entschärft wurden, kann der Query erzeugt und ausgeführt werden.
          */
+        if(mysqli_query($dbl, "UPDATE `categories` SET `title`='".$form_title."', `shortTitle`='".$shortTitle."', `sortIndex`='".$sortIndex."', `description`=".($description === NULL ? "NULL" : "'".$description."'").", `shortDescription`=".($shortDescription === NULL ? "NULL" : "'".$shortDescription."'")." WHERE `id`='".$id."' LIMIT 1")) {
+          $content.= "<div class='successbox'>Kategorie erfolgreich geändert.</div>".PHP_EOL;
+          $content.= "<div class='row'>".PHP_EOL.
+          "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/list'>Zurück zur Übersicht</a></div>".PHP_EOL.
+          "</div>".PHP_EOL;
+        } else {
+          $form = 1;
+          if(mysqli_errno($dbl) == 1062) {
+            $content.= "<div class='warnbox'>Es existiert bereits ein Eintrag mit diesem Kurztitel.</div>".PHP_EOL;
+          } else {
+            $content.= "<div class='warnbox'>Unbekannter Fehler: ".mysqli_error($dbl)."</div>".PHP_EOL;
+          }
+        }
       }
     } else {
       /**
@@ -375,5 +382,4 @@ if(!isset($_GET['action'])) {
   header("Location: /admincategories/list");
   die();
 }
-
 ?>
