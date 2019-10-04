@@ -27,19 +27,9 @@ if(!isset($_GET['action'])) {
   "</div>".PHP_EOL;
   $content.= "<div class='spacer-m'></div>".PHP_EOL;
   /**
-   * Danke an @Insax für den Query.
-   * 
-   * Alle Kategorien anzeigen. Beim ersten Subquery werden alle Kategorien ohne Rezepte einbezogen, beim zweiten alle mit Rezepten.
+   * Alle Kategorien selektieren und die zugewiesenen Rezepte zählen. Danke an @Insax für den Query.
    */
-  $query = "
-  SELECT `id`, `title`, `shortTitle`, `itemcount` FROM (
-    SELECT `sortindex`, `categories`.`id`, `categories`.`title`, `categories`.`shortTitle`, 0 AS `itemcount` FROM `categories` WHERE EXISTS(SELECT * FROM category_items WHERE categories.id != category_items.category_id)
-      UNION
-    SELECT `categories`.`sortindex`, `categories`.`id`, `categories`.`title`, `categories`.`shortTitle`, COUNT(`category_items`.`id`) AS `itemcount` FROM `categories`
-      LEFT JOIN `category_items` ON `category_items`.`category_id`=`categories`.`id`
-  ) AS results WHERE id IS NOT NULL
-  ORDER BY `sortindex` ASC, `title` ASC;";
-  $result = mysqli_query($dbl, $query) OR DIE(MYSQLI_ERROR($dbl));
+  $result = mysqli_query($dbl, "SELECT `id`, `title`, `shortTitle`, (SELECT COUNT(`id`) FROM `category_items` WHERE `category_items`.`category_id` = `categories`.`id`) AS `itemcount` FROM `categories` ORDER BY `sortindex` ASC, `title` ASC") OR DIE(MYSQLI_ERROR($dbl));
   if(mysqli_num_rows($result) == 0) {
     /**
      * Wenn keine Kategorien existieren.
