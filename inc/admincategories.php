@@ -2,7 +2,7 @@
 /**
  * admincategories.php
  * 
- * Seite um Kategorien anzulegen, zu bearbeiten, zu löschen, und um ihnen Rezepte zuzuweisen.
+ * Seite um Kategorien anzuzeigen, anzulegen, zu bearbeiten und zu löschen.
  */
 
 /**
