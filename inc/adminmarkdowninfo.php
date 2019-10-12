@@ -55,13 +55,6 @@ $content.= "<div class='row bordered'>".PHP_EOL.
 "</div>".PHP_EOL;
 
 $content.= "<div class='row bordered'>".PHP_EOL.
-"<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><code>[Bild-Dateiname][Titel]</code></div>".PHP_EOL.
-"<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'>".Slimdown::render("[placeholder][Platzhaltergrafik]")."</div>".PHP_EOL.
-"<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'>Bild muss in /img/<code>Bild-Dateiname</code>.png liegen.</div>".PHP_EOL.
-"<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
-"</div>".PHP_EOL;
-
-$content.= "<div class='row bordered'>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><code>**Text**</code> oder <code>__Text__</code></div>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'>".Slimdown::render("**Fettschrift** oder __Fettschrift__")."</div>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'></div>".PHP_EOL.

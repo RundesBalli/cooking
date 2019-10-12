@@ -28,7 +28,6 @@ class Slimdown {
     '/(#+)(.*)/' => 'self::header',                                                              // headers
     '/\[([^\[]+)\]\(([^\)]+)\)\*/' => '<a href=\'\2\' target=\'blank\' rel=\'noopener\'>\1</a>', // links in blank tab
     '/\[([^\[]+)\]\(([^\)]+)\)/' => '<a href=\'\2\' rel=\'noopener\'>\1</a>',                    // links
-    '/\[([\w-\.]+)\]\[(.+)\]/' => '<img src=\'/img/\1.png\' title=\'\2\' alt=\'\2\'>',           // internal image
     '/(\*\*|__)(.*?)\1/' => '<strong>\2</strong>',                                               // bold
     '/(\*|_)(.*?)\1/' => '<em>\2</em>',                                                          // emphasis
     '/\~\~(.*?)\~\~/' => '<s>\1</s>',                                                            // del
