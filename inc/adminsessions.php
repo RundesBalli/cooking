@@ -47,4 +47,43 @@ while($row = mysqli_fetch_array($result)) {
   $content.= "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL;
   $content.= "</div>".PHP_EOL;
 }
+
+/**
+ * Eigenes Passwort ändern
+ */
+$content.= "<div class='spacer-m'></div>".PHP_EOL;
+$content.= "<h1>Eigenes Passwort ändern</h1>".PHP_EOL;
+
+/**
+ * Änderung des Passworts
+ */
+if(isset($_POST['password'])) {
+  if(strlen($_POST['password']) >= 20) {
+    $salt = hash('sha256', time().$_SERVER['REMOTE_ADDR'].rand(10000,99999));
+    $password = password_hash($_POST['password'].$salt, PASSWORD_DEFAULT);
+    mysqli_query($dbl, "UPDATE `accounts` SET `password`='".defuse($password)."', `salt`='".$salt."' WHERE `username`='".$username."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+    header("Location: /adminlogout");
+    die();
+  } else {
+    $content.= "<div class='warnbox'>Das Passwort muss mindestens 20 Stellen lang sein.</div>".PHP_EOL;
+  }
+}
+
+/**
+ * Formular zum Passwort ändern
+ */
+$content.= "<form action='/adminsessions' method='post'>".PHP_EOL;
+$content.= "<div class='row hover bordered'>".PHP_EOL.
+"<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>neues Passwort</div>".PHP_EOL.
+"<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='password' name='password' tabindex='1'></div>".PHP_EOL.
+"<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>Muss mindestens aus 20 Zeichen bestehen.<br><a href='https://rundesballi.com/pwgen' target='_blank'>Passwortgenerator</a></div>".PHP_EOL.
+"<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
+"</div>".PHP_EOL;
+$content.= "<div class='row hover bordered'>".PHP_EOL.
+"<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Passwort ändern</div>".PHP_EOL.
+"<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='submit' name='submit' value='ändern' tabindex='2'></div>".PHP_EOL.
+"<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'><span class='highlight'>Info:</span> Bei Erfolg wird die Sitzung geschlossen.</div>".PHP_EOL.
+"<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
+"</div>".PHP_EOL;
+$content.= "</form>".PHP_EOL;
 ?>
