@@ -71,38 +71,53 @@ if(!isset($_GET['action'])) {
     /**
      * Auswertung. Falls alles ok dann $form auf 0 lassen, sonst 1. Bei 0 am Ende wird der Query ausgeführt.
      */
+    /**
+     * Titel
+     */
     if(preg_match('/^.{5,100}$/', $_POST['title'], $match) === 1) {
       $form_title = defuse($match[0]);
     } else {
       $form = 1;
       $content.= "<div class='warnbox'>Der Name der Kategorie ist ungültig. Er muss zwischen 5 und 100 Zeichen lang sein.</div>".PHP_EOL;
     }
+    /**
+     * Kurztitel
+     */
     if(preg_match('/^[0-9a-z-_]{5,64}$/', $_POST['shortTitle'], $match) === 1) {
       $shortTitle = defuse($match[0]);
     } else {
       $form = 1;
       $content.= "<div class='warnbox'>Der Kurztitel ist ungültig. Er muss zwischen 5 und 64 Zeichen lang sein und darf nur aus <code>0-9a-z-_</code> bestehen.</div>".PHP_EOL;
     }
+    /**
+     * Sortierindex
+     */
     if(preg_match('/^\d{1,10}$/', $_POST['sortIndex'], $match) === 1) {
       $sortIndex = defuse($match[0]);
     } else {
       $form = 1;
       $content.= "<div class='warnbox'>Der Sortierindex ist ungültig. Möglich sind alle positiven Ganzzahlen und 0.</div>".PHP_EOL;
     }
+    /**
+     * Langbeschreibung
+     */
     if(!empty($_POST['description'])) {
       $description = defuse($_POST['description']);
     } else {
       $description = NULL;
     }
+    /**
+     * Kurzbeschreibung
+     */
     if(!empty($_POST['shortDescription'])) {
       $shortDescription = defuse($_POST['shortDescription']);
     } else {
       $shortDescription = NULL;
     }
+    /**
+     * Wenn durch die Postdaten-Validierung die Inhalte geprüft und entschärft wurden, kann der Query erzeugt und ausgeführt werden.
+     */
     if($form == 0) {
-      /**
-       * Wenn durch die Postdaten-Validierung die Inhalte geprüft und entschärft wurden, kann der Query erzeugt und ausgeführt werden.
-       */
       if(mysqli_query($dbl, "INSERT INTO `categories` (`title`, `shortTitle`, `sortIndex`, `description`, `shortDescription`) VALUES ('".$form_title."', '".$shortTitle."', '".$sortIndex."', ".($description === NULL ? "NULL" : "'".$description."'").", ".($shortDescription === NULL ? "NULL" : "'".$shortDescription."'").")")) {
         $content.= "<div class='successbox'>Kategorie erfolgreich angelegt.</div>".PHP_EOL;
         $content.= "<div class='row'>".PHP_EOL.
