@@ -225,12 +225,12 @@ if(!isset($_GET['action'])) {
       $options = array(1 => "Ja, wirklich löschen", 2 => "nein, nicht löschen", 3 => "nope", 4 => "auf keinen Fall", 5 => "nö", 6 => "hab es mir anders überlegt");
       $options1 = array();
       foreach($options as $key => $val) {
-        $options1[] = "<option value='".$key."'>".$val."</option>";
+        $options1[] = "<option value='".$key."'>".$val."</option>".PHP_EOL;
       }
       shuffle($options1);
       $content.= "<form action='/admincategories/del/".$id."' method='post' autocomplete='off'>".PHP_EOL;
       $content.= "<div class='row'>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-12 col-l-4 col-xl-4'><select name='selection'><option value='' selected disabled hidden>Bitte wählen</option>".implode("", $options1)."</select></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-4 col-xl-4'><select name='selection'>".PHP_EOL."<option value='' selected disabled hidden>Bitte wählen</option>".PHP_EOL.implode("", $options1)."</select></div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-12 col-l-4 col-xl-4'><input type='submit' name='submit' value='Handeln'></div>".PHP_EOL.
       "<div class='col-x-0 col-s-0 col-m-0 col-l-4 col-xl-4'></div>".PHP_EOL.
       "</div>".PHP_EOL;
