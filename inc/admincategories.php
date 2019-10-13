@@ -290,30 +290,45 @@ if(!isset($_GET['action'])) {
       /**
        * Auswertung. Falls alles ok dann $form auf 0 lassen, sonst 1. Bei 0 am Ende wird der Query ausgeführt.
        */
+      /**
+       * Titel
+       */
       if(preg_match('/^.{5,100}$/', $_POST['title'], $match) === 1) {
         $form_title = defuse($match[0]);
       } else {
         $form = 1;
         $content.= "<div class='warnbox'>Der Name der Kategorie ist ungültig. Er muss zwischen 5 und 100 Zeichen lang sein.</div>".PHP_EOL;
       }
+      /**
+       * Kurztitel
+       */
       if(preg_match('/^[0-9a-z-_]{5,64}$/', $_POST['shortTitle'], $match) === 1) {
         $shortTitle = defuse($match[0]);
       } else {
         $form = 1;
         $content.= "<div class='warnbox'>Der Kurztitel ist ungültig. Er muss zwischen 5 und 64 Zeichen lang sein und darf nur aus <code>0-9a-z-_</code> bestehen.</div>".PHP_EOL;
       }
+      /**
+       * Sortierindex
+       */
       if(preg_match('/^\d{1,10}$/', $_POST['sortIndex'], $match) === 1) {
         $sortIndex = defuse($match[0]);
       } else {
         $form = 1;
         $content.= "<div class='warnbox'>Der Sortierindex ist ungültig. Möglich sind alle positiven Ganzzahlen und 0.</div>".PHP_EOL;
       }
-      if(!empty($_POST['description'])) {
+      /**
+       * Langbeschreibung
+       */
+      if(!empty(trim($_POST['description']))) {
         $description = defuse($_POST['description']);
       } else {
         $description = NULL;
       }
-      if(!empty($_POST['shortDescription'])) {
+      /**
+       * Kurzbeschreibung
+       */
+      if(!empty(trim($_POST['shortDescription']))) {
         $shortDescription = defuse($_POST['shortDescription']);
       } else {
         $shortDescription = NULL;
@@ -348,42 +363,63 @@ if(!isset($_GET['action'])) {
      */
     if($form == 1) {
       $content.= "<form action='/admincategories/edit/".$id."' method='post' autocomplete='off'>".PHP_EOL;
+      /**
+       * Tabellenüberschrift
+       */
       $content.= "<div class='row highlight bold bordered'>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Bezeichnung</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'>Feld</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>Ergänzungen</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
       "</div>".PHP_EOL;
+      /**
+       * Titel
+       */
       $content.= "<div class='row hover bordered'>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Name der Kategorie</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='text' name='title' placeholder='Name der Kategorie' tabindex='1' value='".(isset($row['title']) ? output($row['title']) : (isset($_POST['title']) && !empty($_POST['title']) ? output($_POST['title']) : NULL))."'></div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>Angezeigter Name in der Navigation<br>5 bis 100 Zeichen</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
       "</div>".PHP_EOL;
+      /**
+       * Kurztitel
+       */
       $content.= "<div class='row hover bordered'>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Kurztitel für URL</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='text' name='shortTitle' placeholder='/kategorie/xxx' tabindex='2' value='".(isset($row['shortTitle']) ? output($row['shortTitle']) : (isset($_POST['shortTitle']) && !empty($_POST['shortTitle']) ? output($_POST['shortTitle']) : NULL))."'></div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("`/kategorie/&lt;Kurztitel&gt;`\n* muss einzigartig sein\n* 5 bis 64 Zeichen\n* keine Leerzeichen\n* keine Umlaute\n* keine Sonderzeichen\n* nur Kleinbuchstaben oder Zahlen\n* zur Worttrennung `-` oder `_` benutzen\n`0-9a-z-_`")."</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
       "</div>".PHP_EOL;
+      /**
+       * Sortierindex
+       */
       $content.= "<div class='row hover bordered'>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Sortierindex</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='number' name='sortIndex' placeholder='z.B. 10' tabindex='3' min='1' value='".(isset($row['sortIndex']) ? output($row['sortIndex']) : (isset($_POST['sortIndex']) && !empty($_POST['sortIndex']) ? output($_POST['sortIndex']) : NULL))."'></div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("* aufsteigend sortiert, 1 = oben, 100 = unten\n* Möglich sind alle positiven Zahlen")."</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
       "</div>".PHP_EOL;
+      /**
+       * Langbeschreibung
+       */
       $content.= "<div class='row hover bordered'>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Beschreibung</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><textarea name='description' placeholder='Mehrzeilige Beschreibung' tabindex='4'>".(isset($row['description']) ? output($row['description']) : (isset($_POST['description']) && !empty($_POST['description']) ? output($_POST['description']) : NULL))."</textarea></div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("* _optional_\n* [Markdown für mehrzeilige Textfelder](/adminmarkdowninfo)* möglich\n* wird beim Aufruf der Kategorie angezeigt")."</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
       "</div>".PHP_EOL;
+      /**
+       * Kurzbeschreibung
+       */
       $content.= "<div class='row hover bordered'>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Kurzeschreibung</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='text' name='shortDescription' placeholder='Kurzbeschreibung' tabindex='5' value='".(isset($row['shortDescription']) ? output($row['shortDescription']) : (isset($_POST['shortDescription']) && !empty($_POST['shortDescription']) ? output($_POST['shortDescription']) : NULL))."'></div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("* _optional_\n* [Markdown für einzeilige Textfelder](/adminmarkdowninfo)* möglich\n* wird auf der Startseite angezeigt")."</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
       "</div>".PHP_EOL;
+      /**
+       * Anlegen
+       */
       $content.= "<div class='row hover bordered'>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Kategorie anlegen</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='submit' name='submit' value='Anlegen' tabindex='6'></div>".PHP_EOL.
