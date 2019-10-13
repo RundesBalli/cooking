@@ -95,14 +95,12 @@ if(mysqli_num_rows($result) != 0) {
   $content.= "<div class='spacer-m'></div>".PHP_EOL;
   $content.= "<h1 class='warn'>Leere Kategorien</h1>".PHP_EOL;
   $content.= "<div class='row highlight bold bordered'>".PHP_EOL.
-  "<div class='col-x-12 col-s-12 col-m-9 col-l-9 col-xl-9'>Titel</div>".PHP_EOL.
-  "<div class='col-x-12 col-s-12 col-m-3 col-l-3 col-xl-3'>Aktionen</div>".PHP_EOL.
+  "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'>Titel</div>".PHP_EOL.
   "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
   "</div>".PHP_EOL;
   while($row = mysqli_fetch_array($result)) {
     $content.= "<div class='row hover bordered'>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-9 col-l-9 col-xl-9'>".output($row['title'])."</div>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-3 col-l-3 col-xl-3'><a href='/admincategories/edit/".$row['id']."' class='nowrap'>Bearbeiten</a><br><a href='/admincategories/assign/".$row['id']."' class='nowrap'>Rezepte zuweisen</a></div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'>".output($row['title'])."</div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
     "</div>".PHP_EOL;
   }
