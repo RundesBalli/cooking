@@ -26,7 +26,7 @@ if(!isset($_GET['action'])) {
   "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><span class='highlight bold'>Aktionen:</span> <a href='/adminitems/add'>Anlegen</a></div>".PHP_EOL.
   "</div>".PHP_EOL;
   $content.= "<div class='spacer-m'></div>".PHP_EOL;
-  $result = mysqli_query($dbl, "SELECT `items`.*, IFNULL((SELECT round(avg(`votes`.`stars`),2) FROM `votes` WHERE `votes`.`itemid`=`items`.`id` GROUP BY `votes`.`itemid`), 0) AS `stars` FROM `items` ORDER BY `title` ASC") OR DIE(MYSQLI_ERROR($dbl));
+  $result = mysqli_query($dbl, "SELECT `items`.`id`, `items`.`title`, IFNULL((SELECT ROUND(AVG(`votes`.`stars`),2) FROM `votes` WHERE `votes`.`itemid`=`items`.`id` GROUP BY `votes`.`itemid`), 0) AS `stars`, IFNULL((SELECT COUNT(`clicks`.`id`) FROM `clicks` WHERE `clicks`.`itemid`=`items`.`id`), 0) AS `clicks` FROM `items` ORDER BY `title` ASC") OR DIE(MYSQLI_ERROR($dbl));
   if(mysqli_num_rows($result) == 0) {
     /**
      * Wenn keine Rezepte existieren.
@@ -39,11 +39,12 @@ if(!isset($_GET['action'])) {
      * Anzeige vorhandener Rezepte.
      */
     $content.= "<div class='row highlight bold bordered'>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-5 col-l-6 col-xl-6'>Titel</div>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-3 col-l-2 col-xl-2'>Sterne</div>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-2 col-l-2 col-xl-2'>Kategorien</div>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-2 col-l-2 col-xl-2'>Aktionen</div>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-12 col-l-5 col-xl-5'>Titel</div>".PHP_EOL.
+    "<div class='col-x-12 col-s-4 col-m-4 col-l-1 col-xl-1'>Klicks</div>".PHP_EOL.
+    "<div class='col-x-12 col-s-8 col-m-8 col-l-2 col-xl-2'>Sterne</div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-12 col-l-2 col-xl-2'>Kategorien</div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-12 col-l-2 col-xl-2'>Aktionen</div>".PHP_EOL.
+    "<div class='col-x-12 col-s-0 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
     "</div>".PHP_EOL;
     while($row = mysqli_fetch_array($result)) {
       $innerresult = mysqli_query($dbl, "SELECT `categories`.`title`, `categories`.`shortTitle` FROM `category_items` LEFT JOIN `categories` ON `category_items`.`category_id`=`categories`.`id` WHERE `category_items`.`item_id`='".$row['id']."'") OR DIE(MYSQLI_ERROR($dbl));
@@ -57,11 +58,12 @@ if(!isset($_GET['action'])) {
         $categories = implode("<br>", $categories);
       }
       $content.= "<div class='row hover bordered'>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-5 col-l-6 col-xl-6'><a href='/rezept/".output($row['shortTitle'])."' target='_blank'>".output($row['title'])."</a></div>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-3 col-l-2 col-xl-2'>".stars($row['stars'])."</div>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-2 col-l-2 col-xl-2'>".$categories."</div>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-2 col-l-2 col-xl-2'><a href='/adminitems/edit/".$row['id']."' class='nowrap'>Editieren</a><br>".PHP_EOL."<a href='/adminitems/del/".$row['id']."' class='nowrap'>Löschen</a><br>".PHP_EOL."<a href='/adminitems/assign/".$row['id']."' class='nowrap'>Kategorien</a></div>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-5 col-xl-5'><a href='/rezept/".output($row['shortTitle'])."' target='_blank'>".output($row['title'])."</a></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-4 col-m-4 col-l-1 col-xl-1'>".$row['clicks']."</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-8 col-m-8 col-l-2 col-xl-2'>".stars($row['stars'])."</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-2 col-xl-2'>".$categories."</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-2 col-xl-2'><a href='/adminitems/edit/".$row['id']."' class='nowrap'>Editieren</a><br>".PHP_EOL."<a href='/adminitems/del/".$row['id']."' class='nowrap'>Löschen</a><br>".PHP_EOL."<a href='/adminitems/assign/".$row['id']."' class='nowrap'>Kategorien</a></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-0 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
       "</div>".PHP_EOL;
     }
   }
