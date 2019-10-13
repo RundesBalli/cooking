@@ -43,7 +43,7 @@ if(!isset($_GET['action'])) {
      */
     $content.= "<div class='row highlight bold bordered'>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-8 col-l-8 col-xl-8'>Titel</div>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-2 col-l-2 col-xl-2'>Anzahl zugewiesener Rezepte</div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-2 col-l-2 col-xl-2'>zugewiesene Rezepte</div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-2 col-l-2 col-xl-2'>Aktionen</div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
     "</div>".PHP_EOL;
