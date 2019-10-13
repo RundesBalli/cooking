@@ -676,7 +676,7 @@ if(!isset($_GET['action'])) {
      * Bestehende Zuweisungen anzeigen
      */
     $content.= "<h2>Bestehende Zuweisungen</h2>".PHP_EOL;
-    $result = mysqli_query($dbl, "SELECT `category_items`.`id`, `categories`.`title` FROM `category_items` LEFT JOIN `categories` ON `category_items`.`category_id`=`categories`.`id` WHERE `category_items`.`item_id`='".$id."'") OR DIE(MYSQLI_ERROR($dbl));
+    $result = mysqli_query($dbl, "SELECT `category_items`.`id`, `category_items`.`category_id`, `categories`.`title` FROM `category_items` LEFT JOIN `categories` ON `category_items`.`category_id`=`categories`.`id` WHERE `category_items`.`item_id`='".$id."'") OR DIE(MYSQLI_ERROR($dbl));
     if(mysqli_num_rows($result) == 0) {
       $content.= "<div class='infobox'>Dieses Rezept wurde noch keiner Kategorie zugewiesen.</div>".PHP_EOL;
     } else {
@@ -687,7 +687,7 @@ if(!isset($_GET['action'])) {
       while($row = mysqli_fetch_array($result)) {
         $content.= "<div class='row hover bordered'>".PHP_EOL.
         "<div class='col-x-12 col-s-8 col-m-8 col-l-8 col-xl-8'>".$row['title']."</div>".PHP_EOL.
-        "<div class='col-x-12 col-s-4 col-m-4 col-l-4 col-xl-4'><a href='/adminitems/assign/".$id."/del/".$row['id']."' class='nowrap'>Löschen</a></div>".PHP_EOL.
+        "<div class='col-x-12 col-s-4 col-m-4 col-l-4 col-xl-4'><a href='/adminitems/assign/".$id."/del/".$row['id']."' class='nowrap'>Löschen</a><br>".PHP_EOL."<a href='/admincategories/sort/".$row['category_id']."' class='nowrap'>in dieser Kategorie sortieren</a></div>".PHP_EOL.
         "</div>".PHP_EOL;
       }
     }
