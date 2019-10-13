@@ -611,11 +611,103 @@ if(!isset($_GET['action'])) {
   }
 } elseif($_GET['action'] == 'assign') {
   /**
-   * Zuweisen eines Rezepts in eine Kategorie.
+   * Zuweisen eines Rezepts in Kategorien.
    */
-  $title = "Rezept einer Kategorie hinzufügen";
-  $content.= "<h1>Rezept einer Kategorie hinzufügen</h1>".PHP_EOL;
-  
+  $title = "Kategoriezuweisungen bearbeiten";
+  $content.= "<h1>Kategoriezuweisungen bearbeiten</h1>".PHP_EOL;
+  $id = (int)defuse($_GET['id']);
+  /**
+   * Prüfen ob das Rezept existiert.
+   */
+  $result = mysqli_query($dbl, "SELECT `id`, `title` FROM `items` WHERE `id`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+  if(mysqli_num_rows($result) == 0) {
+    /**
+     * Falls das Rezept nicht existiert, wird ein 404er und eine Fehlermeldung zurückgegeben.
+     */
+    http_response_code(404);
+    $content.= "<div class='warnbox'>Das Rezept mit der ID <span class='italic'>".$id."</span> existiert nicht.</div>".PHP_EOL;
+    $content.= "<div class='row'>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminitems/list'>Zurück zur Übersicht</a></div>".PHP_EOL.
+    "</div>".PHP_EOL;
+  } else {
+    /**
+     * Grundlegende Infos anzeigen
+     */
+    $row = mysqli_fetch_array($result);
+    $content.= "<div class='row'>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><span class='highlight bold'>Rezept:</span> ".$row['title']."</div>".PHP_EOL.
+    "</div>".PHP_EOL;
+    $content.= "<div class='row'>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminitems/list'>Zurück zur Übersicht</a></div>".PHP_EOL.
+    "</div>".PHP_EOL;
+    $content.= "<div class='spacer-m'></div>".PHP_EOL;
+    /**
+     * Zuweisen von Kategorien
+     */
+    if(isset($_GET['add']) AND !empty($_GET['add'])) {
+      $add_id = (int)defuse($_GET['add']);
+      if(mysqli_query($dbl, "INSERT INTO `category_items` (`category_id`, `item_id`) VALUES ('".$add_id."', '".$id."')")) {
+        $content.= "<div class='successbox'>Zuweisung erfolgreich angelegt.</div>".PHP_EOL;
+      } else {
+        if(mysqli_errno($dbl) == 1062) {
+          $content.= "<div class='warnbox'>Es existiert bereits eine solche Zuweisung.</div>".PHP_EOL;
+        } elseif(mysqli_errno($dbl) == 1452) {
+          $content.= "<div class='warnbox'>Diese Kombination kann nicht angelegt werden.</div>".PHP_EOL;
+        } else {
+          $content.= "<div class='warnbox'>Unbekannter Fehler (".mysqli_errno($dbl)."): ".mysqli_error($dbl)."</div>".PHP_EOL;
+        }
+      }
+      $content.= "<div class='spacer-m'></div>".PHP_EOL;
+    }
+    /**
+     * Löschen von Zuweisungen
+     */
+    if(isset($_GET['del']) AND !empty($_GET['del'])) {
+      $del_id = (int)defuse($_GET['del']);
+      mysqli_query($dbl, "DELETE FROM `category_items` WHERE `id`='".$del_id."' AND `item_id`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+      if(mysqli_affected_rows($dbl) == 1) {
+        $content.= "<div class='successbox'>Die Zuweisung wurde gelöscht.</div>".PHP_EOL;
+      } else {
+        $content.= "<div class='warnbox'>Es existiert für dieses Rezept keine Kategoriezuweisung mit der ID <span class='italic'>".$del_id."</span>.</div>".PHP_EOL;
+      }
+      $content.= "<div class='spacer-m'></div>".PHP_EOL;
+    }
+    /**
+     * Bestehende Zuweisungen anzeigen
+     */
+    $content.= "<h2>Bestehende Zuweisungen</h2>".PHP_EOL;
+    $result = mysqli_query($dbl, "SELECT `category_items`.`id`, `categories`.`title` FROM `category_items` LEFT JOIN `categories` ON `category_items`.`category_id`=`categories`.`id` WHERE `category_items`.`item_id`='".$id."'") OR DIE(MYSQLI_ERROR($dbl));
+    if(mysqli_num_rows($result) == 0) {
+      $content.= "<div class='infobox'>Dieses Rezept wurde noch keiner Kategorie zugewiesen.</div>".PHP_EOL;
+    } else {
+      $content.= "<div class='row highlight bold bordered'>".PHP_EOL.
+      "<div class='col-x-12 col-s-8 col-m-8 col-l-8 col-xl-8'>Kategorie</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-4 col-m-4 col-l-4 col-xl-4'>Aktionen</div>".PHP_EOL.
+      "</div>".PHP_EOL;
+      while($row = mysqli_fetch_array($result)) {
+        $content.= "<div class='row hover bordered'>".PHP_EOL.
+        "<div class='col-x-12 col-s-8 col-m-8 col-l-8 col-xl-8'>".$row['title']."</div>".PHP_EOL.
+        "<div class='col-x-12 col-s-4 col-m-4 col-l-4 col-xl-4'><a href='/adminitems/assign/".$id."/del/".$row['id']."' class='nowrap'>Löschen</a></div>".PHP_EOL.
+        "</div>".PHP_EOL;
+      }
+    }
+    /**
+     * Neue Zuweisungen erstellen
+     */
+    $content.= "<div class='spacer-m'></div>".PHP_EOL;
+    $content.= "<h2>Neu zuweisen</h2>".PHP_EOL;
+    $content.= "<div class='row highlight bold bordered'>".PHP_EOL.
+    "<div class='col-x-12 col-s-8 col-m-8 col-l-8 col-xl-8'>Kategorie</div>".PHP_EOL.
+    "<div class='col-x-12 col-s-4 col-m-4 col-l-4 col-xl-4'>Aktionen</div>".PHP_EOL.
+    "</div>".PHP_EOL;
+    $result = mysqli_query($dbl, "SELECT `categories`.`id`, `categories`.`title`, `categories`.`shortTitle`, `categories`.`shortDescription`, (SELECT COUNT(`id`) FROM `category_items` WHERE `category_items`.`category_id`=`categories`.`id` AND `category_items`.`item_id`='".$id."') AS `isset` FROM `categories` ORDER BY `categories`.`sortIndex`") OR DIE(MYSQLI_ERROR($dbl));
+    while($row = mysqli_fetch_array($result)) {
+      $content.= "<div class='row hover bordered'>".PHP_EOL.
+      "<div class='col-x-12 col-s-8 col-m-8 col-l-8 col-xl-8'>".$row['title']."</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-4 col-m-4 col-l-4 col-xl-4'>".($row['isset'] == 1 ? "bereits zugewiesen" : "<a href='/adminitems/assign/".$id."/add/".$row['id']."' class='nowrap'>Hinzufügen</a>")."</div>".PHP_EOL.
+      "</div>".PHP_EOL;
+    }
+  }
 } else {
   /**
    * Umleitung falls eine action übergeben wurde, aber nichts zutrifft.
