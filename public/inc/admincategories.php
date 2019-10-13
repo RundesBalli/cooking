@@ -450,6 +450,10 @@ if(!isset($_GET['action'])) {
       $content.= "</form>".PHP_EOL;
     }
   }
+} elseif($_GET['action'] == 'sort') {
+  /**
+   * SORTIEREN
+   */
 } else {
   header("Location: /admincategories/list");
   die();
