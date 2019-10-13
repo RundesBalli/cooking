@@ -96,7 +96,7 @@ if(!isset($_GET['action'])) {
       $sortIndex = defuse($match[0]);
     } else {
       $form = 1;
-      $content.= "<div class='warnbox'>Der Sortierindex ist ungültig. Möglich sind alle positiven Ganzzahlen und 0.</div>".PHP_EOL;
+      $content.= "<div class='warnbox'>Der Sortierindex ist ungültig. Möglich sind alle positiven Ganzzahlen.</div>".PHP_EOL;
     }
     /**
      * Langbeschreibung
@@ -336,7 +336,7 @@ if(!isset($_GET['action'])) {
         $sortIndex = defuse($match[0]);
       } else {
         $form = 1;
-        $content.= "<div class='warnbox'>Der Sortierindex ist ungültig. Möglich sind alle positiven Ganzzahlen und 0.</div>".PHP_EOL;
+        $content.= "<div class='warnbox'>Der Sortierindex ist ungültig. Möglich sind alle positiven Ganzzahlen.</div>".PHP_EOL;
       }
       /**
        * Langbeschreibung
