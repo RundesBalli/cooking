@@ -297,7 +297,72 @@ if(!isset($_GET['action'])) {
    */
   $title = "Rezept löschen";
   $content.= "<h1>Rezept löschen</h1>".PHP_EOL;
-  
+  $id = (int)defuse($_GET['id']);
+  /**
+   * Prüfen ob das Rezept existiert.
+   */
+  $result = mysqli_query($dbl, "SELECT `id`, `title` FROM `items` WHERE `id`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+  if(mysqli_num_rows($result) == 0) {
+    /**
+     * Falls das Rezept nicht existiert, wird ein 404er und eine Fehlermeldung zurückgegeben.
+     */
+    http_response_code(404);
+    $content.= "<div class='warnbox'>Das Rezept mit der ID <span class='italic'>".$id."</span> existiert nicht.</div>".PHP_EOL;
+    $content.= "<div class='row'>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminitems/list'>Zurück zur Übersicht</a></div>".PHP_EOL.
+    "</div>".PHP_EOL;
+  } else {
+    /**
+     * Wenn das Rezept existiert, dann wird abgefragt ob wirklich gelöscht werden soll.
+     */
+    $row = mysqli_fetch_array($result);
+    if(!isset($_POST['submit'])) {
+      /**
+       * Formular wurde noch nicht gesendet.
+       */
+      $content.= "<div class='row'>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'>Soll das Rezept <span class='italic highlight'>".$row['title']."</span> wirklich gelöscht werden? Alle Bilder, Votes, Klicks und Kategoriezuweisungen werden dabei ebenfalls gelöscht.</div>".PHP_EOL.
+      "</div>".PHP_EOL;
+      /**
+       * Es wird ein "verwirrendes" Select-Feld gebaut, damit die "ja"-Option jedes mal woanders steht und man bewusster löscht.
+       */
+      $options = array(1 => "Ja, wirklich löschen", 2 => "nein, nicht löschen", 3 => "nope", 4 => "auf keinen Fall", 5 => "nö", 6 => "hab es mir anders überlegt");
+      $options1 = array();
+      foreach($options as $key => $val) {
+        $options1[] = "<option value='".$key."'>".$val."</option>".PHP_EOL;
+      }
+      shuffle($options1);
+      $content.= "<form action='/adminitems/del/".$id."' method='post' autocomplete='off'>".PHP_EOL;
+      $content.= "<div class='row'>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-4 col-xl-4'><select name='selection'>".PHP_EOL."<option value='' selected disabled hidden>Bitte wählen</option>".PHP_EOL.implode("", $options1)."</select></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-4 col-xl-4'><input type='submit' name='submit' value='Handeln'></div>".PHP_EOL.
+      "<div class='col-x-0 col-s-0 col-m-0 col-l-4 col-xl-4'></div>".PHP_EOL.
+      "</div>".PHP_EOL;
+      $content.= "</form>".PHP_EOL;
+    } else {
+      /**
+       * Formular wurde abgesendet. Jetzt muss das Select Feld geprüft werden.
+       */
+      if(isset($_POST['selection']) AND $_POST['selection'] == 1) {
+        /**
+         * Im Select wurde "ja" ausgewählt
+         */
+        mysqli_query($dbl, "DELETE FROM `items` WHERE `id`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+        $content.= "<div class='successbox'>Rezept erfolgreich gelöscht.</div>".PHP_EOL;
+        $content.= "<div class='row'>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminitems/list'>Zurück zur Übersicht</a></div>".PHP_EOL.
+        "</div>".PHP_EOL;
+      } else {
+        /**
+         * Im Select wurde etwas anderes als "ja" ausgewählt.
+         */
+        $content.= "<div class='infobox'>Rezept unverändert.</div>".PHP_EOL;
+        $content.= "<div class='row'>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminitems/list'>Zurück zur Übersicht</a></div>".PHP_EOL.
+        "</div>".PHP_EOL;
+      }
+    }
+  }
 } elseif($_GET['action'] == 'edit') {
   /**
    * Bearbeiten eines Rezepts.
