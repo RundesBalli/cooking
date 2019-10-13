@@ -36,7 +36,7 @@ function output($string) {
  * Slimdown
  * https://gist.github.com/jbroadway/2836900
  */
-require_once(__DIR__.DIRECTORY_SEPARATOR."Slimdown.php");
+require_once(__DIR__.DIRECTORY_SEPARATOR."slimdown.php");
 
 /**
  * Sternfunktion

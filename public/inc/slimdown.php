@@ -107,3 +107,4 @@ class SlimdownOneline {
     return trim ($text);
   }
 }
+?>
