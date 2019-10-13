@@ -23,7 +23,7 @@ if(!isset($_GET['action'])) {
   $title = "Rezepte anzeigen";
   $content.= "<h1>Rezepte anzeigen</h1>".PHP_EOL;
   $content.= "<div class='row'>".PHP_EOL.
-  "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminitems/add'>Anlegen</a></div>".PHP_EOL.
+  "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><span class='highlight bold'>Aktionen:</span> <a href='/adminitems/add'>Anlegen</a></div>".PHP_EOL.
   "</div>".PHP_EOL;
   $content.= "<div class='spacer-m'></div>".PHP_EOL;
   $result = mysqli_query($dbl, "SELECT `items`.*, IFNULL((SELECT round(avg(`votes`.`stars`),2) FROM `votes` WHERE `votes`.`itemid`=`items`.`id` GROUP BY `votes`.`itemid`), 0) AS `stars` FROM `items` ORDER BY `title` ASC") OR DIE(MYSQLI_ERROR($dbl));
