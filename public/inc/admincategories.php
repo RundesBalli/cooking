@@ -49,7 +49,7 @@ if(!isset($_GET['action'])) {
     "</div>".PHP_EOL;
     while($row = mysqli_fetch_array($result)) {
       $content.= "<div class='row hover bordered'>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-8 col-l-8 col-xl-8'>".output($row['title'])."</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-8 col-l-8 col-xl-8'><a href='/kategorie/".output($row['shortTitle'])."' target='_blank'>".output($row['title'])."</a></div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-2 col-l-2 col-xl-2'>".$row['itemcount']." Rezept".($row['itemcount'] == 1 ? "" : "e")."</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-2 col-l-2 col-xl-2'><a href='/admincategories/edit/".$row['id']."' class='nowrap'>Editieren</a><br>".PHP_EOL."<a href='/admincategories/del/".$row['id']."' class='nowrap'>Löschen</a><br>".PHP_EOL."<a href='/admincategories/sort/".$row['id']."' class='nowrap'>Rezepte sortieren</a></div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
