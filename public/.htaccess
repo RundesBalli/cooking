@@ -40,5 +40,5 @@ ErrorDocument 403 /index.php?p=403
 ## Entwicklung
 AuthName "In Bearbeitung"
 AuthType Basic
-AuthUserFile /var/www/_pr0.cooking/.htpasswd
+AuthUserFile /var/www/_pr0.cooking/public/.htpasswd
 require valid-user
