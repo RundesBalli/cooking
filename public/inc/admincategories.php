@@ -452,8 +452,98 @@ if(!isset($_GET['action'])) {
   }
 } elseif($_GET['action'] == 'sort') {
   /**
-   * SORTIEREN
+   * Elemente / Querverweise innerhalb der Kategorie sortieren.
    */
+  $title = "Innerhalb der Kategorie sortieren";
+  $content.= "<h1>Innerhalb der Kategorie sortieren</h1>".PHP_EOL;
+  $id = (int)defuse($_GET['id']);
+  /**
+   * Prüfen ob die Kategorie existiert.
+   */
+  $result = mysqli_query($dbl, "SELECT `id`, `title` FROM `categories` WHERE `id`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+  if(mysqli_num_rows($result) == 0) {
+    /**
+     * Falls die Kategorie nicht existiert, wird ein 404er und eine Fehlermeldung zurückgegeben.
+     */
+    http_response_code(404);
+    $content.= "<div class='warnbox'>Die Kategorie mit der ID <span class='italic'>".$id."</span> existiert nicht.</div>".PHP_EOL;
+    $content.= "<div class='row'>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/list'>Zurück zur Übersicht</a></div>".PHP_EOL.
+    "</div>".PHP_EOL;
+  } else {
+    if(!isset($_POST['submit'])) {
+      /**
+       * Selektieren der zugewiesenen Rezepte.
+       */
+      $result = mysqli_query($dbl, "SELECT `category_items`.`id`, `category_items`.`sortindex`, `items`.`title`, `items`.`shortTitle` FROM `category_items` LEFT JOIN `items` ON `category_items`.`item_id`=`items`.`id` WHERE `category_items`.`category_id` = '".$id."' ORDER BY `category_items`.`sortIndex` ASC") OR DIE(MYSQLI_ERROR($dbl));
+      if(mysqli_num_rows($result) == 0) {
+        $content.= "<div class='warnbox'>Dieser Kategorie sind keine Rezepte zugewiesen.</div>".PHP_EOL;
+        $content.= "<div class='row'>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/list'>Zurück zur Übersicht</a></div>".PHP_EOL.
+        "</div>".PHP_EOL;
+      } elseif(mysqli_num_rows($result) == 1) {
+        $content.= "<div class='infobox'>Dieser Kategorie ist nur ein Rezept zugewiesen. Eine Sortierung macht keinen Sinn.</div>".PHP_EOL;
+        $content.= "<div class='row'>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/list'>Zurück zur Übersicht</a></div>".PHP_EOL.
+        "</div>".PHP_EOL;
+      } else {
+        /**
+         * Wenn kein Formular übergeben wurde, dann zeig es an.
+         */
+        $content.= "<form action='/admincategories/sort/".$id."' method='post' autocomplete='off'>".PHP_EOL;
+        /**
+         * Tabellenüberschrift
+         */
+        $content.= "<div class='row highlight bold bordered'>".PHP_EOL.
+        "<div class='col-x-4 col-s-4 col-m-3 col-l-2 col-xl-2'>Sortierindex</div>".PHP_EOL.
+        "<div class='col-x-8 col-s-8 col-m-9 col-l-10 col-xl-10'>Rezept</div>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
+        "</div>".PHP_EOL;
+        /**
+         * Durchgehen der einzelnen Zuweisungen.
+         */
+        $tabindex = 0;
+        while($row = mysqli_fetch_array($result)) {
+          $tabindex++;
+          $content.= "<div class='row hover bordered'>".PHP_EOL.
+          "<div class='col-x-4 col-s-4 col-m-3 col-l-2 col-xl-2'><input type='number' name='ci[".$row['id']."]' value='".$row['sortindex']."' min='1' tabindex='".$tabindex."'></div>".PHP_EOL.
+          "<div class='col-x-8 col-s-8 col-m-9 col-l-10 col-xl-10'><a href='/rezept/".output($row['shortTitle'])."' target='_blank'>".output($row['title'])."</a></div>".PHP_EOL.
+          "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
+          "</div>".PHP_EOL;
+        }
+        $tabindex++;
+        $content.= "<div class='row hover bordered'>".PHP_EOL.
+        "<div class='col-x-4 col-s-4 col-m-3 col-l-2 col-xl-2'><input type='submit' name='submit' value='ändern' tabindex='".$tabindex."'></div>".PHP_EOL.
+        "</div>".PHP_EOL;
+        $content.= "</form>".PHP_EOL;
+      }
+    } else {
+      /**
+       * Formularauswertung
+       */
+      if(isset($_POST['ci']) AND is_array($_POST['ci'])) {
+        asort($_POST['ci']);
+        $index = 0;
+        $query = "UPDATE `category_items` SET `sortIndex` = CASE ";
+        foreach($_POST['ci'] as $key => $val) {
+          $key = (int)defuse($key);
+          $index+= 10;
+          $query.= "WHEN `id`='".$key."' THEN '".$index."' ";
+        }
+        $query.= "ELSE '9999999' END WHERE `category_id`='".$id."'";
+        mysqli_query($dbl, $query) OR DIE(MYSQLI_ERROR($dbl));
+        $content.= "<div class='successbox'>Sortierung geändert.</div>".PHP_EOL;
+        $content.= "<div class='row'>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/list'>Zurück zur Übersicht</a></div>".PHP_EOL.
+        "</div>".PHP_EOL;
+      } else {
+        $content.= "<div class='warnbox'>Ungültige Werte übergeben.</div>".PHP_EOL;
+        $content.= "<div class='row'>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/sort/".$id."'>Zurück zur Sortierung</a></div>".PHP_EOL.
+        "</div>".PHP_EOL;
+      }
+    }
+  }
 } else {
   header("Location: /admincategories/list");
   die();
