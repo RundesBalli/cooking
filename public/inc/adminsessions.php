@@ -59,7 +59,7 @@ $content.= "<h1>Eigenes Passwort ändern</h1>".PHP_EOL;
  */
 if(isset($_POST['password'])) {
   if(strlen($_POST['password']) >= 20) {
-    $salt = hash('sha256', time().$_SERVER['REMOTE_ADDR'].rand(10000,99999));
+    $salt = hash('sha256', random_bytes(4096));
     $password = password_hash($_POST['password'].$salt, PASSWORD_DEFAULT);
     mysqli_query($dbl, "UPDATE `accounts` SET `password`='".defuse($password)."', `salt`='".$salt."' WHERE `username`='".$username."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
     header("Location: /adminlogout");
