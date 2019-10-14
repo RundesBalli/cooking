@@ -15,6 +15,13 @@ require_once(__DIR__.DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."public".DIREC
 require_once(__DIR__.DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."public".DIRECTORY_SEPARATOR."inc".DIRECTORY_SEPARATOR."functions.php");
 
 /**
+ * Prüfen ob das Script in der Konsole läuft.
+ */
+if(php_sapi_name() != 'cli') {
+  die("Das Script kann nur per Konsole ausgeführt werden.");
+}
+
+/**
  * Auslesen und verarbeiten des Nutzernamens.
  */
 if(isset($argv[1]) AND preg_match('/^[0-9a-zA-Z]{3,32}$/', defuse($argv[1]), $match) === 1) {
