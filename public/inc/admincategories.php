@@ -88,15 +88,6 @@ if(!isset($_GET['action'])) {
       $content.= "<div class='warnbox'>Der Kurztitel ist ungültig. Er muss zwischen 5 und 64 Zeichen lang sein und darf nur aus <code>0-9a-z-_</code> bestehen.</div>".PHP_EOL;
     }
     /**
-     * Sortierindex
-     */
-    if(preg_match('/^\d{1,10}$/', $_POST['sortIndex'], $match) === 1) {
-      $sortIndex = defuse($match[0]);
-    } else {
-      $form = 1;
-      $content.= "<div class='warnbox'>Der Sortierindex ist ungültig. Möglich sind alle positiven Ganzzahlen.</div>".PHP_EOL;
-    }
-    /**
      * Langbeschreibung
      */
     if(!empty($_POST['description'])) {
@@ -116,7 +107,7 @@ if(!isset($_GET['action'])) {
      * Wenn durch die Postdaten-Validierung die Inhalte geprüft und entschärft wurden, kann der Query erzeugt und ausgeführt werden.
      */
     if($form == 0) {
-      if(mysqli_query($dbl, "INSERT INTO `categories` (`title`, `shortTitle`, `sortIndex`, `description`, `shortDescription`) VALUES ('".$form_title."', '".$shortTitle."', '".$sortIndex."', ".($description === NULL ? "NULL" : "'".$description."'").", ".($shortDescription === NULL ? "NULL" : "'".$shortDescription."'").")")) {
+      if(mysqli_query($dbl, "INSERT INTO `categories` (`title`, `shortTitle`, `description`, `shortDescription`) VALUES ('".$form_title."', '".$shortTitle."', ".($description === NULL ? "NULL" : "'".$description."'").", ".($shortDescription === NULL ? "NULL" : "'".$shortDescription."'").")")) {
         $content.= "<div class='successbox'>Kategorie erfolgreich angelegt.</div>".PHP_EOL;
         $content.= "<div class='row'>".PHP_EOL.
         "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/list'>Zurück zur Übersicht</a></div>".PHP_EOL.
@@ -166,15 +157,6 @@ if(!isset($_GET['action'])) {
     "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Kurztitel für URL</div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='text' name='shortTitle' placeholder='/kategorie/xxx' tabindex='2' value='".(isset($_POST['shortTitle']) && !empty($_POST['shortTitle']) ? output($_POST['shortTitle']) : NULL)."'></div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("`/kategorie/&lt;Kurztitel&gt;`\n* muss einzigartig sein\n* 5 bis 64 Zeichen\n* keine Leerzeichen\n* keine Umlaute\n* keine Sonderzeichen\n* nur Kleinbuchstaben oder Zahlen\n* zur Worttrennung `-` oder `_` benutzen\n`0-9a-z-_`")."</div>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
-    "</div>".PHP_EOL;
-    /**
-     * Sortierindex
-     */
-    $content.= "<div class='row hover bordered'>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Sortierindex</div>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='number' name='sortIndex' placeholder='z.B. 10' tabindex='3' min='1' value='".(isset($_POST['sortIndex']) && !empty($_POST['sortIndex']) ? output($_POST['sortIndex']) : NULL)."'></div>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("* aufsteigend sortiert, 1 = oben, 100 = unten\n* Möglich sind alle positiven Zahlen")."</div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
     "</div>".PHP_EOL;
     /**
@@ -328,15 +310,6 @@ if(!isset($_GET['action'])) {
         $content.= "<div class='warnbox'>Der Kurztitel ist ungültig. Er muss zwischen 5 und 64 Zeichen lang sein und darf nur aus <code>0-9a-z-_</code> bestehen.</div>".PHP_EOL;
       }
       /**
-       * Sortierindex
-       */
-      if(preg_match('/^\d{1,10}$/', $_POST['sortIndex'], $match) === 1) {
-        $sortIndex = defuse($match[0]);
-      } else {
-        $form = 1;
-        $content.= "<div class='warnbox'>Der Sortierindex ist ungültig. Möglich sind alle positiven Ganzzahlen.</div>".PHP_EOL;
-      }
-      /**
        * Langbeschreibung
        */
       if(!empty(trim($_POST['description']))) {
@@ -356,7 +329,7 @@ if(!isset($_GET['action'])) {
         /**
          * Wenn durch die Postdaten-Validierung die Inhalte geprüft und entschärft wurden, kann der Query erzeugt und ausgeführt werden.
          */
-        if(mysqli_query($dbl, "UPDATE `categories` SET `title`='".$form_title."', `shortTitle`='".$shortTitle."', `sortIndex`='".$sortIndex."', `description`=".($description === NULL ? "NULL" : "'".$description."'").", `shortDescription`=".($shortDescription === NULL ? "NULL" : "'".$shortDescription."'")." WHERE `id`='".$id."' LIMIT 1")) {
+        if(mysqli_query($dbl, "UPDATE `categories` SET `title`='".$form_title."', `shortTitle`='".$shortTitle."', `description`=".($description === NULL ? "NULL" : "'".$description."'").", `shortDescription`=".($shortDescription === NULL ? "NULL" : "'".$shortDescription."'")." WHERE `id`='".$id."' LIMIT 1")) {
           $content.= "<div class='successbox'>Kategorie erfolgreich geändert.</div>".PHP_EOL;
           $content.= "<div class='row'>".PHP_EOL.
           "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/list'>Zurück zur Übersicht</a></div>".PHP_EOL.
@@ -407,15 +380,6 @@ if(!isset($_GET['action'])) {
       "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Kurztitel für URL</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='text' name='shortTitle' placeholder='/kategorie/xxx' tabindex='2' value='".(isset($row['shortTitle']) ? output($row['shortTitle']) : (isset($_POST['shortTitle']) && !empty($_POST['shortTitle']) ? output($_POST['shortTitle']) : NULL))."'></div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("`/kategorie/&lt;Kurztitel&gt;`\n* muss einzigartig sein\n* 5 bis 64 Zeichen\n* keine Leerzeichen\n* keine Umlaute\n* keine Sonderzeichen\n* nur Kleinbuchstaben oder Zahlen\n* zur Worttrennung `-` oder `_` benutzen\n`0-9a-z-_`")."</div>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
-      "</div>".PHP_EOL;
-      /**
-       * Sortierindex
-       */
-      $content.= "<div class='row hover bordered'>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Sortierindex</div>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='number' name='sortIndex' placeholder='z.B. 10' tabindex='3' min='1' value='".(isset($row['sortIndex']) ? output($row['sortIndex']) : (isset($_POST['sortIndex']) && !empty($_POST['sortIndex']) ? output($_POST['sortIndex']) : NULL))."'></div>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("* aufsteigend sortiert, 1 = oben, 100 = unten\n* Möglich sind alle positiven Zahlen")."</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
       "</div>".PHP_EOL;
       /**
