@@ -504,7 +504,7 @@ if(!isset($_GET['action'])) {
         while($row = mysqli_fetch_array($result)) {
           $tabindex++;
           $content.= "<div class='row hover bordered'>".PHP_EOL.
-          "<div class='col-x-4 col-s-4 col-m-3 col-l-2 col-xl-2'><input type='number' name='ci[".$row['id']."]' value='".$row['sortindex']."' min='1' tabindex='".$tabindex."'></div>".PHP_EOL.
+          "<div class='col-x-4 col-s-4 col-m-3 col-l-2 col-xl-2'><input type='number' name='ci[".$row['id']."]' value='".$row['sortIndex']."' min='1' tabindex='".$tabindex."'></div>".PHP_EOL.
           "<div class='col-x-8 col-s-8 col-m-9 col-l-10 col-xl-10'><a href='/rezept/".output($row['shortTitle'])."' target='_blank'>".output($row['title'])."</a></div>".PHP_EOL.
           "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
           "</div>".PHP_EOL;
