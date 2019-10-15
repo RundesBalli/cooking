@@ -26,7 +26,7 @@ RewriteRule ^rezept\/([\w\d-]+)$ /index.php?p=showitem&item=$1 [NC,L,QSA]
 # Admin Regel
 # admin.../{Funktion} ohne ID
 # admin.../{Funktion}/id
-RewriteRule ^(admin(?:categories|items|files))\/(add|list)$ /index.php?p=$1&action=$2 [NC,L,QSA]
+RewriteRule ^(admin(?:categories|items|files))\/(add|list|catsort)$ /index.php?p=$1&action=$2 [NC,L,QSA]
 RewriteRule ^(admin(?:categories|items|files|sessions))\/(edit|del|assign|sort)\/([\d]+)$ /index.php?p=$1&action=$2&id=$3 [NC,L,QSA]
 RewriteRule ^adminitems\/assign\/([\d]+)\/(del|add)\/([\d]+)$ /index.php?p=adminitems&action=assign&id=$1&$2=$3 [NC,L,QSA]
 

@@ -23,7 +23,7 @@ if(!isset($_GET['action'])) {
   $title = "Kategorien anzeigen";
   $content.= "<h1>Kategorien anzeigen</h1>".PHP_EOL;
   $content.= "<div class='row'>".PHP_EOL.
-  "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><span class='highlight bold'>Aktionen:</span> <a href='/admincategories/add'>Anlegen</a></div>".PHP_EOL.
+  "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><span class='highlight bold'>Aktionen:</span> <a href='/admincategories/add'>Anlegen</a> - <a href='/admincategories/catsort'>Kategorien sortieren</a></div>".PHP_EOL.
   "</div>".PHP_EOL;
   $content.= "<div class='spacer-m'></div>".PHP_EOL;
   /**
@@ -540,6 +540,90 @@ if(!isset($_GET['action'])) {
         "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/sort/".$id."'>Zurück zur Sortierung</a></div>".PHP_EOL.
         "</div>".PHP_EOL;
       }
+    }
+  }
+} elseif($_GET['action'] == 'catsort') {
+  /**
+   * Alle Kategorien sortieren
+   */
+  $title = "Kategorien sortieren";
+  $content.= "<h1>Kategorien sortieren</h1>".PHP_EOL;
+  if(!isset($_POST['submit'])) {
+    /**
+     * Wenn das Formular noch nicht übergeben wurde, dann zeig es an.
+     */
+    $result = mysqli_query($dbl, "SELECT `id`, `title`, `shortTitle`, `sortIndex` FROM `categories` ORDER BY `sortIndex` ASC") OR DIE(MYSQLI_ERROR($dbl));
+    if(mysqli_num_rows($result) == 0) {
+      /**
+       * Wenn noch keine Kategorien angelegt wurden.
+       */
+      $content.= "<div class='infobox'>Noch keine Kategorien angelegt.</div>".PHP_EOL;
+      $content.= "<div class='row'>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/list'>Zurück zur Übersicht</a></div>".PHP_EOL.
+      "</div>".PHP_EOL;
+    } elseif(mysqli_num_rows($result) == 1) {
+      /**
+       * Wenn erst eine Kategorie angelegt wurde.
+       */
+      $content.= "<div class='infobox'>Es wurde erst eine Kategorie angelegt. Ein Sortieren hätte keine Auswirkungen.</div>".PHP_EOL;
+      $content.= "<div class='row'>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/list'>Zurück zur Übersicht</a></div>".PHP_EOL.
+      "</div>".PHP_EOL;
+    } else {
+      /**
+       * Formularanzeige
+       */
+      $content.= "<form action='/admincategories/catsort' method='post' autocomplete='off'>".PHP_EOL;
+      /**
+       * Tabellenüberschrift
+       */
+      $content.= "<div class='row highlight bold bordered'>".PHP_EOL.
+      "<div class='col-x-4 col-s-4 col-m-3 col-l-2 col-xl-2'>Sortierindex</div>".PHP_EOL.
+      "<div class='col-x-8 col-s-8 col-m-9 col-l-10 col-xl-10'>Kategorie</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
+      "</div>".PHP_EOL;
+      /**
+       * Durchgehen der einzelnen Kategorien.
+       */
+      $tabindex = 0;
+      while($row = mysqli_fetch_array($result)) {
+        $tabindex++;
+        $content.= "<div class='row hover bordered'>".PHP_EOL.
+        "<div class='col-x-4 col-s-4 col-m-3 col-l-2 col-xl-2'><input type='number' name='cat[".$row['id']."]' value='".$row['sortIndex']."' min='1' tabindex='".$tabindex."'></div>".PHP_EOL.
+        "<div class='col-x-8 col-s-8 col-m-9 col-l-10 col-xl-10'><a href='/kategorie/".output($row['shortTitle'])."' target='_blank'>".output($row['title'])."</a></div>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
+        "</div>".PHP_EOL;
+      }
+      $tabindex++;
+      $content.= "<div class='row hover bordered'>".PHP_EOL.
+      "<div class='col-x-4 col-s-4 col-m-3 col-l-2 col-xl-2'><input type='submit' name='submit' value='ändern' tabindex='".$tabindex."'></div>".PHP_EOL.
+      "</div>".PHP_EOL;
+      $content.= "</form>".PHP_EOL;
+    }
+  } else {
+    /**
+     * Formularauswertung
+     */
+    if(isset($_POST['cat']) AND is_array($_POST['cat'])) {
+      asort($_POST['cat']);
+      $index = 0;
+      $query = "UPDATE `categories` SET `sortIndex` = CASE ";
+      foreach($_POST['cat'] as $key => $val) {
+        $key = (int)defuse($key);
+        $index+= 10;
+        $query.= "WHEN `id`='".$key."' THEN '".$index."' ";
+      }
+      $query.= "ELSE '9999999' END";
+      mysqli_query($dbl, $query) OR DIE(MYSQLI_ERROR($dbl));
+      $content.= "<div class='successbox'>Sortierung geändert.</div>".PHP_EOL;
+      $content.= "<div class='row'>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/list'>Zurück zur Übersicht</a></div>".PHP_EOL.
+      "</div>".PHP_EOL;
+    } else {
+      $content.= "<div class='warnbox'>Ungültige Werte übergeben.</div>".PHP_EOL;
+      $content.= "<div class='row'>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/catsort'>Zurück zur Sortierung</a></div>".PHP_EOL.
+      "</div>".PHP_EOL;
     }
   }
 } else {
