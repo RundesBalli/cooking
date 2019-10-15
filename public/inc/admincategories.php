@@ -473,7 +473,7 @@ if(!isset($_GET['action'])) {
       /**
        * Selektieren der zugewiesenen Rezepte.
        */
-      $result = mysqli_query($dbl, "SELECT `category_items`.`id`, `category_items`.`sortindex`, `items`.`title`, `items`.`shortTitle` FROM `category_items` LEFT JOIN `items` ON `category_items`.`item_id`=`items`.`id` WHERE `category_items`.`category_id` = '".$id."' ORDER BY `category_items`.`sortIndex` ASC") OR DIE(MYSQLI_ERROR($dbl));
+      $result = mysqli_query($dbl, "SELECT `category_items`.`id`, `category_items`.`sortIndex`, `items`.`title`, `items`.`shortTitle` FROM `category_items` LEFT JOIN `items` ON `category_items`.`item_id`=`items`.`id` WHERE `category_items`.`category_id` = '".$id."' ORDER BY `category_items`.`sortIndex` ASC") OR DIE(MYSQLI_ERROR($dbl));
       if(mysqli_num_rows($result) == 0) {
         $content.= "<div class='warnbox'>Dieser Kategorie sind keine Rezepte zugewiesen.</div>".PHP_EOL;
         $content.= "<div class='row'>".PHP_EOL.
