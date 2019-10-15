@@ -29,14 +29,12 @@ if(!isset($_GET['action'])) {
   /**
    * Alle Kategorien selektieren und die zugewiesenen Rezepte zählen. Danke an @Insax für den Query.
    */
-  $result = mysqli_query($dbl, "SELECT `id`, `title`, `shortTitle`, (SELECT COUNT(`id`) FROM `category_items` WHERE `category_items`.`category_id` = `categories`.`id`) AS `itemcount` FROM `categories` ORDER BY `sortindex` ASC, `title` ASC") OR DIE(MYSQLI_ERROR($dbl));
+  $result = mysqli_query($dbl, "SELECT `id`, `title`, `shortTitle`, (SELECT COUNT(`id`) FROM `category_items` WHERE `category_items`.`category_id` = `categories`.`id`) AS `itemcount` FROM `categories` ORDER BY `sortIndex` ASC, `title` ASC") OR DIE(MYSQLI_ERROR($dbl));
   if(mysqli_num_rows($result) == 0) {
     /**
      * Wenn keine Kategorien existieren.
      */
-    $content.= "<div class='row'>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'>Noch keine Kategorien angelegt.</div>".PHP_EOL.
-    "</div>".PHP_EOL;
+    $content.= "<div class='infobox'>Noch keine Kategorien angelegt.</div>".PHP_EOL;
   } else {
     /**
      * Anzeige vorhandener Kategorien.
