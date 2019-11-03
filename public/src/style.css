@@ -286,7 +286,7 @@ p {
   3. Forms
 */
 
-input[type=text], input[type=password], select, textarea, input[type=number] {
+input[type=text], input[type=password], select, textarea, input[type=number], input[type=file] {
   width: 100%;
   border: 1px solid #f2f5f4;
   padding: 8px;
@@ -302,7 +302,7 @@ textarea {
   font-size: 14px;
 }
 
-input[type=text]:focus, input[type=password]:focus, select:focus, textarea:focus, input[type=number]:focus {
+input[type=text]:focus, input[type=password]:focus, select:focus, textarea:focus, input[type=number]:focus, input[type=file]:focus {
   background-color: #212121;
   border: 1px solid #ee4d2e;
   outline-color: #ee4d2e
