@@ -43,6 +43,9 @@ if(mysqli_num_rows($result) == 0) {
     header("Location: /adminfiles/list/".$id);
     die();
   } elseif($_GET['action'] == 'list') {
+    /**
+     * Dateien auflisten
+     */
     $title = "Dateiverwaltung - Dateien anzeigen";
     $content.= "<h1>Dateiverwaltung - Dateien anzeigen</h1>".PHP_EOL;
     /**
@@ -75,7 +78,7 @@ if(mysqli_num_rows($result) == 0) {
       "</div>".PHP_EOL;
     } else {
       /**
-       * Mehrer Thumbnails vorhanden, was nicht sein darf. Löschung aller Thumbnails und Aufforderung zum erneuten Hochladen.
+       * Mehrere Thumbnails vorhanden, was nicht sein darf. Löschung aller Thumbnails und Aufforderung zum erneuten Hochladen.
        */
       while($row = mysqli_fetch_array($result)) {
         unlink($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR."img".DIRECTORY_SEPARATOR.$row['filename'].".png");
@@ -122,7 +125,10 @@ if(mysqli_num_rows($result) == 0) {
   } elseif($_GET['action'] == 'add') {
 
   } elseif($_GET['action'] == 'del') {
-
+/**
+ * htaccess: /adminfiles/itemid/del/imageid hat.
+ * RewriteRule ^adminfiles\/([\d]+)\/del\/([\d]+)$ /index.php?p=adminfiles&action=del&id=$1&imageid=$2 [NC,L,QSA]
+ */
   } elseif($_GET['action'] == 'sort') {
 
   } else {
