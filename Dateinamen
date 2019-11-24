@@ -1,0 +1,10 @@
+Dateinamen:
+
+Thumbnail:
+/img/thumb-<itemid>.png
+
+Bilder:
+/img/img-<itemid>-full.png = 1500x1500px
+/img/img-<itemid>-small.png = 600x600px
+/img/img-<itemid>-medium.png = 1000x1000px
+/img/img-<itemid>-big.png = 1200x1200px
