@@ -49,7 +49,7 @@ if(mysqli_num_rows($result) == 0) {
     $title = "Dateiverwaltung - Dateien anzeigen";
     $content.= "<h1>Dateiverwaltung - Dateien anzeigen</h1>".PHP_EOL;
     $content.= "<div class='row'>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><span class='highlight bold'>Aktionen:</span> <a href='/adminfiles/add/".$id."'><span class='fas icon'>&#xf067;</span>Hinzufügen</a></div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><span class='highlight bold'>Aktionen:</span> <a href='/adminfiles/add/".$id."'><span class='fas icon'>&#xf067;</span>Hinzufügen</a> - <a href='/adminfiles/sort/".$id."'><span class='fas icon'>&#xf0dc;</span>Sortieren</a></div>".PHP_EOL.
     "</div>".PHP_EOL;
     /**
      * Thumbnail
@@ -62,7 +62,7 @@ if(mysqli_num_rows($result) == 0) {
        */
       $content.= "<div class='infobox'>Das Rezept hat noch keinen Thumbnail.</div>".PHP_EOL;
       $content.= "<div class='row'>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminfiles/add/".$id."'>Hinzufügen</a></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminfiles/add/".$id."'><span class='fas icon'>&#xf067;</span>Hinzufügen</a></div>".PHP_EOL.
       "</div>".PHP_EOL;
     } elseif(mysqli_num_rows($result) == 1) {
       /**
@@ -75,8 +75,8 @@ if(mysqli_num_rows($result) == 0) {
       "</div>".PHP_EOL;
       $row = mysqli_fetch_array($result);
       $content.= "<div class='row hover bordered'>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-8 col-l-8 col-xl-8'><a href='/img/".output($row['filename']).".png' target='_blank'>/img/".output($row['filename']).".png</a></div>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><a href='/adminfiles/del/".$row['id']."' class='nowrap'>Löschen</a></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-8 col-l-8 col-xl-8'><a href='/img/thumb-".$row['itemid']."-".$row['filehash'].".png' target='_blank'>/img/thumb-".$row['itemid']."-".$row['filehash'].".png<span class='fas iconright'>&#xf35d;</span></a></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><a href='/adminfiles/del/".$id."/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a></div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
       "</div>".PHP_EOL;
     } else {
@@ -84,12 +84,12 @@ if(mysqli_num_rows($result) == 0) {
        * Mehrere Thumbnails vorhanden, was nicht sein darf. Löschung aller Thumbnails und Aufforderung zum erneuten Hochladen.
        */
       while($row = mysqli_fetch_array($result)) {
-        unlink($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR."img".DIRECTORY_SEPARATOR.$row['filename'].".png");
+        unlink($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR."img".DIRECTORY_SEPARATOR."thumb-".$row['itemid']."-".$row['filehash'].".png");
       }
       mysqli_query($dbl, "DELETE FROM `images` WHERE `itemid`='".$id."' AND `thumb`='1'") OR DIE(MYSQLI_ERROR($dbl));
       $content.= "<div class='warnbox'>Das Rezept hat Fehler im Thumbnail. Er wurde gelöscht und muss neu hochgeladen werden.</div>".PHP_EOL;
       $content.= "<div class='row'>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminfiles/add/".$id."'>Hinzufügen</a></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminfiles/add/".$id."'><span class='fas icon'>&#xf067;</span>Hinzufügen</a></div>".PHP_EOL.
       "</div>".PHP_EOL;
     }
     /**
@@ -104,7 +104,7 @@ if(mysqli_num_rows($result) == 0) {
        */
       $content.= "<div class='infobox'>Das Rezept hat noch keine Bilder.</div>".PHP_EOL;
       $content.= "<div class='row'>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminfiles/add/".$id."'>Hinzufügen</a></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminfiles/add/".$id."'><span class='fas icon'>&#xf067;</span>Hinzufügen</a></div>".PHP_EOL.
       "</div>".PHP_EOL;
     } else {
       /**
@@ -117,10 +117,16 @@ if(mysqli_num_rows($result) == 0) {
       "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
       "</div>".PHP_EOL;
       while($row = mysqli_fetch_array($result)) {
+        $links = array(
+          "<a href='/img/img-".$row['itemid']."-full-".$row['filehash'].".png' target='_blank'>/img/img-".$row['itemid']."-full-".$row['filehash'].".png<span class='fas iconright'>&#xf35d;</span></a>",
+          "<a href='/img/img-".$row['itemid']."-big-".$row['filehash'].".png' target='_blank'>/img/img-".$row['itemid']."-big-".$row['filehash'].".png<span class='fas iconright'>&#xf35d;</span></a>",
+          "<a href='/img/img-".$row['itemid']."-medium-".$row['filehash'].".png' target='_blank'>/img/img-".$row['itemid']."-medium-".$row['filehash'].".png<span class='fas iconright'>&#xf35d;</span></a>",
+          "<a href='/img/img-".$row['itemid']."-small-".$row['filehash'].".png' target='_blank'>/img/img-".$row['itemid']."-small-".$row['filehash'].".png<span class='fas iconright'>&#xf35d;</span></a>"
+        );
         $content.= "<div class='row hover bordered'>".PHP_EOL.
-        "<div class='col-x-12 col-s-12 col-m-8 col-l-8 col-xl-8'><a href='/img/".output($row['filename']).".png' target='_blank'>/img/".output($row['filename']).".png</a></div>".PHP_EOL.
-        "<div class='col-x-12 col-s-12 col-m-2 col-l-2 col-xl-2'>".output($row['sortIndex'])."</div>".PHP_EOL.
-        "<div class='col-x-12 col-s-12 col-m-2 col-l-2 col-xl-2'><a href='/adminfiles/del/".$row['id']."' class='nowrap'>Löschen</a></div>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-8 col-l-8 col-xl-8'>".implode("<br>", $links)."</div>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-2 col-l-2 col-xl-2'>".$row['sortIndex']."</div>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-2 col-l-2 col-xl-2'><a href='/adminfiles/del/".$id."/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a></div>".PHP_EOL.
         "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
         "</div>".PHP_EOL;
       }
@@ -162,7 +168,8 @@ if(mysqli_num_rows($result) == 0) {
                */
               $result = mysqli_query($dbl, "SELECT * FROM `images` WHERE `itemid`='".$id."' AND `thumb`='1' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
               if(mysqli_num_rows($result) == 1) {
-                unlink($uploaddir."thumb-".$id.".png");
+                $row = mysqli_fetch_array($result);
+                unlink($uploaddir."thumb-".$id."-".$row['filehash'].".png");
                 mysqli_query($dbl, "DELETE FROM `images` WHERE `itemid`='".$id."' AND `thumb`='1' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
                 $content.= "<div class='infobox'>Der bestehende Thumbnail wurde entfernt.</div>".PHP_EOL;
               }
@@ -207,12 +214,13 @@ if(mysqli_num_rows($result) == 0) {
                 /**
                  * Das Bild wird kopiert, gespeichert, und in die Datenbank eingetragen
                  */
+                $filehash = substr(md5(random_bytes(4096)), 0, 16);
                 imagecopyresampled($thumb, $image, 0, 0, $src_x, $src_y, 300, 300, $src_w, $src_h);
-                imagepng($thumb, $uploaddir."thumb-".$id.".png");
+                imagepng($thumb, $uploaddir."thumb-".$id."-".$filehash.".png");
                 imagedestroy($thumb);
                 imagedestroy($image);
                 unlink($_FILES['file']['tmp_name']);
-                mysqli_query($dbl, "INSERT INTO `images` (`itemid`, `thumb`) VALUES ('".$id."', 1)") OR DIE(MYSQLI_ERROR($dbl));
+                mysqli_query($dbl, "INSERT INTO `images` (`itemid`, `thumb`, `filehash`) VALUES ('".$id."', 1, '".$filehash."')") OR DIE(MYSQLI_ERROR($dbl));
                 $content.= "<div class='successbox'>Der Thumbnail wurde erfolgreich hochgeladen.</div>".PHP_EOL;
               }
             } else {
@@ -267,24 +275,25 @@ if(mysqli_num_rows($result) == 0) {
                   /**
                    * Das Bild wird in alle Formate kopiert und gespeichert.
                    */
+                  $filehash = substr(md5(random_bytes(4096)), 0, 16);
                   //full: 1500x1500px
                   imagecopyresampled($picture_full, $image, 0, 0, $src_x, $src_y, 1500, 1500, $src_w, $src_h);
-                  imagepng($picture_full, $uploaddir."img-".$id."-full.png");
+                  imagepng($picture_full, $uploaddir."img-".$id."-full-".$filehash.".png");
                   imagedestroy($picture_full);
 
                   //small: 600x600px
                   imagecopyresampled($picture_small, $image, 0, 0, $src_x, $src_y, 600, 600, $src_w, $src_h);
-                  imagepng($picture_small, $uploaddir."img-".$id."-small.png");
+                  imagepng($picture_small, $uploaddir."img-".$id."-small-".$filehash.".png");
                   imagedestroy($picture_small);
 
                   //medium: 1000x1000px
                   imagecopyresampled($picture_medium, $image, 0, 0, $src_x, $src_y, 1000, 1000, $src_w, $src_h);
-                  imagepng($picture_medium, $uploaddir."img-".$id."-medium.png");
+                  imagepng($picture_medium, $uploaddir."img-".$id."-medium-".$filehash.".png");
                   imagedestroy($picture_medium);
 
                   //big: 1200x1200px
                   imagecopyresampled($picture_big, $image, 0, 0, $src_x, $src_y, 1200, 1200, $src_w, $src_h);
-                  imagepng($picture_big, $uploaddir."img-".$id."-big.png");
+                  imagepng($picture_big, $uploaddir."img-".$id."-big-".$filehash.".png");
                   imagedestroy($picture_big);
 
                   /**
@@ -296,7 +305,7 @@ if(mysqli_num_rows($result) == 0) {
                   /**
                    * Eintrag in die Datenbank
                    */
-                  mysqli_query($dbl, "INSERT INTO `images` (`itemid`, `thumb`) VALUES ('".$id."', 0)") OR DIE(MYSQLI_ERROR($dbl));
+                  mysqli_query($dbl, "INSERT INTO `images` (`itemid`, `thumb`, `filehash`) VALUES ('".$id."', 0, '".$filehash."')") OR DIE(MYSQLI_ERROR($dbl));
                   $content.= "<div class='successbox'>Das Bild wurde erfolgreich hochgeladen.</div>".PHP_EOL;
                 }
               }
