@@ -29,7 +29,7 @@ if(mysqli_num_rows($result) == 0) {
   http_response_code(404);
   $content.= "<div class='warnbox'>Das Rezept mit der ID <span class='italic'>".$id."</span> existiert nicht.</div>".PHP_EOL;
   $content.= "<div class='row'>".PHP_EOL.
-  "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminitems/list'>Zurück zur Übersicht</a></div>".PHP_EOL.
+  "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminitems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
   "</div>".PHP_EOL;
 } else {
   /**
@@ -48,6 +48,9 @@ if(mysqli_num_rows($result) == 0) {
      */
     $title = "Dateiverwaltung - Dateien anzeigen";
     $content.= "<h1>Dateiverwaltung - Dateien anzeigen</h1>".PHP_EOL;
+    $content.= "<div class='row'>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><span class='highlight bold'>Aktionen:</span> <a href='/adminfiles/add/".$id."'><span class='fas icon'>&#xf067;</span>Hinzufügen</a></div>".PHP_EOL.
+    "</div>".PHP_EOL;
     /**
      * Thumbnail
      */
@@ -123,7 +126,180 @@ if(mysqli_num_rows($result) == 0) {
       }
     }
   } elseif($_GET['action'] == 'add') {
-
+    /**
+     * Dateien hinzufügen.
+     */
+    $title = "Dateiverwaltung - Dateien hinzufügen";
+    $content.= "<h1>Dateiverwaltung - Dateien hinzufügen</h1>".PHP_EOL;
+    if(isset($_POST['submit'])) {
+      /**
+       * Formular wurde abgesendet, Upload verarbeiten.
+       */
+      if($_FILES['file']['error'] === UPLOAD_ERR_OK) {
+        /**
+         * Keine Fehlermeldung seitens PHP, also Upload schonmal in Ordnung.
+         */
+        if($_FILES['file']['size'] > 20971520) {
+          /**
+           * Datei über 20 MB groß.
+           */
+          $content.= "<div class='warnbox'>Datei zu groß. Muss 10 MB oder kleiner sein.</div>".PHP_EOL;
+        } else {
+          /**
+           * Dateigröße passt. Nun wird geprüft welchen Mimetype das Bild hat.
+           */
+          list($width, $height, $type) = getimagesize($_FILES['file']['tmp_name']);
+          if($type === IMAGETYPE_PNG OR $type === IMAGETYPE_JPEG) {
+            /**
+             * Es liegt ein image/png oder image/jpg Bild vor.
+             * Nun werden die Pfad- und Namensvariablen gesetzt und es wird geprüft ob es sich hierbei um einen
+             * Thumbnail oder um ein Bild handelt und die Mindestgröße wird abgefragt.
+             */
+            $uploaddir = $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR."img".DIRECTORY_SEPARATOR;
+            if($_POST['type'] == 'thumb') {
+              /**
+               * Prüfen ob ein Thumbnail vorliegt
+               */
+              $result = mysqli_query($dbl, "SELECT * FROM `images` WHERE `itemid`='".$id."' AND `thumb`='1' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+              if(mysqli_num_rows($result) == 1) {
+                unlink($uploaddir."thumb-".$id.".png");
+                mysqli_query($dbl, "DELETE FROM `images` WHERE `itemid`='".$id."' AND `thumb`='1' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+                $content.= "<div class='infobox'>Der bestehende Thumbnail wurde entfernt.</div>".PHP_EOL;
+              }
+              /**
+               * Mindestgröße 300x300px
+               */
+              if($width < 300 OR $height < 300) {
+                $content.= "<div class='warnbox'>Der Thumbnail ist zu klein. Er muss mindestens 300x300px groß sein.</div>".PHP_EOL;
+              } else {
+                /**
+                 * Thumbnailgröße ok. Nun wird die Bilder-Ressource erstellt.
+                 */
+                if($type === IMAGETYPE_PNG) {
+                  $image = imagecreatefrompng($_FILES['file']['tmp_name']);
+                } elseif($type === IMAGETYPE_JPEG) {
+                  $image = imagecreatefromjpeg($_FILES['file']['tmp_name']);
+                } else {
+                  unlink($_FILES['file']['tmp_name']);
+                  die();
+                }
+                $thumb = imagecreatetruecolor(300, 300);
+                if($width >= $height) {
+                  $src_x = ($width-$height)/2;
+                  $src_y = 0;
+                  $src_w = $height;
+                  $src_h = $height;
+                } else {
+                  $src_x = 0;
+                  $src_y = ($height-$width)/2;
+                  $src_w = $width;
+                  $src_h = $width;
+                }
+                imagecopyresampled($thumb, $image, 0, 0, $src_x, $src_y, 300, 300, $src_w, $src_h);
+                imagepng($thumb, $uploaddir."thumb-".$id.".png");
+                imagedestroy($thumb);
+                imagedestroy($image);
+                unlink($_FILES['file']['tmp_name']);
+                mysqli_query($dbl, "INSERT INTO `images` (`itemid`, `thumb`) VALUES ('".$id."', 1)") OR DIE(MYSQLI_ERROR($dbl));
+                $content.= "<div class='successbox'>Der Thumbnail wurde erfolgreich hochgeladen.</div>".PHP_EOL;
+              }
+            } else {
+              /**
+               * Mindestgröße 1500x1500px
+               */
+              if($imginfo[0] < 1500 OR $imginfo[1] < 1500) {
+                $content.= "<div class='warnbox'>Das Bild ist zu klein. Es muss mindestens 1500x1500px groß sein.</div>".PHP_EOL;
+              } else {
+                /**
+                 * Bildgröße ok.
+                 */
+                /**
+                 * 
+                 * 
+                 * 
+                 * 
+                 * 
+                 * 
+                 * 
+                 * 
+                 * 
+                 * 
+                 * 
+                 * 
+                 * 
+                 * 
+                 * 
+                 * 
+                 */
+              }
+            }
+          } else {
+            /**
+             * Kein image/png und kein image/jpg Bild
+             */
+            $content.= "<div class='warnbox'>Es sind nur .png und .jpg Bilder zugelassen.</div>".PHP_EOL;
+          }
+        }
+      } elseif($_FILES['file']['error'] === UPLOAD_ERR_NO_FILE) {
+        /**
+         * Keine Datei geschickt.
+         */
+        $content.= "<div class='warnbox'>Es wurde keine Datei ausgewählt.</div>".PHP_EOL;
+      } else {
+        /**
+         * Alle anderen Fehler. Sind aber eher unrelevant.
+         * https://www.php.net/manual/de/features.file-upload.errors.php
+         */
+        $content.= "<div class='warnbox'>Fehler beim Upload.</div>".PHP_EOL;
+      }
+      /**
+       * Link zum Zurückkommen.
+       */
+      $content.= "<div class='row'>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminfiles/list/".$id."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht.</a></div>".PHP_EOL.
+      "</div>".PHP_EOL;
+    } else {
+      /**
+       * Wenn noch kein Formular abgesendet wurde, dann zeig es an.
+       */
+      $content.= "<form action='/adminfiles/add/".$id."' method='post' autocomplete='off' enctype='multipart/form-data'>".PHP_EOL;
+      /**
+       * Tabellenüberschrift
+       */
+      $content.= "<div class='row highlight bold bordered'>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Bezeichnung</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'>Feld</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>Ergänzungen</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
+      "</div>".PHP_EOL;
+      /**
+       * Bild
+       */
+      $content.= "<div class='row hover bordered'>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Datei</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='hidden' name='MAX_FILE_SIZE' value='20971520'><input type='file' name='file' tabindex='1' autofocus></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("* nur `.jpg` und `.png` Dateien erlaubt\n* Thumbnail: Mindestens 300x300px\n* Bild: Mindestens 1500x1500px\n* Jedes Bild wird quadratisch zugeschnitten und automatisch in alle Größen verkleinert\n* Der Zuschnitt richtet sich nach dem Zentrum des Bildes\n* EXIF-Daten werden entfernt\n* Maximal 20MB Dateigröße")."</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
+      "</div>".PHP_EOL;
+      /**
+       * Bild oder Thumb?
+       */
+      $content.= "<div class='row hover bordered'>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Typ</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='radio' name='type' tabindex='2' id='thumb' value='thumb'><label for='thumb'>Thumbnail</label><br><input type='radio' name='type' tabindex='3' id='pic' value='pic' checked><label for='pic'>Bild</label></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("* Wenn bereits ein Thumbnail vorhanden ist wird er gelöscht und der neue wird aktiv")."</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
+      "</div>".PHP_EOL;
+      /**
+       * Absenden
+       */
+      $content.= "<div class='row hover bordered'>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Bild hochladen</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='submit' name='submit' value='Hochladen' tabindex='4'></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
+      "</div>".PHP_EOL;
+    }
   } elseif($_GET['action'] == 'del') {
 /**
  * htaccess: /adminfiles/itemid/del/imageid hat.
