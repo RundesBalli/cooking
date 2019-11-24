@@ -14,9 +14,7 @@ if((!isset($_COOKIE['cooking']) OR empty($_COOKIE['cooking'])) AND !isset($_POST
   /**
    * Cookiewarnung
    */
-  $content.= "<div class='row'>".PHP_EOL.
-  "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12 warn bold'>Ab diesem Punkt werden Cookies verwendet! Mit dem Fortfahren stimmst du dem zu!</div>".PHP_EOL.
-  "</div>".PHP_EOL;
+  $content.= "<div class='infobox'>Ab diesem Punkt werden Cookies verwendet! Mit dem Fortfahren stimmst du dem zu!</div>".PHP_EOL;
   /**
    * Loginformular
    */
@@ -67,9 +65,7 @@ if((!isset($_COOKIE['cooking']) OR empty($_COOKIE['cooking'])) AND !isset($_POST
        */
       http_response_code(403);
       $content.= "<h1>Login gescheitert</h1>".PHP_EOL;
-      $content.= "<div class='row'>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12 warn bold'>Die Zugangsdaten sind falsch.</div>".PHP_EOL.
-      "</div>".PHP_EOL;
+      $content.= "<div class='warnbox'>Die Zugangsdaten sind falsch.</div>".PHP_EOL;
       $content.= "<div class='row'>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminlogin'>Erneut versuchen</a></div>".PHP_EOL.
       "</div>".PHP_EOL;
@@ -80,9 +76,7 @@ if((!isset($_COOKIE['cooking']) OR empty($_COOKIE['cooking'])) AND !isset($_POST
      */
     http_response_code(403);
     $content.= "<h1>Login gescheitert</h1>".PHP_EOL;
-    $content.= "<div class='row'>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12 warn bold'>Die Zugangsdaten sind falsch.</div>".PHP_EOL.
-    "</div>".PHP_EOL;
+    $content.= "<div class='warnbox'>Die Zugangsdaten sind falsch.</div>".PHP_EOL;
     $content.= "<div class='row'>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminlogin'>Erneut versuchen</a></div>".PHP_EOL.
     "</div>".PHP_EOL;
