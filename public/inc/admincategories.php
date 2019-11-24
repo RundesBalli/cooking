@@ -21,9 +21,9 @@ if(!isset($_GET['action'])) {
    * Auflistung aller Kategorien mit Anzahl der darin befindlichen Rezepte.
    */
   $title = "Kategorien anzeigen";
-  $content.= "<h1>Kategorien anzeigen</h1>".PHP_EOL;
+  $content.= "<h1><span class='far icon'>&#xf07c;</span>Kategorien anzeigen</h1>".PHP_EOL;
   $content.= "<div class='row'>".PHP_EOL.
-  "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><span class='highlight bold'>Aktionen:</span> <a href='/admincategories/add'>Anlegen</a> - <a href='/admincategories/catsort'>Kategorien sortieren</a></div>".PHP_EOL.
+  "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><span class='highlight bold'>Aktionen:</span> <a href='/admincategories/add'><span class='fas icon'>&#xf067;</span>Anlegen</a> - <a href='/admincategories/catsort'><span class='fas icon'>&#xf0dc;</span>Kategorien sortieren</a></div>".PHP_EOL.
   "</div>".PHP_EOL;
   $content.= "<div class='spacer-m'></div>".PHP_EOL;
   /**
@@ -47,9 +47,9 @@ if(!isset($_GET['action'])) {
     "</div>".PHP_EOL;
     while($row = mysqli_fetch_array($result)) {
       $content.= "<div class='row hover bordered'>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-8 col-l-8 col-xl-8'><a href='/kategorie/".output($row['shortTitle'])."' target='_blank'>".output($row['title'])."</a></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-8 col-l-8 col-xl-8'><a href='/kategorie/".output($row['shortTitle'])."' target='_blank'>".output($row['title'])."<span class='fas iconright'>&#xf35d;</span></a></div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-2 col-l-2 col-xl-2'>".$row['itemcount']." Rezept".($row['itemcount'] == 1 ? "" : "e")."</div>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-2 col-l-2 col-xl-2'><a href='/admincategories/edit/".$row['id']."' class='nowrap'>Editieren</a><br>".PHP_EOL."<a href='/admincategories/del/".$row['id']."' class='nowrap'>Löschen</a><br>".PHP_EOL."<a href='/admincategories/sort/".$row['id']."' class='nowrap'>Rezepte sortieren</a></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-2 col-l-2 col-xl-2'><a href='/admincategories/edit/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf044;</span>Editieren</a><br>".PHP_EOL."<a href='/admincategories/del/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a><br>".PHP_EOL."<a href='/admincategories/sort/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf0dc;</span>Rezepte sortieren</a></div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
       "</div>".PHP_EOL;
     }
@@ -59,7 +59,7 @@ if(!isset($_GET['action'])) {
    * Kategorie anlegen.
    */
   $title = "Kategorie anlegen";
-  $content.= "<h1>Kategorie anlegen</h1>".PHP_EOL;
+  $content.= "<h1><span class='fas icon'>&#xf067;</span>Kategorie anlegen</h1>".PHP_EOL;
   /**
    * Falls das Formular übergeben wurde, gehen wir davon aus, dass alles okay ist, demzufolge muss das Formular nicht mehr angezeigt werden.
    * Im Fehlerfall wird das Formular nochmals angezeigt.
@@ -193,7 +193,7 @@ if(!isset($_GET['action'])) {
    * Kategorie löschen.
    */
   $title = "Kategorie löschen";
-  $content.= "<h1>Kategorie löschen</h1>".PHP_EOL;
+  $content.= "<h1><span class='fas icon'>&#xf2ed;</span>Kategorie löschen</h1>".PHP_EOL;
   $id = (int)defuse($_GET['id']);
   /**
    * Prüfen ob die Kategorie existiert.
@@ -265,7 +265,7 @@ if(!isset($_GET['action'])) {
    * Kategorie editieren.
    */
   $title = "Kategorie editieren";
-  $content.= "<h1>Kategorie editieren</h1>".PHP_EOL;
+  $content.= "<h1><span class='fas icon'>&#xf044;</span>Kategorie editieren</h1>".PHP_EOL;
   $id = (int)defuse($_GET['id']);
   /**
    * Prüfen ob die Kategorie existiert.
@@ -417,7 +417,7 @@ if(!isset($_GET['action'])) {
    * Elemente / Querverweise innerhalb der Kategorie sortieren.
    */
   $title = "Innerhalb der Kategorie sortieren";
-  $content.= "<h1>Innerhalb der Kategorie sortieren</h1>".PHP_EOL;
+  $content.= "<h1><span class='fas icon'>&#xf0dc;</span>Innerhalb der Kategorie sortieren</h1>".PHP_EOL;
   $id = (int)defuse($_GET['id']);
   /**
    * Prüfen ob die Kategorie existiert.
@@ -469,7 +469,7 @@ if(!isset($_GET['action'])) {
           $tabindex++;
           $content.= "<div class='row hover bordered'>".PHP_EOL.
           "<div class='col-x-4 col-s-4 col-m-3 col-l-2 col-xl-2'><input type='number' name='ci[".$row['id']."]' value='".$row['sortIndex']."' min='1' tabindex='".$tabindex."'></div>".PHP_EOL.
-          "<div class='col-x-8 col-s-8 col-m-9 col-l-10 col-xl-10'><a href='/rezept/".output($row['shortTitle'])."' target='_blank'>".output($row['title'])."</a></div>".PHP_EOL.
+          "<div class='col-x-8 col-s-8 col-m-9 col-l-10 col-xl-10'><a href='/rezept/".output($row['shortTitle'])."' target='_blank'>".output($row['title'])."<span class='fas iconright'>&#xf35d;</span></a></div>".PHP_EOL.
           "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
           "</div>".PHP_EOL;
         }
@@ -511,7 +511,7 @@ if(!isset($_GET['action'])) {
    * Alle Kategorien sortieren
    */
   $title = "Kategorien sortieren";
-  $content.= "<h1>Kategorien sortieren</h1>".PHP_EOL;
+  $content.= "<h1><span class='fas icon'>&#xf0dc;</span>Kategorien sortieren</h1>".PHP_EOL;
   if(!isset($_POST['submit'])) {
     /**
      * Wenn das Formular noch nicht übergeben wurde, dann zeig es an.
@@ -554,7 +554,7 @@ if(!isset($_GET['action'])) {
         $tabindex++;
         $content.= "<div class='row hover bordered'>".PHP_EOL.
         "<div class='col-x-4 col-s-4 col-m-3 col-l-2 col-xl-2'><input type='number' name='cat[".$row['id']."]' value='".$row['sortIndex']."' min='1' tabindex='".$tabindex."'></div>".PHP_EOL.
-        "<div class='col-x-8 col-s-8 col-m-9 col-l-10 col-xl-10'><a href='/kategorie/".output($row['shortTitle'])."' target='_blank'>".output($row['title'])."</a></div>".PHP_EOL.
+        "<div class='col-x-8 col-s-8 col-m-9 col-l-10 col-xl-10'><a href='/kategorie/".output($row['shortTitle'])."' target='_blank'>".output($row['title'])."<span class='fas iconright'>&#xf35d;</span></a></div>".PHP_EOL.
         "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
         "</div>".PHP_EOL;
       }

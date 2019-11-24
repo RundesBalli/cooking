@@ -136,6 +136,49 @@ p {
 }
 
 /*
+1.1 Fontawesome Free
+https://fontawesome.com/
+Lizenz: https://fontawesome.com/license/free
+*/
+
+@font-face {
+  font-family: 'fontawesome-r';
+  font-style: normal;
+  font-weight: 400;
+  src: url("/src/webfonts/fa-regular-400.eot");
+  src: url("/src/webfonts/fa-regular-400.eot?#iefix") format("embedded-opentype"), url("/src/webfonts/fa-regular-400.woff2") format("woff2"), url("/src/webfonts/fa-regular-400.woff") format("woff"), url("/src/webfonts/fa-regular-400.ttf") format("truetype"), url("/src/webfonts/fa-regular-400.svg#fontawesome") format("svg");
+}
+
+.far {
+  font-family: 'fontawesome-r';
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'fontawesome-s';
+  font-style: normal;
+  font-weight: 900;
+  src: url("/src/webfonts/fa-solid-900.eot");
+  src: url("/src/webfonts/fa-solid-900.eot?#iefix") format("embedded-opentype"), url("/src/webfonts/fa-solid-900.woff2") format("woff2"), url("/src/webfonts/fa-solid-900.woff") format("woff"), url("/src/webfonts/fa-solid-900.ttf") format("truetype"), url("/src/webfonts/fa-solid-900.svg#fontawesome") format("svg");
+}
+
+.fas {
+  font-family: 'fontawesome-s';
+  font-weight: 900;
+}
+
+@font-face {
+  font-family: 'fontawesome-b';
+  font-style: normal;
+  font-weight: normal;
+  src: url("/src/webfonts/fa-brands-400.eot");
+  src: url("/src/webfonts/fa-brands-400.eot?#iefix") format("embedded-opentype"), url("/src/webfonts/fa-brands-400.woff2") format("woff2"), url("/src/webfonts/fa-brands-400.woff") format("woff"), url("/src/webfonts/fa-brands-400.ttf") format("truetype"), url("/src/webfonts/fa-brands-400.svg#fontawesome") format("svg"); }
+
+.fab {
+  font-family: 'fontawesome-b';
+}
+
+/*
   2. Grid
 */
 
@@ -355,6 +398,16 @@ label {
 #sidebar span {
   display: block;
   padding: 16px;
+}
+
+#sidebar span.icon, .icon {
+  display: inline;
+  padding: 0px 5px 0px 0px;
+}
+
+.iconright {
+  display: inline;
+  padding: 0px 0px 0px 5px;
 }
 
 #sidebar img {

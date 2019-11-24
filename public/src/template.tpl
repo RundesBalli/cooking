@@ -26,7 +26,7 @@ https://github.com/RundesBalli/pr0cooking
     <div id="sidebar">
       <img src="/src/header.png" alt="Header">
       <a class="toggle" id="toggle"></a>
-      <a href="/">Startseite</a>
+      <a href="/"><span class="fas icon">&#xf015;</span>Startseite</a>
       {NAV}
       <div id="footer">
         <a href="/imprint">Impressum</a>

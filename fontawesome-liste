@@ -1,0 +1,14 @@
+Neues Fenster:      <span class='fas iconright'>&#xf35d;</span>
+Klick/Mauszeiger:   <span class='far icon'>&#xf25a;</span>
+Bewertung/Medaille: <span class='fas icon'>&#xf5a2;</span>
+Kategorie/Ordner:   <span class='far icon'>&#xf07c;</span>
+Rezept:             <span class='fas icon'>&#xf543;</span>
+123 Liste:          <span class='fas icon'>&#xf0cb;</span>
+··· Liste:          <span class='fas icon'>&#xf03a;</span>
+Plus:               <span class='fas icon'>&#xf067;</span>
+Minus:              <span class='fas icon'>&#xf068;</span>
+Mülltonne:          <span class='fas icon'>&#xf2ed;</span>
+Sortieren:          <span class='fas icon'>&#xf0dc;</span>
+Bearbeiten:         <span class='fas icon'>&#xf044;</span>
+Markdown:           <span class='fab icon'>&#xf60f;</span>
+Logout:             <span class='fas icon'>&#xf2f5;</span>

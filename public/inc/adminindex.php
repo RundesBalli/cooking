@@ -20,13 +20,13 @@ $content.= "<h1>Index</h1>".PHP_EOL;
  * Allgemeine Infos und Links
  */
 $content.= "<div class='row'>".PHP_EOL.
-"<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'>Eingeloggt als: <span class='warn bold'>".$username."</span> - (<a href='/adminlogout'>Ausloggen</a>) - <a href='/adminmarkdowninfo'>Markdown Info</a></div>".PHP_EOL.
+"<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'>Eingeloggt als: <span class='warn bold'>".$username."</span> - (<a href='/adminlogout'><span class='fas icon'>&#xf2f5;</span>Ausloggen</a>) - <a href='/adminmarkdowninfo'><span class='fab icon'>&#xf60f;</span>Markdown Info</a></div>".PHP_EOL.
 "</div>".PHP_EOL;
 
 /**
  * Statistiken
  */
-$content.= "<h1>Zahlen, Daten, Fakten</h1>".PHP_EOL;
+$content.= "<h1><span class='fas icon'>&#xf0cb;</span>Zahlen, Daten, Fakten</h1>".PHP_EOL;
 $content.= "<div class='row highlight bold bordered'>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-3 col-l-3 col-xl-3'>Bezeichnung</div>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-9 col-l-9 col-xl-9'>Wert</div>".PHP_EOL.
@@ -62,7 +62,7 @@ $content.= "<div class='spacer-m'></div>".PHP_EOL;
 /**
  * Abrufen uns Ausgeben des "most_clicked" SQL Views zur Anzeige der meist geklickten Rezepte.
  */
-$content.= "<h1>Am meisten geklickte Rezepte</h1>".PHP_EOL;
+$content.= "<h1><span class='far icon'>&#xf25a;</span>Am meisten geklickte Rezepte</h1>".PHP_EOL;
 $result = mysqli_query($dbl, "SELECT * FROM `most_clicked`") OR DIE(MYSQLI_ERROR($dbl));
 if(mysqli_num_rows($result) == 0) {
   /**
@@ -85,7 +85,7 @@ if(mysqli_num_rows($result) == 0) {
     $top++;
     $content.= "<div class='row hover bordered'>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-3 col-l-3 col-xl-3'><span class='highlight'>#".$top."</span> (".$row['c']." Klicks)</div>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-9 col-l-9 col-xl-9'><a href='/rezept/".output($row['shortTitle'])."' target='_blank'>".output($row['title'])."</a></div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-9 col-l-9 col-xl-9'><a href='/rezept/".output($row['shortTitle'])."' target='_blank'>".output($row['title'])."<span class='fas iconright'>&#xf35d;</span></a></div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
     "</div>".PHP_EOL;
   }
@@ -95,7 +95,7 @@ $content.= "<div class='spacer-m'></div>".PHP_EOL;
 /**
  * Abrufen uns Ausgeben des "best_voted" SQL Views zur Anzeige der am besten bewerteten Rezepte.
  */
-$content.= "<h1>Am besten bewertete Rezepte</h1>".PHP_EOL;
+$content.= "<h1><span class='fas icon'>&#xf5a2;</span>Am besten bewertete Rezepte</h1>".PHP_EOL;
 $result = mysqli_query($dbl, "SELECT * FROM `best_voted`") OR DIE(MYSQLI_ERROR($dbl));
 if(mysqli_num_rows($result) == 0) {
   /**
@@ -120,7 +120,7 @@ if(mysqli_num_rows($result) == 0) {
     $content.= "<div class='row hover bordered'>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-2 col-l-2 col-xl-2'><span class='highlight'>#".$top."</span> (".$row['a']." Sterne)</div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-3 col-l-2 col-xl-2'>".stars($row['a'])."</div>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-7 col-l-8 col-xl-8'><a href='/rezept/".output($row['shortTitle'])."' target='_blank'>".output($row['title'])."</a></div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-7 col-l-8 col-xl-8'><a href='/rezept/".output($row['shortTitle'])."' target='_blank'>".output($row['title'])."<span class='fas iconright'>&#xf35d;</span></a></div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
     "</div>".PHP_EOL;
   }
@@ -132,7 +132,7 @@ if(mysqli_num_rows($result) == 0) {
 $result = mysqli_query($dbl, "SELECT `id`, `title` FROM `categories` WHERE NOT EXISTS (SELECT * FROM `category_items` WHERE `categories`.`id`=`category_items`.`category_id`)") OR DIE(MYSQLI_ERROR($dbl));
 if(mysqli_num_rows($result) != 0) {
   $content.= "<div class='spacer-m'></div>".PHP_EOL;
-  $content.= "<h1 class='warn'>Leere Kategorien</h1>".PHP_EOL;
+  $content.= "<h1 class='warn'><span class='far icon'>&#xf07c;</span>Leere Kategorien</h1>".PHP_EOL;
   $content.= "<div class='row highlight bold bordered'>".PHP_EOL.
   "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'>Titel</div>".PHP_EOL.
   "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
@@ -151,7 +151,7 @@ if(mysqli_num_rows($result) != 0) {
 $result = mysqli_query($dbl, "SELECT `id`, `title` FROM `items` WHERE NOT EXISTS (SELECT * FROM `category_items` WHERE `items`.`id`=`category_items`.`item_id`)") OR DIE(MYSQLI_ERROR($dbl));
 if(mysqli_num_rows($result) != 0) {
   $content.= "<div class='spacer-m'></div>".PHP_EOL;
-  $content.= "<h1 class='warn'>Nicht in Kategorien eingeteilte Rezepte</h1>".PHP_EOL;
+  $content.= "<h1 class='warn'><span class='fas icon'>&#xf543;</span>Nicht in Kategorien eingeteilte Rezepte</h1>".PHP_EOL;
   $content.= "<div class='row highlight bold bordered'>".PHP_EOL.
   "<div class='col-x-12 col-s-12 col-m-9 col-l-9 col-xl-9'>Titel</div>".PHP_EOL.
   "<div class='col-x-12 col-s-12 col-m-3 col-l-3 col-xl-3'>Aktionen</div>".PHP_EOL.

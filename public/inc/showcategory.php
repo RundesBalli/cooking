@@ -27,13 +27,14 @@ if(!isset($_GET['category']) OR empty(trim($_GET['category']))) {
   if(mysqli_num_rows($result) == 1) {
     $row = mysqli_fetch_array($result);
     $title = $row['title'];
-    $content.= "<h1>Kategorie: ".$row['title']."</h1>".PHP_EOL;
+    $content.= "<h1><span class='far icon'>&#xf07c;</span>Kategorie: ".$row['title']."</h1>".PHP_EOL;
     /**
      * Kategorienbeschreibung anzeigen, sofern vorhanden.
      */
     if($row['description'] !== NULL) {
       $content.= "<div class='row'>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12 borderleft'>".Slimdown::render($row['description'])."</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12 borderleft'><span class='fas icon'>&#xf086;</span>".PHP_EOL.
+      Slimdown::render($row['description'])."</div>".PHP_EOL.
       "</div>".PHP_EOL;
       $content.= "<div class='spacer-l'></div>".PHP_EOL;
     }

@@ -26,7 +26,7 @@
 class Slimdown {
   public static $rules = array (
     '/(#+)(.*)/' => 'self::header',                                                              // headers
-    '/\[([^\[]+)\]\(([^\)]+)\)\*/' => '<a href=\'\2\' target=\'blank\' rel=\'noopener\'>\1</a>', // links in blank tab
+    '/\[([^\[]+)\]\(([^\)]+)\)\*/' => '<a href=\'\2\' target=\'blank\' rel=\'noopener\'>\1<span class=\'fas iconright\'>&#xf35d;</span></a>', // links in blank tab
     '/\[([^\[]+)\]\(([^\)]+)\)/' => '<a href=\'\2\' rel=\'noopener\'>\1</a>',                    // links
     '/(\*\*|__)(.*?)\1/' => '<strong>\2</strong>',                                               // bold
     '/(\*|_)(.*?)\1/' => '<em>\2</em>',                                                          // emphasis
@@ -85,7 +85,7 @@ class Slimdown {
  */
 class SlimdownOneline {
   public static $rules = array (
-    '/\[([^\[]+)\]\(([^\)]+)\)\*/' => '<a href=\'\2\' target=\'blank\' rel=\'noopener\'>\1</a>', // links in blank tab
+    '/\[([^\[]+)\]\(([^\)]+)\)\*/' => '<a href=\'\2\' target=\'blank\' rel=\'noopener\'>\1<span class=\'fas iconright\'>&#xf35d;</span></a>', // links in blank tab
     '/\[([^\[]+)\]\(([^\)]+)\)/' => '<a href=\'\2\' rel=\'noopener\'>\1</a>',                    // links
     '/(\*\*|__)(.*?)\1/' => '<strong>\2</strong>',                                               // bold
     '/(\*|_)(.*?)\1/' => '<em>\2</em>',                                                          // emphasis

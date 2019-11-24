@@ -5,7 +5,7 @@
  * Startseite mit kurzer Begrüßung und Erläuterung.
  */
 $title = "Startseite";
-$content.= "<h1>pr0.cooking</h1>".PHP_EOL;
+$content.= "<h1><span class='fas icon'>&#xf805;</span>pr0.cooking</h1>".PHP_EOL;
 $content.= "<div class='row'>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'>Willkommen auf pr0.cooking!</div>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'>pr0.cooking ist eine Rezeptsammlung für leckere Rezepte.</div>".PHP_EOL.
@@ -17,7 +17,7 @@ $content.= "<div class='spacer-l'></div>".PHP_EOL;
 /**
  * ...sowie Auflistung aller Kategorien mit Kurzbeschreibung.
  */
-$content.= "<h1>Kategorien</h1>".PHP_EOL;
+$content.= "<h1><span class='far icon'>&#xf07c;</span>Kategorien</h1>".PHP_EOL;
 $content.= "<div class='row'>".PHP_EOL;
 $result = mysqli_query($dbl, "SELECT * FROM `categories` ORDER BY `sortIndex` ASC, `title` ASC") OR DIE(MYSQLI_ERROR($dbl));
 while($row = mysqli_fetch_array($result)) {

@@ -15,7 +15,7 @@ $title = "Markdown Info";
 /**
  * Info / Einleitung
  */
-$content.= "<h1>Markdown Info</h1>";
+$content.= "<h1><span class='fab icon'>&#xf60f;</span>Markdown Info</h1>";
 $content.= "<div class='row'>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'>Markdown steht in manchen Textfeldern zur Verfügung. Diese Textfelder sind besonders gekennzeichnet.</div>".PHP_EOL.
 "</div>".PHP_EOL;
