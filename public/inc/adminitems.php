@@ -21,9 +21,9 @@ if(!isset($_GET['action'])) {
    * Auflisten aller Rezepte.
    */
   $title = "Rezepte anzeigen";
-  $content.= "<h1>Rezepte anzeigen</h1>".PHP_EOL;
+  $content.= "<h1><span class='fas icon'>&#xf543;</span>Rezepte anzeigen</h1>".PHP_EOL;
   $content.= "<div class='row'>".PHP_EOL.
-  "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><span class='highlight bold'>Aktionen:</span> <a href='/adminitems/add'>Anlegen</a></div>".PHP_EOL.
+  "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><span class='highlight bold'>Aktionen:</span> <a href='/adminitems/add'><span class='fas icon'>&#xf067;</span>Anlegen</a></div>".PHP_EOL.
   "</div>".PHP_EOL;
   $content.= "<div class='spacer-m'></div>".PHP_EOL;
   $result = mysqli_query($dbl, "SELECT `items`.`id`, `items`.`title`, `items`.`shortTitle`, IFNULL((SELECT ROUND(AVG(`votes`.`stars`),2) FROM `votes` WHERE `votes`.`itemid`=`items`.`id` GROUP BY `votes`.`itemid`), 0) AS `stars`, IFNULL((SELECT COUNT(`clicks`.`id`) FROM `clicks` WHERE `clicks`.`itemid`=`items`.`id`), 0) AS `clicks` FROM `items` ORDER BY `title` ASC") OR DIE(MYSQLI_ERROR($dbl));
@@ -53,16 +53,16 @@ if(!isset($_GET['action'])) {
       } else {
         $categories = array();
         while($innerrow = mysqli_fetch_array($innerresult)) {
-          $categories[] = "<a href='/kategorie/".output($innerrow['shortTitle'])."' target='_blank'>".output($innerrow['title'])."</a>";
+          $categories[] = "<a href='/kategorie/".output($innerrow['shortTitle'])."' target='_blank'>".output($innerrow['title'])."<span class='fas iconright'>&#xf35d;</span></a>";
         }
         $categories = implode("<br>", $categories);
       }
       $content.= "<div class='row hover bordered'>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-12 col-l-5 col-xl-5'><a href='/rezept/".output($row['shortTitle'])."' target='_blank'>".output($row['title'])."</a></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-5 col-xl-5'><a href='/rezept/".output($row['shortTitle'])."' target='_blank'>".output($row['title'])."<span class='fas iconright'>&#xf35d;</span></a></div>".PHP_EOL.
       "<div class='col-x-12 col-s-4 col-m-4 col-l-1 col-xl-1'>".$row['clicks']."</div>".PHP_EOL.
       "<div class='col-x-12 col-s-8 col-m-8 col-l-2 col-xl-2'>".stars($row['stars'])."</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-12 col-l-2 col-xl-2'>".$categories."</div>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-12 col-l-2 col-xl-2'><a href='/adminitems/edit/".$row['id']."' class='nowrap'>Editieren</a><br>".PHP_EOL."<a href='/adminitems/del/".$row['id']."' class='nowrap'>Löschen</a><br>".PHP_EOL."<a href='/adminitems/assign/".$row['id']."' class='nowrap'>Kategorien</a><br>".PHP_EOL."<a href='/adminfiles/list/".$row['id']."' class='nowrap'>Bilder</a></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-2 col-xl-2'><a href='/adminitems/edit/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf044;</span>Editieren</a><br>".PHP_EOL."<a href='/adminitems/del/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a><br>".PHP_EOL."<a href='/adminitems/assign/".$row['id']."' class='nowrap'><span class='far icon'>&#xf07c;</span>Kategorien</a><br>".PHP_EOL."<a href='/adminfiles/list/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf302;</span>Bilder</a></div>".PHP_EOL.
       "<div class='col-x-12 col-s-0 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
       "</div>".PHP_EOL;
     }
@@ -72,7 +72,7 @@ if(!isset($_GET['action'])) {
    * Hinzufügen eines Rezepts.
    */
   $title = "Rezept hinzufügen";
-  $content.= "<h1>Rezept hinzufügen</h1>".PHP_EOL;
+  $content.= "<h1><span class='fas icon'>&#xf067;</span>Rezept hinzufügen</h1>".PHP_EOL;
   /**
    * Falls das Formular übergeben wurde, gehen wir davon aus, dass alles okay ist, demzufolge muss das Formular nicht mehr angezeigt werden.
    * Im Fehlerfall wird das Formular nochmals angezeigt.
@@ -173,7 +173,7 @@ if(!isset($_GET['action'])) {
       if(mysqli_query($dbl, "INSERT INTO `items` (`title`, `shortTitle`, `text`, `persons`, `cost`, `difficulty`, `duration`) VALUES ('".$form_title."', '".$shortTitle."', ".($text === NULL ? "NULL" : "'".$text."'").", '".$persons."', '".$cost."', '".$difficulty."', '".$duration."')")) {
         $content.= "<div class='successbox'>Rezept erfolgreich angelegt.</div>".PHP_EOL;
         $content.= "<div class='row'>".PHP_EOL.
-        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminitems/list'>Zurück zur Übersicht</a></div>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminitems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
         "</div>".PHP_EOL;
       } else {
         $form = 1;
@@ -298,7 +298,7 @@ if(!isset($_GET['action'])) {
    * Löschen eines Rezepts.
    */
   $title = "Rezept löschen";
-  $content.= "<h1>Rezept löschen</h1>".PHP_EOL;
+  $content.= "<h1><span class='fas icon'>&#xf2ed;</span>Rezept löschen</h1>".PHP_EOL;
   $id = (int)defuse($_GET['id']);
   /**
    * Prüfen ob das Rezept existiert.
@@ -311,7 +311,7 @@ if(!isset($_GET['action'])) {
     http_response_code(404);
     $content.= "<div class='warnbox'>Das Rezept mit der ID <span class='italic'>".$id."</span> existiert nicht.</div>".PHP_EOL;
     $content.= "<div class='row'>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminitems/list'>Zurück zur Übersicht</a></div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminitems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
     "</div>".PHP_EOL;
   } else {
     /**
@@ -352,7 +352,7 @@ if(!isset($_GET['action'])) {
         mysqli_query($dbl, "DELETE FROM `items` WHERE `id`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
         $content.= "<div class='successbox'>Rezept erfolgreich gelöscht.</div>".PHP_EOL;
         $content.= "<div class='row'>".PHP_EOL.
-        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminitems/list'>Zurück zur Übersicht</a></div>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminitems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
         "</div>".PHP_EOL;
       } else {
         /**
@@ -360,7 +360,7 @@ if(!isset($_GET['action'])) {
          */
         $content.= "<div class='infobox'>Rezept unverändert.</div>".PHP_EOL;
         $content.= "<div class='row'>".PHP_EOL.
-        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminitems/list'>Zurück zur Übersicht</a></div>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminitems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
         "</div>".PHP_EOL;
       }
     }
@@ -370,7 +370,7 @@ if(!isset($_GET['action'])) {
    * Bearbeiten eines Rezepts.
    */
   $title = "Rezept bearbeiten";
-  $content.= "<h1>Rezept bearbeiten</h1>".PHP_EOL;
+  $content.= "<h1><span class='fas icon'>&#xf044;</span>Rezept bearbeiten</h1>".PHP_EOL;
   $id = (int)defuse($_GET['id']);
   /**
    * Prüfen ob das Rezept existiert.
@@ -383,7 +383,7 @@ if(!isset($_GET['action'])) {
     http_response_code(404);
     $content.= "<div class='warnbox'>Das Rezept mit der ID <span class='italic'>".$id."</span> existiert nicht.</div>".PHP_EOL;
     $content.= "<div class='row'>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminitems/list'>Zurück zur Übersicht</a></div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminitems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
     "</div>".PHP_EOL;
   } else {
     /**
@@ -487,7 +487,7 @@ if(!isset($_GET['action'])) {
         if(mysqli_query($dbl, "UPDATE `items` SET `title`='".$form_title."', `shortTitle`='".$shortTitle."', `text`=".($text === NULL ? "NULL" : "'".$text."'").", `persons`='".$persons."', `cost`='".$cost."', `difficulty`='".$difficulty."', `duration`='".$duration."' WHERE `id`='".$id."' LIMIT 1")) {
           $content.= "<div class='successbox'>Rezept erfolgreich geändert.</div>".PHP_EOL;
           $content.= "<div class='row'>".PHP_EOL.
-          "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminitems/list'>Zurück zur Übersicht</a></div>".PHP_EOL.
+          "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminitems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
           "</div>".PHP_EOL;
         } else {
           $form = 1;
@@ -614,7 +614,7 @@ if(!isset($_GET['action'])) {
    * Zuweisen eines Rezepts in Kategorien.
    */
   $title = "Kategoriezuweisungen bearbeiten";
-  $content.= "<h1>Kategoriezuweisungen bearbeiten</h1>".PHP_EOL;
+  $content.= "<h1><span class='far icon'>&#xf07c;</span>Kategoriezuweisungen bearbeiten</h1>".PHP_EOL;
   $id = (int)defuse($_GET['id']);
   /**
    * Prüfen ob das Rezept existiert.
@@ -627,7 +627,7 @@ if(!isset($_GET['action'])) {
     http_response_code(404);
     $content.= "<div class='warnbox'>Das Rezept mit der ID <span class='italic'>".$id."</span> existiert nicht.</div>".PHP_EOL;
     $content.= "<div class='row'>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminitems/list'>Zurück zur Übersicht</a></div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminitems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
     "</div>".PHP_EOL;
   } else {
     /**
@@ -638,7 +638,7 @@ if(!isset($_GET['action'])) {
     "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><span class='highlight bold'>Rezept:</span> ".$row['title']."</div>".PHP_EOL.
     "</div>".PHP_EOL;
     $content.= "<div class='row'>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminitems/list'>Zurück zur Übersicht</a></div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminitems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
     "</div>".PHP_EOL;
     $content.= "<div class='spacer-m'></div>".PHP_EOL;
     /**
@@ -687,7 +687,7 @@ if(!isset($_GET['action'])) {
       while($row = mysqli_fetch_array($result)) {
         $content.= "<div class='row hover bordered'>".PHP_EOL.
         "<div class='col-x-12 col-s-8 col-m-8 col-l-8 col-xl-8'>".$row['title']."</div>".PHP_EOL.
-        "<div class='col-x-12 col-s-4 col-m-4 col-l-4 col-xl-4'><a href='/adminitems/assign/".$id."/del/".$row['id']."' class='nowrap'>Löschen</a><br>".PHP_EOL."<a href='/admincategories/sort/".$row['category_id']."' class='nowrap'>in dieser Kategorie sortieren</a></div>".PHP_EOL.
+        "<div class='col-x-12 col-s-4 col-m-4 col-l-4 col-xl-4'><a href='/adminitems/assign/".$id."/del/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a><br>".PHP_EOL."<a href='/admincategories/sort/".$row['category_id']."' class='nowrap'><span class='fas icon'>&#xf0dc;</span>in dieser Kategorie sortieren</a></div>".PHP_EOL.
         "</div>".PHP_EOL;
       }
     }
@@ -704,7 +704,7 @@ if(!isset($_GET['action'])) {
     while($row = mysqli_fetch_array($result)) {
       $content.= "<div class='row hover bordered'>".PHP_EOL.
       "<div class='col-x-12 col-s-8 col-m-8 col-l-8 col-xl-8'>".$row['title']."</div>".PHP_EOL.
-      "<div class='col-x-12 col-s-4 col-m-4 col-l-4 col-xl-4'>".($row['isset'] == 1 ? "bereits zugewiesen" : "<a href='/adminitems/assign/".$id."/add/".$row['id']."' class='nowrap'>Hinzufügen</a>")."</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-4 col-m-4 col-l-4 col-xl-4'>".($row['isset'] == 1 ? "bereits zugewiesen" : "<a href='/adminitems/assign/".$id."/add/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf067;</span>Hinzufügen</a>")."</div>".PHP_EOL.
       "</div>".PHP_EOL;
     }
   }

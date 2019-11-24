@@ -12,3 +12,6 @@ Sortieren:          <span class='fas icon'>&#xf0dc;</span>
 Bearbeiten:         <span class='fas icon'>&#xf044;</span>
 Markdown:           <span class='fab icon'>&#xf60f;</span>
 Logout:             <span class='fas icon'>&#xf2f5;</span>
+Login:              <span class='fas icon'>&#xf2f6;</span>
+Bilder:             <span class='fas icon'>&#xf302;</span>
+Übersicht/Pfeil:    <span class='fas icon'>&#xf359;</span>

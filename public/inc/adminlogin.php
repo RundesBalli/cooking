@@ -10,7 +10,7 @@ $title = "Login";
  * Kein Cookie gesetzt oder Cookie leer und Formular nicht übergeben.
  */
 if((!isset($_COOKIE['cooking']) OR empty($_COOKIE['cooking'])) AND !isset($_POST['submit'])) {
-  $content.= "<h1>Login</h1>".PHP_EOL;
+  $content.= "<h1><span class='fas icon'>&#xf2f6;</span>Login</h1>".PHP_EOL;
   /**
    * Cookiewarnung
    */
