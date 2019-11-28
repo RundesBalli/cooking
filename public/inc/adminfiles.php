@@ -450,6 +450,7 @@ if(mysqli_num_rows($result) == 0) {
       /**
        * Ungültige Image-ID / Item-ID Kombination.
        */
+      http_response_code(404);
       $content.= "<div class='warnbox'>Es gibt kein Bild mit dieser ID-Kombination.</div>".PHP_EOL;
       $content.= "<div class='row'>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminfiles/list/".$id."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht.</a></div>".PHP_EOL.
