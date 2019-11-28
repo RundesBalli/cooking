@@ -463,6 +463,94 @@ if(mysqli_num_rows($result) == 0) {
     $title = "Dateiverwaltung - Bilder sortieren";
     $content.= "<h1>Dateiverwaltung - Bilder sortieren</h1>".PHP_EOL;
 
+    /**
+     * Abfragen ob es Bilder gibt und falls ja wie viele.
+     */
+    $result = mysqli_query($dbl, "SELECT * FROM `images` WHERE `itemid`='".$id."' AND `thumb`='0' ORDER BY `sortIndex` ASC") OR DIE(MYSQLI_ERROR($dbl));
+    $imageCount = mysqli_num_rows($result);
+    if($imageCount == 0) {
+      /**
+       * Keine Bilder vorhanden.
+       */
+      $content.= "<div class='warnbox'>Es existieren keine Bilder für dieses Rezept.</div>".PHP_EOL;
+      $content.= "<div class='row'>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminfiles/list/".$id."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht.</a></div>".PHP_EOL.
+      "</div>".PHP_EOL;
+    } elseif($imageCount == 1) {
+      /**
+       * Nur ein Bild vorhanden. Eine Sortierung würde keinen Sinn machen.
+       */
+      $content.= "<div class='infobox'>Es gibt nur ein Bild für dieses Rezept. Eine Sortierung macht keinen Sinn.</div>".PHP_EOL;
+      $content.= "<div class='row'>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminfiles/list/".$id."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht.</a></div>".PHP_EOL.
+      "</div>".PHP_EOL;
+    } elseif($imageCount == 2) {
+      /**
+       * Zwei Bilder vorhanden. Sortierung kann stattfinden.
+       */
+      if(!isset($_POST['submit'])) {
+        /**
+         * Wenn kein Formular übergeben wurde, dann zeig es an.
+         */
+        $content.= "<form action='/adminfiles/sort/".$id."' method='post' autocomplete='off'>".PHP_EOL;
+        /**
+         * Tabellenüberschrift
+         */
+        $content.= "<div class='row highlight bold bordered'>".PHP_EOL.
+        "<div class='col-x-4 col-s-4 col-m-3 col-l-2 col-xl-2'>Sortierindex</div>".PHP_EOL.
+        "<div class='col-x-8 col-s-8 col-m-9 col-l-10 col-xl-10'>Bild</div>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
+        "</div>".PHP_EOL;
+        /**
+         * Durchgehen der einzelnen Zuweisungen.
+         */
+        $tabindex = 0;
+        while($row = mysqli_fetch_array($result)) {
+          $tabindex++;
+          $links = array(
+            "<a href='/img/img-".$row['itemid']."-full-".$row['filehash'].".png' target='_blank'>/img/img-".$row['itemid']."-full-".$row['filehash'].".png<span class='fas iconright'>&#xf35d;</span></a>",
+            "<a href='/img/img-".$row['itemid']."-big-".$row['filehash'].".png' target='_blank'>/img/img-".$row['itemid']."-big-".$row['filehash'].".png<span class='fas iconright'>&#xf35d;</span></a>",
+            "<a href='/img/img-".$row['itemid']."-medium-".$row['filehash'].".png' target='_blank'>/img/img-".$row['itemid']."-medium-".$row['filehash'].".png<span class='fas iconright'>&#xf35d;</span></a>",
+            "<a href='/img/img-".$row['itemid']."-small-".$row['filehash'].".png' target='_blank'>/img/img-".$row['itemid']."-small-".$row['filehash'].".png<span class='fas iconright'>&#xf35d;</span></a>"
+          );
+          $content.= "<div class='row hover bordered'>".PHP_EOL.
+          "<div class='col-x-4 col-s-4 col-m-3 col-l-2 col-xl-2'><input type='number' name='sortIndex[".$row['id']."]' value='".$row['sortIndex']."' min='1' tabindex='".$tabindex."'></div>".PHP_EOL.
+          "<div class='col-x-8 col-s-8 col-m-9 col-l-10 col-xl-10'>".implode("<br>", $links)."</div>".PHP_EOL.
+          "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
+          "</div>".PHP_EOL;
+        }
+        $tabindex++;
+        $content.= "<div class='row hover bordered'>".PHP_EOL.
+        "<div class='col-x-4 col-s-4 col-m-3 col-l-2 col-xl-2'><input type='submit' name='submit' value='ändern' tabindex='".$tabindex."'></div>".PHP_EOL.
+        "</div>".PHP_EOL;
+        $content.= "</form>".PHP_EOL;
+      } else {
+        /**
+         * Formularauswertung
+         */
+        if(isset($_POST['sortIndex']) AND is_array($_POST['sortIndex'])) {
+          asort($_POST['sortIndex']);
+          $index = 0;
+          $query = "UPDATE `images` SET `sortIndex` = CASE ";
+          foreach($_POST['sortIndex'] as $key => $val) {
+            $key = (int)defuse($key);
+            $index+= 10;
+            $query.= "WHEN `id`='".$key."' THEN '".$index."' ";
+          }
+          $query.= "ELSE '9999999' END WHERE `itemid`='".$id."'";
+          mysqli_query($dbl, $query) OR DIE(MYSQLI_ERROR($dbl));
+          $content.= "<div class='successbox'>Sortierung geändert.</div>".PHP_EOL;
+          $content.= "<div class='row'>".PHP_EOL.
+          "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminfiles/list/".$id."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
+          "</div>".PHP_EOL;
+        } else {
+          $content.= "<div class='warnbox'>Ungültige Werte übergeben.</div>".PHP_EOL;
+          $content.= "<div class='row'>".PHP_EOL.
+          "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminfiles/sort/".$id."'><span class='fas icon'>&#xf359;</span>Zurück zur Sortierung</a></div>".PHP_EOL.
+          "</div>".PHP_EOL;
+        }
+      }
+    }
   } else {
     /**
      * Umleitung falls eine action übergeben wurde, aber nichts zutrifft.
