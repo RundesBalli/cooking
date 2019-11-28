@@ -80,14 +80,13 @@ CREATE TABLE `images` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Laufende ID',
   `itemid` int(10) unsigned NOT NULL COMMENT 'Querverweis - Item',
   `sortIndex` int(10) unsigned NOT NULL DEFAULT '9999999' COMMENT 'Sortierindex',
-  `filename` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Dateiname in /img/$1.png',
   `thumb` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT 'Thumbnail = 1, normales Bild = 0',
   `filehash` varchar(16) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Unikat-Hash',
   PRIMARY KEY (`id`),
   UNIQUE KEY `filehash` (`filehash`),
   KEY `itemid` (`itemid`),
   KEY `thumb` (`thumb`),
-  CONSTRAINT `images_ibfk_2` FOREIGN KEY (`itemid`) REFERENCES `items` (`id`) ON UPDATE CASCADE
+  CONSTRAINT `images_ibfk_3` FOREIGN KEY (`itemid`) REFERENCES `items` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
@@ -204,4 +203,4 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `most_clicked` AS select `c
 DROP TABLE IF EXISTS `stats`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `stats` AS select (select count(`categories`.`id`) from `categories`) AS `cat_count`,(select count(`items`.`id`) from `items`) AS `item_count`,(select count(`clicks`.`id`) from `clicks`) AS `click_count`,(select count(`clicks`.`id`) from `clicks` where (`clicks`.`ts` > cast(curdate() as datetime))) AS `clicks_today`;
 
--- 2019-11-24 16:09:26
+-- 2019-11-28 20:20:42
