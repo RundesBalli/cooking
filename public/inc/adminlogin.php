@@ -21,7 +21,7 @@ if((!isset($_COOKIE['cooking']) OR empty($_COOKIE['cooking'])) AND !isset($_POST
   $content.= "<form action='/adminlogin' method='post'>".PHP_EOL;
   $content.= "<div class='row'>".PHP_EOL.
   "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-3'>Name</div>".PHP_EOL.
-  "<div class='col-x-12 col-s-12 col-m-8 col-l-9 col-xl-9'><input type='text' name='username' placeholder='Name'></div>".PHP_EOL.
+  "<div class='col-x-12 col-s-12 col-m-8 col-l-9 col-xl-9'><input type='text' name='username' placeholder='Name' autofocus></div>".PHP_EOL.
   "</div>".PHP_EOL;
   $content.= "<div class='row'>".PHP_EOL.
   "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-3'>Passwort</div>".PHP_EOL.
