@@ -161,7 +161,6 @@ if(mysqli_num_rows($result) == 0) {
              * Nun werden die Pfad- und Namensvariablen gesetzt und es wird geprüft ob es sich hierbei um einen
              * Thumbnail oder um ein Bild handelt und die Mindestgröße wird abgefragt.
              */
-            $uploaddir = $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR."img".DIRECTORY_SEPARATOR;
             if($_POST['type'] == 'thumb') {
               /**
                * Prüfen ob ein Thumbnail vorliegt
@@ -429,7 +428,6 @@ if(mysqli_num_rows($result) == 0) {
            * Kann gelöscht werden
            */
           $row = mysqli_fetch_array($result);
-          $uploaddir = $_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR."img".DIRECTORY_SEPARATOR;
           array_map('unlink', glob($uploaddir."*-".$row['filehash'].".png"));
           mysqli_query($dbl, "DELETE FROM `images` WHERE `id`='".$imageid."' AND `itemid`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
           $content.= "<div class='successbox'>Bild erfolgreich gelöscht.</div>".PHP_EOL;
