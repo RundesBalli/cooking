@@ -46,8 +46,8 @@ if(mysqli_num_rows($result) == 0) {
     /**
      * Dateien auflisten
      */
-    $title = "Dateiverwaltung - Dateien anzeigen";
-    $content.= "<h1>Dateiverwaltung - Dateien anzeigen</h1>".PHP_EOL;
+    $title = "Dateiverwaltung - Bilder anzeigen";
+    $content.= "<h1>Dateiverwaltung - Bilder anzeigen</h1>".PHP_EOL;
     $content.= "<div class='row'>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><span class='highlight bold'>Aktionen:</span> <a href='/adminfiles/add/".$id."'><span class='fas icon'>&#xf067;</span>Hinzufügen</a> - <a href='/adminfiles/sort/".$id."'><span class='fas icon'>&#xf0dc;</span>Sortieren</a></div>".PHP_EOL.
     "</div>".PHP_EOL;
@@ -135,8 +135,8 @@ if(mysqli_num_rows($result) == 0) {
     /**
      * Dateien hinzufügen.
      */
-    $title = "Dateiverwaltung - Dateien hinzufügen";
-    $content.= "<h1>Dateiverwaltung - Dateien hinzufügen</h1>".PHP_EOL;
+    $title = "Dateiverwaltung - Bild hinzufügen";
+    $content.= "<h1>Dateiverwaltung - Bild hinzufügen</h1>".PHP_EOL;
     if(isset($_POST['submit'])) {
       /**
        * Formular wurde abgesendet, Upload verarbeiten.
@@ -381,8 +381,8 @@ if(mysqli_num_rows($result) == 0) {
     /**
      * Datei löschen
      */
-    $title = "Dateiverwaltung - Datei löschen";
-    $content.= "<h1>Dateiverwaltung - Datei löschen</h1>".PHP_EOL;
+    $title = "Dateiverwaltung - Bild löschen";
+    $content.= "<h1>Dateiverwaltung - Bild löschen</h1>".PHP_EOL;
 
     /**
      * Entschärfen der übergebenen Image-ID
@@ -456,6 +456,11 @@ if(mysqli_num_rows($result) == 0) {
       "</div>".PHP_EOL;
     }
   } elseif($_GET['action'] == 'sort') {
+    /**
+     * Bilder sortieren
+     */
+    $title = "Dateiverwaltung - Bilder sortieren";
+    $content.= "<h1>Dateiverwaltung - Bilder sortieren</h1>".PHP_EOL;
 
   } else {
     /**
