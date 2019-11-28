@@ -82,7 +82,9 @@ CREATE TABLE `images` (
   `sortIndex` int(10) unsigned NOT NULL DEFAULT '9999999' COMMENT 'Sortierindex',
   `filename` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Dateiname in /img/$1.png',
   `thumb` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT 'Thumbnail = 1, normales Bild = 0',
+  `filehash` varchar(16) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Unikat-Hash',
   PRIMARY KEY (`id`),
+  UNIQUE KEY `filehash` (`filehash`),
   KEY `itemid` (`itemid`),
   KEY `thumb` (`thumb`),
   CONSTRAINT `images_ibfk_2` FOREIGN KEY (`itemid`) REFERENCES `items` (`id`) ON UPDATE CASCADE
