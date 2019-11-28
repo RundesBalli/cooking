@@ -349,6 +349,10 @@ if(!isset($_GET['action'])) {
         /**
          * Im Select wurde "ja" ausgewählt
          */
+        $result = mysqli_query($dbl, "SELECT * FROM `images` WHERE `itemid`='".$id."'") OR DIE(MYSQLI_ERROR($dbl));
+        while($row = mysqli_fetch_array($result)) {
+          array_map('unlink', glob($uploaddir."*-".$row['filehash'].".png"));
+        }
         mysqli_query($dbl, "DELETE FROM `items` WHERE `id`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
         $content.= "<div class='successbox'>Rezept erfolgreich gelöscht.</div>".PHP_EOL;
         $content.= "<div class='row'>".PHP_EOL.
