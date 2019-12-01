@@ -27,17 +27,17 @@ if(php_sapi_name() != 'cli') {
 if(isset($argv[1]) AND preg_match('/^[0-9a-zA-Z]{3,32}$/', defuse($argv[1]), $match) === 1) {
   $username = $match[0];
 } else {
-  die("Der Name ist ungültig. Er muss zwischen 3 und 32 Zeichen lang sein und darf keine Sonderzeichen enthalten (0-9a-zA-Z).\nBeispielaufruf:\nphp ".$argv[0]." Hans asdf123xyz456\nErstellt einen Nutzer \"Hans\" mit dem Passwort \"asdf123xyz456\".\n\n");
+  die("Der Name ist ungültig. Er muss zwischen 3 und 32 Zeichen lang sein und darf keine Sonderzeichen enthalten (0-9a-zA-Z).\nBeispielaufruf:\nphp ".$argv[0]." Hans LOL1asdf123xyz456lol\nErstellt einen Nutzer \"Hans\" mit dem Passwort \"LOL1asdf123xyz456lol\".\n\n");
 }
 
 /**
  * Auslesen und verarbeiten des Passworts.
  */
-if(isset($argv[2]) AND preg_match('/^.{12,}$/', $argv[2], $match) === 1) {
+if(isset($argv[2]) AND preg_match('/^.{20,}$/', $argv[2], $match) === 1) {
   $salt = hash('sha256', random_bytes(4096));
   $password = password_hash($match[0].$salt, PASSWORD_DEFAULT);
 } else {
-  die("Das Passwort ist zu kurz. Es muss mindestens 12 Zeichen enthalten.\nBeispielaufruf:\nphp ".$argv[0]." Hans asdf123xyz456\nErstellt einen Nutzer \"Hans\" mit dem Passwort \"asdf123xyz456\".\n\n");
+  die("Das Passwort ist zu kurz. Es muss mindestens 20 Zeichen enthalten.\nBeispielaufruf:\nphp ".$argv[0]." Hans LOL1asdf123xyz456lol\nErstellt einen Nutzer \"Hans\" mit dem Passwort \"LOL1asdf123xyz456lol\".\n\n");
 }
 
 /**
