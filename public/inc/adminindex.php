@@ -49,7 +49,7 @@ $content.= "<div class='row hover bordered'>".PHP_EOL.
 "</div>".PHP_EOL;
 $content.= "<div class='row hover bordered'>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-3 col-l-3 col-xl-3'>Anzahl Klicks</div>".PHP_EOL.
-"<div class='col-x-12 col-s-12 col-m-9 col-l-9 col-xl-9'>".$row['cat_count']."</div>".PHP_EOL.
+"<div class='col-x-12 col-s-12 col-m-9 col-l-9 col-xl-9'>".$row['click_count']."</div>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
 "</div>".PHP_EOL;
 $content.= "<div class='row hover bordered'>".PHP_EOL.
