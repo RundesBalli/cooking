@@ -18,12 +18,46 @@ $content.= "<h1>Sitzungen anzeigen</h1>".PHP_EOL;
  */
 if((isset($_GET['action']) AND $_GET['action'] == 'del') AND (isset($_GET['id']) AND !empty($_GET['id']))) {
   $id = (int)defuse($_GET['id']);
-  mysqli_query($dbl, "DELETE FROM `sessions` WHERE `id`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
-  if(mysqli_affected_rows($dbl) == 0) {
-    http_response_code(404);
-    $content.= "<div class='warnbox'>Es existiert keine Sitzung mit der ID.</div>".PHP_EOL;
+  if(!isset($_POST['submit'])) {
+    /**
+     * CSRF Bestätigung
+     */
+    $content.= "<div class='infobox'>Beenden bitte bestätigen.</div>".PHP_EOL;
+    $content.= "<form action='/adminsessions/del/".$id."' method='post'>".PHP_EOL;
+    /**
+     * Sitzungstoken
+     */
+    $content.= "<input type='hidden' name='token' value='".$sessionhash."'>".PHP_EOL;
+    /**
+     * Auswahl
+     */
+    $content.= "<div class='row hover bordered'>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Möchtest du die Sitzung beenden?</div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='submit' name='submit' value='Ja'></div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'></div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
+    "</div>".PHP_EOL;
+    $content.= "</form>".PHP_EOL;
+    $content.= "<div class='spacer-m'></div>".PHP_EOL;
   } else {
-    $content.= "<div class='successbox'>Die Sitzung wurde beendet.</div>".PHP_EOL;
+    if($_POST['token'] == $sessionhash) {
+      /**
+       * Token passt, Sitzung beenden.
+       */
+      mysqli_query($dbl, "DELETE FROM `sessions` WHERE `id`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+      if(mysqli_affected_rows($dbl) == 0) {
+        http_response_code(404);
+        $content.= "<div class='warnbox'>Es existiert keine Sitzung mit der ID.</div>".PHP_EOL;
+      } else {
+        $content.= "<div class='successbox'>Die Sitzung wurde beendet.</div>".PHP_EOL;
+      }
+    } else {
+      /**
+       * Ungültiges Sitzungstoken
+       */
+      http_response_code(403);
+      $content.= "<div class='warnbox'>Ungültiges Token.</div>".PHP_EOL;
+    }
   }
 }
 
@@ -58,14 +92,30 @@ $content.= "<h1>Eigenes Passwort ändern</h1>".PHP_EOL;
  * Änderung des Passworts
  */
 if(isset($_POST['password'])) {
-  if(strlen($_POST['password']) >= 20) {
-    $salt = hash('sha256', random_bytes(4096));
-    $password = password_hash($_POST['password'].$salt, PASSWORD_DEFAULT);
-    mysqli_query($dbl, "UPDATE `accounts` SET `password`='".defuse($password)."', `salt`='".$salt."' WHERE `username`='".$username."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
-    header("Location: /adminlogout");
-    die();
+  if($_POST['token'] == $sessionhash) {
+    if(strlen($_POST['password']) >= 20) {
+      $salt = hash('sha256', random_bytes(4096));
+      $password = password_hash($_POST['password'].$salt, PASSWORD_DEFAULT);
+      mysqli_query($dbl, "UPDATE `accounts` SET `password`='".defuse($password)."', `salt`='".$salt."' WHERE `username`='".$username."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+      /**
+       * Löschen der Sitzung.
+       */
+      mysqli_query($dbl, "DELETE FROM `sessions` WHERE `hash`='".$sessionhash."'") OR DIE(MYSQLI_ERROR($dbl));
+      /**
+       * Entfernen des Cookies und Umleitung zur Loginseite.
+       */
+      setcookie('cooking', NULL, 0);
+      header("Location: /adminlogin");
+      die();
+    } else {
+      $content.= "<div class='warnbox'>Das Passwort muss mindestens 20 Stellen lang sein.</div>".PHP_EOL;
+    }
   } else {
-    $content.= "<div class='warnbox'>Das Passwort muss mindestens 20 Stellen lang sein.</div>".PHP_EOL;
+    /**
+     * Ungültiges Sitzungstoken
+     */
+    http_response_code(403);
+    $content.= "<div class='warnbox'>Ungültiges Token.</div>".PHP_EOL;
   }
 }
 
@@ -73,6 +123,10 @@ if(isset($_POST['password'])) {
  * Formular zum Passwort ändern
  */
 $content.= "<form action='/adminsessions' method='post'>".PHP_EOL;
+/**
+ * Sitzungstoken
+ */
+$content.= "<input type='hidden' name='token' value='".$sessionhash."'>".PHP_EOL;
 $content.= "<div class='row hover bordered'>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>neues Passwort</div>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='password' name='password' tabindex='1'></div>".PHP_EOL.

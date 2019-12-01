@@ -83,6 +83,14 @@ if(!isset($_GET['action'])) {
      * Auswertung. Falls alles ok dann $form auf 0 lassen, sonst 1. Bei 0 am Ende wird der Query ausgeführt.
      */
     /**
+     * Sitzungstoken
+     */
+    if($_POST['token'] != $sessionhash) {
+      http_response_code(403);
+      $form = 1;
+      $content.= "<div class='warnbox'>Ungültiges Token.</div>".PHP_EOL;
+    }
+    /**
      * Titel
      */
     if(preg_match('/^.{5,100}$/', $_POST['title'], $match) === 1) {
@@ -195,6 +203,10 @@ if(!isset($_GET['action'])) {
    */
   if($form == 1) {
     $content.= "<form action='/adminitems/add' method='post' autocomplete='off'>".PHP_EOL;
+    /**
+     * Sitzungstoken
+     */
+    $content.= "<input type='hidden' name='token' value='".$sessionhash."'>".PHP_EOL;
     /**
      * Tabellenüberschrift
      */
@@ -335,6 +347,10 @@ if(!isset($_GET['action'])) {
       }
       shuffle($options1);
       $content.= "<form action='/adminitems/del/".$id."' method='post' autocomplete='off'>".PHP_EOL;
+      /**
+       * Sitzungstoken
+       */
+      $content.= "<input type='hidden' name='token' value='".$sessionhash."'>".PHP_EOL;
       $content.= "<div class='row'>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-12 col-l-4 col-xl-4'><select name='selection'>".PHP_EOL."<option value='' selected disabled hidden>Bitte wählen</option>".PHP_EOL.implode("", $options1)."</select></div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-12 col-l-4 col-xl-4'><input type='submit' name='submit' value='Handeln'></div>".PHP_EOL.
@@ -345,24 +361,35 @@ if(!isset($_GET['action'])) {
       /**
        * Formular wurde abgesendet. Jetzt muss das Select Feld geprüft werden.
        */
-      if(isset($_POST['selection']) AND $_POST['selection'] == 1) {
-        /**
-         * Im Select wurde "ja" ausgewählt
-         */
-        $result = mysqli_query($dbl, "SELECT * FROM `images` WHERE `itemid`='".$id."'") OR DIE(MYSQLI_ERROR($dbl));
-        while($row = mysqli_fetch_array($result)) {
-          array_map('unlink', glob($uploaddir."*-".$row['filehash'].".png"));
+      if($_POST['token'] == $sessionhash) {
+        if(isset($_POST['selection']) AND $_POST['selection'] == 1) {
+          /**
+           * Im Select wurde "ja" ausgewählt
+           */
+          $result = mysqli_query($dbl, "SELECT * FROM `images` WHERE `itemid`='".$id."'") OR DIE(MYSQLI_ERROR($dbl));
+          while($row = mysqli_fetch_array($result)) {
+            array_map('unlink', glob($uploaddir."*-".$row['filehash'].".png"));
+          }
+          mysqli_query($dbl, "DELETE FROM `items` WHERE `id`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+          $content.= "<div class='successbox'>Rezept erfolgreich gelöscht.</div>".PHP_EOL;
+          $content.= "<div class='row'>".PHP_EOL.
+          "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminitems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
+          "</div>".PHP_EOL;
+        } else {
+          /**
+           * Im Select wurde etwas anderes als "ja" ausgewählt.
+           */
+          $content.= "<div class='infobox'>Rezept unverändert.</div>".PHP_EOL;
+          $content.= "<div class='row'>".PHP_EOL.
+          "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminitems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
+          "</div>".PHP_EOL;
         }
-        mysqli_query($dbl, "DELETE FROM `items` WHERE `id`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
-        $content.= "<div class='successbox'>Rezept erfolgreich gelöscht.</div>".PHP_EOL;
-        $content.= "<div class='row'>".PHP_EOL.
-        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminitems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
-        "</div>".PHP_EOL;
       } else {
         /**
-         * Im Select wurde etwas anderes als "ja" ausgewählt.
+         * Ungültiges Sitzungstoken
          */
-        $content.= "<div class='infobox'>Rezept unverändert.</div>".PHP_EOL;
+        http_response_code(403);
+        $content.= "<div class='warnbox'>Ungültiges Token.</div>".PHP_EOL;
         $content.= "<div class='row'>".PHP_EOL.
         "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminitems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
         "</div>".PHP_EOL;
@@ -400,6 +427,14 @@ if(!isset($_GET['action'])) {
       /**
        * Auswertung. Falls alles ok dann $form auf 0 lassen, sonst 1. Bei 0 am Ende wird der Query ausgeführt.
        */
+      /**
+       * Sitzungstoken
+       */
+      if($_POST['token'] != $sessionhash) {
+        http_response_code(403);
+        $form = 1;
+        $content.= "<div class='warnbox'>Ungültiges Token.</div>".PHP_EOL;
+      }
       /**
        * Titel
        */
@@ -514,6 +549,10 @@ if(!isset($_GET['action'])) {
      */
     if($form == 1) {
       $content.= "<form action='/adminitems/edit/".$id."' method='post' autocomplete='off'>".PHP_EOL;
+      /**
+       * Sitzungstoken
+       */
+      $content.= "<input type='hidden' name='token' value='".$sessionhash."'>".PHP_EOL;
       /**
        * Tabellenüberschrift
        */
@@ -650,15 +689,46 @@ if(!isset($_GET['action'])) {
      */
     if(isset($_GET['add']) AND !empty($_GET['add'])) {
       $add_id = (int)defuse($_GET['add']);
-      if(mysqli_query($dbl, "INSERT INTO `category_items` (`category_id`, `item_id`) VALUES ('".$add_id."', '".$id."')")) {
-        $content.= "<div class='successbox'>Zuweisung erfolgreich angelegt.</div>".PHP_EOL;
+      if(!isset($_POST['submit'])) {
+        /**
+         * CSRF Bestätigung
+         */
+        $content.= "<h1>Hinzufügen bestätigen</h1>".PHP_EOL;
+        $content.= "<div class='infobox'>Zuweisung bitte bestätigen.</div>".PHP_EOL;
+        $content.= "<form action='/adminitems/assign/".$id."/add/".$add_id."' method='post'>";
+        /**
+         * Sitzungstoken
+         */
+        $content.= "<input type='hidden' name='token' value='".$sessionhash."'>".PHP_EOL;
+        $content.= "<div class='row hover bordered'>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Hinzufügen?</div>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='submit' name='submit' value='Ja'></div>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'></div>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
+        "</div>".PHP_EOL;
+        $content.= "</form>".PHP_EOL;
       } else {
-        if(mysqli_errno($dbl) == 1062) {
-          $content.= "<div class='warnbox'>Es existiert bereits eine solche Zuweisung.</div>".PHP_EOL;
-        } elseif(mysqli_errno($dbl) == 1452) {
-          $content.= "<div class='warnbox'>Diese Kombination kann nicht angelegt werden.</div>".PHP_EOL;
+        if($_POST['token'] == $sessionhash) {
+          /**
+           * Token gültig.
+           */
+          if(mysqli_query($dbl, "INSERT INTO `category_items` (`category_id`, `item_id`) VALUES ('".$add_id."', '".$id."')")) {
+            $content.= "<div class='successbox'>Zuweisung erfolgreich angelegt.</div>".PHP_EOL;
+          } else {
+            if(mysqli_errno($dbl) == 1062) {
+              $content.= "<div class='warnbox'>Es existiert bereits eine solche Zuweisung.</div>".PHP_EOL;
+            } elseif(mysqli_errno($dbl) == 1452) {
+              $content.= "<div class='warnbox'>Diese Kombination kann nicht angelegt werden.</div>".PHP_EOL;
+            } else {
+              $content.= "<div class='warnbox'>Unbekannter Fehler (".mysqli_errno($dbl)."): ".mysqli_error($dbl)."</div>".PHP_EOL;
+            }
+          }
         } else {
-          $content.= "<div class='warnbox'>Unbekannter Fehler (".mysqli_errno($dbl)."): ".mysqli_error($dbl)."</div>".PHP_EOL;
+          /**
+           * Ungültiges Sitzungstoken
+           */
+          http_response_code(403);
+          $content.= "<div class='warnbox'>Ungültiges Token.</div>".PHP_EOL;
         }
       }
       $content.= "<div class='spacer-m'></div>".PHP_EOL;
@@ -668,11 +738,42 @@ if(!isset($_GET['action'])) {
      */
     if(isset($_GET['del']) AND !empty($_GET['del'])) {
       $del_id = (int)defuse($_GET['del']);
-      mysqli_query($dbl, "DELETE FROM `category_items` WHERE `id`='".$del_id."' AND `item_id`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
-      if(mysqli_affected_rows($dbl) == 1) {
-        $content.= "<div class='successbox'>Die Zuweisung wurde gelöscht.</div>".PHP_EOL;
+      if(!isset($_POST['submit'])) {
+        /**
+         * CSRF Bestätigung
+         */
+        $content.= "<h1>Löschen bestätigen</h1>".PHP_EOL;
+        $content.= "<div class='infobox'>Löschung bitte bestätigen.</div>".PHP_EOL;
+        $content.= "<form action='/adminitems/assign/".$id."/del/".$del_id."' method='post'>";
+        /**
+         * Sitzungstoken
+         */
+        $content.= "<input type='hidden' name='token' value='".$sessionhash."'>".PHP_EOL;
+        $content.= "<div class='row hover bordered'>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Löschen?</div>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='submit' name='submit' value='Ja'></div>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'></div>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
+        "</div>".PHP_EOL;
+        $content.= "</form>".PHP_EOL;
       } else {
-        $content.= "<div class='warnbox'>Es existiert für dieses Rezept keine Kategoriezuweisung mit der ID <span class='italic'>".$del_id."</span>.</div>".PHP_EOL;
+        if($_POST['token'] == $sessionhash) {
+          /**
+           * Token gültig.
+           */
+          mysqli_query($dbl, "DELETE FROM `category_items` WHERE `id`='".$del_id."' AND `item_id`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+          if(mysqli_affected_rows($dbl) == 1) {
+            $content.= "<div class='successbox'>Die Zuweisung wurde gelöscht.</div>".PHP_EOL;
+          } else {
+            $content.= "<div class='warnbox'>Es existiert für dieses Rezept keine Kategoriezuweisung mit der ID <span class='italic'>".$del_id."</span>.</div>".PHP_EOL;
+          }
+        } else {
+          /**
+           * Ungültiges Sitzungstoken
+           */
+          http_response_code(403);
+          $content.= "<div class='warnbox'>Ungültiges Token.</div>".PHP_EOL;
+        }
       }
       $content.= "<div class='spacer-m'></div>".PHP_EOL;
     }

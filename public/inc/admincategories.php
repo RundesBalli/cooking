@@ -70,6 +70,14 @@ if(!isset($_GET['action'])) {
      * Auswertung. Falls alles ok dann $form auf 0 lassen, sonst 1. Bei 0 am Ende wird der Query ausgeführt.
      */
     /**
+     * Sitzungstoken
+     */
+    if($_POST['token'] != $sessionhash) {
+      $form = 1;
+      http_response_code(403);
+      $content.= "<div class='warnbox'>Ungültiges Token.</div>".PHP_EOL;
+    }
+    /**
      * Titel
      */
     if(preg_match('/^.{5,100}$/', $_POST['title'], $match) === 1) {
@@ -132,6 +140,10 @@ if(!isset($_GET['action'])) {
    */
   if($form == 1) {
     $content.= "<form action='/admincategories/add' method='post' autocomplete='off'>".PHP_EOL;
+    /**
+     * Sitzungstoken
+     */
+    $content.= "<input type='hidden' name='token' value='".$sessionhash."'>".PHP_EOL;
     /**
      * Tabellenüberschrift
      */
@@ -230,6 +242,10 @@ if(!isset($_GET['action'])) {
       }
       shuffle($options1);
       $content.= "<form action='/admincategories/del/".$id."' method='post' autocomplete='off'>".PHP_EOL;
+      /**
+       * Sitzungstoken
+       */
+      $content.= "<input type='hidden' name='token' value='".$sessionhash."'>".PHP_EOL;
       $content.= "<div class='row'>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-12 col-l-4 col-xl-4'><select name='selection'>".PHP_EOL."<option value='' selected disabled hidden>Bitte wählen</option>".PHP_EOL.implode("", $options1)."</select></div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-12 col-l-4 col-xl-4'><input type='submit' name='submit' value='Handeln'></div>".PHP_EOL.
@@ -242,13 +258,24 @@ if(!isset($_GET['action'])) {
        */
       if(isset($_POST['selection']) AND $_POST['selection'] == 1) {
         /**
-         * Im Select wurde "ja" ausgewählt
+         * Im Select wurde "ja" ausgewählt, jetzt wird das Sitzungstoken geprüft.
          */
-        mysqli_query($dbl, "DELETE FROM `categories` WHERE `id`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
-        $content.= "<div class='successbox'>Kategorie erfolgreich gelöscht.</div>".PHP_EOL;
-        $content.= "<div class='row'>".PHP_EOL.
-        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
-        "</div>".PHP_EOL;
+        if($_POST['token'] == $sessionhash) {
+          mysqli_query($dbl, "DELETE FROM `categories` WHERE `id`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+          $content.= "<div class='successbox'>Kategorie erfolgreich gelöscht.</div>".PHP_EOL;
+          $content.= "<div class='row'>".PHP_EOL.
+          "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
+          "</div>".PHP_EOL;
+        } else {
+          /**
+           * Ungültiges Sitzungstoken
+           */
+          http_response_code(403);
+          $content.= "<div class='warnbox'>Ungültiges Token.</div>".PHP_EOL;
+          $content.= "<div class='row'>".PHP_EOL.
+          "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
+          "</div>".PHP_EOL;
+        }
       } else {
         /**
          * Im Select wurde etwas anderes als "ja" ausgewählt.
@@ -291,6 +318,14 @@ if(!isset($_GET['action'])) {
       /**
        * Auswertung. Falls alles ok dann $form auf 0 lassen, sonst 1. Bei 0 am Ende wird der Query ausgeführt.
        */
+      /**
+       * Sitzungstoken
+       */
+      if($_POST['token'] != $sessionhash) {
+        http_response_code(403);
+        $form = 1;
+        $content.= "<div class='warnbox'>Ungültiges Token.</div>".PHP_EOL;
+      }
       /**
        * Titel
        */
@@ -355,6 +390,10 @@ if(!isset($_GET['action'])) {
      */
     if($form == 1) {
       $content.= "<form action='/admincategories/edit/".$id."' method='post' autocomplete='off'>".PHP_EOL;
+      /**
+       * Sitzungstoken
+       */
+      $content.= "<input type='hidden' name='token' value='".$sessionhash."'>".PHP_EOL;
       /**
        * Tabellenüberschrift
        */
@@ -454,6 +493,10 @@ if(!isset($_GET['action'])) {
          */
         $content.= "<form action='/admincategories/sort/".$id."' method='post' autocomplete='off'>".PHP_EOL;
         /**
+         * Sitzungstoken
+         */
+        $content.= "<input type='hidden' name='token' value='".$sessionhash."'>".PHP_EOL;
+        /**
          * Tabellenüberschrift
          */
         $content.= "<div class='row highlight bold bordered'>".PHP_EOL.
@@ -483,23 +526,34 @@ if(!isset($_GET['action'])) {
       /**
        * Formularauswertung
        */
-      if(isset($_POST['ci']) AND is_array($_POST['ci'])) {
-        asort($_POST['ci']);
-        $index = 0;
-        $query = "UPDATE `category_items` SET `sortIndex` = CASE ";
-        foreach($_POST['ci'] as $key => $val) {
-          $key = (int)defuse($key);
-          $index+= 10;
-          $query.= "WHEN `id`='".$key."' THEN '".$index."' ";
+      if($_POST['token'] == $sessionhash) {
+        if(isset($_POST['ci']) AND is_array($_POST['ci'])) {
+          asort($_POST['ci']);
+          $index = 0;
+          $query = "UPDATE `category_items` SET `sortIndex` = CASE ";
+          foreach($_POST['ci'] as $key => $val) {
+            $key = (int)defuse($key);
+            $index+= 10;
+            $query.= "WHEN `id`='".$key."' THEN '".$index."' ";
+          }
+          $query.= "ELSE '9999999' END WHERE `category_id`='".$id."'";
+          mysqli_query($dbl, $query) OR DIE(MYSQLI_ERROR($dbl));
+          $content.= "<div class='successbox'>Sortierung geändert.</div>".PHP_EOL;
+          $content.= "<div class='row'>".PHP_EOL.
+          "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
+          "</div>".PHP_EOL;
+        } else {
+          $content.= "<div class='warnbox'>Ungültige Werte übergeben.</div>".PHP_EOL;
+          $content.= "<div class='row'>".PHP_EOL.
+          "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/sort/".$id."'><span class='fas icon'>&#xf359;</span>Zurück zur Sortierung</a></div>".PHP_EOL.
+          "</div>".PHP_EOL;
         }
-        $query.= "ELSE '9999999' END WHERE `category_id`='".$id."'";
-        mysqli_query($dbl, $query) OR DIE(MYSQLI_ERROR($dbl));
-        $content.= "<div class='successbox'>Sortierung geändert.</div>".PHP_EOL;
-        $content.= "<div class='row'>".PHP_EOL.
-        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
-        "</div>".PHP_EOL;
       } else {
-        $content.= "<div class='warnbox'>Ungültige Werte übergeben.</div>".PHP_EOL;
+        /**
+         * ungültiges Sitzungstoken
+         */
+        http_response_code(403);
+        $content.= "<div class='warnbox'>Ungültiges Token.</div>".PHP_EOL;
         $content.= "<div class='row'>".PHP_EOL.
         "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/sort/".$id."'><span class='fas icon'>&#xf359;</span>Zurück zur Sortierung</a></div>".PHP_EOL.
         "</div>".PHP_EOL;
@@ -539,6 +593,10 @@ if(!isset($_GET['action'])) {
        */
       $content.= "<form action='/admincategories/catsort' method='post' autocomplete='off'>".PHP_EOL;
       /**
+       * Sitzungstoken
+       */
+      $content.= "<input type='hidden' name='token' value='".$sessionhash."'>".PHP_EOL;
+      /**
        * Tabellenüberschrift
        */
       $content.= "<div class='row highlight bold bordered'>".PHP_EOL.
@@ -568,23 +626,34 @@ if(!isset($_GET['action'])) {
     /**
      * Formularauswertung
      */
-    if(isset($_POST['cat']) AND is_array($_POST['cat'])) {
-      asort($_POST['cat']);
-      $index = 0;
-      $query = "UPDATE `categories` SET `sortIndex` = CASE ";
-      foreach($_POST['cat'] as $key => $val) {
-        $key = (int)defuse($key);
-        $index+= 10;
-        $query.= "WHEN `id`='".$key."' THEN '".$index."' ";
+    if($_POST['token'] == $sessionhash) {
+      if(isset($_POST['cat']) AND is_array($_POST['cat'])) {
+        asort($_POST['cat']);
+        $index = 0;
+        $query = "UPDATE `categories` SET `sortIndex` = CASE ";
+        foreach($_POST['cat'] as $key => $val) {
+          $key = (int)defuse($key);
+          $index+= 10;
+          $query.= "WHEN `id`='".$key."' THEN '".$index."' ";
+        }
+        $query.= "ELSE '9999999' END";
+        mysqli_query($dbl, $query) OR DIE(MYSQLI_ERROR($dbl));
+        $content.= "<div class='successbox'>Sortierung geändert.</div>".PHP_EOL;
+        $content.= "<div class='row'>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
+        "</div>".PHP_EOL;
+      } else {
+        $content.= "<div class='warnbox'>Ungültige Werte übergeben.</div>".PHP_EOL;
+        $content.= "<div class='row'>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/catsort'><span class='fas icon'>&#xf359;</span>Zurück zur Sortierung</a></div>".PHP_EOL.
+        "</div>".PHP_EOL;
       }
-      $query.= "ELSE '9999999' END";
-      mysqli_query($dbl, $query) OR DIE(MYSQLI_ERROR($dbl));
-      $content.= "<div class='successbox'>Sortierung geändert.</div>".PHP_EOL;
-      $content.= "<div class='row'>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
-      "</div>".PHP_EOL;
     } else {
-      $content.= "<div class='warnbox'>Ungültige Werte übergeben.</div>".PHP_EOL;
+      /**
+       * Ungültiges Sitzungstoken
+       */
+      http_response_code(403);
+      $content.= "<div class='warnbox'>Ungültiges Token.</div>".PHP_EOL;
       $content.= "<div class='row'>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/catsort'><span class='fas icon'>&#xf359;</span>Zurück zur Sortierung</a></div>".PHP_EOL.
       "</div>".PHP_EOL;

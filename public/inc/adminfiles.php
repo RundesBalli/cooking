@@ -141,103 +141,46 @@ if(mysqli_num_rows($result) == 0) {
       /**
        * Formular wurde abgesendet, Upload verarbeiten.
        */
-      if($_FILES['file']['error'] === UPLOAD_ERR_OK) {
-        /**
-         * Keine Fehlermeldung seitens PHP, also Upload schonmal in Ordnung.
-         */
-        if($_FILES['file']['size'] > 20971520) {
+      if($_POST['token'] == $sessionhash) {
+        if($_FILES['file']['error'] === UPLOAD_ERR_OK) {
           /**
-           * Datei über 20 MB groß.
+           * Keine Fehlermeldung seitens PHP, also Upload schonmal in Ordnung.
            */
-          $content.= "<div class='warnbox'>Datei zu groß. Muss 10 MB oder kleiner sein.</div>".PHP_EOL;
-        } else {
-          /**
-           * Dateigröße passt. Nun wird geprüft welchen Mimetype das Bild hat.
-           */
-          list($width, $height, $type) = getimagesize($_FILES['file']['tmp_name']);
-          if($type === IMAGETYPE_PNG OR $type === IMAGETYPE_JPEG) {
+          if($_FILES['file']['size'] > 20971520) {
             /**
-             * Es liegt ein image/png oder image/jpg Bild vor.
-             * Nun werden die Pfad- und Namensvariablen gesetzt und es wird geprüft ob es sich hierbei um einen
-             * Thumbnail oder um ein Bild handelt und die Mindestgröße wird abgefragt.
+             * Datei über 20 MB groß.
              */
-            if($_POST['type'] == 'thumb') {
+            $content.= "<div class='warnbox'>Datei zu groß. Muss 10 MB oder kleiner sein.</div>".PHP_EOL;
+          } else {
+            /**
+             * Dateigröße passt. Nun wird geprüft welchen Mimetype das Bild hat.
+             */
+            list($width, $height, $type) = getimagesize($_FILES['file']['tmp_name']);
+            if($type === IMAGETYPE_PNG OR $type === IMAGETYPE_JPEG) {
               /**
-               * Prüfen ob ein Thumbnail vorliegt
+               * Es liegt ein image/png oder image/jpg Bild vor.
+               * Nun werden die Pfad- und Namensvariablen gesetzt und es wird geprüft ob es sich hierbei um einen
+               * Thumbnail oder um ein Bild handelt und die Mindestgröße wird abgefragt.
                */
-              $result = mysqli_query($dbl, "SELECT * FROM `images` WHERE `itemid`='".$id."' AND `thumb`='1' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
-              if(mysqli_num_rows($result) == 1) {
-                $row = mysqli_fetch_array($result);
-                unlink($uploaddir."thumb-".$id."-".$row['filehash'].".png");
-                mysqli_query($dbl, "DELETE FROM `images` WHERE `itemid`='".$id."' AND `thumb`='1' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
-                $content.= "<div class='infobox'>Der bestehende Thumbnail wurde entfernt.</div>".PHP_EOL;
-              }
-              /**
-               * Mindestgröße 300x300px
-               */
-              if($width < 300 OR $height < 300) {
-                $content.= "<div class='warnbox'>Der Thumbnail ist zu klein. Er muss mindestens 300x300px groß sein.</div>".PHP_EOL;
-              } else {
+              if($_POST['type'] == 'thumb') {
                 /**
-                 * Thumbnailgröße ok. Nun wird die Bilder-Ressource erstellt.
+                 * Prüfen ob ein Thumbnail vorliegt
                  */
-                if($type === IMAGETYPE_PNG) {
-                  $image = imagecreatefrompng($_FILES['file']['tmp_name']);
-                } elseif($type === IMAGETYPE_JPEG) {
-                  $image = imagecreatefromjpeg($_FILES['file']['tmp_name']);
-                } else {
-                  unlink($_FILES['file']['tmp_name']);
-                  die();
+                $result = mysqli_query($dbl, "SELECT * FROM `images` WHERE `itemid`='".$id."' AND `thumb`='1' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+                if(mysqli_num_rows($result) == 1) {
+                  $row = mysqli_fetch_array($result);
+                  unlink($uploaddir."thumb-".$id."-".$row['filehash'].".png");
+                  mysqli_query($dbl, "DELETE FROM `images` WHERE `itemid`='".$id."' AND `thumb`='1' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+                  $content.= "<div class='infobox'>Der bestehende Thumbnail wurde entfernt.</div>".PHP_EOL;
                 }
-                
                 /**
-                 * Die neue Bildressource wird erstellt.
+                 * Mindestgröße 300x300px
                  */
-                $thumb = imagecreatetruecolor(300, 300);
-                
-                /**
-                 * Die Verhältnisse und Startpunkte auf dem Quellbild werden ausgerechnet.
-                 */
-                if($width >= $height) {
-                  $src_x = ($width-$height)/2;
-                  $src_y = 0;
-                  $src_w = $height;
-                  $src_h = $height;
-                } else {
-                  $src_x = 0;
-                  $src_y = ($height-$width)/2;
-                  $src_w = $width;
-                  $src_h = $width;
-                }
-
-                /**
-                 * Das Bild wird kopiert, gespeichert, und in die Datenbank eingetragen
-                 */
-                $filehash = substr(md5(random_bytes(4096)), 0, 16);
-                imagecopyresampled($thumb, $image, 0, 0, $src_x, $src_y, 300, 300, $src_w, $src_h);
-                imagepng($thumb, $uploaddir."thumb-".$id."-".$filehash.".png");
-                imagedestroy($thumb);
-                imagedestroy($image);
-                unlink($_FILES['file']['tmp_name']);
-                mysqli_query($dbl, "INSERT INTO `images` (`itemid`, `thumb`, `filehash`) VALUES ('".$id."', 1, '".$filehash."')") OR DIE(MYSQLI_ERROR($dbl));
-                $content.= "<div class='successbox'>Der Thumbnail wurde erfolgreich hochgeladen.</div>".PHP_EOL;
-              }
-            } else {
-              /**
-               * Prüfen ob bereits zwei Bilder existieren.
-               */
-              $result = mysqli_query($dbl, "SELECT * FROM `images` WHERE `itemid`='".$id."' AND `thumb`='0'") OR DIE(MYSQLI_ERROR($dbl));
-              if(mysqli_num_rows($result) == 2) {
-                $content.= "<div class='warnbox'>Es können maximal zwei Bilder pro Rezept hochgeladen werden. Bitte vorher eins löschen.</div>".PHP_EOL;
-              } else {
-                /**
-                 * Mindestgröße 1500x1500px
-                 */
-                if($width < 1500 OR $height < 1500) {
-                  $content.= "<div class='warnbox'>Das Bild ist zu klein. Es muss mindestens 1500x1500px groß sein.</div>".PHP_EOL;
+                if($width < 300 OR $height < 300) {
+                  $content.= "<div class='warnbox'>Der Thumbnail ist zu klein. Er muss mindestens 300x300px groß sein.</div>".PHP_EOL;
                 } else {
                   /**
-                   * Bildgröße ok. Nun wird die Bilder-Ressource erstellt.
+                   * Thumbnailgröße ok. Nun wird die Bilder-Ressource erstellt.
                    */
                   if($type === IMAGETYPE_PNG) {
                     $image = imagecreatefrompng($_FILES['file']['tmp_name']);
@@ -247,15 +190,12 @@ if(mysqli_num_rows($result) == 0) {
                     unlink($_FILES['file']['tmp_name']);
                     die();
                   }
-
+                  
                   /**
-                   * Die neuen Bildressourcen werden erstellt.
+                   * Die neue Bildressource wird erstellt.
                    */
-                  $picture_full = imagecreatetruecolor(1500, 1500);
-                  $picture_small = imagecreatetruecolor(600, 600);
-                  $picture_medium = imagecreatetruecolor(1000, 1000);
-                  $picture_big = imagecreatetruecolor(1200, 1200);
-
+                  $thumb = imagecreatetruecolor(300, 300);
+                  
                   /**
                    * Die Verhältnisse und Startpunkte auf dem Quellbild werden ausgerechnet.
                    */
@@ -272,61 +212,129 @@ if(mysqli_num_rows($result) == 0) {
                   }
 
                   /**
-                   * Das Bild wird in alle Formate kopiert und gespeichert.
+                   * Das Bild wird kopiert, gespeichert, und in die Datenbank eingetragen
                    */
                   $filehash = substr(md5(random_bytes(4096)), 0, 16);
-                  //full: 1500x1500px
-                  imagecopyresampled($picture_full, $image, 0, 0, $src_x, $src_y, 1500, 1500, $src_w, $src_h);
-                  imagepng($picture_full, $uploaddir."img-".$id."-full-".$filehash.".png");
-                  imagedestroy($picture_full);
-
-                  //small: 600x600px
-                  imagecopyresampled($picture_small, $image, 0, 0, $src_x, $src_y, 600, 600, $src_w, $src_h);
-                  imagepng($picture_small, $uploaddir."img-".$id."-small-".$filehash.".png");
-                  imagedestroy($picture_small);
-
-                  //medium: 1000x1000px
-                  imagecopyresampled($picture_medium, $image, 0, 0, $src_x, $src_y, 1000, 1000, $src_w, $src_h);
-                  imagepng($picture_medium, $uploaddir."img-".$id."-medium-".$filehash.".png");
-                  imagedestroy($picture_medium);
-
-                  //big: 1200x1200px
-                  imagecopyresampled($picture_big, $image, 0, 0, $src_x, $src_y, 1200, 1200, $src_w, $src_h);
-                  imagepng($picture_big, $uploaddir."img-".$id."-big-".$filehash.".png");
-                  imagedestroy($picture_big);
-
-                  /**
-                   * Bildressource wieder freigeben und Quelldatei löschen.
-                   */
+                  imagecopyresampled($thumb, $image, 0, 0, $src_x, $src_y, 300, 300, $src_w, $src_h);
+                  imagepng($thumb, $uploaddir."thumb-".$id."-".$filehash.".png");
+                  imagedestroy($thumb);
                   imagedestroy($image);
                   unlink($_FILES['file']['tmp_name']);
-
+                  mysqli_query($dbl, "INSERT INTO `images` (`itemid`, `thumb`, `filehash`) VALUES ('".$id."', 1, '".$filehash."')") OR DIE(MYSQLI_ERROR($dbl));
+                  $content.= "<div class='successbox'>Der Thumbnail wurde erfolgreich hochgeladen.</div>".PHP_EOL;
+                }
+              } else {
+                /**
+                 * Prüfen ob bereits zwei Bilder existieren.
+                 */
+                $result = mysqli_query($dbl, "SELECT * FROM `images` WHERE `itemid`='".$id."' AND `thumb`='0'") OR DIE(MYSQLI_ERROR($dbl));
+                if(mysqli_num_rows($result) == 2) {
+                  $content.= "<div class='warnbox'>Es können maximal zwei Bilder pro Rezept hochgeladen werden. Bitte vorher eins löschen.</div>".PHP_EOL;
+                } else {
                   /**
-                   * Eintrag in die Datenbank
+                   * Mindestgröße 1500x1500px
                    */
-                  mysqli_query($dbl, "INSERT INTO `images` (`itemid`, `thumb`, `filehash`) VALUES ('".$id."', 0, '".$filehash."')") OR DIE(MYSQLI_ERROR($dbl));
-                  $content.= "<div class='successbox'>Das Bild wurde erfolgreich hochgeladen.</div>".PHP_EOL;
+                  if($width < 1500 OR $height < 1500) {
+                    $content.= "<div class='warnbox'>Das Bild ist zu klein. Es muss mindestens 1500x1500px groß sein.</div>".PHP_EOL;
+                  } else {
+                    /**
+                     * Bildgröße ok. Nun wird die Bilder-Ressource erstellt.
+                     */
+                    if($type === IMAGETYPE_PNG) {
+                      $image = imagecreatefrompng($_FILES['file']['tmp_name']);
+                    } elseif($type === IMAGETYPE_JPEG) {
+                      $image = imagecreatefromjpeg($_FILES['file']['tmp_name']);
+                    } else {
+                      unlink($_FILES['file']['tmp_name']);
+                      die();
+                    }
+
+                    /**
+                     * Die neuen Bildressourcen werden erstellt.
+                     */
+                    $picture_full = imagecreatetruecolor(1500, 1500);
+                    $picture_small = imagecreatetruecolor(600, 600);
+                    $picture_medium = imagecreatetruecolor(1000, 1000);
+                    $picture_big = imagecreatetruecolor(1200, 1200);
+
+                    /**
+                     * Die Verhältnisse und Startpunkte auf dem Quellbild werden ausgerechnet.
+                     */
+                    if($width >= $height) {
+                      $src_x = ($width-$height)/2;
+                      $src_y = 0;
+                      $src_w = $height;
+                      $src_h = $height;
+                    } else {
+                      $src_x = 0;
+                      $src_y = ($height-$width)/2;
+                      $src_w = $width;
+                      $src_h = $width;
+                    }
+
+                    /**
+                     * Das Bild wird in alle Formate kopiert und gespeichert.
+                     */
+                    $filehash = substr(md5(random_bytes(4096)), 0, 16);
+                    //full: 1500x1500px
+                    imagecopyresampled($picture_full, $image, 0, 0, $src_x, $src_y, 1500, 1500, $src_w, $src_h);
+                    imagepng($picture_full, $uploaddir."img-".$id."-full-".$filehash.".png");
+                    imagedestroy($picture_full);
+
+                    //small: 600x600px
+                    imagecopyresampled($picture_small, $image, 0, 0, $src_x, $src_y, 600, 600, $src_w, $src_h);
+                    imagepng($picture_small, $uploaddir."img-".$id."-small-".$filehash.".png");
+                    imagedestroy($picture_small);
+
+                    //medium: 1000x1000px
+                    imagecopyresampled($picture_medium, $image, 0, 0, $src_x, $src_y, 1000, 1000, $src_w, $src_h);
+                    imagepng($picture_medium, $uploaddir."img-".$id."-medium-".$filehash.".png");
+                    imagedestroy($picture_medium);
+
+                    //big: 1200x1200px
+                    imagecopyresampled($picture_big, $image, 0, 0, $src_x, $src_y, 1200, 1200, $src_w, $src_h);
+                    imagepng($picture_big, $uploaddir."img-".$id."-big-".$filehash.".png");
+                    imagedestroy($picture_big);
+
+                    /**
+                     * Bildressource wieder freigeben und Quelldatei löschen.
+                     */
+                    imagedestroy($image);
+                    unlink($_FILES['file']['tmp_name']);
+
+                    /**
+                     * Eintrag in die Datenbank
+                     */
+                    mysqli_query($dbl, "INSERT INTO `images` (`itemid`, `thumb`, `filehash`) VALUES ('".$id."', 0, '".$filehash."')") OR DIE(MYSQLI_ERROR($dbl));
+                    $content.= "<div class='successbox'>Das Bild wurde erfolgreich hochgeladen.</div>".PHP_EOL;
+                  }
                 }
               }
+            } else {
+              /**
+               * Kein image/png und kein image/jpg Bild
+               */
+              $content.= "<div class='warnbox'>Es sind nur .png und .jpg Bilder zugelassen.</div>".PHP_EOL;
             }
-          } else {
-            /**
-             * Kein image/png und kein image/jpg Bild
-             */
-            $content.= "<div class='warnbox'>Es sind nur .png und .jpg Bilder zugelassen.</div>".PHP_EOL;
           }
+        } elseif($_FILES['file']['error'] === UPLOAD_ERR_NO_FILE) {
+          /**
+           * Keine Datei geschickt.
+           */
+          $content.= "<div class='warnbox'>Es wurde keine Datei ausgewählt.</div>".PHP_EOL;
+        } else {
+          /**
+           * Alle anderen Fehler. Sind aber eher unrelevant.
+           * https://www.php.net/manual/de/features.file-upload.errors.php
+           */
+          $content.= "<div class='warnbox'>Fehler beim Upload.</div>".PHP_EOL;
         }
-      } elseif($_FILES['file']['error'] === UPLOAD_ERR_NO_FILE) {
-        /**
-         * Keine Datei geschickt.
-         */
-        $content.= "<div class='warnbox'>Es wurde keine Datei ausgewählt.</div>".PHP_EOL;
       } else {
         /**
-         * Alle anderen Fehler. Sind aber eher unrelevant.
-         * https://www.php.net/manual/de/features.file-upload.errors.php
+         * Ungültiges Sitzungstoken
          */
-        $content.= "<div class='warnbox'>Fehler beim Upload.</div>".PHP_EOL;
+        http_response_code(403);
+        $content.= "<div class='warnbox'>Ungültiges Token.</div>".PHP_EOL;
       }
       /**
        * Link zum Zurückkommen.
@@ -339,6 +347,10 @@ if(mysqli_num_rows($result) == 0) {
        * Wenn noch kein Formular abgesendet wurde, dann zeig es an.
        */
       $content.= "<form action='/adminfiles/add/".$id."' method='post' autocomplete='off' enctype='multipart/form-data'>".PHP_EOL;
+      /**
+       * Sitzungstoken
+       */
+      $content.= "<input type='hidden' name='token' value='".$sessionhash."'>".PHP_EOL;
       /**
        * Tabellenüberschrift
        */
@@ -413,6 +425,10 @@ if(mysqli_num_rows($result) == 0) {
         }
         shuffle($options1);
         $content.= "<form action='/adminfiles/del/".$id."/".$imageid."' method='post' autocomplete='off'>".PHP_EOL;
+        /**
+         * Sitzungstoken
+         */
+        $content.= "<input type='hidden' name='token' value='".$sessionhash."'>".PHP_EOL;
         $content.= "<div class='row'>".PHP_EOL.
         "<div class='col-x-12 col-s-12 col-m-12 col-l-4 col-xl-4'><select name='selection'>".PHP_EOL."<option value='' selected disabled hidden>Bitte wählen</option>".PHP_EOL.implode("", $options1)."</select></div>".PHP_EOL.
         "<div class='col-x-12 col-s-12 col-m-12 col-l-4 col-xl-4'><input type='submit' name='submit' value='Handeln'></div>".PHP_EOL.
@@ -425,15 +441,29 @@ if(mysqli_num_rows($result) == 0) {
          */
         if(isset($_POST['selection']) AND $_POST['selection'] == 1) {
           /**
-           * Kann gelöscht werden
+           * Token Überprüfung
            */
-          $row = mysqli_fetch_array($result);
-          array_map('unlink', glob($uploaddir."*-".$row['filehash'].".png"));
-          mysqli_query($dbl, "DELETE FROM `images` WHERE `id`='".$imageid."' AND `itemid`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
-          $content.= "<div class='successbox'>Bild erfolgreich gelöscht.</div>".PHP_EOL;
-          $content.= "<div class='row'>".PHP_EOL.
-          "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminfiles/list/".$id."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht.</a></div>".PHP_EOL.
-          "</div>".PHP_EOL;
+          if($_POST['token'] == $sessionhash) {
+            /**
+             * Kann gelöscht werden
+             */
+            $row = mysqli_fetch_array($result);
+            array_map('unlink', glob($uploaddir."*-".$row['filehash'].".png"));
+            mysqli_query($dbl, "DELETE FROM `images` WHERE `id`='".$imageid."' AND `itemid`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+            $content.= "<div class='successbox'>Bild erfolgreich gelöscht.</div>".PHP_EOL;
+            $content.= "<div class='row'>".PHP_EOL.
+            "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminfiles/list/".$id."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht.</a></div>".PHP_EOL.
+            "</div>".PHP_EOL;
+          } else {
+            /**
+             * Ungültiges Sitzungstoken
+             */
+            http_response_code(403);
+            $content.= "<div class='warnbox'>Ungültiges Token.</div>".PHP_EOL;
+            $content.= "<div class='row'>".PHP_EOL.
+            "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminfiles/list/".$id."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
+            "</div>".PHP_EOL;
+          }
         } else {
           /**
            * Im Select wurde etwas anderes als "ja" ausgewählt.
@@ -492,6 +522,10 @@ if(mysqli_num_rows($result) == 0) {
          */
         $content.= "<form action='/adminfiles/sort/".$id."' method='post' autocomplete='off'>".PHP_EOL;
         /**
+         * Sitzungstoken
+         */
+        $content.= "<input type='hidden' name='token' value='".$sessionhash."'>".PHP_EOL;
+        /**
          * Tabellenüberschrift
          */
         $content.= "<div class='row highlight bold bordered'>".PHP_EOL.
@@ -526,23 +560,34 @@ if(mysqli_num_rows($result) == 0) {
         /**
          * Formularauswertung
          */
-        if(isset($_POST['sortIndex']) AND is_array($_POST['sortIndex'])) {
-          asort($_POST['sortIndex']);
-          $index = 0;
-          $query = "UPDATE `images` SET `sortIndex` = CASE ";
-          foreach($_POST['sortIndex'] as $key => $val) {
-            $key = (int)defuse($key);
-            $index+= 10;
-            $query.= "WHEN `id`='".$key."' THEN '".$index."' ";
+        if($_POST['token'] == $sessionhash) {
+          if(isset($_POST['sortIndex']) AND is_array($_POST['sortIndex'])) {
+            asort($_POST['sortIndex']);
+            $index = 0;
+            $query = "UPDATE `images` SET `sortIndex` = CASE ";
+            foreach($_POST['sortIndex'] as $key => $val) {
+              $key = (int)defuse($key);
+              $index+= 10;
+              $query.= "WHEN `id`='".$key."' THEN '".$index."' ";
+            }
+            $query.= "ELSE '9999999' END WHERE `itemid`='".$id."'";
+            mysqli_query($dbl, $query) OR DIE(MYSQLI_ERROR($dbl));
+            $content.= "<div class='successbox'>Sortierung geändert.</div>".PHP_EOL;
+            $content.= "<div class='row'>".PHP_EOL.
+            "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminfiles/list/".$id."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
+            "</div>".PHP_EOL;
+          } else {
+            $content.= "<div class='warnbox'>Ungültige Werte übergeben.</div>".PHP_EOL;
+            $content.= "<div class='row'>".PHP_EOL.
+            "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminfiles/sort/".$id."'><span class='fas icon'>&#xf359;</span>Zurück zur Sortierung</a></div>".PHP_EOL.
+            "</div>".PHP_EOL;
           }
-          $query.= "ELSE '9999999' END WHERE `itemid`='".$id."'";
-          mysqli_query($dbl, $query) OR DIE(MYSQLI_ERROR($dbl));
-          $content.= "<div class='successbox'>Sortierung geändert.</div>".PHP_EOL;
-          $content.= "<div class='row'>".PHP_EOL.
-          "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminfiles/list/".$id."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
-          "</div>".PHP_EOL;
         } else {
-          $content.= "<div class='warnbox'>Ungültige Werte übergeben.</div>".PHP_EOL;
+          /**
+           * Ungültiges Sitzungstoken
+           */
+          http_response_code(403);
+          $content.= "<div class='warnbox'>Ungültiges Token.</div>".PHP_EOL;
           $content.= "<div class='row'>".PHP_EOL.
           "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminfiles/sort/".$id."'><span class='fas icon'>&#xf359;</span>Zurück zur Sortierung</a></div>".PHP_EOL.
           "</div>".PHP_EOL;
