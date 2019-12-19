@@ -325,6 +325,49 @@ Lizenz: https://fontawesome.com/license/free
   height: 50px;
 }
 
+.item {
+  border: 2px solid #444444;
+  text-align: center;
+  transition: all 0.15s ease-in-out;
+  margin-bottom: 20px;
+}
+
+@media only screen and (min-width: 700px) {
+  .item:hover {
+    transform: scale(1.1);
+    background: #444444;
+    border: 2px solid #ee4d2e;
+  }
+}
+
+.item img {
+  display: block;
+  margin: 0px auto 5px;
+  border-radius: 15px;
+  border: 1px solid #f2f5f4;
+}
+
+.item a {
+  text-decoration: none;
+}
+
+.item .title {
+  font-size: 20px;
+  color: #ff9900;
+  font-weight: bold;
+  display: block;
+  margin: 15px auto;
+}
+
+.item .stars {
+  margin-bottom: 15px;
+}
+
+.item .specs {
+  margin: 10px;
+  display: inline-block;
+}
+
 /*
   3. Forms
 */
