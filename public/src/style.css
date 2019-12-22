@@ -433,7 +433,7 @@ label {
 #sidebar a {
   display: block;
   color: #75c0c7;
-  padding: 16px;
+  padding: 8px 16px;
   text-decoration: none;
   transition: background-color 0.3s, color 0.3s;
 }
