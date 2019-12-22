@@ -621,7 +621,7 @@ if(!isset($_GET['action'])) {
        */
       $content.= "<div class='row hover bordered'>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Zutatenliste</div>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><textarea name='ingredients' placeholder='Mehrzeiliger Text' tabindex='4'>".(isset($_POST['ingredients']) && !empty($_POST['ingredients']) ? output($_POST['ingredients']) : NULL)."</textarea></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><textarea name='ingredients' placeholder='Mehrzeiliger Text' tabindex='4'>".(isset($row['ingredients']) ? output($row['ingredients']) : (isset($_POST['ingredients']) && !empty($_POST['ingredients']) ? output($_POST['ingredients']) : NULL))."</textarea></div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("* [Markdown für mehrzeilige Textfelder](/adminmarkdowninfo)* möglich\n* Das hier ist die Zutatenliste. Es empfiehlt sich eine Markdown Liste zu erstellen:\n- Bla 1\n- Bla 2")."</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
       "</div>".PHP_EOL;
