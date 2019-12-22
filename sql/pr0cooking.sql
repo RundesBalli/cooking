@@ -96,6 +96,7 @@ CREATE TABLE `items` (
   `title` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Angezeigter Titel',
   `shortTitle` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Kurzer Titel für die URL',
   `text` text COLLATE utf8mb4_unicode_ci COMMENT 'Text des Eintrags',
+  `ingredients` text COLLATE utf8mb4_unicode_ci COMMENT 'Zutaten',
   `persons` int(10) unsigned NOT NULL DEFAULT '1' COMMENT 'Ausgelegt für ... Personen',
   `cost` tinyint(3) unsigned NOT NULL COMMENT 'Querverweis zu meta_cost',
   `difficulty` tinyint(3) unsigned NOT NULL COMMENT 'Querverweis zu meta_difficulty',
@@ -203,4 +204,4 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `most_clicked` AS select `c
 DROP TABLE IF EXISTS `stats`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `stats` AS select (select count(`categories`.`id`) from `categories`) AS `cat_count`,(select count(`items`.`id`) from `items`) AS `item_count`,(select count(`clicks`.`id`) from `clicks`) AS `click_count`,(select count(`clicks`.`id`) from `clicks` where (`clicks`.`ts` > cast(curdate() as datetime))) AS `clicks_today`;
 
--- 2019-11-28 20:20:42
+-- 2019-12-22 17:10:13

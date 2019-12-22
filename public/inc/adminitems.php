@@ -118,6 +118,15 @@ if(!isset($_GET['action'])) {
       $text = NULL;
     }
     /**
+     * Zutatenliste
+     */
+    if(!empty(trim($_POST['ingredients']))) {
+      $ingredients = defuse($_POST['ingredients']);
+    } else {
+      $content.= "<div class='infobox'>Die Zutatenliste ist leer. Rezept wird ohne Zutatenliste angelegt.</div>".PHP_EOL;
+      $ingredients = NULL;
+    }
+    /**
      * Personenanzahl
      */
     if(!empty($_POST['persons'])) {
@@ -178,7 +187,7 @@ if(!isset($_GET['action'])) {
      * Wenn durch die Postdaten-Validierung die Inhalte geprüft und entschärft wurden, kann der Query erzeugt und ausgeführt werden.
      */
     if($form == 0) {
-      if(mysqli_query($dbl, "INSERT INTO `items` (`title`, `shortTitle`, `text`, `persons`, `cost`, `difficulty`, `duration`) VALUES ('".$form_title."', '".$shortTitle."', ".($text === NULL ? "NULL" : "'".$text."'").", '".$persons."', '".$cost."', '".$difficulty."', '".$duration."')")) {
+      if(mysqli_query($dbl, "INSERT INTO `items` (`title`, `shortTitle`, `text`, `ingredients`, `persons`, `cost`, `difficulty`, `duration`) VALUES ('".$form_title."', '".$shortTitle."', ".($text === NULL ? "NULL" : "'".$text."'").", ".($ingredients === NULL ? "NULL" : "'".$ingredients."'").", '".$persons."', '".$cost."', '".$difficulty."', '".$duration."')")) {
         $content.= "<div class='successbox'>Rezept erfolgreich angelegt.</div>".PHP_EOL;
         $content.= "<div class='row'>".PHP_EOL.
         "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminitems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
@@ -244,11 +253,20 @@ if(!isset($_GET['action'])) {
     "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
     "</div>".PHP_EOL;
     /**
+     * Zutatenliste
+     */
+    $content.= "<div class='row hover bordered'>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Zutatenliste</div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><textarea name='ingredients' placeholder='Mehrzeiliger Text' tabindex='4'>".(isset($_POST['ingredients']) && !empty($_POST['ingredients']) ? output($_POST['ingredients']) : NULL)."</textarea></div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("* [Markdown für mehrzeilige Textfelder](/adminmarkdowninfo)* möglich\n* Das hier ist die Zutatenliste. Es empfiehlt sich eine Markdown Liste zu erstellen:\n- Bla 1\n- Bla 2")."</div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
+    "</div>".PHP_EOL;
+    /**
      * Personenanzahl
      */
     $content.= "<div class='row hover bordered'>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Personenanzahl</div>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='number' name='persons' placeholder='z.B. 4' tabindex='4' min='1' value='".(isset($_POST['persons']) && !empty($_POST['persons']) ? output($_POST['persons']) : NULL)."'></div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='number' name='persons' placeholder='z.B. 4' tabindex='5' min='1' value='".(isset($_POST['persons']) && !empty($_POST['persons']) ? output($_POST['persons']) : NULL)."'></div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("* Möglich sind alle positiven Zahlen\n* bei über 10 Personen wird eine Info angezeigt, das Rezept wird aber angelegt.")."</div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
     "</div>".PHP_EOL;
@@ -257,7 +275,7 @@ if(!isset($_GET['action'])) {
      */
     $content.= "<div class='row hover bordered'>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Kosten</div>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><select name='cost' tabindex='5'>".PHP_EOL."<option value='' selected disabled hidden>Bitte wählen</option>".PHP_EOL;
+    "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><select name='cost' tabindex='6'>".PHP_EOL."<option value='' selected disabled hidden>Bitte wählen</option>".PHP_EOL;
     $result = mysqli_query($dbl, "SELECT * FROM `meta_cost` ORDER BY `id` ASC") OR DIE(MYSQLI_ERROR($dbl));
     while($row = mysqli_fetch_array($result)) {
       $content.= "<option value='".$row['id']."'".((isset($_POST['cost']) && !empty($_POST['cost']) AND $row['id'] == $_POST['cost']) ? " selected" : NULL).">".output($row['title'])."</option>".PHP_EOL;
@@ -271,7 +289,7 @@ if(!isset($_GET['action'])) {
      */
     $content.= "<div class='row hover bordered'>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Schwierigkeit</div>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><select name='difficulty' tabindex='6'>".PHP_EOL."<option value='' selected disabled hidden>Bitte wählen</option>".PHP_EOL;
+    "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><select name='difficulty' tabindex='7'>".PHP_EOL."<option value='' selected disabled hidden>Bitte wählen</option>".PHP_EOL;
     $result = mysqli_query($dbl, "SELECT * FROM `meta_difficulty` ORDER BY `id` ASC") OR DIE(MYSQLI_ERROR($dbl));
     while($row = mysqli_fetch_array($result)) {
       $content.= "<option value='".$row['id']."'".((isset($_POST['difficulty']) && !empty($_POST['difficulty']) AND $row['id'] == $_POST['difficulty']) ? " selected" : NULL).">".output($row['title'])."</option>".PHP_EOL;
@@ -285,7 +303,7 @@ if(!isset($_GET['action'])) {
      */
     $content.= "<div class='row hover bordered'>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Dauer</div>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><select name='duration' tabindex='7'>".PHP_EOL."<option value='' selected disabled hidden>Bitte wählen</option>".PHP_EOL;
+    "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><select name='duration' tabindex='8'>".PHP_EOL."<option value='' selected disabled hidden>Bitte wählen</option>".PHP_EOL;
     $result = mysqli_query($dbl, "SELECT * FROM `meta_duration` ORDER BY `id` ASC") OR DIE(MYSQLI_ERROR($dbl));
     while($row = mysqli_fetch_array($result)) {
       $content.= "<option value='".$row['id']."'".((isset($_POST['duration']) && !empty($_POST['duration']) AND $row['id'] == $_POST['duration']) ? " selected" : NULL).">".output($row['title'])."</option>".PHP_EOL;
@@ -299,7 +317,7 @@ if(!isset($_GET['action'])) {
      */
     $content.= "<div class='row hover bordered'>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Rezept anlegen</div>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='submit' name='submit' value='Anlegen' tabindex='8'></div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='submit' name='submit' value='Anlegen' tabindex='9'></div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'></div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
     "</div>".PHP_EOL;
@@ -463,6 +481,15 @@ if(!isset($_GET['action'])) {
         $text = NULL;
       }
       /**
+       * Zutatenliste
+       */
+      if(!empty(trim($_POST['ingredients']))) {
+        $ingredients = defuse($_POST['ingredients']);
+      } else {
+        $content.= "<div class='infobox'>Die Zutatenliste ist leer. Rezept wird ohne Zutatenliste angelegt.</div>".PHP_EOL;
+        $ingredients = NULL;
+      }
+      /**
        * Personenanzahl
        */
       if(!empty($_POST['persons'])) {
@@ -523,7 +550,7 @@ if(!isset($_GET['action'])) {
         /**
          * Wenn durch die Postdaten-Validierung die Inhalte geprüft und entschärft wurden, kann der Query erzeugt und ausgeführt werden.
          */
-        if(mysqli_query($dbl, "UPDATE `items` SET `title`='".$form_title."', `shortTitle`='".$shortTitle."', `text`=".($text === NULL ? "NULL" : "'".$text."'").", `persons`='".$persons."', `cost`='".$cost."', `difficulty`='".$difficulty."', `duration`='".$duration."' WHERE `id`='".$id."' LIMIT 1")) {
+        if(mysqli_query($dbl, "UPDATE `items` SET `title`='".$form_title."', `shortTitle`='".$shortTitle."', `text`=".($text === NULL ? "NULL" : "'".$text."'").", `ingredients`=".($ingredients === NULL ? "NULL" : "'".$ingredients."'").", `persons`='".$persons."', `cost`='".$cost."', `difficulty`='".$difficulty."', `duration`='".$duration."' WHERE `id`='".$id."' LIMIT 1")) {
           $content.= "<div class='successbox'>Rezept erfolgreich geändert.</div>".PHP_EOL;
           $content.= "<div class='row'>".PHP_EOL.
           "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminitems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
@@ -590,11 +617,20 @@ if(!isset($_GET['action'])) {
       "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
       "</div>".PHP_EOL;
       /**
+       * Zutatenliste
+       */
+      $content.= "<div class='row hover bordered'>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Zutatenliste</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><textarea name='ingredients' placeholder='Mehrzeiliger Text' tabindex='4'>".(isset($_POST['ingredients']) && !empty($_POST['ingredients']) ? output($_POST['ingredients']) : NULL)."</textarea></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("* [Markdown für mehrzeilige Textfelder](/adminmarkdowninfo)* möglich\n* Das hier ist die Zutatenliste. Es empfiehlt sich eine Markdown Liste zu erstellen:\n- Bla 1\n- Bla 2")."</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
+      "</div>".PHP_EOL;
+      /**
        * Personenanzahl
        */
       $content.= "<div class='row hover bordered'>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Personenanzahl</div>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='number' name='persons' placeholder='z.B. 4' tabindex='4' min='1' value='".(isset($row['persons']) ? output($row['persons']) : (isset($_POST['persons']) && !empty($_POST['persons']) ? output($_POST['persons']) : NULL))."'></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='number' name='persons' placeholder='z.B. 4' tabindex='5' min='1' value='".(isset($row['persons']) ? output($row['persons']) : (isset($_POST['persons']) && !empty($_POST['persons']) ? output($_POST['persons']) : NULL))."'></div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("* Möglich sind alle positiven Zahlen\n* bei über 10 Personen wird eine Info angezeigt, das Rezept wird aber angelegt.")."</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
       "</div>".PHP_EOL;
@@ -603,7 +639,7 @@ if(!isset($_GET['action'])) {
        */
       $content.= "<div class='row hover bordered'>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Kosten</div>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><select name='cost' tabindex='5'>".PHP_EOL."<option value='' selected disabled hidden>Bitte wählen</option>".PHP_EOL;
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><select name='cost' tabindex='6'>".PHP_EOL."<option value='' selected disabled hidden>Bitte wählen</option>".PHP_EOL;
       $innerresult = mysqli_query($dbl, "SELECT * FROM `meta_cost` ORDER BY `id` ASC") OR DIE(MYSQLI_ERROR($dbl));
       while($innerrow = mysqli_fetch_array($innerresult)) {
         $content.= "<option value='".$innerrow['id']."'".(isset($row['cost']) ? ($row['cost'] == $innerrow['id'] ? " selected" : NULL) : ((isset($_POST['cost']) && !empty($_POST['cost']) AND $innerrow['id'] == $_POST['cost']) ? " selected" : NULL)).">".output($innerrow['title'])."</option>".PHP_EOL;
@@ -617,7 +653,7 @@ if(!isset($_GET['action'])) {
        */
       $content.= "<div class='row hover bordered'>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Schwierigkeit</div>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><select name='difficulty' tabindex='6'>".PHP_EOL."<option value='' selected disabled hidden>Bitte wählen</option>".PHP_EOL;
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><select name='difficulty' tabindex='7'>".PHP_EOL."<option value='' selected disabled hidden>Bitte wählen</option>".PHP_EOL;
       $innerresult = mysqli_query($dbl, "SELECT * FROM `meta_difficulty` ORDER BY `id` ASC") OR DIE(MYSQLI_ERROR($dbl));
       while($innerrow = mysqli_fetch_array($innerresult)) {
         $content.= "<option value='".$innerrow['id']."'".(isset($row['difficulty']) ? ($row['difficulty'] == $innerrow['id'] ? " selected" : NULL) : ((isset($_POST['difficulty']) && !empty($_POST['difficulty']) AND $innerrow['id'] == $_POST['difficulty']) ? " selected" : NULL)).">".output($innerrow['title'])."</option>".PHP_EOL;
@@ -631,7 +667,7 @@ if(!isset($_GET['action'])) {
        */
       $content.= "<div class='row hover bordered'>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Dauer</div>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><select name='duration' tabindex='7'>".PHP_EOL."<option value='' selected disabled hidden>Bitte wählen</option>".PHP_EOL;
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><select name='duration' tabindex='8'>".PHP_EOL."<option value='' selected disabled hidden>Bitte wählen</option>".PHP_EOL;
       $innerresult = mysqli_query($dbl, "SELECT * FROM `meta_duration` ORDER BY `id` ASC") OR DIE(MYSQLI_ERROR($dbl));
       while($innerrow = mysqli_fetch_array($innerresult)) {
         $content.= "<option value='".$innerrow['id']."'".(isset($row['duration']) ? ($row['duration'] == $innerrow['id'] ? " selected" : NULL) : ((isset($_POST['duration']) && !empty($_POST['duration']) AND $innerrow['id'] == $_POST['duration']) ? " selected" : NULL)).">".output($innerrow['title'])."</option>".PHP_EOL;
@@ -645,7 +681,7 @@ if(!isset($_GET['action'])) {
        */
       $content.= "<div class='row hover bordered'>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Rezept ändern</div>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='submit' name='submit' value='Ändern' tabindex='8'></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='submit' name='submit' value='Ändern' tabindex='9'></div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'></div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
       "</div>".PHP_EOL;
