@@ -7,6 +7,6 @@ function toggleMenu() {
   }
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-  document.getElementById('toggle').addEventListener('click', toggleMenu);
+document.addEventListener("DOMContentLoaded", function () {
+  document.getElementById("toggle").addEventListener("click", toggleMenu);
 });
