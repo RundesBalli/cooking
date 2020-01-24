@@ -41,9 +41,46 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
     /**
      * Bilder, Eckdaten & Zutaten ausgeben
      */
-    if(count($images) > 1) {
-      
+    $count = count($images);
+    if($count > 1) {
+      /**
+       * Bei mehreren Bildern
+       */
+      $content.= "<div class='row recipe center'>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-6 col-xl-6 ingredients center'>".PHP_EOL.
+      "<h2 class='center'><span class='fas icon'>&#xf0ce;</span>Eckdaten</h2>".PHP_EOL.
+      "<ul>".PHP_EOL.
+      "<li>".stars($row['votes'])."<br>".$row['votes']." von 5 Sternen - <a href='#'>Abstimmen</a></li>".PHP_EOL.
+      "<li><span class='far icon'>&#xf25a;</span>".$row['clicks']." Klicks</li>".PHP_EOL.
+      "<li><span class='far icon'>&#xf0eb;</span>Schwierigkeit: ".$row['difficulty']."</li>".PHP_EOL.
+      "<li><span class='far icon'>&#xf254;</span>Dauer: ".$row['duration']."</li>".PHP_EOL.
+      "<li><span class='fas icon'>&#xf153;</span>Kosten: ".$row['cost']."</li>".PHP_EOL.
+      "</ul>".PHP_EOL.
+      "<div class='spacer-s'></div>".PHP_EOL;
+      if(!empty($row['ingredients'])) {
+        $content.= "<h2 class='center'><span class='fas icon'>&#xf4d8;</span>Zutaten für ".$row['persons']." Personen</h2>".PHP_EOL.Slimdown::render($row['ingredients']).PHP_EOL.
+        "<div class='spacer-s'></div>".PHP_EOL;
+      }
+      $content.= "</div>".PHP_EOL;
+
+      $slideshow = "<div id='slideshowContainer'>".PHP_EOL;
+      foreach($images as $key => $val) {
+        $internalId = $key + 1;
+        $slideshow.= "<div class='mySlides fade'>".PHP_EOL.
+        "<div class='numbertext'>".$internalId." / ".$count."</div>".PHP_EOL.
+        "<a href='/img/img-".$row['id']."-full-".$val.".png' target='_blank'><img src='/img/img-".$row['id']."-small-".$val.".png' alt='Bild'></a>".PHP_EOL.
+        "</div>".PHP_EOL;
+      }
+      $slideshow.= "<a id='prev'>&#10094;</a>".PHP_EOL;
+      $slideshow.= "<a id='next'>&#10095;</a>".PHP_EOL;
+      $slideshow.= "</div>".PHP_EOL;
+
+      $content.= "<div class='col-x-12 col-s-12 col-m-12 col-l-6 col-xl-6'>".$slideshow."</div>".PHP_EOL.
+      "</div>".PHP_EOL;
     } else {
+      /**
+       * Bei einem oder keinem Bild
+       */
       $content.= "<div class='row recipe center'>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-12 col-l-6 col-xl-6 ingredients center'>".PHP_EOL.
       "<h2 class='center'><span class='fas icon'>&#xf0ce;</span>Eckdaten</h2>".PHP_EOL.
