@@ -135,6 +135,18 @@ p {
   margin: 0 0 10px;
 }
 
+h1 {
+  font-size: 40px;
+}
+
+h2 {
+  font-size: 32px;
+}
+
+h3 {
+  font-size: 25px;
+}
+
 /*
 1.1 Fontawesome Free
 https://fontawesome.com/
@@ -432,7 +444,7 @@ label {
 
 #sidebar a {
   display: block;
-  color: #75c0c7;
+  color: #f2f5f4;
   padding: 8px 16px;
   text-decoration: none;
   transition: background-color 0.3s, color 0.3s;
