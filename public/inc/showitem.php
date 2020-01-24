@@ -42,26 +42,7 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
      * Bilder, Eckdaten & Zutaten ausgeben
      */
     if(count($images) > 1) {
-      //
-    } elseif(count($images) == 1) {
-      $content.= "<div class='row recipe center'>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-12 col-l-6 col-xl-6 ingredients center'>".PHP_EOL.
-      "<h2 class='center'><span class='fas icon'>&#xf0ce;</span>Eckdaten</h2>".PHP_EOL.
-      "<ul>".PHP_EOL.
-      "<li>".stars($row['votes'])."<br>".$row['votes']." von 5 Sternen - <a href='#'>Abstimmen</a></li>".PHP_EOL.
-      "<li><span class='far icon'>&#xf25a;</span>".$row['clicks']." Klicks</li>".PHP_EOL.
-      "<li><span class='far icon'>&#xf0eb;</span>Schwierigkeit: ".$row['difficulty']."</li>".PHP_EOL.
-      "<li><span class='far icon'>&#xf254;</span>Dauer: ".$row['duration']."</li>".PHP_EOL.
-      "<li><span class='fas icon'>&#xf153;</span>Kosten: ".$row['cost']."</li>".PHP_EOL.
-      "</ul>".PHP_EOL.
-      "<div class='spacer-s'></div>".PHP_EOL;
-      if(!empty($row['ingredients'])) {
-        $content.= "<h2 class='center'><span class='fas icon'>&#xf4d8;</span>Zutaten für ".$row['persons']." Personen</h2>".PHP_EOL.Slimdown::render($row['ingredients']).PHP_EOL.
-        "<div class='spacer-s'></div>".PHP_EOL;
-      }
-      $content.= "</div>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-12 col-l-6 col-xl-6'><a href='/img/img-".$row['id']."-full-".$images[0].".png' target='_blank'><img src='/img/img-".$row['id']."-medium-".$images[0].".png' alt='Bild'></a></div>".PHP_EOL.
-      "</div>".PHP_EOL;
+      
     } else {
       $content.= "<div class='row recipe center'>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-12 col-l-6 col-xl-6 ingredients center'>".PHP_EOL.
@@ -79,7 +60,7 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
         "<div class='spacer-s'></div>".PHP_EOL;
       }
       $content.= "</div>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-12 col-l-6 col-xl-6'><img src='/img/noimg.png' alt='Bild'></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-6 col-xl-6'>".(count($images) == 1 ? "<a href='/img/img-".$row['id']."-full-".$images[0].".png' target='_blank'><img src='/img/img-".$row['id']."-medium-".$images[0].".png' alt='Bild'></a>" : "<img src='/img/noimg.png' alt='kein Bild vorhanden'>")."</div>".PHP_EOL.
       "</div>".PHP_EOL;
     }
     /**
