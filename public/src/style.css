@@ -380,6 +380,38 @@ Lizenz: https://fontawesome.com/license/free
   display: inline-block;
 }
 
+.ingredients, .recipespecs {
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+@media only screen and (min-width: 1200px) {
+  .ingredients, .recipespecs {
+    max-width: 60%;
+    margin: 0 auto;
+  }
+}
+
+.ingredients ul, .recipespecs ul {
+  list-style-type: none;
+}
+
+.ingredients li, .recipespecs li {
+  background: #212121;
+  padding: 5px 15px;
+  margin: 8px 15px;
+  border-radius: 2px;
+}
+
+.ingredients li:nth-child(even), .recipespecs li:nth-child(even) {
+  background: #444444;
+}
+
+.recipe img {
+  border-radius: 15px;
+  border: 1px solid #f2f5f4;
+}
+
 /*
   3. Forms
 */
@@ -458,6 +490,10 @@ label {
 #sidebar span.icon, .icon {
   display: inline;
   padding: 0px 5px 0px 0px;
+}
+
+h1 .icon, h2 .icon, h3 .icon {
+  padding: 0px 15px 0px 0px;
 }
 
 .iconright {

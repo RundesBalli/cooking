@@ -1,0 +1,96 @@
+<?php
+/**
+ * showitem.php
+ * 
+ * Anzeige eines Rezepts.
+ */
+
+/**
+ * Prüfen ob das übergebene Rezept leer ist.
+ */
+if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
+  http_response_code(404);
+  $content.= "<h1>404 - Not Found</h1>".PHP_EOL;
+  $content.= "<div class='row'>".PHP_EOL.
+  "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'>Du musst ein Rezept angeben.</div>".PHP_EOL.
+  "</div>".PHP_EOL;
+} else {
+  /**
+   * Übergebene Kategorie für den Query vorbereiten.
+   */
+  $item = defuse($_GET['item']);
+
+  /**
+   * Rezept abfragen
+   */
+  $result = mysqli_query($dbl, "SELECT `items`.`id`, `items`.`title`, `items`.`shortTitle`, `items`.`text`, `items`.`ingredients`, `items`.`persons`, `meta_cost`.`title` AS `cost`, `meta_difficulty`.`title` AS `difficulty`, `meta_duration`.`title` AS `duration`, (SELECT COUNT(`id`) FROM `clicks` WHERE `clicks`.`itemid` = `items`.`id`) AS `clicks`, (SELECT round(avg(`votes`.`stars`),2) FROM `votes` WHERE `votes`.`itemid` = `items`.`id`) AS `votes` FROM `items` JOIN `meta_cost` ON `items`.`cost` = `meta_cost`.`id` JOIN `meta_difficulty` ON `items`.`difficulty` = `meta_difficulty`.`id`JOIN `meta_duration` ON `items`.`duration` = `meta_duration`.`id` WHERE `shortTitle`='".$item."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+  if(mysqli_num_rows($result) == 1) {
+    $row = mysqli_fetch_array($result);
+    $title = $row['title'];
+    $content.= "<h1 class='center'><span class='fas icon'>&#xf543;</span>Rezept: ".$row['title']."</h1>".PHP_EOL;
+    $content.= "<div class='spacer-s'></div>".PHP_EOL;
+    $content.= "<h2 class='center'><span class='fas icon'>&#xf0ce;</span>Eckdaten</h2>".PHP_EOL.
+    "<div class='recipespecs center'>".PHP_EOL.
+    "<ul>".PHP_EOL.
+    "<li>".stars($row['votes'])."<br>".$row['votes']." von 5 Sternen - <a href='#'>Abstimmen</a></li>".PHP_EOL.
+    "<li><span class='far icon'>&#xf25a;</span>".$row['clicks']." Klicks</li>".PHP_EOL.
+    "<li><span class='far icon'>&#xf0eb;</span>Schwierigkeit: ".$row['difficulty']."</li>".PHP_EOL.
+    "<li><span class='far icon'>&#xf254;</span>Dauer: ".$row['duration']."</li>".PHP_EOL.
+    "<li><span class='fas icon'>&#xf153;</span>Kosten: ".$row['cost']."</li>".PHP_EOL.
+    "</ul>".PHP_EOL.
+    "</div>".PHP_EOL;
+    $content.= "<div class='spacer-l'></div>".PHP_EOL;
+    /**
+     * Bilder Selektieren
+     */
+    $imgresult = mysqli_query($dbl, "SELECT * FROM `images` WHERE `itemid`='".$row['id']."' AND `thumb`='0' ORDER BY `sortIndex` ASC") OR DIE(MYSQLI_ERROR($dbl));
+    $images = array();
+    while($imgrow = mysqli_fetch_array($imgresult)) {
+      $images[] = $imgrow['filehash'];
+    }
+    /**
+     * Bilder ausgeben
+     */
+    if(count($images) == 2) {
+      $content.= "<div class='row recipe center'>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-6 col-xl-6'><a href='/img/img-".$row['id']."-full-".$images[0].".png' target='_blank'><img src='/img/img-".$row['id']."-small-".$images[0].".png' alt='Bild'></a></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-6 col-xl-6'><a href='/img/img-".$row['id']."-full-".$images[1].".png' target='_blank'><img src='/img/img-".$row['id']."-small-".$images[1].".png' alt='Bild'></a></div>".PHP_EOL.
+      "</div>".PHP_EOL;
+    } elseif(count($images) == 1) {
+      $content.= "<div class='row recipe center'>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/img/img-".$row['id']."-full-".$images[0].".png' target='_blank'><img src='/img/img-".$row['id']."-small-".$images[0].".png' alt='Bild'></a></div>".PHP_EOL.
+      "</div>".PHP_EOL;
+    } else {
+      $content.= "<div class='row recipe center'>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><img src='/img/noimg.png' alt='Bild'></div>".PHP_EOL.
+      "</div>".PHP_EOL;
+    }
+    /**
+     * Zutatenliste
+     */
+    if(!empty($row['ingredients'])) {
+      $content.= "<div class='spacer-s'></div>".PHP_EOL;
+      $content.= "<h2 class='center'>Zutaten für ".$row['persons']." Personen</h2>".PHP_EOL;
+      $content.= "<div class='row ingredients center'>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'>".Slimdown::render($row['ingredients'])."</div>".PHP_EOL.
+      "</div>".PHP_EOL;
+      $content.= "<div class='spacer-m'></div>".PHP_EOL;
+    }
+    /**
+     * Text
+     */
+    $content.= "<div class='row'>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'>".Slimdown::render($row['text'])."</div>".PHP_EOL.
+    "</div>".PHP_EOL;
+  } else {
+    /**
+     * Fehlermeldung, wenn das Rezept nicht existiert.
+     */
+    http_response_code(404);
+    $content.= "<h1>404 - Not Found</h1>".PHP_EOL;
+    $content.= "<div class='row'>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'>Das Rezept <span class='italic'>".output($item)."</span> existiert nicht.</div>".PHP_EOL.
+    "</div>".PHP_EOL;
+  }
+}
+?>
