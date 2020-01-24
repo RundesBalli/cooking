@@ -97,7 +97,7 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
         "<div class='spacer-s'></div>".PHP_EOL;
       }
       $content.= "</div>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-12 col-l-6 col-xl-6'>".(count($images) == 1 ? "<a href='/img/img-".$row['id']."-full-".$images[0].".png' target='_blank'><img src='/img/img-".$row['id']."-medium-".$images[0].".png' alt='Bild'></a>" : "<img src='/img/noimg.png' alt='kein Bild vorhanden'>")."</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-6 col-xl-6'>".(count($images) == 1 ? "<a href='/img/img-".$row['id']."-full-".$images[0].".png' target='_blank'><img src='/img/img-".$row['id']."-small-".$images[0].".png' alt='Bild'></a>" : "<img src='/img/noimg.png' alt='kein Bild vorhanden'>")."</div>".PHP_EOL.
       "</div>".PHP_EOL;
     }
     /**
