@@ -28,8 +28,6 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
     $row = mysqli_fetch_array($result);
     $title = $row['title'];
     $content.= "<h1 class='center'><span class='fas icon'>&#xf543;</span>Rezept: ".$row['title']."</h1>".PHP_EOL;
-    $content.= "<div class='spacer-s'></div>".PHP_EOL;
-    $content.= "<div class='spacer-l'></div>".PHP_EOL;
     /**
      * Bilder Selektieren
      */
