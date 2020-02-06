@@ -23,6 +23,10 @@ RewriteRule ^kategorie\/([\w\d-]+)$ /index.php?p=showcategory&category=$1 [NC,L,
 # rezept/{Name}
 RewriteRule ^rezept\/([\w\d-]+)$ /index.php?p=showitem&item=$1 [NC,L,QSA]
 
+# Vote Regel
+# vote/{Name}
+RewriteRule ^vote\/([\w\d-]+)$ /index.php?p=vote&item=$1 [NC,L,QSA]
+
 # Admin Regel
 # admin.../{Funktion} ohne ID
 # admin.../{Funktion}/id

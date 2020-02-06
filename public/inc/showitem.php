@@ -26,6 +26,15 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
   $result = mysqli_query($dbl, "SELECT `items`.`id`, `items`.`title`, `items`.`shortTitle`, `items`.`text`, `items`.`ingredients`, `items`.`persons`, `meta_cost`.`title` AS `cost`, `meta_difficulty`.`title` AS `difficulty`, `meta_duration`.`title` AS `duration`, (SELECT COUNT(`id`) FROM `clicks` WHERE `clicks`.`itemid` = `items`.`id`) AS `clicks`, (SELECT ifnull(round(avg(`votes`.`stars`),2), 0) FROM `votes` WHERE `votes`.`itemid` = `items`.`id`) AS `votes` FROM `items` JOIN `meta_cost` ON `items`.`cost` = `meta_cost`.`id` JOIN `meta_difficulty` ON `items`.`difficulty` = `meta_difficulty`.`id`JOIN `meta_duration` ON `items`.`duration` = `meta_duration`.`id` WHERE `shortTitle`='".$item."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
   if(mysqli_num_rows($result) == 1) {
     $row = mysqli_fetch_array($result);
+    
+    /**
+     * Klick zählen oder aktualisieren
+     */
+    mysqli_query($dbl, "UPDATE `clicks` SET `ts`=CURRENT_TIMESTAMP WHERE `hash`='".$UUI."' AND `ts` > DATE_SUB(NOW(), INTERVAL 30 HOUR) LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+    if(mysqli_affected_rows($dbl) != 1) {
+      mysqli_query($dbl, "INSERT INTO `clicks` (`itemid`, `hash`) VALUES ('".$row['id']."', '".$UUI."')") OR DIE(MYSQLI_ERROR($dbl));
+    }
+
     $title = $row['title'];
     $content.= "<h1 class='center'><span class='fas icon'>&#xf543;</span>Rezept: ".$row['title']."</h1>".PHP_EOL;
     /**
@@ -48,7 +57,7 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
       "<div class='col-x-12 col-s-12 col-m-12 col-l-6 col-xl-6 ingredients center'>".PHP_EOL.
       "<h2 class='center'><span class='fas icon'>&#xf0ce;</span>Eckdaten</h2>".PHP_EOL.
       "<ul>".PHP_EOL.
-      "<li>".stars($row['votes'])."<br>".$row['votes']." von 5 Sternen - <a href='#'>Abstimmen</a></li>".PHP_EOL.
+      "<li>".stars($row['votes'])."<br>".$row['votes']." von 5 Sternen - <a href='/vote/".$row['shortTitle']."'>Abstimmen</a></li>".PHP_EOL.
       "<li><span class='far icon'>&#xf25a;</span>".$row['clicks']." Klicks</li>".PHP_EOL.
       "<li><span class='far icon'>&#xf0eb;</span>Schwierigkeit: ".$row['difficulty']."</li>".PHP_EOL.
       "<li><span class='far icon'>&#xf254;</span>Dauer: ".$row['duration']."</li>".PHP_EOL.
@@ -83,7 +92,7 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
       "<div class='col-x-12 col-s-12 col-m-12 col-l-6 col-xl-6 ingredients center'>".PHP_EOL.
       "<h2 class='center'><span class='fas icon'>&#xf0ce;</span>Eckdaten</h2>".PHP_EOL.
       "<ul>".PHP_EOL.
-      "<li>".stars($row['votes'])."<br>".$row['votes']." von 5 Sternen - <a href='#'>Abstimmen</a></li>".PHP_EOL.
+      "<li>".stars($row['votes'])."<br>".$row['votes']." von 5 Sternen - <a href='/vote/".$row['shortTitle']."'>Abstimmen</a></li>".PHP_EOL.
       "<li><span class='far icon'>&#xf25a;</span>".$row['clicks']." Klicks</li>".PHP_EOL.
       "<li><span class='far icon'>&#xf0eb;</span>Schwierigkeit: ".$row['difficulty']."</li>".PHP_EOL.
       "<li><span class='far icon'>&#xf254;</span>Dauer: ".$row['duration']."</li>".PHP_EOL.
