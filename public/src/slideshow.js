@@ -11,6 +11,8 @@
     var i;
     var slides = document.getElementsByClassName("mySlides");
 
+    if (!slides) return;
+
     if (n > slides.length) slideIndex = 1;
     if (n < 1) slideIndex = slides.length;
 
@@ -20,18 +22,18 @@
   }
 
   document.addEventListener("DOMContentLoaded", function(){
-    showSlides(slideIndex);
-  });
+    if (!!document.getElementsByClassName("mySlides")){
+      showSlides(slideIndex);
+    }
+    
+    if (!!document.getElementById("prev") && !!document.getElementById("next")){
+      document.getElementById("prev").addEventListener("click", function(){
+        plusSlides(-1);
+      });
 
-  document.addEventListener("DOMContentLoaded", function(){
-    document.getElementById("prev").addEventListener("click", function(){
-      plusSlides(-1);
-    });
-  });
-
-  document.addEventListener("DOMContentLoaded", function(){
-    document.getElementById("next").addEventListener("click", function(){
-      plusSlides(1);
-    });
+      document.getElementById("next").addEventListener("click", function(){
+        plusSlides(1);
+      });
+    }
   });
 })();
