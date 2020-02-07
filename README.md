@@ -8,5 +8,5 @@ Entwicklung durch [RundesBalli](https://RundesBalli.com). Verbesserungsvorschlä
 * Headergrafik und Favicon von [Soldiermelly](https://pr0gramm.com/user/Soldiermelly)
 * [Fontawesome](https://fontawesome.com/license/free)
 * [Layout](https://www.w3schools.com/howto/howto_css_sidebar_responsive.asp)
-* [StarRating](https://gist.github.com/NLDev/464b08135138f1c1a135053a898b1a79) von @NLDev
-* [Slimdown Markdownparser](https://gist.github.com/jbroadway/2836900) von @jbroadway
+* [StarRating](https://gist.github.com/NLDev/464b08135138f1c1a135053a898b1a79) von [@NLDev](https://github.com/NLDev)
+* [Slimdown Markdownparser](https://gist.github.com/jbroadway/2836900) von [@jbroadway](https://github.com/jbroadway)
