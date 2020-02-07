@@ -65,7 +65,7 @@ DROP TABLE IF EXISTS `clicks`;
 CREATE TABLE `clicks` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Laufende ID',
   `itemid` int(10) unsigned NOT NULL COMMENT 'Item ID',
-  `hash` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'User-Unique-Hash',
+  `hash` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Unique-User-Identifier',
   `ts` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Zeitpunkt des Zugriffs',
   PRIMARY KEY (`id`),
   KEY `itemid` (`itemid`),
@@ -182,7 +182,7 @@ DROP TABLE IF EXISTS `votes`;
 CREATE TABLE `votes` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Laufende ID',
   `itemid` int(10) unsigned NOT NULL COMMENT 'Item ID',
-  `hash` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'User-Unique-Hash',
+  `hash` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Unique-User-Identifier',
   `ts` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Zeitpunkt des Votes',
   `stars` tinyint(1) unsigned NOT NULL COMMENT 'Anzahl der Sterne',
   PRIMARY KEY (`id`),
@@ -204,4 +204,4 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `most_clicked` AS select `c
 DROP TABLE IF EXISTS `stats`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `stats` AS select (select count(`categories`.`id`) from `categories`) AS `cat_count`,(select count(`items`.`id`) from `items`) AS `item_count`,(select count(`clicks`.`id`) from `clicks`) AS `click_count`,(select count(`clicks`.`id`) from `clicks` where (`clicks`.`ts` > cast(curdate() as datetime))) AS `clicks_today`;
 
--- 2019-12-22 17:10:13
+-- 2020-02-07 14:12:53
