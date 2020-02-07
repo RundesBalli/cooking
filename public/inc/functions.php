@@ -47,8 +47,8 @@ require_once(__DIR__.DIRECTORY_SEPARATOR."slimdown.php");
  * 
  * @return string Das fertige Div-Element
  */
-function stars(float $stars = 0) {
-  $layout = "<div class='rating' title='".$stars." Sterne'>
+function stars(float $stars = 0, $voteCount = NULL) {
+  $layout = "<div class='rating' title='".number_format($stars, 2, ",", ".")." Sterne".($voteCount !== NULL ? " (".number_format($voteCount, 0, ",", ".")." Stimmen)" : NULL)."'>
   <div class='rating-upper' style='width: ".($stars/5*100)."%'>
     <span>★</span>
     <span>★</span>

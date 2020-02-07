@@ -42,7 +42,7 @@ if(!isset($_GET['category']) OR empty(trim($_GET['category']))) {
     /**
      * Inhalte der Kategorie anzeigen.
      */
-    $result = mysqli_query($dbl, "SELECT `items`.`id`, `items`.`title`, `items`.`shortTitle`, `meta_cost`.`title` AS `cost`, `meta_difficulty`.`title` AS `difficulty`, `meta_duration`.`title` AS `duration`, (SELECT COUNT(`id`) FROM `clicks` WHERE `clicks`.`itemid` = `category_items`.`item_id`) AS `clicks`, (SELECT round(avg(`votes`.`stars`),2) FROM `votes` WHERE `votes`.`itemid` = `category_items`.`item_id`) AS `votes`, (SELECT `images`.`filehash` FROM `images` WHERE `images`.`itemid` = `category_items`.`item_id` AND `images`.`thumb`=1) AS `filehash` FROM `category_items` JOIN `items` ON `category_items`.`item_id` = `items`.`shortTitle` JOIN `meta_cost` ON `items`.`cost` = `meta_cost`.`id` JOIN `meta_difficulty` ON `items`.`difficulty` = `meta_difficulty`.`id` JOIN `meta_duration` ON `items`.`duration` = `meta_duration`.`id` WHERE `category_id`='".$row['id']."' ORDER BY `category_items`.`sortIndex` ASC, `items`.`title` ASC") OR DIE(MYSQLI_ERROR($dbl));
+    $result = mysqli_query($dbl, "SELECT `items`.`id`, `items`.`title`, `items`.`shortTitle`, `meta_cost`.`title` AS `cost`, `meta_difficulty`.`title` AS `difficulty`, `meta_duration`.`title` AS `duration`, (SELECT COUNT(`id`) FROM `clicks` WHERE `clicks`.`itemid` = `category_items`.`item_id`) AS `clicks`, IFNULL((SELECT round(avg(`votes`.`stars`),2) FROM `votes` WHERE `votes`.`itemid` = `category_items`.`item_id`), 0) AS `votes`, IFNULL((SELECT COUNT(`votes`.`id`) FROM `votes` WHERE `votes`.`itemid` = `category_items`.`item_id`), 0) AS `voteCount`, (SELECT `images`.`filehash` FROM `images` WHERE `images`.`itemid` = `category_items`.`item_id` AND `images`.`thumb`=1) AS `filehash` FROM `category_items` JOIN `items` ON `category_items`.`item_id` = `items`.`shortTitle` JOIN `meta_cost` ON `items`.`cost` = `meta_cost`.`id` JOIN `meta_difficulty` ON `items`.`difficulty` = `meta_difficulty`.`id` JOIN `meta_duration` ON `items`.`duration` = `meta_duration`.`id` WHERE `category_id`='".$row['id']."' ORDER BY `category_items`.`sortIndex` ASC, `items`.`title` ASC") OR DIE(MYSQLI_ERROR($dbl));
     if(mysqli_num_rows($result) == 0) {
       $content.= "<div class='infobox'>Dieser Kategorie wurden noch keine Rezepte zugewiesen</div>".PHP_EOL;
     } else {
@@ -53,8 +53,8 @@ if(!isset($_GET['category']) OR empty(trim($_GET['category']))) {
         "<img src='/img/".($row['filehash'] === NULL ? "nothumb.png" : "thumb-".$row['id']."-".$row['filehash'].".png")."'>".PHP_EOL.
         "<div><span class='title'>".$row['title']."</span></div>".PHP_EOL.
         "</a>".PHP_EOL.
-        "<div class='stars'>".stars($row['votes'])."</div>".PHP_EOL.
-        "<div class='specs'><span class='far icon'>&#xf25a;</span>&nbsp;".$row['clicks']."</div>".PHP_EOL.
+        "<div class='stars'>".stars($row['votes'], $row['voteCount'])."</div>".PHP_EOL.
+        "<div class='specs'><span class='far icon'>&#xf25a;</span>&nbsp;".number_format($row['clicks'], 0, ",", ".")."</div>".PHP_EOL.
         "<div class='specs'><span class='far icon'>&#xf0eb;</span> ".$row['difficulty']."</div>".PHP_EOL.
         "<div class='specs'><span class='far icon'>&#xf254;</span> ".$row['duration']."</div>".PHP_EOL.
         "<div class='specs'><span class='fas icon'>&#xf153;</span> ".$row['cost']."</div>".PHP_EOL.

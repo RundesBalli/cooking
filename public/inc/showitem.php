@@ -23,7 +23,7 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
   /**
    * Rezept abfragen
    */
-  $result = mysqli_query($dbl, "SELECT `items`.`id`, `items`.`title`, `items`.`shortTitle`, `items`.`text`, `items`.`ingredients`, `items`.`persons`, `meta_cost`.`title` AS `cost`, `meta_difficulty`.`title` AS `difficulty`, `meta_duration`.`title` AS `duration`, (SELECT COUNT(`id`) FROM `clicks` WHERE `clicks`.`itemid` = `items`.`id`) AS `clicks`, (SELECT ifnull(round(avg(`votes`.`stars`),2), 0) FROM `votes` WHERE `votes`.`itemid` = `items`.`id`) AS `votes` FROM `items` JOIN `meta_cost` ON `items`.`cost` = `meta_cost`.`id` JOIN `meta_difficulty` ON `items`.`difficulty` = `meta_difficulty`.`id`JOIN `meta_duration` ON `items`.`duration` = `meta_duration`.`id` WHERE `shortTitle`='".$item."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+  $result = mysqli_query($dbl, "SELECT `items`.`id`, `items`.`title`, `items`.`shortTitle`, `items`.`text`, `items`.`ingredients`, `items`.`persons`, `meta_cost`.`title` AS `cost`, `meta_difficulty`.`title` AS `difficulty`, `meta_duration`.`title` AS `duration`, (SELECT COUNT(`id`) FROM `clicks` WHERE `clicks`.`itemid` = `items`.`id`) AS `clicks`, IFNULL((SELECT round(avg(`votes`.`stars`),2) FROM `votes` WHERE `votes`.`itemid` = `items`.`id`), 0) AS `votes`, IFNULL((SELECT COUNT(`votes`.`id`) FROM `votes` WHERE `votes`.`itemid` = `items`.`id`), 0) AS `voteCount` FROM `items` JOIN `meta_cost` ON `items`.`cost` = `meta_cost`.`id` JOIN `meta_difficulty` ON `items`.`difficulty` = `meta_difficulty`.`id`JOIN `meta_duration` ON `items`.`duration` = `meta_duration`.`id` WHERE `shortTitle`='".$item."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
   if(mysqli_num_rows($result) == 1) {
     $row = mysqli_fetch_array($result);
     
@@ -57,8 +57,8 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
       "<div class='col-x-12 col-s-12 col-m-12 col-l-6 col-xl-6 ingredients center'>".PHP_EOL.
       "<h2 class='center'><span class='fas icon'>&#xf0ce;</span>Eckdaten</h2>".PHP_EOL.
       "<ul>".PHP_EOL.
-      "<li>".stars($row['votes'])."<br>".$row['votes']." von 5 Sternen - <a href='/vote/".$row['shortTitle']."'>Abstimmen</a></li>".PHP_EOL.
-      "<li><span class='far icon'>&#xf25a;</span>".$row['clicks']." Klicks</li>".PHP_EOL.
+      "<li>".stars($row['votes'], $row['voteCount'])." - <a href='/vote/".$row['shortTitle']."'>Abstimmen</a><br>".$row['votes']." von 5 Sternen (".number_format($row['voteCount'], 0, ",", ".")." Stimmen)</li>".PHP_EOL.
+      "<li><span class='far icon'>&#xf25a;</span>".number_format($row['clicks'], 0, ",", ".")." Klicks</li>".PHP_EOL.
       "<li><span class='far icon'>&#xf0eb;</span>Schwierigkeit: ".$row['difficulty']."</li>".PHP_EOL.
       "<li><span class='far icon'>&#xf254;</span>Dauer: ".$row['duration']."</li>".PHP_EOL.
       "<li><span class='fas icon'>&#xf153;</span>Kosten: ".$row['cost']."</li>".PHP_EOL.
@@ -92,8 +92,8 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
       "<div class='col-x-12 col-s-12 col-m-12 col-l-6 col-xl-6 ingredients center'>".PHP_EOL.
       "<h2 class='center'><span class='fas icon'>&#xf0ce;</span>Eckdaten</h2>".PHP_EOL.
       "<ul>".PHP_EOL.
-      "<li>".stars($row['votes'])."<br>".$row['votes']." von 5 Sternen - <a href='/vote/".$row['shortTitle']."'>Abstimmen</a></li>".PHP_EOL.
-      "<li><span class='far icon'>&#xf25a;</span>".$row['clicks']." Klicks</li>".PHP_EOL.
+      "<li>".stars($row['votes'], $row['voteCount'])." - <a href='/vote/".$row['shortTitle']."'>Abstimmen</a><br>".$row['votes']." von 5 Sternen (".number_format($row['voteCount'], 0, ",", ".")." Stimmen)</li>".PHP_EOL.
+      "<li><span class='far icon'>&#xf25a;</span>".number_format($row['clicks'], 0, ",", ".")." Klicks</li>".PHP_EOL.
       "<li><span class='far icon'>&#xf0eb;</span>Schwierigkeit: ".$row['difficulty']."</li>".PHP_EOL.
       "<li><span class='far icon'>&#xf254;</span>Dauer: ".$row['duration']."</li>".PHP_EOL.
       "<li><span class='fas icon'>&#xf153;</span>Kosten: ".$row['cost']."</li>".PHP_EOL.
