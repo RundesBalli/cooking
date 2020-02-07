@@ -225,89 +225,81 @@ if(mysqli_num_rows($result) == 0) {
                 }
               } else {
                 /**
-                 * Prüfen ob bereits zwei Bilder existieren.
+                 * Mindestgröße 1500x1500px
                  */
-                $result = mysqli_query($dbl, "SELECT * FROM `images` WHERE `itemid`='".$id."' AND `thumb`='0'") OR DIE(MYSQLI_ERROR($dbl));
-                if(mysqli_num_rows($result) == 2) {
-                  $content.= "<div class='warnbox'>Es können maximal zwei Bilder pro Rezept hochgeladen werden. Bitte vorher eins löschen.</div>".PHP_EOL;
+                if($width < 1500 OR $height < 1500) {
+                  $content.= "<div class='warnbox'>Das Bild ist zu klein. Es muss mindestens 1500x1500px groß sein.</div>".PHP_EOL;
                 } else {
                   /**
-                   * Mindestgröße 1500x1500px
+                   * Bildgröße ok. Nun wird die Bilder-Ressource erstellt.
                    */
-                  if($width < 1500 OR $height < 1500) {
-                    $content.= "<div class='warnbox'>Das Bild ist zu klein. Es muss mindestens 1500x1500px groß sein.</div>".PHP_EOL;
+                  if($type === IMAGETYPE_PNG) {
+                    $image = imagecreatefrompng($_FILES['file']['tmp_name']);
+                  } elseif($type === IMAGETYPE_JPEG) {
+                    $image = imagecreatefromjpeg($_FILES['file']['tmp_name']);
                   } else {
-                    /**
-                     * Bildgröße ok. Nun wird die Bilder-Ressource erstellt.
-                     */
-                    if($type === IMAGETYPE_PNG) {
-                      $image = imagecreatefrompng($_FILES['file']['tmp_name']);
-                    } elseif($type === IMAGETYPE_JPEG) {
-                      $image = imagecreatefromjpeg($_FILES['file']['tmp_name']);
-                    } else {
-                      unlink($_FILES['file']['tmp_name']);
-                      die();
-                    }
-
-                    /**
-                     * Die neuen Bildressourcen werden erstellt.
-                     */
-                    $picture_full = imagecreatetruecolor(1500, 1500);
-                    $picture_small = imagecreatetruecolor(600, 600);
-                    $picture_medium = imagecreatetruecolor(1000, 1000);
-                    $picture_big = imagecreatetruecolor(1200, 1200);
-
-                    /**
-                     * Die Verhältnisse und Startpunkte auf dem Quellbild werden ausgerechnet.
-                     */
-                    if($width >= $height) {
-                      $src_x = ($width-$height)/2;
-                      $src_y = 0;
-                      $src_w = $height;
-                      $src_h = $height;
-                    } else {
-                      $src_x = 0;
-                      $src_y = ($height-$width)/2;
-                      $src_w = $width;
-                      $src_h = $width;
-                    }
-
-                    /**
-                     * Das Bild wird in alle Formate kopiert und gespeichert.
-                     */
-                    $filehash = substr(md5(random_bytes(4096)), 0, 16);
-                    //full: 1500x1500px
-                    imagecopyresampled($picture_full, $image, 0, 0, $src_x, $src_y, 1500, 1500, $src_w, $src_h);
-                    imagepng($picture_full, $uploaddir."img-".$id."-full-".$filehash.".png");
-                    imagedestroy($picture_full);
-
-                    //small: 600x600px
-                    imagecopyresampled($picture_small, $image, 0, 0, $src_x, $src_y, 600, 600, $src_w, $src_h);
-                    imagepng($picture_small, $uploaddir."img-".$id."-small-".$filehash.".png");
-                    imagedestroy($picture_small);
-
-                    //medium: 1000x1000px
-                    imagecopyresampled($picture_medium, $image, 0, 0, $src_x, $src_y, 1000, 1000, $src_w, $src_h);
-                    imagepng($picture_medium, $uploaddir."img-".$id."-medium-".$filehash.".png");
-                    imagedestroy($picture_medium);
-
-                    //big: 1200x1200px
-                    imagecopyresampled($picture_big, $image, 0, 0, $src_x, $src_y, 1200, 1200, $src_w, $src_h);
-                    imagepng($picture_big, $uploaddir."img-".$id."-big-".$filehash.".png");
-                    imagedestroy($picture_big);
-
-                    /**
-                     * Bildressource wieder freigeben und Quelldatei löschen.
-                     */
-                    imagedestroy($image);
                     unlink($_FILES['file']['tmp_name']);
-
-                    /**
-                     * Eintrag in die Datenbank
-                     */
-                    mysqli_query($dbl, "INSERT INTO `images` (`itemid`, `thumb`, `filehash`) VALUES ('".$id."', 0, '".$filehash."')") OR DIE(MYSQLI_ERROR($dbl));
-                    $content.= "<div class='successbox'>Das Bild wurde erfolgreich hochgeladen.</div>".PHP_EOL;
+                    die();
                   }
+
+                  /**
+                   * Die neuen Bildressourcen werden erstellt.
+                   */
+                  $picture_full = imagecreatetruecolor(1500, 1500);
+                  $picture_small = imagecreatetruecolor(600, 600);
+                  $picture_medium = imagecreatetruecolor(1000, 1000);
+                  $picture_big = imagecreatetruecolor(1200, 1200);
+
+                  /**
+                   * Die Verhältnisse und Startpunkte auf dem Quellbild werden ausgerechnet.
+                   */
+                  if($width >= $height) {
+                    $src_x = ($width-$height)/2;
+                    $src_y = 0;
+                    $src_w = $height;
+                    $src_h = $height;
+                  } else {
+                    $src_x = 0;
+                    $src_y = ($height-$width)/2;
+                    $src_w = $width;
+                    $src_h = $width;
+                  }
+
+                  /**
+                   * Das Bild wird in alle Formate kopiert und gespeichert.
+                   */
+                  $filehash = substr(md5(random_bytes(4096)), 0, 16);
+                  //full: 1500x1500px
+                  imagecopyresampled($picture_full, $image, 0, 0, $src_x, $src_y, 1500, 1500, $src_w, $src_h);
+                  imagepng($picture_full, $uploaddir."img-".$id."-full-".$filehash.".png");
+                  imagedestroy($picture_full);
+
+                  //small: 600x600px
+                  imagecopyresampled($picture_small, $image, 0, 0, $src_x, $src_y, 600, 600, $src_w, $src_h);
+                  imagepng($picture_small, $uploaddir."img-".$id."-small-".$filehash.".png");
+                  imagedestroy($picture_small);
+
+                  //medium: 1000x1000px
+                  imagecopyresampled($picture_medium, $image, 0, 0, $src_x, $src_y, 1000, 1000, $src_w, $src_h);
+                  imagepng($picture_medium, $uploaddir."img-".$id."-medium-".$filehash.".png");
+                  imagedestroy($picture_medium);
+
+                  //big: 1200x1200px
+                  imagecopyresampled($picture_big, $image, 0, 0, $src_x, $src_y, 1200, 1200, $src_w, $src_h);
+                  imagepng($picture_big, $uploaddir."img-".$id."-big-".$filehash.".png");
+                  imagedestroy($picture_big);
+
+                  /**
+                   * Bildressource wieder freigeben und Quelldatei löschen.
+                   */
+                  imagedestroy($image);
+                  unlink($_FILES['file']['tmp_name']);
+
+                  /**
+                   * Eintrag in die Datenbank
+                   */
+                  mysqli_query($dbl, "INSERT INTO `images` (`itemid`, `thumb`, `filehash`) VALUES ('".$id."', 0, '".$filehash."')") OR DIE(MYSQLI_ERROR($dbl));
+                  $content.= "<div class='successbox'>Das Bild wurde erfolgreich hochgeladen.</div>".PHP_EOL;
                 }
               }
             } else {
@@ -512,9 +504,9 @@ if(mysqli_num_rows($result) == 0) {
       $content.= "<div class='row'>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminfiles/list/".$id."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht.</a></div>".PHP_EOL.
       "</div>".PHP_EOL;
-    } elseif($imageCount == 2) {
+    } elseif($imageCount >= 2) {
       /**
-       * Zwei Bilder vorhanden. Sortierung kann stattfinden.
+       * Zwei oder mehr Bilder vorhanden. Sortierung kann stattfinden.
        */
       if(!isset($_POST['submit'])) {
         /**
