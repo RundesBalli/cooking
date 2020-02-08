@@ -160,6 +160,7 @@ Lizenz: https://fontawesome.com/license/free
 
 @font-face {
   font-family: 'fontawesome-r';
+  font-display: swap;
   font-style: normal;
   font-weight: 400;
   src: url("/src/webfonts/fa-regular-400.eot");
@@ -173,6 +174,7 @@ Lizenz: https://fontawesome.com/license/free
 
 @font-face {
   font-family: 'fontawesome-s';
+  font-display: swap;
   font-style: normal;
   font-weight: 900;
   src: url("/src/webfonts/fa-solid-900.eot");
@@ -186,10 +188,12 @@ Lizenz: https://fontawesome.com/license/free
 
 @font-face {
   font-family: 'fontawesome-b';
+  font-display: swap;
   font-style: normal;
   font-weight: normal;
   src: url("/src/webfonts/fa-brands-400.eot");
-  src: url("/src/webfonts/fa-brands-400.eot?#iefix") format("embedded-opentype"), url("/src/webfonts/fa-brands-400.woff2") format("woff2"), url("/src/webfonts/fa-brands-400.woff") format("woff"), url("/src/webfonts/fa-brands-400.ttf") format("truetype"), url("/src/webfonts/fa-brands-400.svg#fontawesome") format("svg"); }
+  src: url("/src/webfonts/fa-brands-400.eot?#iefix") format("embedded-opentype"), url("/src/webfonts/fa-brands-400.woff2") format("woff2"), url("/src/webfonts/fa-brands-400.woff") format("woff"), url("/src/webfonts/fa-brands-400.ttf") format("truetype"), url("/src/webfonts/fa-brands-400.svg#fontawesome") format("svg");
+}
 
 .fab {
   font-family: 'fontawesome-b';
