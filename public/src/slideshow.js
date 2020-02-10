@@ -22,7 +22,7 @@
   }
 
   document.addEventListener("DOMContentLoaded", function(){
-    if (!!document.getElementsByClassName("mySlides")){
+    if (document.getElementsByClassName("mySlides").length !== 0){
       showSlides(slideIndex);
     }
     
