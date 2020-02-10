@@ -23,7 +23,7 @@ https://github.com/RundesBalli/pr0cooking
   </head>
   <body>
     <div id="sidebar">
-      <a href="/"><img src="/src/header.png" alt="Header"></a>
+      <a href="/" id="headerimg"><img src="/src/header.png" alt="Header"></a>
       <a class="toggle" id="toggle"></a>
       <a href="/"><span class="fas icon">&#xf015;</span>Startseite</a>
       {NAV}
