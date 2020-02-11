@@ -31,9 +31,7 @@ if(!isset($_GET['action'])) {
     /**
      * Wenn keine Rezepte existieren.
      */
-    $content.= "<div class='row'>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'>Noch keine Rezepte angelegt.</div>".PHP_EOL.
-    "</div>".PHP_EOL;
+    $content.= "<div class='infobox'>Noch keine Rezepte angelegt.</div>".PHP_EOL;
   } else {
     /**
      * Anzeige vorhandener Rezepte.
