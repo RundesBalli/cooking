@@ -117,14 +117,8 @@ if(mysqli_num_rows($result) == 0) {
       "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
       "</div>".PHP_EOL;
       while($row = mysqli_fetch_array($result)) {
-        $links = array(
-          "<a href='/img/img-".$row['itemid']."-full-".$row['filehash'].".png' target='_blank'>/img/img-".$row['itemid']."-full-".$row['filehash'].".png<span class='fas iconright'>&#xf35d;</span></a>",
-          "<a href='/img/img-".$row['itemid']."-big-".$row['filehash'].".png' target='_blank'>/img/img-".$row['itemid']."-big-".$row['filehash'].".png<span class='fas iconright'>&#xf35d;</span></a>",
-          "<a href='/img/img-".$row['itemid']."-medium-".$row['filehash'].".png' target='_blank'>/img/img-".$row['itemid']."-medium-".$row['filehash'].".png<span class='fas iconright'>&#xf35d;</span></a>",
-          "<a href='/img/img-".$row['itemid']."-small-".$row['filehash'].".png' target='_blank'>/img/img-".$row['itemid']."-small-".$row['filehash'].".png<span class='fas iconright'>&#xf35d;</span></a>"
-        );
         $content.= "<div class='row hover bordered'>".PHP_EOL.
-        "<div class='col-x-12 col-s-12 col-m-8 col-l-8 col-xl-8'>".implode("<br>", $links)."</div>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-8 col-l-8 col-xl-8'><a href='/img/img-".$row['itemid']."-".$row['filehash'].".png' target='_blank'>/img/img-".$row['itemid']."-".$row['filehash'].".png<span class='fas iconright'>&#xf35d;</span></a></div>".PHP_EOL.
         "<div class='col-x-12 col-s-12 col-m-2 col-l-2 col-xl-2'>".$row['sortIndex']."</div>".PHP_EOL.
         "<div class='col-x-12 col-s-12 col-m-2 col-l-2 col-xl-2'><a href='/adminfiles/del/".$id."/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a></div>".PHP_EOL.
         "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
@@ -225,10 +219,10 @@ if(mysqli_num_rows($result) == 0) {
                 }
               } else {
                 /**
-                 * Mindestgröße 800x800px
+                 * Mindestgröße 600x600px
                  */
-                if($width < 800 OR $height < 800) {
-                  $content.= "<div class='warnbox'>Das Bild ist zu klein. Es muss mindestens 800x800px groß sein.</div>".PHP_EOL;
+                if($width < 600 OR $height < 600) {
+                  $content.= "<div class='warnbox'>Das Bild ist zu klein. Es muss mindestens 600x600px groß sein.</div>".PHP_EOL;
                 } else {
                   /**
                    * Bildgröße ok. Nun wird die Bilder-Ressource erstellt.
@@ -243,9 +237,8 @@ if(mysqli_num_rows($result) == 0) {
                   }
 
                   /**
-                   * Die neuen Bildressourcen werden erstellt.
+                   * Die neue Bildressource wird erstellt.
                    */
-                  $picture_full = imagecreatetruecolor(1500, 1500);
                   $picture_small = imagecreatetruecolor(600, 600);
 
                   /**
@@ -264,17 +257,12 @@ if(mysqli_num_rows($result) == 0) {
                   }
 
                   /**
-                   * Das Bild wird in alle Formate kopiert und gespeichert.
+                   * Das Bild wird in das Endformat verkleinert
                    */
                   $filehash = substr(md5(random_bytes(4096)), 0, 16);
-                  //full: 800x800px
-                  imagecopyresampled($picture_full, $image, 0, 0, $src_x, $src_y, 1500, 1500, $src_w, $src_h);
-                  imagepng($picture_full, $uploaddir."img-".$id."-full-".$filehash.".png");
-                  imagedestroy($picture_full);
-
-                  //small: 600x600px
+                  //600x600px
                   imagecopyresampled($picture_small, $image, 0, 0, $src_x, $src_y, 600, 600, $src_w, $src_h);
-                  imagepng($picture_small, $uploaddir."img-".$id."-small-".$filehash.".png");
+                  imagepng($picture_small, $uploaddir."img-".$id."-".$filehash.".png");
                   imagedestroy($picture_small);
 
                   /**
@@ -346,7 +334,7 @@ if(mysqli_num_rows($result) == 0) {
       $content.= "<div class='row hover bordered'>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Datei</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='hidden' name='MAX_FILE_SIZE' value='20971520'><input type='file' name='file' tabindex='1' autofocus></div>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("* nur `.jpg` und `.png` Dateien erlaubt\n* Thumbnail: Mindestens 300x300px\n* Bild: Mindestens 800x800px\n* Jedes Bild wird quadratisch zugeschnitten und automatisch in alle Größen verkleinert\n* Der Zuschnitt richtet sich nach dem Zentrum des Bildes\n* EXIF-Daten werden entfernt\n* Maximal 20MB Dateigröße")."</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("* nur `.jpg` und `.png` Dateien erlaubt\n* Thumbnail: Mindestens 300x300px\n* Bild: Mindestens 600x600px\n* Jedes Bild wird quadratisch zugeschnitten und automatisch verkleinert\n* Der Zuschnitt richtet sich nach dem Zentrum des Bildes\n* EXIF-Daten werden entfernt\n* Maximal 20MB Dateigröße")."</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
       "</div>".PHP_EOL;
       /**
@@ -519,15 +507,9 @@ if(mysqli_num_rows($result) == 0) {
         $tabindex = 0;
         while($row = mysqli_fetch_array($result)) {
           $tabindex++;
-          $links = array(
-            "<a href='/img/img-".$row['itemid']."-full-".$row['filehash'].".png' target='_blank'>/img/img-".$row['itemid']."-full-".$row['filehash'].".png<span class='fas iconright'>&#xf35d;</span></a>",
-            "<a href='/img/img-".$row['itemid']."-big-".$row['filehash'].".png' target='_blank'>/img/img-".$row['itemid']."-big-".$row['filehash'].".png<span class='fas iconright'>&#xf35d;</span></a>",
-            "<a href='/img/img-".$row['itemid']."-medium-".$row['filehash'].".png' target='_blank'>/img/img-".$row['itemid']."-medium-".$row['filehash'].".png<span class='fas iconright'>&#xf35d;</span></a>",
-            "<a href='/img/img-".$row['itemid']."-small-".$row['filehash'].".png' target='_blank'>/img/img-".$row['itemid']."-small-".$row['filehash'].".png<span class='fas iconright'>&#xf35d;</span></a>"
-          );
           $content.= "<div class='row hover bordered'>".PHP_EOL.
           "<div class='col-x-4 col-s-4 col-m-3 col-l-2 col-xl-2'><input type='number' name='sortIndex[".$row['id']."]' value='".$row['sortIndex']."' min='1' tabindex='".$tabindex."'></div>".PHP_EOL.
-          "<div class='col-x-8 col-s-8 col-m-9 col-l-10 col-xl-10'>".implode("<br>", $links)."</div>".PHP_EOL.
+          "<div class='col-x-8 col-s-8 col-m-9 col-l-10 col-xl-10'><a href='/img/img-".$row['itemid']."-".$row['filehash'].".png' target='_blank'>/img/img-".$row['itemid']."-".$row['filehash'].".png<span class='fas iconright'>&#xf35d;</span></a></div>".PHP_EOL.
           "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
           "</div>".PHP_EOL;
         }

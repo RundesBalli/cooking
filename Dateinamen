@@ -4,7 +4,4 @@ Thumbnail:
 /img/thumb-<itemid>-<filehash>.png
 
 Bilder:
-/img/img-<itemid>-full-<filehash>.png = 1500x1500px
-/img/img-<itemid>-small-<filehash>.png = 600x600px
-/img/img-<itemid>-medium-<filehash>.png = 1000x1000px
-/img/img-<itemid>-big-<filehash>.png = 1200x1200px
+/img/img-<itemid>-<filehash>.png = 600x600px
