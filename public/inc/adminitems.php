@@ -133,9 +133,9 @@ if(!isset($_GET['action'])) {
     /**
      * Personenanzahl
      */
-    if(!empty($_POST['persons'])) {
+    if(!empty($_POST['persons']) OR $_POST['persons'] == "0") {
       $persons = (int)defuse($_POST['persons']);
-      if($persons < 1) {
+      if($persons < 0) {
         $form = 1;
         $content.= "<div class='warnbox'>Die Angabe der Personenanzahl ist ungültig.</div>".PHP_EOL;
       } elseif($persons > 10) {
@@ -270,8 +270,8 @@ if(!isset($_GET['action'])) {
      */
     $content.= "<div class='row hover bordered'>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Personenanzahl</div>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='number' name='persons' placeholder='z.B. 4' tabindex='5' min='1' value='".(isset($_POST['persons']) && !empty($_POST['persons']) ? output($_POST['persons']) : NULL)."'></div>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("* Möglich sind alle positiven Zahlen\n* bei über 10 Personen wird eine Info angezeigt, das Rezept wird aber angelegt.")."</div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='number' name='persons' placeholder='z.B. 4' tabindex='5' min='0' value='".(isset($_POST['persons']) && (!empty($_POST['persons']) OR $_POST['persons'] == "0") ? output($_POST['persons']) : NULL)."'></div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("* Möglich sind alle positiven Zahlen\n* bei allgemeinen Rezepten (z.B. Gewürzmischungen) können \"0\" Personen angegeben werden, dann wird die Personenanzahl ausgeblendet.\n* bei über 10 Personen wird eine Info angezeigt, das Rezept wird aber angelegt.")."</div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
     "</div>".PHP_EOL;
     /**
@@ -502,9 +502,9 @@ if(!isset($_GET['action'])) {
       /**
        * Personenanzahl
        */
-      if(!empty($_POST['persons'])) {
+      if(!empty($_POST['persons']) OR $_POST['persons'] == "0") {
         $persons = (int)defuse($_POST['persons']);
-        if($persons < 1) {
+        if($persons < 0) {
           $form = 1;
           $content.= "<div class='warnbox'>Die Angabe der Personenanzahl ist ungültig.</div>".PHP_EOL;
         } elseif($persons > 10) {
@@ -640,8 +640,8 @@ if(!isset($_GET['action'])) {
        */
       $content.= "<div class='row hover bordered'>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Personenanzahl</div>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='number' name='persons' placeholder='z.B. 4' tabindex='5' min='1' value='".(isset($row['persons']) ? output($row['persons']) : (isset($_POST['persons']) && !empty($_POST['persons']) ? output($_POST['persons']) : NULL))."'></div>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("* Möglich sind alle positiven Zahlen\n* bei über 10 Personen wird eine Info angezeigt, das Rezept wird aber angelegt.")."</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='number' name='persons' placeholder='z.B. 4' tabindex='5' min='0' value='".(isset($row['persons']) ? output($row['persons']) : (isset($_POST['persons']) && (!empty($_POST['persons']) OR $_POST['persons'] == "0") ? output($_POST['persons']) : NULL))."'></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("* Möglich sind alle positiven Zahlen\n* bei allgemeinen Rezepten (z.B. Gewürzmischungen) können \"0\" Personen angegeben werden, dann wird die Personenanzahl ausgeblendet.\n* bei über 10 Personen wird eine Info angezeigt, das Rezept wird aber angelegt.")."</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
       "</div>".PHP_EOL;
       /**

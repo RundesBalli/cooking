@@ -65,7 +65,7 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
       "</ul>".PHP_EOL.
       "<div class='spacer-s'></div>".PHP_EOL;
       if(!empty($row['ingredients'])) {
-        $content.= "<h2 class='center'><span class='fas icon'>&#xf4d8;</span>Zutaten für ".$row['persons']." Personen</h2>".PHP_EOL.Slimdown::render($row['ingredients']).PHP_EOL.
+        $content.= "<h2 class='center'><span class='fas icon'>&#xf4d8;</span>Zutaten".($row['persons'] > 0 ? " für ".$row['persons']." Personen" : NULL)."</h2>".PHP_EOL.Slimdown::render($row['ingredients']).PHP_EOL.
         "<div class='spacer-s'></div>".PHP_EOL;
       }
       $content.= "</div>".PHP_EOL;
@@ -100,7 +100,7 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
       "</ul>".PHP_EOL.
       "<div class='spacer-s'></div>".PHP_EOL;
       if(!empty($row['ingredients'])) {
-        $content.= "<h2 class='center'><span class='fas icon'>&#xf4d8;</span>Zutaten für ".$row['persons']." Personen</h2>".PHP_EOL.Slimdown::render($row['ingredients']).PHP_EOL.
+        $content.= "<h2 class='center'><span class='fas icon'>&#xf4d8;</span>Zutaten".($row['persons'] > 0 ? " für ".$row['persons']." Personen" : NULL)."</h2>".PHP_EOL.Slimdown::render($row['ingredients']).PHP_EOL.
         "<div class='spacer-s'></div>".PHP_EOL;
       }
       $content.= "</div>".PHP_EOL.
