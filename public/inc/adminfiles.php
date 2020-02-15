@@ -225,10 +225,10 @@ if(mysqli_num_rows($result) == 0) {
                 }
               } else {
                 /**
-                 * Mindestgröße 1500x1500px
+                 * Mindestgröße 800x800px
                  */
-                if($width < 1500 OR $height < 1500) {
-                  $content.= "<div class='warnbox'>Das Bild ist zu klein. Es muss mindestens 1500x1500px groß sein.</div>".PHP_EOL;
+                if($width < 800 OR $height < 800) {
+                  $content.= "<div class='warnbox'>Das Bild ist zu klein. Es muss mindestens 800x800px groß sein.</div>".PHP_EOL;
                 } else {
                   /**
                    * Bildgröße ok. Nun wird die Bilder-Ressource erstellt.
@@ -247,8 +247,6 @@ if(mysqli_num_rows($result) == 0) {
                    */
                   $picture_full = imagecreatetruecolor(1500, 1500);
                   $picture_small = imagecreatetruecolor(600, 600);
-                  $picture_medium = imagecreatetruecolor(1000, 1000);
-                  $picture_big = imagecreatetruecolor(1200, 1200);
 
                   /**
                    * Die Verhältnisse und Startpunkte auf dem Quellbild werden ausgerechnet.
@@ -269,7 +267,7 @@ if(mysqli_num_rows($result) == 0) {
                    * Das Bild wird in alle Formate kopiert und gespeichert.
                    */
                   $filehash = substr(md5(random_bytes(4096)), 0, 16);
-                  //full: 1500x1500px
+                  //full: 800x800px
                   imagecopyresampled($picture_full, $image, 0, 0, $src_x, $src_y, 1500, 1500, $src_w, $src_h);
                   imagepng($picture_full, $uploaddir."img-".$id."-full-".$filehash.".png");
                   imagedestroy($picture_full);
@@ -278,16 +276,6 @@ if(mysqli_num_rows($result) == 0) {
                   imagecopyresampled($picture_small, $image, 0, 0, $src_x, $src_y, 600, 600, $src_w, $src_h);
                   imagepng($picture_small, $uploaddir."img-".$id."-small-".$filehash.".png");
                   imagedestroy($picture_small);
-
-                  //medium: 1000x1000px
-                  imagecopyresampled($picture_medium, $image, 0, 0, $src_x, $src_y, 1000, 1000, $src_w, $src_h);
-                  imagepng($picture_medium, $uploaddir."img-".$id."-medium-".$filehash.".png");
-                  imagedestroy($picture_medium);
-
-                  //big: 1200x1200px
-                  imagecopyresampled($picture_big, $image, 0, 0, $src_x, $src_y, 1200, 1200, $src_w, $src_h);
-                  imagepng($picture_big, $uploaddir."img-".$id."-big-".$filehash.".png");
-                  imagedestroy($picture_big);
 
                   /**
                    * Bildressource wieder freigeben und Quelldatei löschen.
@@ -358,7 +346,7 @@ if(mysqli_num_rows($result) == 0) {
       $content.= "<div class='row hover bordered'>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Datei</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='hidden' name='MAX_FILE_SIZE' value='20971520'><input type='file' name='file' tabindex='1' autofocus></div>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("* nur `.jpg` und `.png` Dateien erlaubt\n* Thumbnail: Mindestens 300x300px\n* Bild: Mindestens 1500x1500px\n* Jedes Bild wird quadratisch zugeschnitten und automatisch in alle Größen verkleinert\n* Der Zuschnitt richtet sich nach dem Zentrum des Bildes\n* EXIF-Daten werden entfernt\n* Maximal 20MB Dateigröße")."</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("* nur `.jpg` und `.png` Dateien erlaubt\n* Thumbnail: Mindestens 300x300px\n* Bild: Mindestens 800x800px\n* Jedes Bild wird quadratisch zugeschnitten und automatisch in alle Größen verkleinert\n* Der Zuschnitt richtet sich nach dem Zentrum des Bildes\n* EXIF-Daten werden entfernt\n* Maximal 20MB Dateigröße")."</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
       "</div>".PHP_EOL;
       /**
