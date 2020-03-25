@@ -50,15 +50,15 @@ mysqli_query($dbl, "SET FOREIGN_KEY_CHECKS=1") OR DIE(MYSQLI_ERROR($dbl));
 /**
  * Arrays mit Beispielnamen für Kategorien und Rezepten.
  */
-$catnames = array("Beispielkategorie", "Zufallskategorie", "Kategorie", "Lorem Ipsum Kategorie");
-$itemnames = array("Beispielrezept", "Zufallsrezept", "Rezept", "Lorem Ipsum Rezept");
+$catNames = array("Beispielkategorie", "Zufallskategorie", "Kategorie", "Lorem Ipsum Kategorie");
+$itemNames = array("Beispielrezept", "Zufallsrezept", "Rezept", "Lorem Ipsum Rezept");
 
 /**
  * Anlegen der Kategorien.
  */
 echo "Lege Kategorien an.\n";
 for($i = 1; $i < 8; $i++) {
-  mysqli_query($dbl, "INSERT INTO `categories` (`title`, `shortTitle`, `sortIndex`, `description`, `shortDescription`) VALUES ('".$catnames[array_rand($catnames)].rand(10000,99999)."', '".$i."-".md5(random_bytes(128))."', '".rand(10, 99999)."', 'LOREM IPSUM\nBeispieltext **MEHRZEILIG**', 'Beispieltext **EINZEILIG**')") OR DIE(MYSQLI_ERROR($dbl));
+  mysqli_query($dbl, "INSERT INTO `categories` (`title`, `shortTitle`, `sortIndex`, `description`, `shortDescription`) VALUES ('".$catNames[array_rand($catNames)].rand(10000,99999)."', '".$i."-".md5(random_bytes(128))."', '".rand(10, 99999)."', 'LOREM IPSUM\nBeispieltext **MEHRZEILIG**', 'Beispieltext **EINZEILIG**')") OR DIE(MYSQLI_ERROR($dbl));
 }
 
 /**
@@ -66,7 +66,7 @@ for($i = 1; $i < 8; $i++) {
  */
 echo "Lege Rezepte an.\n";
 for($i = 1; $i < 101; $i++) {
-  mysqli_query($dbl, "INSERT INTO `items` (`title`, `shortTitle`, `text`, `ingredients`, `persons`, `cost`, `difficulty`, `duration`) VALUES ('".$itemnames[array_rand($itemnames)].rand(10000,99999)."', '".$i."-".md5(random_bytes(128))."', 'LOREM IPSUM\nBeispieltext **MEHRZEILIG**', '- Inhaltsstoff 1\n- Inhaltsstoff 2', '".rand(1, 10)."', '".rand(1, 3)."', '".rand(1, 4)."', '".rand(1, 6)."')") OR DIE(MYSQLI_ERROR($dbl));
+  mysqli_query($dbl, "INSERT INTO `items` (`title`, `shortTitle`, `text`, `ingredients`, `persons`, `cost`, `difficulty`, `duration`) VALUES ('".$itemNames[array_rand($itemNames)].rand(10000,99999)."', '".$i."-".md5(random_bytes(128))."', 'LOREM IPSUM\nBeispieltext **MEHRZEILIG**', '- Inhaltsstoff 1\n- Inhaltsstoff 2', '".rand(1, 10)."', '".rand(1, 3)."', '".rand(1, 4)."', '".rand(1, 6)."')") OR DIE(MYSQLI_ERROR($dbl));
 }
 
 /**
@@ -92,21 +92,21 @@ for($i = 0; $i < 400; $i++) {
  */
 echo "Generiere Klicks und Votes.\n";
 for($i = 1; $i < 11; $i++) {
-  $query_clicks = array();
-  $query_votes = array();
+  $queryClicks = array();
+  $queryVotes = array();
   for($j = 0; $j < 100000; $j++) {
     $hash = hash('sha256', random_bytes(128));
-    $itemid = rand(1, 100);
-    $query_clicks[] = "('".$itemid."', '".$hash."')";
+    $itemId = rand(1, 100);
+    $queryClicks[] = "('".$itemId."', '".$hash."')";
     if(rand(0, 8) == 8) {
-      $query_votes[] = "('".$itemid."', '".$hash."', '".rand(1, 5)."')";
+      $queryVotes[] = "('".$itemId."', '".$hash."', '".rand(1, 5)."')";
     }
   }
   echo "Durchgang ".$i."/10\n";
-  echo "  Lege ".count($query_clicks)." Klicks an.\n";
-  mysqli_query($dbl, "INSERT INTO `clicks` (`itemid`, `hash`) VALUES ".implode(",", $query_clicks)) OR DIE(MYSQLI_ERROR($dbl));
-  echo "  Lege ".count($query_votes)." Votes an.\n";
-  mysqli_query($dbl, "INSERT INTO `votes` (`itemid`, `hash`, `stars`) VALUES ".implode(",", $query_votes)) OR DIE(MYSQLI_ERROR($dbl));
+  echo "  Lege ".count($queryClicks)." Klicks an.\n";
+  mysqli_query($dbl, "INSERT INTO `clicks` (`itemId`, `hash`) VALUES ".implode(",", $queryClicks)) OR DIE(MYSQLI_ERROR($dbl));
+  echo "  Lege ".count($queryVotes)." Votes an.\n";
+  mysqli_query($dbl, "INSERT INTO `votes` (`itemId`, `hash`, `stars`) VALUES ".implode(",", $queryVotes)) OR DIE(MYSQLI_ERROR($dbl));
 }
 
 echo "\nFertig.\n";

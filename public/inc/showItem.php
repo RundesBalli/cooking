@@ -23,7 +23,7 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
   /**
    * Rezept abfragen
    */
-  $result = mysqli_query($dbl, "SELECT `items`.`id`, `items`.`title`, `items`.`shortTitle`, `items`.`text`, `items`.`ingredients`, `items`.`persons`, `metaCost`.`title` AS `cost`, `metaDifficulty`.`title` AS `difficulty`, `metaDuration`.`title` AS `duration`, (SELECT COUNT(`id`) FROM `clicks` WHERE `clicks`.`itemid` = `items`.`id`) AS `clicks`, IFNULL((SELECT round(avg(`votes`.`stars`),2) FROM `votes` WHERE `votes`.`itemid` = `items`.`id`), 0) AS `votes`, IFNULL((SELECT COUNT(`votes`.`id`) FROM `votes` WHERE `votes`.`itemid` = `items`.`id`), 0) AS `voteCount` FROM `items` JOIN `metaCost` ON `items`.`cost` = `metaCost`.`id` JOIN `metaDifficulty` ON `items`.`difficulty` = `metaDifficulty`.`id`JOIN `metaDuration` ON `items`.`duration` = `metaDuration`.`id` WHERE `shortTitle`='".$item."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+  $result = mysqli_query($dbl, "SELECT `items`.`id`, `items`.`title`, `items`.`shortTitle`, `items`.`text`, `items`.`ingredients`, `items`.`persons`, `metaCost`.`title` AS `cost`, `metaDifficulty`.`title` AS `difficulty`, `metaDuration`.`title` AS `duration`, (SELECT COUNT(`id`) FROM `clicks` WHERE `clicks`.`itemId` = `items`.`id`) AS `clicks`, IFNULL((SELECT round(avg(`votes`.`stars`),2) FROM `votes` WHERE `votes`.`itemId` = `items`.`id`), 0) AS `votes`, IFNULL((SELECT COUNT(`votes`.`id`) FROM `votes` WHERE `votes`.`itemId` = `items`.`id`), 0) AS `voteCount` FROM `items` JOIN `metaCost` ON `items`.`cost` = `metaCost`.`id` JOIN `metaDifficulty` ON `items`.`difficulty` = `metaDifficulty`.`id`JOIN `metaDuration` ON `items`.`duration` = `metaDuration`.`id` WHERE `shortTitle`='".$item."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
   if(mysqli_num_rows($result) == 1) {
     $row = mysqli_fetch_array($result);
     
@@ -32,7 +32,7 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
      */
     mysqli_query($dbl, "UPDATE `clicks` SET `ts`=CURRENT_TIMESTAMP WHERE `hash`='".$UUI."' AND `ts` > DATE_SUB(NOW(), INTERVAL 30 HOUR) LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
     if(mysqli_affected_rows($dbl) != 1) {
-      mysqli_query($dbl, "INSERT INTO `clicks` (`itemid`, `hash`) VALUES ('".$row['id']."', '".$UUI."')") OR DIE(MYSQLI_ERROR($dbl));
+      mysqli_query($dbl, "INSERT INTO `clicks` (`itemId`, `hash`) VALUES ('".$row['id']."', '".$UUI."')") OR DIE(MYSQLI_ERROR($dbl));
     }
 
     $title = $row['title'];
@@ -40,10 +40,10 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
     /**
      * Bilder Selektieren
      */
-    $imgresult = mysqli_query($dbl, "SELECT * FROM `images` WHERE `itemid`='".$row['id']."' AND `thumb`='0' ORDER BY `sortIndex` ASC") OR DIE(MYSQLI_ERROR($dbl));
+    $imgresult = mysqli_query($dbl, "SELECT * FROM `images` WHERE `itemId`='".$row['id']."' AND `thumb`='0' ORDER BY `sortIndex` ASC") OR DIE(MYSQLI_ERROR($dbl));
     $images = array();
     while($imgrow = mysqli_fetch_array($imgresult)) {
-      $images[] = $imgrow['filehash'];
+      $images[] = $imgrow['fileHash'];
     }
     /**
      * Bilder, Eckdaten & Zutaten ausgeben

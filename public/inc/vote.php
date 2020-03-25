@@ -69,9 +69,9 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
         } else {
           $clickresult = mysqli_query($dbl, "SELECT * FROM `clicks` WHERE `hash`='".$UUI."' AND `ts` > DATE_SUB(NOW(), INTERVAL 30 HOUR) LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
           if(mysqli_num_rows($clickresult) == 1) {
-            mysqli_query($dbl, "UPDATE `votes` SET `ts`=CURRENT_TIMESTAMP, `stars`='".$vote."' WHERE `itemid`='".$row['id']."' AND `hash`='".$UUI."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+            mysqli_query($dbl, "UPDATE `votes` SET `ts`=CURRENT_TIMESTAMP, `stars`='".$vote."' WHERE `itemId`='".$row['id']."' AND `hash`='".$UUI."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
             if(mysqli_affected_rows($dbl) != 1) {
-              mysqli_query($dbl, "INSERT INTO `votes` (`itemid`, `hash`, `stars`) VALUES ('".$row['id']."', '".$UUI."', '".$vote."')") OR DIE(MYSQLI_ERROR($dbl));
+              mysqli_query($dbl, "INSERT INTO `votes` (`itemId`, `hash`, `stars`) VALUES ('".$row['id']."', '".$UUI."', '".$vote."')") OR DIE(MYSQLI_ERROR($dbl));
               $content.= "<div class='successbox'>Dein Vote wurde eingetragen.</div>".PHP_EOL;
             } else {
               $content.= "<div class='successbox'>Dein Vote wurde aktualisiert.</div>".PHP_EOL;

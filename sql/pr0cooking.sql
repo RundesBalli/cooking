@@ -58,7 +58,6 @@ CREATE TABLE `categories` (
   KEY `sortindex` (`sortIndex`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Kategorientabelle';
 
-TRUNCATE `categories`;
 
 DROP TABLE IF EXISTS `categoryItems`;
 CREATE TABLE `categoryItems` (
@@ -75,7 +74,6 @@ CREATE TABLE `categoryItems` (
   CONSTRAINT `categoryItems_ibfk_3` FOREIGN KEY (`categoryId`) REFERENCES `categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Querverweistabelle';
 
-TRUNCATE `categoryItems`;
 
 DROP TABLE IF EXISTS `clicks`;
 CREATE TABLE `clicks` (
@@ -91,7 +89,6 @@ CREATE TABLE `clicks` (
   CONSTRAINT `clicks_ibfk_2` FOREIGN KEY (`itemId`) REFERENCES `items` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Tabelle mit Klicks';
 
-TRUNCATE `clicks`;
 
 DROP TABLE IF EXISTS `images`;
 CREATE TABLE `images` (
@@ -99,16 +96,15 @@ CREATE TABLE `images` (
   `itemId` int(10) unsigned NOT NULL COMMENT 'Querverweis - items.id',
   `sortIndex` int(10) unsigned NOT NULL DEFAULT '9999999' COMMENT 'Sortierindex',
   `thumb` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT 'Thumbnail = 1, normales Bild = 0',
-  `filehash` varchar(16) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Unikat-Hash',
+  `fileHash` varchar(16) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Unikat-Hash',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `filehash` (`filehash`),
+  UNIQUE KEY `filehash` (`fileHash`),
   KEY `itemId` (`itemId`),
   KEY `thumb` (`thumb`),
   CONSTRAINT `images_ibfk_3` FOREIGN KEY (`itemId`) REFERENCES `items` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `images_ibfk_4` FOREIGN KEY (`itemId`) REFERENCES `items` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-TRUNCATE `images`;
 
 DROP TABLE IF EXISTS `items`;
 CREATE TABLE `items` (
@@ -132,7 +128,6 @@ CREATE TABLE `items` (
   CONSTRAINT `items_ibfk_3` FOREIGN KEY (`duration`) REFERENCES `metaDuration` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Rezepttabelle';
 
-TRUNCATE `items`;
 
 DROP TABLE IF EXISTS `metaCost`;
 CREATE TABLE `metaCost` (
@@ -237,4 +232,4 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `mostClicked` AS select `cl
 DROP TABLE IF EXISTS `stats`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `stats` AS select (select count(`categories`.`id`) from `categories`) AS `catCount`,(select count(`items`.`id`) from `items`) AS `itemCount`,(select count(`clicks`.`id`) from `clicks`) AS `clickCount`,(select count(`clicks`.`id`) from `clicks` where (`clicks`.`ts` > cast(curdate() as datetime))) AS `clicksToday`;
 
--- 2020-03-25 16:45:50
+-- 2020-03-25 16:58:19
