@@ -26,7 +26,6 @@ CREATE TABLE `accounts` (
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Administratorzugänge';
 
-TRUNCATE `accounts`;
 
 DROP TABLE IF EXISTS `accountSessions`;
 CREATE TABLE `accountSessions` (
@@ -38,11 +37,9 @@ CREATE TABLE `accountSessions` (
   KEY `userId` (`userId`),
   KEY `hash` (`hash`),
   KEY `lastactivity` (`lastActivity`),
-  CONSTRAINT `accountSessions_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `accountSessions_ibfk_2` FOREIGN KEY (`userId`) REFERENCES `users` (`id`)
+  CONSTRAINT `accountSessions_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Admin Sitzungstabelle';
 
-TRUNCATE `accountSessions`;
 
 DROP VIEW IF EXISTS `bestVoted`;
 CREATE TABLE `bestVoted` (`title` varchar(100), `shortTitle` varchar(64), `a` decimal(6,2));
@@ -240,4 +237,4 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `mostClicked` AS select `cl
 DROP TABLE IF EXISTS `stats`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `stats` AS select (select count(`categories`.`id`) from `categories`) AS `catCount`,(select count(`items`.`id`) from `items`) AS `itemCount`,(select count(`clicks`.`id`) from `clicks`) AS `clickCount`,(select count(`clicks`.`id`) from `clicks` where (`clicks`.`ts` > cast(curdate() as datetime))) AS `clicksToday`;
 
--- 2020-03-25 16:30:07
+-- 2020-03-25 16:45:50
