@@ -56,7 +56,7 @@ if(!isset($_POST['submit'])) {
     /**
      * Entfernen des Cookies und Umleitung zur Loginseite.
      */
-    setcookie('cooking', NULL, 0);
+    setcookie('cookingAdmin', NULL, 0);
     header("Location: /adminLogin");
     die();
   }

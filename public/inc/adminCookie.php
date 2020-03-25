@@ -20,14 +20,14 @@ if(isset($_COOKIE['cookingAdmin']) AND !empty($_COOKIE['cookingAdmin'])) {
        * Wenn eine Sitzung existiert wird der letzte Nutzungszeitpunkt aktualisiert und der Username in die Variable $username geladen.
        */
       mysqli_query($dbl, "UPDATE `sessions` SET `lastactivity`=CURRENT_TIMESTAMP WHERE `hash`='".$match[0]."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
-      setcookie('cooking', $match[0], time()+(6*7*86400));
+      setcookie('cookingAdmin', $match[0], time()+(6*7*86400));
       $username = mysqli_fetch_array($result)['username'];
       $adminSessionHash = $match[0];
     } else {
       /**
        * Wenn keine Sitzung mit dem übergebenen Hash existiert wird der User durch Entfernen des Cookies und Umleitung zur Loginseite ausgeloggt.
        */
-      setcookie('cooking', NULL, 0);
+      setcookie('cookingAdmin', NULL, 0);
       header("Location: /adminLogin");
       die();
     }
@@ -35,7 +35,7 @@ if(isset($_COOKIE['cookingAdmin']) AND !empty($_COOKIE['cookingAdmin'])) {
     /**
      * Wenn kein gültiger sha256 Hash übergeben wurde wird der User durch Entfernen des Cookies und Umleitung zur Loginseite ausgeloggt.
      */
-    setcookie('cooking', NULL, 0);
+    setcookie('cookingAdmin', NULL, 0);
     header("Location: /adminLogin");
     die();
   }
