@@ -1,15 +1,15 @@
 <?php
 /**
- * adminfiles.php
+ * adminFiles.php
  * 
  * Seite um Rezepten Bilder und Thumbnails hinzuzufügen.
- * Es erfolgt der Direkteinstieg in das Rezept (über /adminitems).
+ * Es erfolgt der Direkteinstieg in das Rezept (über /adminItems).
  */
 
 /**
  * Einbinden der Cookieüberprüfung.
  */
-require_once('admincookie.php');
+require_once('adminCookie.php');
 
 /**
  * Entschärfen der übergebenen ID
@@ -29,7 +29,7 @@ if(mysqli_num_rows($result) == 0) {
   http_response_code(404);
   $content.= "<div class='warnbox'>Das Rezept mit der ID <span class='italic'>".$id."</span> existiert nicht.</div>".PHP_EOL;
   $content.= "<div class='row'>".PHP_EOL.
-  "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminitems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
+  "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminItems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
   "</div>".PHP_EOL;
 } else {
   /**
@@ -40,7 +40,7 @@ if(mysqli_num_rows($result) == 0) {
     /**
      * Wenn keine Action übergeben wurde, dann erfolgt eine Umleitung zur Auflistung aller Rezepte.
      */
-    header("Location: /adminfiles/list/".$id);
+    header("Location: /adminFiles/list/".$id);
     die();
   } elseif($_GET['action'] == 'list') {
     /**
@@ -49,7 +49,7 @@ if(mysqli_num_rows($result) == 0) {
     $title = "Dateiverwaltung - Bilder anzeigen";
     $content.= "<h1>Dateiverwaltung - Bilder anzeigen</h1>".PHP_EOL;
     $content.= "<div class='row'>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><span class='highlight bold'>Aktionen:</span> <a href='/adminfiles/add/".$id."'><span class='fas icon'>&#xf067;</span>Hinzufügen</a> - <a href='/adminfiles/sort/".$id."'><span class='fas icon'>&#xf0dc;</span>Sortieren</a></div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><span class='highlight bold'>Aktionen:</span> <a href='/adminFiles/add/".$id."'><span class='fas icon'>&#xf067;</span>Hinzufügen</a> - <a href='/adminFiles/sort/".$id."'><span class='fas icon'>&#xf0dc;</span>Sortieren</a></div>".PHP_EOL.
     "</div>".PHP_EOL;
     /**
      * Thumbnail
@@ -62,7 +62,7 @@ if(mysqli_num_rows($result) == 0) {
        */
       $content.= "<div class='infobox'>Das Rezept hat noch keinen Thumbnail.</div>".PHP_EOL;
       $content.= "<div class='row'>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminfiles/add/".$id."'><span class='fas icon'>&#xf067;</span>Hinzufügen</a></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminFiles/add/".$id."'><span class='fas icon'>&#xf067;</span>Hinzufügen</a></div>".PHP_EOL.
       "</div>".PHP_EOL;
     } elseif(mysqli_num_rows($result) == 1) {
       /**
@@ -76,7 +76,7 @@ if(mysqli_num_rows($result) == 0) {
       $row = mysqli_fetch_array($result);
       $content.= "<div class='row hover bordered'>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-8 col-l-8 col-xl-8'><a href='/img/thumb-".$row['itemid']."-".$row['filehash'].".png' target='_blank'>/img/thumb-".$row['itemid']."-".$row['filehash'].".png<span class='fas iconright'>&#xf35d;</span></a></div>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><a href='/adminfiles/del/".$id."/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><a href='/adminFiles/del/".$id."/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a></div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
       "</div>".PHP_EOL;
     } else {
@@ -89,7 +89,7 @@ if(mysqli_num_rows($result) == 0) {
       mysqli_query($dbl, "DELETE FROM `images` WHERE `itemid`='".$id."' AND `thumb`='1'") OR DIE(MYSQLI_ERROR($dbl));
       $content.= "<div class='warnbox'>Das Rezept hat Fehler im Thumbnail. Er wurde gelöscht und muss neu hochgeladen werden.</div>".PHP_EOL;
       $content.= "<div class='row'>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminfiles/add/".$id."'><span class='fas icon'>&#xf067;</span>Hinzufügen</a></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminFiles/add/".$id."'><span class='fas icon'>&#xf067;</span>Hinzufügen</a></div>".PHP_EOL.
       "</div>".PHP_EOL;
     }
     /**
@@ -104,7 +104,7 @@ if(mysqli_num_rows($result) == 0) {
        */
       $content.= "<div class='infobox'>Das Rezept hat noch keine Bilder.</div>".PHP_EOL;
       $content.= "<div class='row'>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminfiles/add/".$id."'><span class='fas icon'>&#xf067;</span>Hinzufügen</a></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminFiles/add/".$id."'><span class='fas icon'>&#xf067;</span>Hinzufügen</a></div>".PHP_EOL.
       "</div>".PHP_EOL;
     } else {
       /**
@@ -120,7 +120,7 @@ if(mysqli_num_rows($result) == 0) {
         $content.= "<div class='row hover bordered'>".PHP_EOL.
         "<div class='col-x-12 col-s-12 col-m-8 col-l-8 col-xl-8'><a href='/img/img-".$row['itemid']."-".$row['filehash'].".png' target='_blank'>/img/img-".$row['itemid']."-".$row['filehash'].".png<span class='fas iconright'>&#xf35d;</span></a></div>".PHP_EOL.
         "<div class='col-x-12 col-s-12 col-m-2 col-l-2 col-xl-2'>".$row['sortIndex']."</div>".PHP_EOL.
-        "<div class='col-x-12 col-s-12 col-m-2 col-l-2 col-xl-2'><a href='/adminfiles/del/".$id."/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a></div>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-2 col-l-2 col-xl-2'><a href='/adminFiles/del/".$id."/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a></div>".PHP_EOL.
         "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
         "</div>".PHP_EOL;
       }
@@ -308,13 +308,13 @@ if(mysqli_num_rows($result) == 0) {
        * Link zum Zurückkommen.
        */
       $content.= "<div class='row'>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminfiles/list/".$id."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht.</a></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminFiles/list/".$id."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht.</a></div>".PHP_EOL.
       "</div>".PHP_EOL;
     } else {
       /**
        * Wenn noch kein Formular abgesendet wurde, dann zeig es an.
        */
-      $content.= "<form action='/adminfiles/add/".$id."' method='post' autocomplete='off' enctype='multipart/form-data'>".PHP_EOL;
+      $content.= "<form action='/adminFiles/add/".$id."' method='post' autocomplete='off' enctype='multipart/form-data'>".PHP_EOL;
       /**
        * Sitzungstoken
        */
@@ -392,7 +392,7 @@ if(mysqli_num_rows($result) == 0) {
           $options1[] = "<option value='".$key."'>".$val."</option>".PHP_EOL;
         }
         shuffle($options1);
-        $content.= "<form action='/adminfiles/del/".$id."/".$imageid."' method='post' autocomplete='off'>".PHP_EOL;
+        $content.= "<form action='/adminFiles/del/".$id."/".$imageid."' method='post' autocomplete='off'>".PHP_EOL;
         /**
          * Sitzungstoken
          */
@@ -420,7 +420,7 @@ if(mysqli_num_rows($result) == 0) {
             mysqli_query($dbl, "DELETE FROM `images` WHERE `id`='".$imageid."' AND `itemid`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
             $content.= "<div class='successbox'>Bild erfolgreich gelöscht.</div>".PHP_EOL;
             $content.= "<div class='row'>".PHP_EOL.
-            "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminfiles/list/".$id."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht.</a></div>".PHP_EOL.
+            "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminFiles/list/".$id."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht.</a></div>".PHP_EOL.
             "</div>".PHP_EOL;
           } else {
             /**
@@ -429,7 +429,7 @@ if(mysqli_num_rows($result) == 0) {
             http_response_code(403);
             $content.= "<div class='warnbox'>Ungültiges Token.</div>".PHP_EOL;
             $content.= "<div class='row'>".PHP_EOL.
-            "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminfiles/list/".$id."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
+            "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminFiles/list/".$id."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
             "</div>".PHP_EOL;
           }
         } else {
@@ -438,7 +438,7 @@ if(mysqli_num_rows($result) == 0) {
            */
           $content.= "<div class='infobox'>Bild wurde nicht gelöscht.</div>".PHP_EOL;
           $content.= "<div class='row'>".PHP_EOL.
-          "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminitems/list/".$id."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
+          "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminItems/list/".$id."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
           "</div>".PHP_EOL;
         }
       }
@@ -449,7 +449,7 @@ if(mysqli_num_rows($result) == 0) {
       http_response_code(404);
       $content.= "<div class='warnbox'>Es gibt kein Bild mit dieser ID-Kombination.</div>".PHP_EOL;
       $content.= "<div class='row'>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminfiles/list/".$id."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht.</a></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminFiles/list/".$id."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht.</a></div>".PHP_EOL.
       "</div>".PHP_EOL;
     }
   } elseif($_GET['action'] == 'sort') {
@@ -470,7 +470,7 @@ if(mysqli_num_rows($result) == 0) {
        */
       $content.= "<div class='warnbox'>Es existieren keine Bilder für dieses Rezept.</div>".PHP_EOL;
       $content.= "<div class='row'>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminfiles/list/".$id."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht.</a></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminFiles/list/".$id."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht.</a></div>".PHP_EOL.
       "</div>".PHP_EOL;
     } elseif($imageCount == 1) {
       /**
@@ -478,7 +478,7 @@ if(mysqli_num_rows($result) == 0) {
        */
       $content.= "<div class='infobox'>Es gibt nur ein Bild für dieses Rezept. Eine Sortierung macht keinen Sinn.</div>".PHP_EOL;
       $content.= "<div class='row'>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminfiles/list/".$id."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht.</a></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminFiles/list/".$id."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht.</a></div>".PHP_EOL.
       "</div>".PHP_EOL;
     } elseif($imageCount >= 2) {
       /**
@@ -488,7 +488,7 @@ if(mysqli_num_rows($result) == 0) {
         /**
          * Wenn kein Formular übergeben wurde, dann zeig es an.
          */
-        $content.= "<form action='/adminfiles/sort/".$id."' method='post' autocomplete='off'>".PHP_EOL;
+        $content.= "<form action='/adminFiles/sort/".$id."' method='post' autocomplete='off'>".PHP_EOL;
         /**
          * Sitzungstoken
          */
@@ -536,12 +536,12 @@ if(mysqli_num_rows($result) == 0) {
             mysqli_query($dbl, $query) OR DIE(MYSQLI_ERROR($dbl));
             $content.= "<div class='successbox'>Sortierung geändert.</div>".PHP_EOL;
             $content.= "<div class='row'>".PHP_EOL.
-            "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminfiles/list/".$id."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
+            "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminFiles/list/".$id."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
             "</div>".PHP_EOL;
           } else {
             $content.= "<div class='warnbox'>Ungültige Werte übergeben.</div>".PHP_EOL;
             $content.= "<div class='row'>".PHP_EOL.
-            "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminfiles/sort/".$id."'><span class='fas icon'>&#xf359;</span>Zurück zur Sortierung</a></div>".PHP_EOL.
+            "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminFiles/sort/".$id."'><span class='fas icon'>&#xf359;</span>Zurück zur Sortierung</a></div>".PHP_EOL.
             "</div>".PHP_EOL;
           }
         } else {
@@ -551,7 +551,7 @@ if(mysqli_num_rows($result) == 0) {
           http_response_code(403);
           $content.= "<div class='warnbox'>Ungültiges Token.</div>".PHP_EOL;
           $content.= "<div class='row'>".PHP_EOL.
-          "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminfiles/sort/".$id."'><span class='fas icon'>&#xf359;</span>Zurück zur Sortierung</a></div>".PHP_EOL.
+          "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminFiles/sort/".$id."'><span class='fas icon'>&#xf359;</span>Zurück zur Sortierung</a></div>".PHP_EOL.
           "</div>".PHP_EOL;
         }
       }
@@ -560,7 +560,7 @@ if(mysqli_num_rows($result) == 0) {
     /**
      * Umleitung falls eine action übergeben wurde, aber nichts zutrifft.
      */
-    header("Location: /adminfiles/list/".$id);
+    header("Location: /adminFiles/list/".$id);
     die();
   }
 }

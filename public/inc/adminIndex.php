@@ -1,6 +1,6 @@
 <?php
 /**
- * adminindex.php
+ * adminIndex.php
  * 
  * Übersichtsseite für Administratoren
  */
@@ -8,7 +8,7 @@
 /**
  * Einbinden der Cookieüberprüfung.
  */
-require_once('admincookie.php');
+require_once('adminCookie.php');
 
 /**
  * Titel und Überschrift
@@ -20,7 +20,7 @@ $content.= "<h1>Index</h1>".PHP_EOL;
  * Allgemeine Infos und Links
  */
 $content.= "<div class='row'>".PHP_EOL.
-"<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'>Eingeloggt als: <span class='warn bold'>".$username."</span> - (<a href='/adminlogout'><span class='fas icon'>&#xf2f5;</span>Ausloggen</a>) - <a href='/adminmarkdowninfo'><span class='fab icon'>&#xf60f;</span>Markdown Info</a></div>".PHP_EOL.
+"<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'>Eingeloggt als: <span class='warn bold'>".$username."</span> - (<a href='/adminLogout'><span class='fas icon'>&#xf2f5;</span>Ausloggen</a>) - <a href='/adminMarkdownInfo'><span class='fab icon'>&#xf60f;</span>Markdown Info</a></div>".PHP_EOL.
 "</div>".PHP_EOL;
 
 /**
@@ -160,7 +160,7 @@ if(mysqli_num_rows($result) != 0) {
   while($row = mysqli_fetch_array($result)) {
     $content.= "<div class='row hover bordered'>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-9 col-l-9 col-xl-9'>".output($row['title'])."</div>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-3 col-l-3 col-xl-3'><a href='/adminitems/edit/".$row['id']."' class='nowrap'>Bearbeiten</a><br><a href='/adminitems/assign/".$row['id']."' class='nowrap'>Zuweisen</a></div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-3 col-l-3 col-xl-3'><a href='/adminItems/edit/".$row['id']."' class='nowrap'>Bearbeiten</a><br><a href='/adminItems/assign/".$row['id']."' class='nowrap'>Zuweisen</a></div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
     "</div>".PHP_EOL;
   }

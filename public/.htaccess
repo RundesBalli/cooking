@@ -22,11 +22,11 @@ RewriteCond %{REQUEST_FILENAME} !-d
 
 # Kategorie Regel
 # kategorie/{Name}
-RewriteRule ^kategorie\/([\w\d-]+)$ /index.php?p=showcategory&category=$1 [NC,L,QSA]
+RewriteRule ^kategorie\/([\w\d-]+)$ /index.php?p=showCategory&category=$1 [NC,L,QSA]
 
 # Rezept Regel
 # rezept/{Name}
-RewriteRule ^rezept\/([\w\d-]+)$ /index.php?p=showitem&item=$1 [NC,L,QSA]
+RewriteRule ^rezept\/([\w\d-]+)$ /index.php?p=showItem&item=$1 [NC,L,QSA]
 
 # Vote Regel
 # vote/{Name}
@@ -35,12 +35,12 @@ RewriteRule ^vote\/([\w\d-]+)$ /index.php?p=vote&item=$1 [NC,L,QSA]
 # Admin Regel
 # admin.../{Funktion} ohne ID
 # admin.../{Funktion}/id
-RewriteRule ^(admin(?:categories|items|files))\/(add|list|catsort)$ /index.php?p=$1&action=$2 [NC,L,QSA]
-RewriteRule ^(admin(?:categories|items|files|sessions))\/(list|add|edit|del|assign|sort)\/([\d]+)$ /index.php?p=$1&action=$2&id=$3 [NC,L,QSA]
+RewriteRule ^(admin(?:Categories|Items|Files))\/(add|list|catsort)$ /index.php?p=$1&action=$2 [NC,L,QSA]
+RewriteRule ^(admin(?:Categories|Items|Files|Sessions))\/(list|add|edit|del|assign|sort)\/([\d]+)$ /index.php?p=$1&action=$2&id=$3 [NC,L,QSA]
 # Zuweisen von Kategorien
-RewriteRule ^adminitems\/assign\/([\d]+)\/(del|add)\/([\d]+)$ /index.php?p=adminitems&action=assign&id=$1&$2=$3 [NC,L,QSA]
+RewriteRule ^adminItems\/assign\/([\d]+)\/(del|add)\/([\d]+)$ /index.php?p=adminItems&action=assign&id=$1&$2=$3 [NC,L,QSA]
 # Bilder löschen
-RewriteRule ^adminfiles\/del\/([\d]+)\/([\d]+)$ /index.php?p=adminfiles&action=del&id=$1&imageid=$2 [NC,L,QSA]
+RewriteRule ^adminFiles\/del\/([\d]+)\/([\d]+)$ /index.php?p=adminFiles&action=del&id=$1&imageid=$2 [NC,L,QSA]
 
 # Regel für den Rest
 RewriteRule ^([\w\d-]+)$ /index.php?p=$1 [NC,L,QSA]

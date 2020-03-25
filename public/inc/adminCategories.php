@@ -1,6 +1,6 @@
 <?php
 /**
- * admincategories.php
+ * adminCategories.php
  * 
  * Seite um Kategorien anzuzeigen, anzulegen, zu bearbeiten und zu löschen.
  */
@@ -8,13 +8,13 @@
 /**
  * Einbinden der Cookieüberprüfung.
  */
-require_once('admincookie.php');
+require_once('adminCookie.php');
 
 if(!isset($_GET['action'])) {
   /**
    * Wenn keine Action übergeben wurde, dann erfolgt eine Umleitung zur Auflistung aller Kategorien.
    */
-  header("Location: /admincategories/list");
+  header("Location: /adminCategories/list");
   die();
 } elseif($_GET['action'] == 'list') {
   /**
@@ -23,7 +23,7 @@ if(!isset($_GET['action'])) {
   $title = "Kategorien anzeigen";
   $content.= "<h1><span class='far icon'>&#xf07c;</span>Kategorien anzeigen</h1>".PHP_EOL;
   $content.= "<div class='row'>".PHP_EOL.
-  "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><span class='highlight bold'>Aktionen:</span> <a href='/admincategories/add'><span class='fas icon'>&#xf067;</span>Anlegen</a> - <a href='/admincategories/catsort'><span class='fas icon'>&#xf0dc;</span>Kategorien sortieren</a></div>".PHP_EOL.
+  "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><span class='highlight bold'>Aktionen:</span> <a href='/adminCategories/add'><span class='fas icon'>&#xf067;</span>Anlegen</a> - <a href='/adminCategories/catsort'><span class='fas icon'>&#xf0dc;</span>Kategorien sortieren</a></div>".PHP_EOL.
   "</div>".PHP_EOL;
   $content.= "<div class='spacer-m'></div>".PHP_EOL;
   /**
@@ -49,7 +49,7 @@ if(!isset($_GET['action'])) {
       $content.= "<div class='row hover bordered'>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-8 col-l-8 col-xl-8'><a href='/kategorie/".output($row['shortTitle'])."' target='_blank'>".output($row['title'])."<span class='fas iconright'>&#xf35d;</span></a></div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-2 col-l-2 col-xl-2'>".$row['itemcount']." Rezept".($row['itemcount'] == 1 ? "" : "e")."</div>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-2 col-l-2 col-xl-2'><a href='/admincategories/edit/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf044;</span>Editieren</a><br>".PHP_EOL."<a href='/admincategories/del/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a><br>".PHP_EOL."<a href='/admincategories/sort/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf0dc;</span>Rezepte sortieren</a></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-2 col-l-2 col-xl-2'><a href='/adminCategories/edit/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf044;</span>Editieren</a><br>".PHP_EOL."<a href='/adminCategories/del/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a><br>".PHP_EOL."<a href='/adminCategories/sort/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf0dc;</span>Rezepte sortieren</a></div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
       "</div>".PHP_EOL;
     }
@@ -118,7 +118,7 @@ if(!isset($_GET['action'])) {
       if(mysqli_query($dbl, "INSERT INTO `categories` (`title`, `shortTitle`, `description`, `shortDescription`) VALUES ('".$form_title."', '".$shortTitle."', ".($description === NULL ? "NULL" : "'".$description."'").", ".($shortDescription === NULL ? "NULL" : "'".$shortDescription."'").")")) {
         $content.= "<div class='successbox'>Kategorie erfolgreich angelegt.</div>".PHP_EOL;
         $content.= "<div class='row'>".PHP_EOL.
-        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminCategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
         "</div>".PHP_EOL;
       } else {
         $form = 1;
@@ -139,7 +139,7 @@ if(!isset($_GET['action'])) {
    * Das Formular wird beim Erstaufruf und bei Fehleingaben angezeigt.
    */
   if($form == 1) {
-    $content.= "<form action='/admincategories/add' method='post' autocomplete='off'>".PHP_EOL;
+    $content.= "<form action='/adminCategories/add' method='post' autocomplete='off'>".PHP_EOL;
     /**
      * Sitzungstoken
      */
@@ -177,7 +177,7 @@ if(!isset($_GET['action'])) {
     $content.= "<div class='row hover bordered'>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Beschreibung</div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><textarea name='description' placeholder='Mehrzeilige Beschreibung' tabindex='4'>".(isset($_POST['description']) && !empty($_POST['description']) ? output($_POST['description']) : NULL)."</textarea></div>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("* _optional_\n* [Markdown für mehrzeilige Textfelder](/adminmarkdowninfo)* möglich\n* wird beim Aufruf der Kategorie angezeigt")."</div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("* _optional_\n* [Markdown für mehrzeilige Textfelder](/adminMarkdownInfo)* möglich\n* wird beim Aufruf der Kategorie angezeigt")."</div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
     "</div>".PHP_EOL;
     /**
@@ -186,7 +186,7 @@ if(!isset($_GET['action'])) {
     $content.= "<div class='row hover bordered'>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Kurzeschreibung</div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='text' name='shortDescription' placeholder='Kurzbeschreibung' tabindex='5' value='".(isset($_POST['shortDescription']) && !empty($_POST['shortDescription']) ? output($_POST['shortDescription']) : NULL)."'></div>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("* _optional_\n* [Markdown für einzeilige Textfelder](/adminmarkdowninfo)* möglich\n* wird auf der Startseite angezeigt")."</div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("* _optional_\n* [Markdown für einzeilige Textfelder](/adminMarkdownInfo)* möglich\n* wird auf der Startseite angezeigt")."</div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
     "</div>".PHP_EOL;
     /**
@@ -218,7 +218,7 @@ if(!isset($_GET['action'])) {
     http_response_code(404);
     $content.= "<div class='warnbox'>Die Kategorie mit der ID <span class='italic'>".$id."</span> existiert nicht.</div>".PHP_EOL;
     $content.= "<div class='row'>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminCategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
     "</div>".PHP_EOL;
   } else {
     /**
@@ -241,7 +241,7 @@ if(!isset($_GET['action'])) {
         $options1[] = "<option value='".$key."'>".$val."</option>".PHP_EOL;
       }
       shuffle($options1);
-      $content.= "<form action='/admincategories/del/".$id."' method='post' autocomplete='off'>".PHP_EOL;
+      $content.= "<form action='/adminCategories/del/".$id."' method='post' autocomplete='off'>".PHP_EOL;
       /**
        * Sitzungstoken
        */
@@ -264,7 +264,7 @@ if(!isset($_GET['action'])) {
           mysqli_query($dbl, "DELETE FROM `categories` WHERE `id`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
           $content.= "<div class='successbox'>Kategorie erfolgreich gelöscht.</div>".PHP_EOL;
           $content.= "<div class='row'>".PHP_EOL.
-          "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
+          "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminCategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
           "</div>".PHP_EOL;
         } else {
           /**
@@ -273,7 +273,7 @@ if(!isset($_GET['action'])) {
           http_response_code(403);
           $content.= "<div class='warnbox'>Ungültiges Token.</div>".PHP_EOL;
           $content.= "<div class='row'>".PHP_EOL.
-          "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
+          "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminCategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
           "</div>".PHP_EOL;
         }
       } else {
@@ -282,7 +282,7 @@ if(!isset($_GET['action'])) {
          */
         $content.= "<div class='infobox'>Kategorie unverändert.</div>".PHP_EOL;
         $content.= "<div class='row'>".PHP_EOL.
-        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminCategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
         "</div>".PHP_EOL;
       }
     }
@@ -305,7 +305,7 @@ if(!isset($_GET['action'])) {
     http_response_code(404);
     $content.= "<div class='warnbox'>Die Kategorie mit der ID <span class='italic'>".$id."</span> existiert nicht.</div>".PHP_EOL;
     $content.= "<div class='row'>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminCategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
     "</div>".PHP_EOL;
   } else {
     /**
@@ -367,7 +367,7 @@ if(!isset($_GET['action'])) {
         if(mysqli_query($dbl, "UPDATE `categories` SET `title`='".$form_title."', `shortTitle`='".$shortTitle."', `description`=".($description === NULL ? "NULL" : "'".$description."'").", `shortDescription`=".($shortDescription === NULL ? "NULL" : "'".$shortDescription."'")." WHERE `id`='".$id."' LIMIT 1")) {
           $content.= "<div class='successbox'>Kategorie erfolgreich geändert.</div>".PHP_EOL;
           $content.= "<div class='row'>".PHP_EOL.
-          "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
+          "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminCategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
           "</div>".PHP_EOL;
         } else {
           $form = 1;
@@ -389,7 +389,7 @@ if(!isset($_GET['action'])) {
      * Das Formular wird beim Erstaufruf und bei Fehleingaben angezeigt.
      */
     if($form == 1) {
-      $content.= "<form action='/admincategories/edit/".$id."' method='post' autocomplete='off'>".PHP_EOL;
+      $content.= "<form action='/adminCategories/edit/".$id."' method='post' autocomplete='off'>".PHP_EOL;
       /**
        * Sitzungstoken
        */
@@ -427,7 +427,7 @@ if(!isset($_GET['action'])) {
       $content.= "<div class='row hover bordered'>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Beschreibung</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><textarea name='description' placeholder='Mehrzeilige Beschreibung' tabindex='4'>".(isset($row['description']) ? output($row['description']) : (isset($_POST['description']) && !empty($_POST['description']) ? output($_POST['description']) : NULL))."</textarea></div>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("* _optional_\n* [Markdown für mehrzeilige Textfelder](/adminmarkdowninfo)* möglich\n* wird beim Aufruf der Kategorie angezeigt")."</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("* _optional_\n* [Markdown für mehrzeilige Textfelder](/adminMarkdownInfo)* möglich\n* wird beim Aufruf der Kategorie angezeigt")."</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
       "</div>".PHP_EOL;
       /**
@@ -436,7 +436,7 @@ if(!isset($_GET['action'])) {
       $content.= "<div class='row hover bordered'>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Kurzeschreibung</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='text' name='shortDescription' placeholder='Kurzbeschreibung' tabindex='5' value='".(isset($row['shortDescription']) ? output($row['shortDescription']) : (isset($_POST['shortDescription']) && !empty($_POST['shortDescription']) ? output($_POST['shortDescription']) : NULL))."'></div>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("* _optional_\n* [Markdown für einzeilige Textfelder](/adminmarkdowninfo)* möglich\n* wird auf der Startseite angezeigt")."</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("* _optional_\n* [Markdown für einzeilige Textfelder](/adminMarkdownInfo)* möglich\n* wird auf der Startseite angezeigt")."</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
       "</div>".PHP_EOL;
       /**
@@ -469,7 +469,7 @@ if(!isset($_GET['action'])) {
     http_response_code(404);
     $content.= "<div class='warnbox'>Die Kategorie mit der ID <span class='italic'>".$id."</span> existiert nicht.</div>".PHP_EOL;
     $content.= "<div class='row'>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminCategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
     "</div>".PHP_EOL;
   } else {
     if(!isset($_POST['submit'])) {
@@ -480,18 +480,18 @@ if(!isset($_GET['action'])) {
       if(mysqli_num_rows($result) == 0) {
         $content.= "<div class='warnbox'>Dieser Kategorie sind keine Rezepte zugewiesen.</div>".PHP_EOL;
         $content.= "<div class='row'>".PHP_EOL.
-        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminCategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
         "</div>".PHP_EOL;
       } elseif(mysqli_num_rows($result) == 1) {
         $content.= "<div class='infobox'>Dieser Kategorie ist nur ein Rezept zugewiesen. Eine Sortierung macht keinen Sinn.</div>".PHP_EOL;
         $content.= "<div class='row'>".PHP_EOL.
-        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminCategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
         "</div>".PHP_EOL;
       } else {
         /**
          * Wenn kein Formular übergeben wurde, dann zeig es an.
          */
-        $content.= "<form action='/admincategories/sort/".$id."' method='post' autocomplete='off'>".PHP_EOL;
+        $content.= "<form action='/adminCategories/sort/".$id."' method='post' autocomplete='off'>".PHP_EOL;
         /**
          * Sitzungstoken
          */
@@ -540,12 +540,12 @@ if(!isset($_GET['action'])) {
           mysqli_query($dbl, $query) OR DIE(MYSQLI_ERROR($dbl));
           $content.= "<div class='successbox'>Sortierung geändert.</div>".PHP_EOL;
           $content.= "<div class='row'>".PHP_EOL.
-          "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
+          "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminCategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
           "</div>".PHP_EOL;
         } else {
           $content.= "<div class='warnbox'>Ungültige Werte übergeben.</div>".PHP_EOL;
           $content.= "<div class='row'>".PHP_EOL.
-          "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/sort/".$id."'><span class='fas icon'>&#xf359;</span>Zurück zur Sortierung</a></div>".PHP_EOL.
+          "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminCategories/sort/".$id."'><span class='fas icon'>&#xf359;</span>Zurück zur Sortierung</a></div>".PHP_EOL.
           "</div>".PHP_EOL;
         }
       } else {
@@ -555,7 +555,7 @@ if(!isset($_GET['action'])) {
         http_response_code(403);
         $content.= "<div class='warnbox'>Ungültiges Token.</div>".PHP_EOL;
         $content.= "<div class='row'>".PHP_EOL.
-        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/sort/".$id."'><span class='fas icon'>&#xf359;</span>Zurück zur Sortierung</a></div>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminCategories/sort/".$id."'><span class='fas icon'>&#xf359;</span>Zurück zur Sortierung</a></div>".PHP_EOL.
         "</div>".PHP_EOL;
       }
     }
@@ -577,7 +577,7 @@ if(!isset($_GET['action'])) {
        */
       $content.= "<div class='infobox'>Noch keine Kategorien angelegt.</div>".PHP_EOL;
       $content.= "<div class='row'>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminCategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
       "</div>".PHP_EOL;
     } elseif(mysqli_num_rows($result) == 1) {
       /**
@@ -585,13 +585,13 @@ if(!isset($_GET['action'])) {
        */
       $content.= "<div class='infobox'>Es wurde erst eine Kategorie angelegt. Ein Sortieren hätte keine Auswirkungen.</div>".PHP_EOL;
       $content.= "<div class='row'>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminCategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
       "</div>".PHP_EOL;
     } else {
       /**
        * Formularanzeige
        */
-      $content.= "<form action='/admincategories/catsort' method='post' autocomplete='off'>".PHP_EOL;
+      $content.= "<form action='/adminCategories/catsort' method='post' autocomplete='off'>".PHP_EOL;
       /**
        * Sitzungstoken
        */
@@ -640,12 +640,12 @@ if(!isset($_GET['action'])) {
         mysqli_query($dbl, $query) OR DIE(MYSQLI_ERROR($dbl));
         $content.= "<div class='successbox'>Sortierung geändert.</div>".PHP_EOL;
         $content.= "<div class='row'>".PHP_EOL.
-        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminCategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
         "</div>".PHP_EOL;
       } else {
         $content.= "<div class='warnbox'>Ungültige Werte übergeben.</div>".PHP_EOL;
         $content.= "<div class='row'>".PHP_EOL.
-        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/catsort'><span class='fas icon'>&#xf359;</span>Zurück zur Sortierung</a></div>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminCategories/catsort'><span class='fas icon'>&#xf359;</span>Zurück zur Sortierung</a></div>".PHP_EOL.
         "</div>".PHP_EOL;
       }
     } else {
@@ -655,12 +655,12 @@ if(!isset($_GET['action'])) {
       http_response_code(403);
       $content.= "<div class='warnbox'>Ungültiges Token.</div>".PHP_EOL;
       $content.= "<div class='row'>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/admincategories/catsort'><span class='fas icon'>&#xf359;</span>Zurück zur Sortierung</a></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminCategories/catsort'><span class='fas icon'>&#xf359;</span>Zurück zur Sortierung</a></div>".PHP_EOL.
       "</div>".PHP_EOL;
     }
   }
 } else {
-  header("Location: /admincategories/list");
+  header("Location: /adminCategories/list");
   die();
 }
 ?>

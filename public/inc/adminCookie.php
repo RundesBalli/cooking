@@ -1,15 +1,15 @@
 <?php
 /**
- * admincookie.php
+ * adminCookie.php
  * 
  * Prüft ob ein gültiger Cookie gesetzt ist.
  */
 
-if(isset($_COOKIE['cooking']) AND !empty($_COOKIE['cooking'])) {
+if(isset($_COOKIE['cookingAdmin']) AND !empty($_COOKIE['cookingAdmin'])) {
   /**
    * Cookieinhalt entschärfen und prüfen ob Inhalt ein sha256-Hash ist.
    */
-  $sessionhash = defuse($_COOKIE['cooking']);
+  $sessionhash = defuse($_COOKIE['cookingAdmin']);
   if(preg_match('/[a-f0-9]{64}/i', $sessionhash, $match) === 1) {
     /**
      * Abfrage in der Datenbank, ob eine Sitzung mit diesem Hash existiert.
@@ -28,7 +28,7 @@ if(isset($_COOKIE['cooking']) AND !empty($_COOKIE['cooking'])) {
        * Wenn keine Sitzung mit dem übergebenen Hash existiert wird der User durch Entfernen des Cookies und Umleitung zur Loginseite ausgeloggt.
        */
       setcookie('cooking', NULL, 0);
-      header("Location: /adminlogin");
+      header("Location: /adminLogin");
       die();
     }
   } else {
@@ -36,14 +36,14 @@ if(isset($_COOKIE['cooking']) AND !empty($_COOKIE['cooking'])) {
      * Wenn kein gültiger sha256 Hash übergeben wurde wird der User durch Entfernen des Cookies und Umleitung zur Loginseite ausgeloggt.
      */
     setcookie('cooking', NULL, 0);
-    header("Location: /adminlogin");
+    header("Location: /adminLogin");
     die();
   }
 } else {
   /**
    * Wenn kein oder ein leerer Cookie übergeben wurde wird auf die Loginseite weitergeleitet.
    */
-  header("Location: /adminlogin");
+  header("Location: /adminLogin");
   die();
 }
 ?>

@@ -1,6 +1,6 @@
 <?php
 /**
- * adminlogin.php
+ * adminLogin.php
  * 
  * Seite zum Einloggen in den Adminbereich.
  */
@@ -9,7 +9,7 @@ $title = "Login";
 /**
  * Kein Cookie gesetzt oder Cookie leer und Formular nicht übergeben.
  */
-if((!isset($_COOKIE['cooking']) OR empty($_COOKIE['cooking'])) AND !isset($_POST['submit'])) {
+if((!isset($_COOKIE['cookingAdmin']) OR empty($_COOKIE['cookingAdmin'])) AND !isset($_POST['submit'])) {
   $content.= "<h1><span class='fas icon'>&#xf2f6;</span>Login</h1>".PHP_EOL;
   /**
    * Cookiewarnung
@@ -18,7 +18,7 @@ if((!isset($_COOKIE['cooking']) OR empty($_COOKIE['cooking'])) AND !isset($_POST
   /**
    * Loginformular
    */
-  $content.= "<form action='/adminlogin' method='post'>".PHP_EOL;
+  $content.= "<form action='/adminLogin' method='post'>".PHP_EOL;
   $content.= "<div class='row'>".PHP_EOL.
   "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-3'>Name</div>".PHP_EOL.
   "<div class='col-x-12 col-s-12 col-m-8 col-l-9 col-xl-9'><input type='text' name='username' placeholder='Name' autofocus></div>".PHP_EOL.
@@ -32,7 +32,7 @@ if((!isset($_COOKIE['cooking']) OR empty($_COOKIE['cooking'])) AND !isset($_POST
   "<div class='col-x-12 col-s-12 col-m-8 col-l-9 col-xl-9'><input type='submit' name='submit' value='Einloggen'></div>".PHP_EOL.
   "</div>".PHP_EOL;
   $content.= "</form>".PHP_EOL;
-} elseif((!isset($_COOKIE['cooking']) OR empty($_COOKIE['cooking'])) AND isset($_POST['submit'])) {
+} elseif((!isset($_COOKIE['cookingAdmin']) OR empty($_COOKIE['cookingAdmin'])) AND isset($_POST['submit'])) {
   /**
    * Kein Cookie gesetzt oder Cookie leer und Formular wurde übergeben.
    */
@@ -52,12 +52,12 @@ if((!isset($_COOKIE['cooking']) OR empty($_COOKIE['cooking'])) AND !isset($_POST
     if(password_verify($_POST['password'].$row['salt'], $row['password'])) {
       /**
        * Wenn das Passwort verifiziert werden konnte wird eine Sitzung generiert und im Cookie gespeichert.
-       * Danach erfolg eine Weiterleitung zur Adminindex-Seite.
+       * Danach erfolg eine Weiterleitung zur adminIndex-Seite.
        */
       $sessionhash = hash('sha256', time().$_SERVER['REMOTE_ADDR'].rand(10000,99999));
       mysqli_query($dbl, "INSERT INTO `sessions` (`userid`, `hash`) VALUES ('".$row['id']."', '".$sessionhash."')") OR DIE(MYSQLI_ERROR($dbl));
       setcookie('cooking', $sessionhash, time()+(6*7*86400));
-      header("Location: /adminindex");
+      header("Location: /adminIndex");
       die();
     } else {
       /**
@@ -67,7 +67,7 @@ if((!isset($_COOKIE['cooking']) OR empty($_COOKIE['cooking'])) AND !isset($_POST
       $content.= "<h1>Login gescheitert</h1>".PHP_EOL;
       $content.= "<div class='warnbox'>Die Zugangsdaten sind falsch.</div>".PHP_EOL;
       $content.= "<div class='row'>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminlogin'>Erneut versuchen</a></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminLogin'>Erneut versuchen</a></div>".PHP_EOL.
       "</div>".PHP_EOL;
     }
   } else {
@@ -78,14 +78,14 @@ if((!isset($_COOKIE['cooking']) OR empty($_COOKIE['cooking'])) AND !isset($_POST
     $content.= "<h1>Login gescheitert</h1>".PHP_EOL;
     $content.= "<div class='warnbox'>Die Zugangsdaten sind falsch.</div>".PHP_EOL;
     $content.= "<div class='row'>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminlogin'>Erneut versuchen</a></div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminLogin'>Erneut versuchen</a></div>".PHP_EOL.
     "</div>".PHP_EOL;
   }
 } else {
   /**
-   * Wenn bereits ein Cookie gesetzt ist wird auf die Adminindex Seite weitergeleitet.
+   * Wenn bereits ein Cookie gesetzt ist wird auf die adminIndex Seite weitergeleitet.
    */
-  header("Location: /adminindex");
+  header("Location: /adminIndex");
   die();
 }
 ?>

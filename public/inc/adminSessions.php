@@ -1,6 +1,6 @@
 <?php
 /**
- * adminsessions.php
+ * adminSessions.php
  * 
  * Seite um aktive Sitzungen anzuzeigen und ggf. zu beenden.
  */
@@ -8,7 +8,7 @@
 /**
  * Einbinden der Cookieüberprüfung.
  */
-require_once('admincookie.php');
+require_once('adminCookie.php');
 
 $title = "Sitzungen anzeigen";
 $content.= "<h1>Sitzungen anzeigen</h1>".PHP_EOL;
@@ -23,7 +23,7 @@ if((isset($_GET['action']) AND $_GET['action'] == 'del') AND (isset($_GET['id'])
      * CSRF Bestätigung
      */
     $content.= "<div class='infobox'>Beenden bitte bestätigen.</div>".PHP_EOL;
-    $content.= "<form action='/adminsessions/del/".$id."' method='post'>".PHP_EOL;
+    $content.= "<form action='/adminSessions/del/".$id."' method='post'>".PHP_EOL;
     /**
      * Sitzungstoken
      */
@@ -77,7 +77,7 @@ while($row = mysqli_fetch_array($result)) {
   $content.= "<div class='col-x-12 col-s-12 col-m-3 col-l-3 col-xl-3'>".output($row['username'])."</div>".PHP_EOL;
   $content.= "<div class='col-x-12 col-s-12 col-m-3 col-l-3 col-xl-3'>".date("d.m.Y, H:i:s", $row['lastactivity'])."</div>".PHP_EOL;
   $content.= "<div class='col-x-12 col-s-12 col-m-3 col-l-3 col-xl-3'>".date("d.m.Y, H:i:s", $row['validuntil'])."</div>".PHP_EOL;
-  $content.= "<div class='col-x-12 col-s-12 col-m-3 col-l-3 col-xl-3'>".($sessionhash == $row['hash'] ? "eigene Sitzung" : "<a href='/adminsessions/del/".$row['id']."'>Beenden</a>")."</div>".PHP_EOL;
+  $content.= "<div class='col-x-12 col-s-12 col-m-3 col-l-3 col-xl-3'>".($sessionhash == $row['hash'] ? "eigene Sitzung" : "<a href='/adminSessions/del/".$row['id']."'>Beenden</a>")."</div>".PHP_EOL;
   $content.= "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL;
   $content.= "</div>".PHP_EOL;
 }
@@ -105,7 +105,7 @@ if(isset($_POST['password'])) {
        * Entfernen des Cookies und Umleitung zur Loginseite.
        */
       setcookie('cooking', NULL, 0);
-      header("Location: /adminlogin");
+      header("Location: /adminLogin");
       die();
     } else {
       $content.= "<div class='warnbox'>Das Passwort muss mindestens 20 Stellen lang sein.</div>".PHP_EOL;
@@ -122,7 +122,7 @@ if(isset($_POST['password'])) {
 /**
  * Formular zum Passwort ändern
  */
-$content.= "<form action='/adminsessions' method='post'>".PHP_EOL;
+$content.= "<form action='/adminSessions' method='post'>".PHP_EOL;
 /**
  * Sitzungstoken
  */

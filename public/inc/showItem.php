@@ -1,6 +1,6 @@
 <?php
 /**
- * showitem.php
+ * showItem.php
  * 
  * Anzeige eines Rezepts.
  */

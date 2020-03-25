@@ -1,6 +1,6 @@
 <?php
 /**
- * adminitems.php
+ * adminItems.php
  * 
  * Seite um Rezepte anzuzeigen, anzulegen, zu bearbeiten, zu löschen und zuzuweisen.
  */
@@ -8,13 +8,13 @@
 /**
  * Einbinden der Cookieüberprüfung.
  */
-require_once('admincookie.php');
+require_once('adminCookie.php');
 
 if(!isset($_GET['action'])) {
   /**
    * Wenn keine Action übergeben wurde, dann erfolgt eine Umleitung zur Auflistung aller Rezepte.
    */
-  header("Location: /adminitems/list");
+  header("Location: /adminItems/list");
   die();
 } elseif($_GET['action'] == 'list') {
   /**
@@ -23,7 +23,7 @@ if(!isset($_GET['action'])) {
   $title = "Rezepte anzeigen";
   $content.= "<h1><span class='fas icon'>&#xf543;</span>Rezepte anzeigen</h1>".PHP_EOL;
   $content.= "<div class='row'>".PHP_EOL.
-  "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><span class='highlight bold'>Aktionen:</span> <a href='/adminitems/add'><span class='fas icon'>&#xf067;</span>Anlegen</a></div>".PHP_EOL.
+  "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><span class='highlight bold'>Aktionen:</span> <a href='/adminItems/add'><span class='fas icon'>&#xf067;</span>Anlegen</a></div>".PHP_EOL.
   "</div>".PHP_EOL;
   $content.= "<div class='spacer-m'></div>".PHP_EOL;
   $result = mysqli_query($dbl, "SELECT `items`.`id`, `items`.`title`, `items`.`shortTitle`, IFNULL((SELECT ROUND(AVG(`votes`.`stars`),2) FROM `votes` WHERE `votes`.`itemid`=`items`.`id` GROUP BY `votes`.`itemid`), 0) AS `stars`, IFNULL((SELECT COUNT(`votes`.`id`) FROM `votes` WHERE `votes`.`itemid`=`items`.`id`), 0) AS `voteCount`, IFNULL((SELECT COUNT(`clicks`.`id`) FROM `clicks` WHERE `clicks`.`itemid`=`items`.`id`), 0) AS `clicks` FROM `items` ORDER BY `title` ASC") OR DIE(MYSQLI_ERROR($dbl));
@@ -60,7 +60,7 @@ if(!isset($_GET['action'])) {
       "<div class='col-x-12 col-s-4 col-m-4 col-l-1 col-xl-1'>".$row['clicks']."</div>".PHP_EOL.
       "<div class='col-x-12 col-s-8 col-m-8 col-l-2 col-xl-2'>".stars($row['stars'], $row['voteCount'])."<br>".number_format($row['stars'], 2, ",", ".")." - ".number_format($row['voteCount'], 0, ",", ".")." Stimmen</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-12 col-l-2 col-xl-2'>".$categories."</div>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-12 col-l-2 col-xl-2'><a href='/adminitems/edit/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf044;</span>Editieren</a><br>".PHP_EOL."<a href='/adminitems/del/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a><br>".PHP_EOL."<a href='/adminitems/assign/".$row['id']."' class='nowrap'><span class='far icon'>&#xf07c;</span>Kategorien</a><br>".PHP_EOL."<a href='/adminfiles/list/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf302;</span>Bilder</a></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-2 col-xl-2'><a href='/adminItems/edit/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf044;</span>Editieren</a><br>".PHP_EOL."<a href='/adminItems/del/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a><br>".PHP_EOL."<a href='/adminItems/assign/".$row['id']."' class='nowrap'><span class='far icon'>&#xf07c;</span>Kategorien</a><br>".PHP_EOL."<a href='/adminFiles/list/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf302;</span>Bilder</a></div>".PHP_EOL.
       "<div class='col-x-12 col-s-0 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
       "</div>".PHP_EOL;
     }
@@ -194,7 +194,7 @@ if(!isset($_GET['action'])) {
       if(mysqli_query($dbl, "INSERT INTO `items` (`title`, `shortTitle`, `text`, `ingredients`, `persons`, `cost`, `difficulty`, `duration`) VALUES ('".$form_title."', '".$shortTitle."', ".($text === NULL ? "NULL" : "'".$text."'").", ".($ingredients === NULL ? "NULL" : "'".$ingredients."'").", '".$persons."', '".$cost."', '".$difficulty."', '".$duration."')")) {
         $content.= "<div class='successbox'>Rezept erfolgreich angelegt.</div>".PHP_EOL;
         $content.= "<div class='row'>".PHP_EOL.
-        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminitems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminItems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
         "</div>".PHP_EOL;
       } else {
         $form = 1;
@@ -215,7 +215,7 @@ if(!isset($_GET['action'])) {
    * Das Formular wird beim Erstaufruf und bei Fehleingaben angezeigt.
    */
   if($form == 1) {
-    $content.= "<form action='/adminitems/add' method='post' autocomplete='off'>".PHP_EOL;
+    $content.= "<form action='/adminItems/add' method='post' autocomplete='off'>".PHP_EOL;
     /**
      * Sitzungstoken
      */
@@ -253,7 +253,7 @@ if(!isset($_GET['action'])) {
     $content.= "<div class='row hover bordered'>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Text</div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><textarea name='text' placeholder='Mehrzeiliger Text' tabindex='3'>".(isset($_POST['text']) && !empty($_POST['text']) ? output($_POST['text']) : NULL)."</textarea></div>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("* [Markdown für mehrzeilige Textfelder](/adminmarkdowninfo)* möglich\n* Das hier ist das eigentliche Rezept. Der Haupttext.")."</div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("* [Markdown für mehrzeilige Textfelder](/adminMarkdownInfo)* möglich\n* Das hier ist das eigentliche Rezept. Der Haupttext.")."</div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
     "</div>".PHP_EOL;
     /**
@@ -262,7 +262,7 @@ if(!isset($_GET['action'])) {
     $content.= "<div class='row hover bordered'>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Zutatenliste</div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><textarea name='ingredients' placeholder='Mehrzeiliger Text' tabindex='4'>".(isset($_POST['ingredients']) && !empty($_POST['ingredients']) ? output($_POST['ingredients']) : NULL)."</textarea></div>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("* [Markdown für mehrzeilige Textfelder](/adminmarkdowninfo)* möglich\n* Muss im Listenformat angegeben werden:\n`* Bla 1`\n`* Bla 2`")."</div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("* [Markdown für mehrzeilige Textfelder](/adminMarkdownInfo)* möglich\n* Muss im Listenformat angegeben werden:\n`* Bla 1`\n`* Bla 2`")."</div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
     "</div>".PHP_EOL;
     /**
@@ -345,7 +345,7 @@ if(!isset($_GET['action'])) {
     http_response_code(404);
     $content.= "<div class='warnbox'>Das Rezept mit der ID <span class='italic'>".$id."</span> existiert nicht.</div>".PHP_EOL;
     $content.= "<div class='row'>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminitems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminItems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
     "</div>".PHP_EOL;
   } else {
     /**
@@ -368,7 +368,7 @@ if(!isset($_GET['action'])) {
         $options1[] = "<option value='".$key."'>".$val."</option>".PHP_EOL;
       }
       shuffle($options1);
-      $content.= "<form action='/adminitems/del/".$id."' method='post' autocomplete='off'>".PHP_EOL;
+      $content.= "<form action='/adminItems/del/".$id."' method='post' autocomplete='off'>".PHP_EOL;
       /**
        * Sitzungstoken
        */
@@ -395,7 +395,7 @@ if(!isset($_GET['action'])) {
           mysqli_query($dbl, "DELETE FROM `items` WHERE `id`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
           $content.= "<div class='successbox'>Rezept erfolgreich gelöscht.</div>".PHP_EOL;
           $content.= "<div class='row'>".PHP_EOL.
-          "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminitems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
+          "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminItems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
           "</div>".PHP_EOL;
         } else {
           /**
@@ -403,7 +403,7 @@ if(!isset($_GET['action'])) {
            */
           $content.= "<div class='infobox'>Rezept unverändert.</div>".PHP_EOL;
           $content.= "<div class='row'>".PHP_EOL.
-          "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminitems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
+          "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminItems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
           "</div>".PHP_EOL;
         }
       } else {
@@ -413,7 +413,7 @@ if(!isset($_GET['action'])) {
         http_response_code(403);
         $content.= "<div class='warnbox'>Ungültiges Token.</div>".PHP_EOL;
         $content.= "<div class='row'>".PHP_EOL.
-        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminitems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminItems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
         "</div>".PHP_EOL;
       }
     }
@@ -436,7 +436,7 @@ if(!isset($_GET['action'])) {
     http_response_code(404);
     $content.= "<div class='warnbox'>Das Rezept mit der ID <span class='italic'>".$id."</span> existiert nicht.</div>".PHP_EOL;
     $content.= "<div class='row'>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminitems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminItems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
     "</div>".PHP_EOL;
   } else {
     /**
@@ -563,7 +563,7 @@ if(!isset($_GET['action'])) {
         if(mysqli_query($dbl, "UPDATE `items` SET `title`='".$form_title."', `shortTitle`='".$shortTitle."', `text`=".($text === NULL ? "NULL" : "'".$text."'").", `ingredients`=".($ingredients === NULL ? "NULL" : "'".$ingredients."'").", `persons`='".$persons."', `cost`='".$cost."', `difficulty`='".$difficulty."', `duration`='".$duration."' WHERE `id`='".$id."' LIMIT 1")) {
           $content.= "<div class='successbox'>Rezept erfolgreich geändert.</div>".PHP_EOL;
           $content.= "<div class='row'>".PHP_EOL.
-          "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminitems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
+          "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminItems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
           "</div>".PHP_EOL;
         } else {
           $form = 1;
@@ -585,7 +585,7 @@ if(!isset($_GET['action'])) {
      * Das Formular wird beim Erstaufruf und bei Fehleingaben angezeigt.
      */
     if($form == 1) {
-      $content.= "<form action='/adminitems/edit/".$id."' method='post' autocomplete='off'>".PHP_EOL;
+      $content.= "<form action='/adminItems/edit/".$id."' method='post' autocomplete='off'>".PHP_EOL;
       /**
        * Sitzungstoken
        */
@@ -623,7 +623,7 @@ if(!isset($_GET['action'])) {
       $content.= "<div class='row hover bordered'>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Text</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><textarea name='text' placeholder='Mehrzeiliger Text' tabindex='3'>".(isset($row['text']) ? output($row['text']) : (isset($_POST['text']) && !empty($_POST['text']) ? output($_POST['text']) : NULL))."</textarea></div>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("* [Markdown für mehrzeilige Textfelder](/adminmarkdowninfo)* möglich\n* Das hier ist das eigentliche Rezept. Der Haupttext.")."</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("* [Markdown für mehrzeilige Textfelder](/adminMarkdownInfo)* möglich\n* Das hier ist das eigentliche Rezept. Der Haupttext.")."</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
       "</div>".PHP_EOL;
       /**
@@ -632,7 +632,7 @@ if(!isset($_GET['action'])) {
       $content.= "<div class='row hover bordered'>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Zutatenliste</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><textarea name='ingredients' placeholder='Mehrzeiliger Text' tabindex='4'>".(isset($row['ingredients']) ? output($row['ingredients']) : (isset($_POST['ingredients']) && !empty($_POST['ingredients']) ? output($_POST['ingredients']) : NULL))."</textarea></div>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("* [Markdown für mehrzeilige Textfelder](/adminmarkdowninfo)* möglich\n* Muss im Listenformat angegeben werden:\n`* Bla 1`\n`* Bla 2`")."</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("* [Markdown für mehrzeilige Textfelder](/adminMarkdownInfo)* möglich\n* Muss im Listenformat angegeben werden:\n`* Bla 1`\n`* Bla 2`")."</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
       "</div>".PHP_EOL;
       /**
@@ -716,7 +716,7 @@ if(!isset($_GET['action'])) {
     http_response_code(404);
     $content.= "<div class='warnbox'>Das Rezept mit der ID <span class='italic'>".$id."</span> existiert nicht.</div>".PHP_EOL;
     $content.= "<div class='row'>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminitems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminItems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
     "</div>".PHP_EOL;
   } else {
     /**
@@ -727,7 +727,7 @@ if(!isset($_GET['action'])) {
     "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><span class='highlight bold'>Rezept:</span> ".$row['title']."</div>".PHP_EOL.
     "</div>".PHP_EOL;
     $content.= "<div class='row'>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminitems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminItems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
     "</div>".PHP_EOL;
     $content.= "<div class='spacer-m'></div>".PHP_EOL;
     /**
@@ -741,7 +741,7 @@ if(!isset($_GET['action'])) {
          */
         $content.= "<h1>Hinzufügen bestätigen</h1>".PHP_EOL;
         $content.= "<div class='infobox'>Zuweisung bitte bestätigen.</div>".PHP_EOL;
-        $content.= "<form action='/adminitems/assign/".$id."/add/".$add_id."' method='post'>";
+        $content.= "<form action='/adminItems/assign/".$id."/add/".$add_id."' method='post'>";
         /**
          * Sitzungstoken
          */
@@ -790,7 +790,7 @@ if(!isset($_GET['action'])) {
          */
         $content.= "<h1>Löschen bestätigen</h1>".PHP_EOL;
         $content.= "<div class='infobox'>Löschung bitte bestätigen.</div>".PHP_EOL;
-        $content.= "<form action='/adminitems/assign/".$id."/del/".$del_id."' method='post'>";
+        $content.= "<form action='/adminItems/assign/".$id."/del/".$del_id."' method='post'>";
         /**
          * Sitzungstoken
          */
@@ -838,7 +838,7 @@ if(!isset($_GET['action'])) {
       while($row = mysqli_fetch_array($result)) {
         $content.= "<div class='row hover bordered'>".PHP_EOL.
         "<div class='col-x-12 col-s-8 col-m-8 col-l-8 col-xl-8'>".$row['title']."</div>".PHP_EOL.
-        "<div class='col-x-12 col-s-4 col-m-4 col-l-4 col-xl-4'><a href='/adminitems/assign/".$id."/del/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a><br>".PHP_EOL."<a href='/admincategories/sort/".$row['category_id']."' class='nowrap'><span class='fas icon'>&#xf0dc;</span>in dieser Kategorie sortieren</a></div>".PHP_EOL.
+        "<div class='col-x-12 col-s-4 col-m-4 col-l-4 col-xl-4'><a href='/adminItems/assign/".$id."/del/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a><br>".PHP_EOL."<a href='/adminCategories/sort/".$row['category_id']."' class='nowrap'><span class='fas icon'>&#xf0dc;</span>in dieser Kategorie sortieren</a></div>".PHP_EOL.
         "</div>".PHP_EOL;
       }
     }
@@ -855,7 +855,7 @@ if(!isset($_GET['action'])) {
     while($row = mysqli_fetch_array($result)) {
       $content.= "<div class='row hover bordered'>".PHP_EOL.
       "<div class='col-x-12 col-s-8 col-m-8 col-l-8 col-xl-8'>".$row['title']."</div>".PHP_EOL.
-      "<div class='col-x-12 col-s-4 col-m-4 col-l-4 col-xl-4'>".($row['isset'] == 1 ? "bereits zugewiesen" : "<a href='/adminitems/assign/".$id."/add/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf067;</span>Hinzufügen</a>")."</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-4 col-m-4 col-l-4 col-xl-4'>".($row['isset'] == 1 ? "bereits zugewiesen" : "<a href='/adminItems/assign/".$id."/add/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf067;</span>Hinzufügen</a>")."</div>".PHP_EOL.
       "</div>".PHP_EOL;
     }
   }
@@ -863,7 +863,7 @@ if(!isset($_GET['action'])) {
   /**
    * Umleitung falls eine action übergeben wurde, aber nichts zutrifft.
    */
-  header("Location: /adminitems/list");
+  header("Location: /adminItems/list");
   die();
 }
 ?>

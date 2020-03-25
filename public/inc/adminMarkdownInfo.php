@@ -1,6 +1,6 @@
 <?php
 /**
- * adminmarkdowninfo.php
+ * adminMarkdownInfo.php
  * 
  * Seite für Markdowninfos.
  */
@@ -8,7 +8,7 @@
 /**
  * Einbinden der Cookieüberprüfung.
  */
-require_once('admincookie.php');
+require_once('adminCookie.php');
 
 $title = "Markdown Info";
 

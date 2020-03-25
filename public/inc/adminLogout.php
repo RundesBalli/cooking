@@ -1,6 +1,6 @@
 <?php
 /**
- * adminlogout.php
+ * adminLogout.php
  * 
  * Seite zum Löschen der Sitzung und um den Cookie zu leeren.
  */
@@ -8,7 +8,7 @@
 /**
  * Einbinden der Cookieüberprüfung.
  */
-require_once('admincookie.php');
+require_once('adminCookie.php');
 
 /**
  * Titel
@@ -20,7 +20,7 @@ if(!isset($_POST['submit'])) {
   /**
    * Formular wird angezeigt
    */
-  $content.= "<form action='/adminlogout' method='post'>".PHP_EOL;
+  $content.= "<form action='/adminLogout' method='post'>".PHP_EOL;
   /**
    * Sitzungstoken
    */
@@ -46,7 +46,7 @@ if(!isset($_POST['submit'])) {
     http_response_code(403);
     $content.= "<div class='warnbox'>Ungültiges Token.</div>".PHP_EOL;
     $content.= "<div class='row'>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminindex'><span class='fas icon'>&#xf359;</span>Zurück zum Index</a></div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminIndex'><span class='fas icon'>&#xf359;</span>Zurück zum Index</a></div>".PHP_EOL.
     "</div>".PHP_EOL;
   } else {
     /**
@@ -57,7 +57,7 @@ if(!isset($_POST['submit'])) {
      * Entfernen des Cookies und Umleitung zur Loginseite.
      */
     setcookie('cooking', NULL, 0);
-    header("Location: /adminlogin");
+    header("Location: /adminLogin");
     die();
   }
 }

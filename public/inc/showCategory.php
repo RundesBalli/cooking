@@ -1,6 +1,6 @@
 <?php
 /**
- * showcategory.php
+ * showCategory.php
  * 
  * Anzeige aller Einträge innerhalb einer gewählten Kategorie.
  */
