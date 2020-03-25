@@ -83,7 +83,7 @@ if(!isset($_GET['action'])) {
     /**
      * Sitzungstoken
      */
-    if($_POST['token'] != $sessionhash) {
+    if($_POST['token'] != $adminSessionHash) {
       http_response_code(403);
       $form = 1;
       $content.= "<div class='warnbox'>Ungültiges Token.</div>".PHP_EOL;
@@ -219,7 +219,7 @@ if(!isset($_GET['action'])) {
     /**
      * Sitzungstoken
      */
-    $content.= "<input type='hidden' name='token' value='".$sessionhash."'>".PHP_EOL;
+    $content.= "<input type='hidden' name='token' value='".$adminSessionHash."'>".PHP_EOL;
     /**
      * Tabellenüberschrift
      */
@@ -372,7 +372,7 @@ if(!isset($_GET['action'])) {
       /**
        * Sitzungstoken
        */
-      $content.= "<input type='hidden' name='token' value='".$sessionhash."'>".PHP_EOL;
+      $content.= "<input type='hidden' name='token' value='".$adminSessionHash."'>".PHP_EOL;
       $content.= "<div class='row'>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-12 col-l-4 col-xl-4'><select name='selection'>".PHP_EOL."<option value='' selected disabled hidden>Bitte wählen</option>".PHP_EOL.implode("", $options1)."</select></div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-12 col-l-4 col-xl-4'><input type='submit' name='submit' value='Handeln'></div>".PHP_EOL.
@@ -383,7 +383,7 @@ if(!isset($_GET['action'])) {
       /**
        * Formular wurde abgesendet. Jetzt muss das Select Feld geprüft werden.
        */
-      if($_POST['token'] == $sessionhash) {
+      if($_POST['token'] == $adminSessionHash) {
         if(isset($_POST['selection']) AND $_POST['selection'] == 1) {
           /**
            * Im Select wurde "ja" ausgewählt
@@ -452,7 +452,7 @@ if(!isset($_GET['action'])) {
       /**
        * Sitzungstoken
        */
-      if($_POST['token'] != $sessionhash) {
+      if($_POST['token'] != $adminSessionHash) {
         http_response_code(403);
         $form = 1;
         $content.= "<div class='warnbox'>Ungültiges Token.</div>".PHP_EOL;
@@ -589,7 +589,7 @@ if(!isset($_GET['action'])) {
       /**
        * Sitzungstoken
        */
-      $content.= "<input type='hidden' name='token' value='".$sessionhash."'>".PHP_EOL;
+      $content.= "<input type='hidden' name='token' value='".$adminSessionHash."'>".PHP_EOL;
       /**
        * Tabellenüberschrift
        */
@@ -745,7 +745,7 @@ if(!isset($_GET['action'])) {
         /**
          * Sitzungstoken
          */
-        $content.= "<input type='hidden' name='token' value='".$sessionhash."'>".PHP_EOL;
+        $content.= "<input type='hidden' name='token' value='".$adminSessionHash."'>".PHP_EOL;
         $content.= "<div class='row hover bordered'>".PHP_EOL.
         "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Hinzufügen?</div>".PHP_EOL.
         "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='submit' name='submit' value='Ja'></div>".PHP_EOL.
@@ -754,7 +754,7 @@ if(!isset($_GET['action'])) {
         "</div>".PHP_EOL;
         $content.= "</form>".PHP_EOL;
       } else {
-        if($_POST['token'] == $sessionhash) {
+        if($_POST['token'] == $adminSessionHash) {
           /**
            * Token gültig.
            */
@@ -794,7 +794,7 @@ if(!isset($_GET['action'])) {
         /**
          * Sitzungstoken
          */
-        $content.= "<input type='hidden' name='token' value='".$sessionhash."'>".PHP_EOL;
+        $content.= "<input type='hidden' name='token' value='".$adminSessionHash."'>".PHP_EOL;
         $content.= "<div class='row hover bordered'>".PHP_EOL.
         "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Löschen?</div>".PHP_EOL.
         "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='submit' name='submit' value='Ja'></div>".PHP_EOL.
@@ -803,7 +803,7 @@ if(!isset($_GET['action'])) {
         "</div>".PHP_EOL;
         $content.= "</form>".PHP_EOL;
       } else {
-        if($_POST['token'] == $sessionhash) {
+        if($_POST['token'] == $adminSessionHash) {
           /**
            * Token gültig.
            */

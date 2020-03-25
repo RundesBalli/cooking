@@ -24,7 +24,7 @@ if(!isset($_POST['submit'])) {
   /**
    * Sitzungstoken
    */
-  $content.= "<input type='hidden' name='token' value='".$sessionhash."'>".PHP_EOL;
+  $content.= "<input type='hidden' name='token' value='".$adminSessionHash."'>".PHP_EOL;
   /**
    * Auswahl
    */
@@ -42,7 +42,7 @@ if(!isset($_POST['submit'])) {
   /**
    * Sitzungstoken
    */
-  if($_POST['token'] != $sessionhash) {
+  if($_POST['token'] != $adminSessionHash) {
     http_response_code(403);
     $content.= "<div class='warnbox'>Ungültiges Token.</div>".PHP_EOL;
     $content.= "<div class='row'>".PHP_EOL.

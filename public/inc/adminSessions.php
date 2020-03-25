@@ -27,7 +27,7 @@ if((isset($_GET['action']) AND $_GET['action'] == 'del') AND (isset($_GET['id'])
     /**
      * Sitzungstoken
      */
-    $content.= "<input type='hidden' name='token' value='".$sessionhash."'>".PHP_EOL;
+    $content.= "<input type='hidden' name='token' value='".$adminSessionHash."'>".PHP_EOL;
     /**
      * Auswahl
      */
@@ -40,7 +40,7 @@ if((isset($_GET['action']) AND $_GET['action'] == 'del') AND (isset($_GET['id'])
     $content.= "</form>".PHP_EOL;
     $content.= "<div class='spacer-m'></div>".PHP_EOL;
   } else {
-    if($_POST['token'] == $sessionhash) {
+    if($_POST['token'] == $adminSessionHash) {
       /**
        * Token passt, Sitzung beenden.
        */
@@ -77,7 +77,7 @@ while($row = mysqli_fetch_array($result)) {
   $content.= "<div class='col-x-12 col-s-12 col-m-3 col-l-3 col-xl-3'>".output($row['username'])."</div>".PHP_EOL;
   $content.= "<div class='col-x-12 col-s-12 col-m-3 col-l-3 col-xl-3'>".date("d.m.Y, H:i:s", $row['lastactivity'])."</div>".PHP_EOL;
   $content.= "<div class='col-x-12 col-s-12 col-m-3 col-l-3 col-xl-3'>".date("d.m.Y, H:i:s", $row['validuntil'])."</div>".PHP_EOL;
-  $content.= "<div class='col-x-12 col-s-12 col-m-3 col-l-3 col-xl-3'>".($sessionhash == $row['hash'] ? "eigene Sitzung" : "<a href='/adminSessions/del/".$row['id']."'>Beenden</a>")."</div>".PHP_EOL;
+  $content.= "<div class='col-x-12 col-s-12 col-m-3 col-l-3 col-xl-3'>".($adminSessionHash == $row['hash'] ? "eigene Sitzung" : "<a href='/adminSessions/del/".$row['id']."'>Beenden</a>")."</div>".PHP_EOL;
   $content.= "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL;
   $content.= "</div>".PHP_EOL;
 }
@@ -92,7 +92,7 @@ $content.= "<h1>Eigenes Passwort ändern</h1>".PHP_EOL;
  * Änderung des Passworts
  */
 if(isset($_POST['password'])) {
-  if($_POST['token'] == $sessionhash) {
+  if($_POST['token'] == $adminSessionHash) {
     if(strlen($_POST['password']) >= 20) {
       $salt = hash('sha256', random_bytes(4096));
       $password = password_hash($_POST['password'].$salt, PASSWORD_DEFAULT);
@@ -100,7 +100,7 @@ if(isset($_POST['password'])) {
       /**
        * Löschen der Sitzung.
        */
-      mysqli_query($dbl, "DELETE FROM `sessions` WHERE `hash`='".$sessionhash."'") OR DIE(MYSQLI_ERROR($dbl));
+      mysqli_query($dbl, "DELETE FROM `sessions` WHERE `hash`='".$adminSessionHash."'") OR DIE(MYSQLI_ERROR($dbl));
       /**
        * Entfernen des Cookies und Umleitung zur Loginseite.
        */
@@ -126,7 +126,7 @@ $content.= "<form action='/adminSessions' method='post'>".PHP_EOL;
 /**
  * Sitzungstoken
  */
-$content.= "<input type='hidden' name='token' value='".$sessionhash."'>".PHP_EOL;
+$content.= "<input type='hidden' name='token' value='".$adminSessionHash."'>".PHP_EOL;
 $content.= "<div class='row hover bordered'>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>neues Passwort</div>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='password' name='password' tabindex='1'></div>".PHP_EOL.

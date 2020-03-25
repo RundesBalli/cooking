@@ -54,9 +54,9 @@ if((!isset($_COOKIE['cookingAdmin']) OR empty($_COOKIE['cookingAdmin'])) AND !is
        * Wenn das Passwort verifiziert werden konnte wird eine Sitzung generiert und im Cookie gespeichert.
        * Danach erfolg eine Weiterleitung zur adminIndex-Seite.
        */
-      $sessionhash = hash('sha256', time().$_SERVER['REMOTE_ADDR'].rand(10000,99999));
-      mysqli_query($dbl, "INSERT INTO `sessions` (`userid`, `hash`) VALUES ('".$row['id']."', '".$sessionhash."')") OR DIE(MYSQLI_ERROR($dbl));
-      setcookie('cooking', $sessionhash, time()+(6*7*86400));
+      $adminSessionHash = hash('sha256', time().$_SERVER['REMOTE_ADDR'].rand(10000,99999));
+      mysqli_query($dbl, "INSERT INTO `sessions` (`userid`, `hash`) VALUES ('".$row['id']."', '".$adminSessionHash."')") OR DIE(MYSQLI_ERROR($dbl));
+      setcookie('cooking', $adminSessionHash, time()+(6*7*86400));
       header("Location: /adminIndex");
       die();
     } else {

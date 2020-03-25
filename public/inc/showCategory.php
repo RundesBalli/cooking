@@ -50,7 +50,7 @@ if(!isset($_GET['category']) OR empty(trim($_GET['category']))) {
       while($row = mysqli_fetch_array($result)) {
         $content.= "<div class='col-x-12 col-s-12 col-m-6 col-l-4 col-xl-3 item'>".PHP_EOL.
         "<a href='/rezept/".output($row['shortTitle'])."'>".PHP_EOL.
-        "<img src='/img/".($row['filehash'] === NULL ? "nothumb.png" : "thumb-".$row['id']."-".$row['filehash'].".png")."'>".PHP_EOL.
+        "<img src='/img/".($row['filehash'] === NULL ? "noThumb.png" : "thumb-".$row['id']."-".$row['filehash'].".png")."'>".PHP_EOL.
         "<div><span class='title'>".$row['title']."</span></div>".PHP_EOL.
         "</a>".PHP_EOL.
         "<div class='stars'>".stars($row['votes'], $row['voteCount'])."</div>".PHP_EOL.

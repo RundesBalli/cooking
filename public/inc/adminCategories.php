@@ -72,7 +72,7 @@ if(!isset($_GET['action'])) {
     /**
      * Sitzungstoken
      */
-    if($_POST['token'] != $sessionhash) {
+    if($_POST['token'] != $adminSessionHash) {
       $form = 1;
       http_response_code(403);
       $content.= "<div class='warnbox'>Ungültiges Token.</div>".PHP_EOL;
@@ -143,7 +143,7 @@ if(!isset($_GET['action'])) {
     /**
      * Sitzungstoken
      */
-    $content.= "<input type='hidden' name='token' value='".$sessionhash."'>".PHP_EOL;
+    $content.= "<input type='hidden' name='token' value='".$adminSessionHash."'>".PHP_EOL;
     /**
      * Tabellenüberschrift
      */
@@ -245,7 +245,7 @@ if(!isset($_GET['action'])) {
       /**
        * Sitzungstoken
        */
-      $content.= "<input type='hidden' name='token' value='".$sessionhash."'>".PHP_EOL;
+      $content.= "<input type='hidden' name='token' value='".$adminSessionHash."'>".PHP_EOL;
       $content.= "<div class='row'>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-12 col-l-4 col-xl-4'><select name='selection'>".PHP_EOL."<option value='' selected disabled hidden>Bitte wählen</option>".PHP_EOL.implode("", $options1)."</select></div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-12 col-l-4 col-xl-4'><input type='submit' name='submit' value='Handeln'></div>".PHP_EOL.
@@ -260,7 +260,7 @@ if(!isset($_GET['action'])) {
         /**
          * Im Select wurde "ja" ausgewählt, jetzt wird das Sitzungstoken geprüft.
          */
-        if($_POST['token'] == $sessionhash) {
+        if($_POST['token'] == $adminSessionHash) {
           mysqli_query($dbl, "DELETE FROM `categories` WHERE `id`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
           $content.= "<div class='successbox'>Kategorie erfolgreich gelöscht.</div>".PHP_EOL;
           $content.= "<div class='row'>".PHP_EOL.
@@ -321,7 +321,7 @@ if(!isset($_GET['action'])) {
       /**
        * Sitzungstoken
        */
-      if($_POST['token'] != $sessionhash) {
+      if($_POST['token'] != $adminSessionHash) {
         http_response_code(403);
         $form = 1;
         $content.= "<div class='warnbox'>Ungültiges Token.</div>".PHP_EOL;
@@ -393,7 +393,7 @@ if(!isset($_GET['action'])) {
       /**
        * Sitzungstoken
        */
-      $content.= "<input type='hidden' name='token' value='".$sessionhash."'>".PHP_EOL;
+      $content.= "<input type='hidden' name='token' value='".$adminSessionHash."'>".PHP_EOL;
       /**
        * Tabellenüberschrift
        */
@@ -495,7 +495,7 @@ if(!isset($_GET['action'])) {
         /**
          * Sitzungstoken
          */
-        $content.= "<input type='hidden' name='token' value='".$sessionhash."'>".PHP_EOL;
+        $content.= "<input type='hidden' name='token' value='".$adminSessionHash."'>".PHP_EOL;
         /**
          * Tabellenüberschrift
          */
@@ -526,7 +526,7 @@ if(!isset($_GET['action'])) {
       /**
        * Formularauswertung
        */
-      if($_POST['token'] == $sessionhash) {
+      if($_POST['token'] == $adminSessionHash) {
         if(isset($_POST['ci']) AND is_array($_POST['ci'])) {
           asort($_POST['ci']);
           $index = 0;
@@ -595,7 +595,7 @@ if(!isset($_GET['action'])) {
       /**
        * Sitzungstoken
        */
-      $content.= "<input type='hidden' name='token' value='".$sessionhash."'>".PHP_EOL;
+      $content.= "<input type='hidden' name='token' value='".$adminSessionHash."'>".PHP_EOL;
       /**
        * Tabellenüberschrift
        */
@@ -626,7 +626,7 @@ if(!isset($_GET['action'])) {
     /**
      * Formularauswertung
      */
-    if($_POST['token'] == $sessionhash) {
+    if($_POST['token'] == $adminSessionHash) {
       if(isset($_POST['cat']) AND is_array($_POST['cat'])) {
         asort($_POST['cat']);
         $index = 0;

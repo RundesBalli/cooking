@@ -135,7 +135,7 @@ if(mysqli_num_rows($result) == 0) {
       /**
        * Formular wurde abgesendet, Upload verarbeiten.
        */
-      if($_POST['token'] == $sessionhash) {
+      if($_POST['token'] == $adminSessionHash) {
         if($_FILES['file']['error'] === UPLOAD_ERR_OK) {
           /**
            * Keine Fehlermeldung seitens PHP, also Upload schonmal in Ordnung.
@@ -318,7 +318,7 @@ if(mysqli_num_rows($result) == 0) {
       /**
        * Sitzungstoken
        */
-      $content.= "<input type='hidden' name='token' value='".$sessionhash."'>".PHP_EOL;
+      $content.= "<input type='hidden' name='token' value='".$adminSessionHash."'>".PHP_EOL;
       /**
        * Tabellenüberschrift
        */
@@ -396,7 +396,7 @@ if(mysqli_num_rows($result) == 0) {
         /**
          * Sitzungstoken
          */
-        $content.= "<input type='hidden' name='token' value='".$sessionhash."'>".PHP_EOL;
+        $content.= "<input type='hidden' name='token' value='".$adminSessionHash."'>".PHP_EOL;
         $content.= "<div class='row'>".PHP_EOL.
         "<div class='col-x-12 col-s-12 col-m-12 col-l-4 col-xl-4'><select name='selection'>".PHP_EOL."<option value='' selected disabled hidden>Bitte wählen</option>".PHP_EOL.implode("", $options1)."</select></div>".PHP_EOL.
         "<div class='col-x-12 col-s-12 col-m-12 col-l-4 col-xl-4'><input type='submit' name='submit' value='Handeln'></div>".PHP_EOL.
@@ -411,7 +411,7 @@ if(mysqli_num_rows($result) == 0) {
           /**
            * Token Überprüfung
            */
-          if($_POST['token'] == $sessionhash) {
+          if($_POST['token'] == $adminSessionHash) {
             /**
              * Kann gelöscht werden
              */
@@ -492,7 +492,7 @@ if(mysqli_num_rows($result) == 0) {
         /**
          * Sitzungstoken
          */
-        $content.= "<input type='hidden' name='token' value='".$sessionhash."'>".PHP_EOL;
+        $content.= "<input type='hidden' name='token' value='".$adminSessionHash."'>".PHP_EOL;
         /**
          * Tabellenüberschrift
          */
@@ -522,7 +522,7 @@ if(mysqli_num_rows($result) == 0) {
         /**
          * Formularauswertung
          */
-        if($_POST['token'] == $sessionhash) {
+        if($_POST['token'] == $adminSessionHash) {
           if(isset($_POST['sortIndex']) AND is_array($_POST['sortIndex'])) {
             asort($_POST['sortIndex']);
             $index = 0;
