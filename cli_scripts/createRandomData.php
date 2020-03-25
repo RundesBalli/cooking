@@ -24,7 +24,7 @@ if(php_sapi_name() != 'cli') {
 /**
  * Abfragen ob diese Aktion wirklich durchgeführt werden soll.
  */
-echo "Bist du dir sicher, dass du dieses Skript ausführen willst?\nAlle Tabelleninhalte der folgenden Kategorien werden geleert:\n- items\n- categories\n- votes\n- clicks\n- category_items\n\nWenn du dir sicher bist schreib \"ja\"\n";
+echo "Bist du dir sicher, dass du dieses Skript ausführen willst?\nAlle Tabelleninhalte der folgenden Kategorien werden geleert:\n- items\n- categories\n- votes\n- clicks\n- categoryItems\n\nWenn du dir sicher bist schreib \"ja\"\n";
 $handle = fopen ("php://stdin","r");
 $line = fgets($handle);
 if(trim($line) != 'ja'){
@@ -36,7 +36,7 @@ if(trim($line) != 'ja'){
  */
 mysqli_query($dbl, "SET FOREIGN_KEY_CHECKS=0") OR DIE(MYSQLI_ERROR($dbl));
 echo "Leere Querverweise\n";
-mysqli_query($dbl, "TRUNCATE TABLE `category_items`") OR DIE(MYSQLI_ERROR($dbl));
+mysqli_query($dbl, "TRUNCATE TABLE `categoryItems`") OR DIE(MYSQLI_ERROR($dbl));
 echo "Leere Rezepte\n";
 mysqli_query($dbl, "TRUNCATE TABLE `items`") OR DIE(MYSQLI_ERROR($dbl));
 echo "Leere Kategorien\n";
@@ -74,7 +74,7 @@ for($i = 1; $i < 101; $i++) {
  */
 echo "Lege Querverweise an.\n";
 for($i = 0; $i < 400; $i++) {
-  if(mysqli_query($dbl, "INSERT INTO `category_items` (`category_id`, `item_id`, `sortIndex`) VALUES ('".rand(1, 7)."', '".rand(1, 100)."', '".rand(10, 99999)."')") === FALSE) {
+  if(mysqli_query($dbl, "INSERT INTO `categoryItems` (`categoryId`, `itemId`, `sortIndex`) VALUES ('".rand(1, 7)."', '".rand(1, 100)."', '".rand(10, 99999)."')") === FALSE) {
     if(mysqli_errno($dbl) == 1062) {
       /**
        * Wenn ein Doppelter Eintrag vorlag wird der Vorgang erneut durchlaufen.

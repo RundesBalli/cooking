@@ -55,7 +55,7 @@ if((!isset($_COOKIE['cookingAdmin']) OR empty($_COOKIE['cookingAdmin'])) AND !is
        * Danach erfolg eine Weiterleitung zur adminIndex-Seite.
        */
       $adminSessionHash = hash('sha256', time().$_SERVER['REMOTE_ADDR'].rand(10000,99999));
-      mysqli_query($dbl, "INSERT INTO `sessions` (`userid`, `hash`) VALUES ('".$row['id']."', '".$adminSessionHash."')") OR DIE(MYSQLI_ERROR($dbl));
+      mysqli_query($dbl, "INSERT INTO `accountSessions` (`userId`, `hash`) VALUES ('".$row['id']."', '".$adminSessionHash."')") OR DIE(MYSQLI_ERROR($dbl));
       setcookie('cookingAdmin', $adminSessionHash, time()+(6*7*86400));
       header("Location: /adminIndex");
       die();

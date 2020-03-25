@@ -29,7 +29,7 @@ if(!isset($_GET['action'])) {
   /**
    * Alle Kategorien selektieren und die zugewiesenen Rezepte zählen. Danke an @Insax für den Query.
    */
-  $result = mysqli_query($dbl, "SELECT `id`, `title`, `shortTitle`, (SELECT COUNT(`id`) FROM `category_items` WHERE `category_items`.`category_id` = `categories`.`id`) AS `itemcount` FROM `categories` ORDER BY `sortIndex` ASC, `title` ASC") OR DIE(MYSQLI_ERROR($dbl));
+  $result = mysqli_query($dbl, "SELECT `id`, `title`, `shortTitle`, (SELECT COUNT(`id`) FROM `categoryItems` WHERE `categoryItems`.`categoryId` = `categories`.`id`) AS `itemcount` FROM `categories` ORDER BY `sortIndex` ASC, `title` ASC") OR DIE(MYSQLI_ERROR($dbl));
   if(mysqli_num_rows($result) == 0) {
     /**
      * Wenn keine Kategorien existieren.
@@ -476,7 +476,7 @@ if(!isset($_GET['action'])) {
       /**
        * Selektieren der zugewiesenen Rezepte.
        */
-      $result = mysqli_query($dbl, "SELECT `category_items`.`id`, `category_items`.`sortIndex`, `items`.`title`, `items`.`shortTitle` FROM `category_items` LEFT JOIN `items` ON `category_items`.`item_id`=`items`.`id` WHERE `category_items`.`category_id` = '".$id."' ORDER BY `category_items`.`sortIndex` ASC") OR DIE(MYSQLI_ERROR($dbl));
+      $result = mysqli_query($dbl, "SELECT `categoryItems`.`id`, `categoryItems`.`sortIndex`, `items`.`title`, `items`.`shortTitle` FROM `categoryItems` LEFT JOIN `items` ON `categoryItems`.`itemId`=`items`.`id` WHERE `categoryItems`.`categoryId` = '".$id."' ORDER BY `categoryItems`.`sortIndex` ASC") OR DIE(MYSQLI_ERROR($dbl));
       if(mysqli_num_rows($result) == 0) {
         $content.= "<div class='warnbox'>Dieser Kategorie sind keine Rezepte zugewiesen.</div>".PHP_EOL;
         $content.= "<div class='row'>".PHP_EOL.
@@ -530,13 +530,13 @@ if(!isset($_GET['action'])) {
         if(isset($_POST['ci']) AND is_array($_POST['ci'])) {
           asort($_POST['ci']);
           $index = 0;
-          $query = "UPDATE `category_items` SET `sortIndex` = CASE ";
+          $query = "UPDATE `categoryItems` SET `sortIndex` = CASE ";
           foreach($_POST['ci'] as $key => $val) {
             $key = (int)defuse($key);
             $index+= 10;
             $query.= "WHEN `id`='".$key."' THEN '".$index."' ";
           }
-          $query.= "ELSE '9999999' END WHERE `category_id`='".$id."'";
+          $query.= "ELSE '9999999' END WHERE `categoryId`='".$id."'";
           mysqli_query($dbl, $query) OR DIE(MYSQLI_ERROR($dbl));
           $content.= "<div class='successbox'>Sortierung geändert.</div>".PHP_EOL;
           $content.= "<div class='row'>".PHP_EOL.

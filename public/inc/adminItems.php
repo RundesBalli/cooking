@@ -45,7 +45,7 @@ if(!isset($_GET['action'])) {
     "<div class='col-x-12 col-s-0 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
     "</div>".PHP_EOL;
     while($row = mysqli_fetch_array($result)) {
-      $innerresult = mysqli_query($dbl, "SELECT `categories`.`title`, `categories`.`shortTitle` FROM `category_items` LEFT JOIN `categories` ON `category_items`.`category_id`=`categories`.`id` WHERE `category_items`.`item_id`='".$row['id']."'") OR DIE(MYSQLI_ERROR($dbl));
+      $innerresult = mysqli_query($dbl, "SELECT `categories`.`title`, `categories`.`shortTitle` FROM `categoryItems` LEFT JOIN `categories` ON `categoryItems`.`categoryId`=`categories`.`id` WHERE `categoryItems`.`itemId`='".$row['id']."'") OR DIE(MYSQLI_ERROR($dbl));
       if(mysqli_num_rows($innerresult) == 0) {
         $categories = "keine";
       } else {
@@ -150,7 +150,7 @@ if(!isset($_GET['action'])) {
      */
     if(!empty($_POST['cost'])) {
       $cost = (int)defuse($_POST['cost']);
-      $result = mysqli_query($dbl, "SELECT `id` FROM `meta_cost` WHERE `id`='".$cost."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+      $result = mysqli_query($dbl, "SELECT `id` FROM `metaCost` WHERE `id`='".$cost."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
       if(mysqli_num_rows($result) == 0) {
         $form = 1;
         $content.= "<div class='warnbox'>Die Angabe der Kosten ist ungültig.</div>".PHP_EOL;
@@ -164,7 +164,7 @@ if(!isset($_GET['action'])) {
      */
     if(!empty($_POST['difficulty'])) {
       $difficulty = (int)defuse($_POST['difficulty']);
-      $result = mysqli_query($dbl, "SELECT `id` FROM `meta_difficulty` WHERE `id`='".$difficulty."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+      $result = mysqli_query($dbl, "SELECT `id` FROM `metaDifficulty` WHERE `id`='".$difficulty."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
       if(mysqli_num_rows($result) == 0) {
         $form = 1;
         $content.= "<div class='warnbox'>Die Angabe der Schwierigkeit ist ungültig.</div>".PHP_EOL;
@@ -178,7 +178,7 @@ if(!isset($_GET['action'])) {
      */
     if(!empty($_POST['duration'])) {
       $duration = (int)defuse($_POST['duration']);
-      $result = mysqli_query($dbl, "SELECT `id` FROM `meta_duration` WHERE `id`='".$duration."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+      $result = mysqli_query($dbl, "SELECT `id` FROM `metaDuration` WHERE `id`='".$duration."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
       if(mysqli_num_rows($result) == 0) {
         $form = 1;
         $content.= "<div class='warnbox'>Die Angabe der Dauer ist ungültig.</div>".PHP_EOL;
@@ -280,7 +280,7 @@ if(!isset($_GET['action'])) {
     $content.= "<div class='row hover bordered'>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Kosten</div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><select name='cost' tabindex='6'>".PHP_EOL."<option value='' selected disabled hidden>Bitte wählen</option>".PHP_EOL;
-    $result = mysqli_query($dbl, "SELECT * FROM `meta_cost` ORDER BY `id` ASC") OR DIE(MYSQLI_ERROR($dbl));
+    $result = mysqli_query($dbl, "SELECT * FROM `metaCost` ORDER BY `id` ASC") OR DIE(MYSQLI_ERROR($dbl));
     while($row = mysqli_fetch_array($result)) {
       $content.= "<option value='".$row['id']."'".((isset($_POST['cost']) && !empty($_POST['cost']) AND $row['id'] == $_POST['cost']) ? " selected" : NULL).">".output($row['title'])."</option>".PHP_EOL;
     }
@@ -294,7 +294,7 @@ if(!isset($_GET['action'])) {
     $content.= "<div class='row hover bordered'>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Schwierigkeit</div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><select name='difficulty' tabindex='7'>".PHP_EOL."<option value='' selected disabled hidden>Bitte wählen</option>".PHP_EOL;
-    $result = mysqli_query($dbl, "SELECT * FROM `meta_difficulty` ORDER BY `id` ASC") OR DIE(MYSQLI_ERROR($dbl));
+    $result = mysqli_query($dbl, "SELECT * FROM `metaDifficulty` ORDER BY `id` ASC") OR DIE(MYSQLI_ERROR($dbl));
     while($row = mysqli_fetch_array($result)) {
       $content.= "<option value='".$row['id']."'".((isset($_POST['difficulty']) && !empty($_POST['difficulty']) AND $row['id'] == $_POST['difficulty']) ? " selected" : NULL).">".output($row['title'])."</option>".PHP_EOL;
     }
@@ -308,7 +308,7 @@ if(!isset($_GET['action'])) {
     $content.= "<div class='row hover bordered'>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Dauer</div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><select name='duration' tabindex='8'>".PHP_EOL."<option value='' selected disabled hidden>Bitte wählen</option>".PHP_EOL;
-    $result = mysqli_query($dbl, "SELECT * FROM `meta_duration` ORDER BY `id` ASC") OR DIE(MYSQLI_ERROR($dbl));
+    $result = mysqli_query($dbl, "SELECT * FROM `metaDuration` ORDER BY `id` ASC") OR DIE(MYSQLI_ERROR($dbl));
     while($row = mysqli_fetch_array($result)) {
       $content.= "<option value='".$row['id']."'".((isset($_POST['duration']) && !empty($_POST['duration']) AND $row['id'] == $_POST['duration']) ? " selected" : NULL).">".output($row['title'])."</option>".PHP_EOL;
     }
@@ -519,7 +519,7 @@ if(!isset($_GET['action'])) {
        */
       if(!empty($_POST['cost'])) {
         $cost = (int)defuse($_POST['cost']);
-        $result = mysqli_query($dbl, "SELECT `id` FROM `meta_cost` WHERE `id`='".$cost."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+        $result = mysqli_query($dbl, "SELECT `id` FROM `metaCost` WHERE `id`='".$cost."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
         if(mysqli_num_rows($result) == 0) {
           $form = 1;
           $content.= "<div class='warnbox'>Die Angabe der Kosten ist ungültig.</div>".PHP_EOL;
@@ -533,7 +533,7 @@ if(!isset($_GET['action'])) {
        */
       if(!empty($_POST['difficulty'])) {
         $difficulty = (int)defuse($_POST['difficulty']);
-        $result = mysqli_query($dbl, "SELECT `id` FROM `meta_difficulty` WHERE `id`='".$difficulty."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+        $result = mysqli_query($dbl, "SELECT `id` FROM `metaDifficulty` WHERE `id`='".$difficulty."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
         if(mysqli_num_rows($result) == 0) {
           $form = 1;
           $content.= "<div class='warnbox'>Die Angabe der Schwierigkeit ist ungültig.</div>".PHP_EOL;
@@ -547,7 +547,7 @@ if(!isset($_GET['action'])) {
        */
       if(!empty($_POST['duration'])) {
         $duration = (int)defuse($_POST['duration']);
-        $result = mysqli_query($dbl, "SELECT `id` FROM `meta_duration` WHERE `id`='".$duration."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+        $result = mysqli_query($dbl, "SELECT `id` FROM `metaDuration` WHERE `id`='".$duration."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
         if(mysqli_num_rows($result) == 0) {
           $form = 1;
           $content.= "<div class='warnbox'>Die Angabe der Dauer ist ungültig.</div>".PHP_EOL;
@@ -650,7 +650,7 @@ if(!isset($_GET['action'])) {
       $content.= "<div class='row hover bordered'>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Kosten</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><select name='cost' tabindex='6'>".PHP_EOL."<option value='' selected disabled hidden>Bitte wählen</option>".PHP_EOL;
-      $innerresult = mysqli_query($dbl, "SELECT * FROM `meta_cost` ORDER BY `id` ASC") OR DIE(MYSQLI_ERROR($dbl));
+      $innerresult = mysqli_query($dbl, "SELECT * FROM `metaCost` ORDER BY `id` ASC") OR DIE(MYSQLI_ERROR($dbl));
       while($innerrow = mysqli_fetch_array($innerresult)) {
         $content.= "<option value='".$innerrow['id']."'".(isset($row['cost']) ? ($row['cost'] == $innerrow['id'] ? " selected" : NULL) : ((isset($_POST['cost']) && !empty($_POST['cost']) AND $innerrow['id'] == $_POST['cost']) ? " selected" : NULL)).">".output($innerrow['title'])."</option>".PHP_EOL;
       }
@@ -664,7 +664,7 @@ if(!isset($_GET['action'])) {
       $content.= "<div class='row hover bordered'>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Schwierigkeit</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><select name='difficulty' tabindex='7'>".PHP_EOL."<option value='' selected disabled hidden>Bitte wählen</option>".PHP_EOL;
-      $innerresult = mysqli_query($dbl, "SELECT * FROM `meta_difficulty` ORDER BY `id` ASC") OR DIE(MYSQLI_ERROR($dbl));
+      $innerresult = mysqli_query($dbl, "SELECT * FROM `metaDifficulty` ORDER BY `id` ASC") OR DIE(MYSQLI_ERROR($dbl));
       while($innerrow = mysqli_fetch_array($innerresult)) {
         $content.= "<option value='".$innerrow['id']."'".(isset($row['difficulty']) ? ($row['difficulty'] == $innerrow['id'] ? " selected" : NULL) : ((isset($_POST['difficulty']) && !empty($_POST['difficulty']) AND $innerrow['id'] == $_POST['difficulty']) ? " selected" : NULL)).">".output($innerrow['title'])."</option>".PHP_EOL;
       }
@@ -678,7 +678,7 @@ if(!isset($_GET['action'])) {
       $content.= "<div class='row hover bordered'>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Dauer</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><select name='duration' tabindex='8'>".PHP_EOL."<option value='' selected disabled hidden>Bitte wählen</option>".PHP_EOL;
-      $innerresult = mysqli_query($dbl, "SELECT * FROM `meta_duration` ORDER BY `id` ASC") OR DIE(MYSQLI_ERROR($dbl));
+      $innerresult = mysqli_query($dbl, "SELECT * FROM `metaDuration` ORDER BY `id` ASC") OR DIE(MYSQLI_ERROR($dbl));
       while($innerrow = mysqli_fetch_array($innerresult)) {
         $content.= "<option value='".$innerrow['id']."'".(isset($row['duration']) ? ($row['duration'] == $innerrow['id'] ? " selected" : NULL) : ((isset($_POST['duration']) && !empty($_POST['duration']) AND $innerrow['id'] == $_POST['duration']) ? " selected" : NULL)).">".output($innerrow['title'])."</option>".PHP_EOL;
       }
@@ -734,14 +734,14 @@ if(!isset($_GET['action'])) {
      * Zuweisen von Kategorien
      */
     if(isset($_GET['add']) AND !empty($_GET['add'])) {
-      $add_id = (int)defuse($_GET['add']);
+      $addId = (int)defuse($_GET['add']);
       if(!isset($_POST['submit'])) {
         /**
          * CSRF Bestätigung
          */
         $content.= "<h1>Hinzufügen bestätigen</h1>".PHP_EOL;
         $content.= "<div class='infobox'>Zuweisung bitte bestätigen.</div>".PHP_EOL;
-        $content.= "<form action='/adminItems/assign/".$id."/add/".$add_id."' method='post'>";
+        $content.= "<form action='/adminItems/assign/".$id."/add/".$addId."' method='post'>";
         /**
          * Sitzungstoken
          */
@@ -758,7 +758,7 @@ if(!isset($_GET['action'])) {
           /**
            * Token gültig.
            */
-          if(mysqli_query($dbl, "INSERT INTO `category_items` (`category_id`, `item_id`) VALUES ('".$add_id."', '".$id."')")) {
+          if(mysqli_query($dbl, "INSERT INTO `categoryItems` (`categoryId`, `itemId`) VALUES ('".$addId."', '".$id."')")) {
             $content.= "<div class='successbox'>Zuweisung erfolgreich angelegt.</div>".PHP_EOL;
           } else {
             if(mysqli_errno($dbl) == 1062) {
@@ -783,14 +783,14 @@ if(!isset($_GET['action'])) {
      * Löschen von Zuweisungen
      */
     if(isset($_GET['del']) AND !empty($_GET['del'])) {
-      $del_id = (int)defuse($_GET['del']);
+      $delId = (int)defuse($_GET['del']);
       if(!isset($_POST['submit'])) {
         /**
          * CSRF Bestätigung
          */
         $content.= "<h1>Löschen bestätigen</h1>".PHP_EOL;
         $content.= "<div class='infobox'>Löschung bitte bestätigen.</div>".PHP_EOL;
-        $content.= "<form action='/adminItems/assign/".$id."/del/".$del_id."' method='post'>";
+        $content.= "<form action='/adminItems/assign/".$id."/del/".$delId."' method='post'>";
         /**
          * Sitzungstoken
          */
@@ -807,11 +807,11 @@ if(!isset($_GET['action'])) {
           /**
            * Token gültig.
            */
-          mysqli_query($dbl, "DELETE FROM `category_items` WHERE `id`='".$del_id."' AND `item_id`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+          mysqli_query($dbl, "DELETE FROM `categoryItems` WHERE `id`='".$delId."' AND `itemId`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
           if(mysqli_affected_rows($dbl) == 1) {
             $content.= "<div class='successbox'>Die Zuweisung wurde gelöscht.</div>".PHP_EOL;
           } else {
-            $content.= "<div class='warnbox'>Es existiert für dieses Rezept keine Kategoriezuweisung mit der ID <span class='italic'>".$del_id."</span>.</div>".PHP_EOL;
+            $content.= "<div class='warnbox'>Es existiert für dieses Rezept keine Kategoriezuweisung mit der ID <span class='italic'>".$delId."</span>.</div>".PHP_EOL;
           }
         } else {
           /**
@@ -827,7 +827,7 @@ if(!isset($_GET['action'])) {
      * Bestehende Zuweisungen anzeigen
      */
     $content.= "<h2>Bestehende Zuweisungen</h2>".PHP_EOL;
-    $result = mysqli_query($dbl, "SELECT `category_items`.`id`, `category_items`.`category_id`, `categories`.`title` FROM `category_items` LEFT JOIN `categories` ON `category_items`.`category_id`=`categories`.`id` WHERE `category_items`.`item_id`='".$id."'") OR DIE(MYSQLI_ERROR($dbl));
+    $result = mysqli_query($dbl, "SELECT `categoryItems`.`id`, `categoryItems`.`categoryId`, `categories`.`title` FROM `categoryItems` LEFT JOIN `categories` ON `categoryItems`.`categoryId`=`categories`.`id` WHERE `categoryItems`.`itemId`='".$id."'") OR DIE(MYSQLI_ERROR($dbl));
     if(mysqli_num_rows($result) == 0) {
       $content.= "<div class='infobox'>Dieses Rezept wurde noch keiner Kategorie zugewiesen.</div>".PHP_EOL;
     } else {
@@ -838,7 +838,7 @@ if(!isset($_GET['action'])) {
       while($row = mysqli_fetch_array($result)) {
         $content.= "<div class='row hover bordered'>".PHP_EOL.
         "<div class='col-x-12 col-s-8 col-m-8 col-l-8 col-xl-8'>".$row['title']."</div>".PHP_EOL.
-        "<div class='col-x-12 col-s-4 col-m-4 col-l-4 col-xl-4'><a href='/adminItems/assign/".$id."/del/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a><br>".PHP_EOL."<a href='/adminCategories/sort/".$row['category_id']."' class='nowrap'><span class='fas icon'>&#xf0dc;</span>in dieser Kategorie sortieren</a></div>".PHP_EOL.
+        "<div class='col-x-12 col-s-4 col-m-4 col-l-4 col-xl-4'><a href='/adminItems/assign/".$id."/del/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a><br>".PHP_EOL."<a href='/adminCategories/sort/".$row['categoryId']."' class='nowrap'><span class='fas icon'>&#xf0dc;</span>in dieser Kategorie sortieren</a></div>".PHP_EOL.
         "</div>".PHP_EOL;
       }
     }
@@ -851,7 +851,7 @@ if(!isset($_GET['action'])) {
     "<div class='col-x-12 col-s-8 col-m-8 col-l-8 col-xl-8'>Kategorie</div>".PHP_EOL.
     "<div class='col-x-12 col-s-4 col-m-4 col-l-4 col-xl-4'>Aktionen</div>".PHP_EOL.
     "</div>".PHP_EOL;
-    $result = mysqli_query($dbl, "SELECT `categories`.`id`, `categories`.`title`, `categories`.`shortTitle`, `categories`.`shortDescription`, (SELECT COUNT(`id`) FROM `category_items` WHERE `category_items`.`category_id`=`categories`.`id` AND `category_items`.`item_id`='".$id."') AS `isset` FROM `categories` ORDER BY `categories`.`sortIndex`") OR DIE(MYSQLI_ERROR($dbl));
+    $result = mysqli_query($dbl, "SELECT `categories`.`id`, `categories`.`title`, `categories`.`shortTitle`, `categories`.`shortDescription`, (SELECT COUNT(`id`) FROM `categoryItems` WHERE `categoryItems`.`categoryId`=`categories`.`id` AND `categoryItems`.`itemId`='".$id."') AS `isset` FROM `categories` ORDER BY `categories`.`sortIndex`") OR DIE(MYSQLI_ERROR($dbl));
     while($row = mysqli_fetch_array($result)) {
       $content.= "<div class='row hover bordered'>".PHP_EOL.
       "<div class='col-x-12 col-s-8 col-m-8 col-l-8 col-xl-8'>".$row['title']."</div>".PHP_EOL.

@@ -39,31 +39,31 @@ $result = mysqli_query($dbl, "SELECT * FROM `stats`") OR DIE(MYSQLI_ERROR($dbl))
 $row = mysqli_fetch_array($result);
 $content.= "<div class='row hover bordered'>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-3 col-l-3 col-xl-3'>Anzahl Kategorien</div>".PHP_EOL.
-"<div class='col-x-12 col-s-12 col-m-9 col-l-9 col-xl-9'>".$row['cat_count']."</div>".PHP_EOL.
+"<div class='col-x-12 col-s-12 col-m-9 col-l-9 col-xl-9'>".$row['catCount']."</div>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
 "</div>".PHP_EOL;
 $content.= "<div class='row hover bordered'>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-3 col-l-3 col-xl-3'>Anzahl Rezepte</div>".PHP_EOL.
-"<div class='col-x-12 col-s-12 col-m-9 col-l-9 col-xl-9'>".$row['item_count']."</div>".PHP_EOL.
+"<div class='col-x-12 col-s-12 col-m-9 col-l-9 col-xl-9'>".$row['itemCount']."</div>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
 "</div>".PHP_EOL;
 $content.= "<div class='row hover bordered'>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-3 col-l-3 col-xl-3'>Anzahl Klicks</div>".PHP_EOL.
-"<div class='col-x-12 col-s-12 col-m-9 col-l-9 col-xl-9'>".$row['click_count']."</div>".PHP_EOL.
+"<div class='col-x-12 col-s-12 col-m-9 col-l-9 col-xl-9'>".$row['clickCount']."</div>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
 "</div>".PHP_EOL;
 $content.= "<div class='row hover bordered'>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-3 col-l-3 col-xl-3'>Klicks heute</div>".PHP_EOL.
-"<div class='col-x-12 col-s-12 col-m-9 col-l-9 col-xl-9'>".$row['clicks_today']."</div>".PHP_EOL.
+"<div class='col-x-12 col-s-12 col-m-9 col-l-9 col-xl-9'>".$row['clicksToday']."</div>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
 "</div>".PHP_EOL;
 $content.= "<div class='spacer-m'></div>".PHP_EOL;
 
 /**
- * Abrufen uns Ausgeben des "most_clicked" SQL Views zur Anzeige der meist geklickten Rezepte.
+ * Abrufen uns Ausgeben des "mostClicked" SQL Views zur Anzeige der meist geklickten Rezepte.
  */
 $content.= "<h1><span class='far icon'>&#xf25a;</span>Am meisten geklickte Rezepte</h1>".PHP_EOL;
-$result = mysqli_query($dbl, "SELECT * FROM `most_clicked`") OR DIE(MYSQLI_ERROR($dbl));
+$result = mysqli_query($dbl, "SELECT * FROM `mostClicked`") OR DIE(MYSQLI_ERROR($dbl));
 if(mysqli_num_rows($result) == 0) {
   /**
    * Wenn noch keine Klicks vorhanden, dann kurze Info.
@@ -93,10 +93,10 @@ if(mysqli_num_rows($result) == 0) {
 $content.= "<div class='spacer-m'></div>".PHP_EOL;
 
 /**
- * Abrufen uns Ausgeben des "best_voted" SQL Views zur Anzeige der am besten bewerteten Rezepte.
+ * Abrufen uns Ausgeben des "bestVoted" SQL Views zur Anzeige der am besten bewerteten Rezepte.
  */
 $content.= "<h1><span class='fas icon'>&#xf5a2;</span>Am besten bewertete Rezepte</h1>".PHP_EOL;
-$result = mysqli_query($dbl, "SELECT * FROM `best_voted`") OR DIE(MYSQLI_ERROR($dbl));
+$result = mysqli_query($dbl, "SELECT * FROM `bestVoted`") OR DIE(MYSQLI_ERROR($dbl));
 if(mysqli_num_rows($result) == 0) {
   /**
    * Wenn noch keine Bewertungen vorhanden, dann kurze Info.
@@ -129,7 +129,7 @@ if(mysqli_num_rows($result) == 0) {
 /**
  * Wenn leere Kategorien existieren, dann werden sie hier aufgeführt.
  */
-$result = mysqli_query($dbl, "SELECT `id`, `title` FROM `categories` WHERE NOT EXISTS (SELECT * FROM `category_items` WHERE `categories`.`id`=`category_items`.`category_id`)") OR DIE(MYSQLI_ERROR($dbl));
+$result = mysqli_query($dbl, "SELECT `id`, `title` FROM `categories` WHERE NOT EXISTS (SELECT * FROM `categoryItems` WHERE `categories`.`id`=`categoryItems`.`categoryId`)") OR DIE(MYSQLI_ERROR($dbl));
 if(mysqli_num_rows($result) != 0) {
   $content.= "<div class='spacer-m'></div>".PHP_EOL;
   $content.= "<h1 class='warn'><span class='far icon'>&#xf07c;</span>Leere Kategorien</h1>".PHP_EOL;
@@ -148,7 +148,7 @@ if(mysqli_num_rows($result) != 0) {
 /**
  * Wenn nicht zugewiesene Rezepte existieren, dann werden sie hier aufgeführt.
  */
-$result = mysqli_query($dbl, "SELECT `id`, `title` FROM `items` WHERE NOT EXISTS (SELECT * FROM `category_items` WHERE `items`.`id`=`category_items`.`item_id`)") OR DIE(MYSQLI_ERROR($dbl));
+$result = mysqli_query($dbl, "SELECT `id`, `title` FROM `items` WHERE NOT EXISTS (SELECT * FROM `categoryItems` WHERE `items`.`id`=`categoryItems`.`itemId`)") OR DIE(MYSQLI_ERROR($dbl));
 if(mysqli_num_rows($result) != 0) {
   $content.= "<div class='spacer-m'></div>".PHP_EOL;
   $content.= "<h1 class='warn'><span class='fas icon'>&#xf543;</span>Nicht in Kategorien eingeteilte Rezepte</h1>".PHP_EOL;

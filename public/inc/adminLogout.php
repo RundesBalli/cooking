@@ -52,7 +52,7 @@ if(!isset($_POST['submit'])) {
     /**
      * Löschen der Sitzung.
      */
-    mysqli_query($dbl, "DELETE FROM `sessions` WHERE `hash`='".$match[0]."'") OR DIE(MYSQLI_ERROR($dbl));
+    mysqli_query($dbl, "DELETE FROM `accountSessions` WHERE `hash`='".$match[0]."'") OR DIE(MYSQLI_ERROR($dbl));
     /**
      * Entfernen des Cookies und Umleitung zur Loginseite.
      */
