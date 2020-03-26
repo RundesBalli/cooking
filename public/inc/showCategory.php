@@ -10,10 +10,8 @@
  */
 if(!isset($_GET['category']) OR empty(trim($_GET['category']))) {
   http_response_code(404);
-  $content.= "<h1>404 - Not Found</h1>".PHP_EOL;
-  $content.= "<div class='row'>".PHP_EOL.
-  "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'>Du musst eine Kategorie angeben.</div>".PHP_EOL.
-  "</div>".PHP_EOL;
+  $content.= "<h1><span class='fas icon'>&#xf002;</span>404 - Not Found</h1>".PHP_EOL;
+  $content.= "<div class='infobox'>Du musst eine Kategorie angeben.</div>".PHP_EOL;
 } else {
   /**
    * Übergebene Kategorie für den Query vorbereiten.
@@ -67,10 +65,8 @@ if(!isset($_GET['category']) OR empty(trim($_GET['category']))) {
      * Fehlermeldung, wenn die Kategorie nicht existiert.
      */
     http_response_code(404);
-    $content.= "<h1>404 - Not Found</h1>".PHP_EOL;
-    $content.= "<div class='row'>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'>Die Kategorie <span class='italic'>".output($category)."</span> existiert nicht.</div>".PHP_EOL.
-    "</div>".PHP_EOL;
+    $content.= "<h1><span class='fas icon'>&#xf002;</span>404 - Not Found</h1>".PHP_EOL;
+    $content.= "<div class='infobox'>Die Kategorie <span class='italic'>".output($category)."</span> existiert nicht.</div>".PHP_EOL;
   }
 }
 ?>

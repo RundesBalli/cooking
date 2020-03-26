@@ -15,10 +15,8 @@ require_once('cookieCheck.php');
  */
 if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
   http_response_code(404);
-  $content.= "<h1>404 - Not Found</h1>".PHP_EOL;
-  $content.= "<div class='row'>".PHP_EOL.
-  "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'>Du musst ein Rezept angeben.</div>".PHP_EOL.
-  "</div>".PHP_EOL;
+  $content.= "<h1><span class='fas icon'>&#xf002;</span>404 - Not Found</h1>".PHP_EOL;
+  $content.= "<div class='infobox'>Du musst ein Rezept angeben.</div>".PHP_EOL;
 } else {
   /**
    * Übergebene Kategorie für den Query vorbereiten.
@@ -109,10 +107,8 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
      * Fehlermeldung, wenn das Rezept nicht existiert.
      */
     http_response_code(404);
-    $content.= "<h1>404 - Not Found</h1>".PHP_EOL;
-    $content.= "<div class='row'>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'>Das Rezept <span class='italic'>".output($item)."</span> existiert nicht.</div>".PHP_EOL.
-    "</div>".PHP_EOL;
+    $content.= "<h1><span class='fas icon'>&#xf002;</span>404 - Not Found</h1>".PHP_EOL;
+    $content.= "<div class='infobox'>Das Rezept <span class='italic'>".output($item)."</span> existiert nicht.</div>".PHP_EOL;
   }
 }
 ?>
