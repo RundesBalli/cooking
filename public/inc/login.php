@@ -9,7 +9,7 @@
  * Titel
  */
 $title = "Einloggen";
-$content.= "<h1>Einloggen</h1>".PHP_EOL;
+$content.= "<h1><span class='fas icon'>&#xf2f6;</span>Einloggen</h1>".PHP_EOL;
 
 /**
  * Prüfung ob ein Cookie gesetzt ist und ob es leer ist.
