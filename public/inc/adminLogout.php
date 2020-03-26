@@ -14,7 +14,7 @@ require_once('adminCookie.php');
  * Titel
  */
 $title = "Logout";
-$content.= "<h1>Logout</h1>".PHP_EOL;
+$content.= "<h1><span class='fas icon'>&#xf2f5;</span>Logout</h1>".PHP_EOL;
 
 if(!isset($_POST['submit'])) {
   /**
