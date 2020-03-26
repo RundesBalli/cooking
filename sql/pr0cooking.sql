@@ -38,7 +38,7 @@ CREATE TABLE `accountSessions` (
   KEY `hash` (`hash`),
   KEY `lastactivity` (`lastActivity`),
   CONSTRAINT `accountSessions_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Admin Sitzungstabelle';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Administratorsitzungen';
 
 
 DROP VIEW IF EXISTS `bestVoted`;
@@ -90,6 +90,21 @@ CREATE TABLE `clicks` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Tabelle mit Klicks';
 
 
+DROP TABLE IF EXISTS `favs`;
+CREATE TABLE `favs` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Laufende ID',
+  `userId` int(10) unsigned NOT NULL COMMENT 'Querverweis - users.id',
+  `itemId` int(10) unsigned NOT NULL COMMENT 'Querverweis - items.id',
+  `ts` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Zeitpunkt des Eintrages',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `userId_itemId` (`userId`,`itemId`),
+  KEY `userId` (`userId`),
+  KEY `itemId` (`itemId`),
+  CONSTRAINT `favs_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `favs_ibfk_2` FOREIGN KEY (`itemId`) REFERENCES `items` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Favoritentabelle';
+
+
 DROP TABLE IF EXISTS `images`;
 CREATE TABLE `images` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Laufende ID',
@@ -103,7 +118,7 @@ CREATE TABLE `images` (
   KEY `thumb` (`thumb`),
   CONSTRAINT `images_ibfk_3` FOREIGN KEY (`itemId`) REFERENCES `items` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `images_ibfk_4` FOREIGN KEY (`itemId`) REFERENCES `items` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Tabelle mit Bildzuordnungen';
 
 
 DROP TABLE IF EXISTS `items`;
@@ -187,7 +202,6 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Usertabelle';
 
-TRUNCATE `users`;
 
 DROP TABLE IF EXISTS `userSessions`;
 CREATE TABLE `userSessions` (
@@ -202,7 +216,6 @@ CREATE TABLE `userSessions` (
   CONSTRAINT `userSessions_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Sitzungstabelle';
 
-TRUNCATE `userSessions`;
 
 DROP TABLE IF EXISTS `votes`;
 CREATE TABLE `votes` (
@@ -212,16 +225,15 @@ CREATE TABLE `votes` (
   `ts` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Zeitpunkt des Votes',
   `stars` tinyint(1) unsigned NOT NULL COMMENT 'Anzahl der Sterne',
   PRIMARY KEY (`id`),
+  UNIQUE KEY `itemId_userId` (`itemId`,`userId`),
   KEY `itemId` (`itemId`),
   KEY `ts` (`ts`),
   KEY `stars` (`stars`),
   KEY `userId` (`userId`),
   CONSTRAINT `votes_ibfk_1` FOREIGN KEY (`itemId`) REFERENCES `items` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `votes_ibfk_3` FOREIGN KEY (`itemId`) REFERENCES `items` (`id`),
   CONSTRAINT `votes_ibfk_4` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Tabelle mit Votes';
 
-TRUNCATE `votes`;
 
 DROP TABLE IF EXISTS `bestVoted`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `bestVoted` AS select `items`.`title` AS `title`,`items`.`shortTitle` AS `shortTitle`,round(avg(`votes`.`stars`),2) AS `a` from (`votes` left join `items` on((`votes`.`itemId` = `items`.`id`))) group by `votes`.`itemId` order by round(avg(`votes`.`stars`),2) desc limit 15;
@@ -232,4 +244,4 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `mostClicked` AS select `cl
 DROP TABLE IF EXISTS `stats`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `stats` AS select (select count(`categories`.`id`) from `categories`) AS `catCount`,(select count(`items`.`id`) from `items`) AS `itemCount`,(select count(`clicks`.`id`) from `clicks`) AS `clickCount`,(select count(`clicks`.`id`) from `clicks` where (`clicks`.`ts` > cast(curdate() as datetime))) AS `clicksToday`;
 
--- 2020-03-25 16:58:19
+-- 2020-03-26 19:40:56

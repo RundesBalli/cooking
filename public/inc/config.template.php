@@ -18,7 +18,27 @@ $mysqlUser = "";
 $mysqlPass = "";
 $mysqlDb   = "";
 
+/**
+ * pr0-Auth
+ * 
+ * @var string $clientSecret
+ * @var int    $clientId
+ * @var string $authURL      Beispiel: https://pr0gramm.com/auth/test123
  */
+$clientSecret = "";
+$clientId = 0;
+$authURL = "https://pr0gramm.com/auth/";
+
+/**
+ * Speicherort des apiCalls.
+ * Download: https://github.com/RundesBalli/pr0gramm-apiCall
+ * Wird - sofern erforderlich - eingebunden.
+ * 
+ * Beispiel: /home/user/apiCall/apiCall.php
+ * 
+ * @var string
+ */
+$apiCall = "";
 
 /**
  * Datenbankverbindung

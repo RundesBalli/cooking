@@ -6,6 +6,11 @@
  */
 
 /**
+ * Sessionüberprüfung
+ */
+require_once('cookieCheck.php');
+
+/**
  * Prüfen ob das übergebene Rezept leer ist.
  */
 if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
@@ -28,7 +33,7 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
     $row = mysqli_fetch_array($result);
     
     $title = $row['title']." - Bewerten";
-    $content.= "<h1><span class='fas icon'>&#xf543;</span>Rezept bewerten: ".$row['title']."</h1>".PHP_EOL;
+    $content.= "<h1><span class='fas icon'>&#xf772;</span>Rezept bewerten: ".$row['title']."</h1>".PHP_EOL;
 
     /**
      * Wenn das Formular nicht abgeschickt wurde, dann zeig es an.
@@ -42,6 +47,17 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
        * UUI als CSRF Token
        */
       $content.= "<input type='hidden' name='token' value='".$UUI."'>".PHP_EOL;
+      /**
+       * Prüfung ob schonmal abgestimmt wurde
+       */
+      $innerresult = mysqli_query($dbl, "SELECT * FROM `votes` WHERE `userId`='".$userId."' AND `itemId`='".$row['id']."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+      if(mysqli_num_rows($innerresult) == 1) {
+        $innerrow = mysqli_fetch_array($innerresult);
+        $content.= "<div class='row bordered'>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><span class='highlight bold'>Du hast bereits eine Bewertung abgegeben:</span> ".$innerrow['stars']." Stern".($innerrow['stars'] > 1 ? "e" : NULL).".</div>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'>Mit dem Fortfahren wird deine Abstimmung geändert.</div>".PHP_EOL.
+        "</div>".PHP_EOL;
+      }
       /**
        * Auswahl
        */
@@ -60,24 +76,34 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
       /**
        * Formular wurde abgesendet.
        */
+      /**
+       * CSRF-Token Prüfung
+       */
       if($_POST['token'] != $UUI) {
         $content.= "<div class='warnbox'>Der Vote ist ungültig.</div>".PHP_EOL;
       } else {
+        /**
+         * Entschärfung des Votes und umwandlung in INT.
+         */
         $vote = (int)defuse($_POST['vote']);
+        /**
+         * Prüfung ob Vote gültig (zwischen 1 und 5)
+         */
         if($vote < 1 OR $vote > 5) {
           $content.= "<div class='warnbox'>Der Vote ist ungültig.</div>".PHP_EOL;
         } else {
-          $clickresult = mysqli_query($dbl, "SELECT * FROM `clicks` WHERE `hash`='".$UUI."' AND `ts` > DATE_SUB(NOW(), INTERVAL 30 HOUR) LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
-          if(mysqli_num_rows($clickresult) == 1) {
-            mysqli_query($dbl, "UPDATE `votes` SET `ts`=CURRENT_TIMESTAMP, `stars`='".$vote."' WHERE `itemId`='".$row['id']."' AND `hash`='".$UUI."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
-            if(mysqli_affected_rows($dbl) != 1) {
-              mysqli_query($dbl, "INSERT INTO `votes` (`itemId`, `hash`, `stars`) VALUES ('".$row['id']."', '".$UUI."', '".$vote."')") OR DIE(MYSQLI_ERROR($dbl));
-              $content.= "<div class='successbox'>Dein Vote wurde eingetragen.</div>".PHP_EOL;
-            } else {
-              $content.= "<div class='successbox'>Dein Vote wurde aktualisiert.</div>".PHP_EOL;
-            }
+          /**
+           * Update eines vorhandenen Votes
+           */
+          mysqli_query($dbl, "UPDATE `votes` SET `ts`=CURRENT_TIMESTAMP, `stars`='".$vote."' WHERE `itemId`='".$row['id']."' AND `userId`='".$userId."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+          if(mysqli_affected_rows($dbl) != 1) {
+            /**
+             * Falls kein Vote vorhanden war, wird einer angelegt.
+             */
+            mysqli_query($dbl, "INSERT INTO `votes` (`itemId`, `userId`, `stars`) VALUES ('".$row['id']."', '".$userId."', '".$vote."')") OR DIE(MYSQLI_ERROR($dbl));
+            $content.= "<div class='successbox'>Dein Vote wurde eingetragen.</div>".PHP_EOL;
           } else {
-            $content.= "<div class='warnbox'>Der Vote ist ungültig.</div>".PHP_EOL;
+            $content.= "<div class='successbox'>Dein Vote wurde aktualisiert.</div>".PHP_EOL;
           }
         }
       }

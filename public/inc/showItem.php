@@ -57,7 +57,8 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
       "<div class='col-x-12 col-s-12 col-m-12 col-l-6 col-xl-6 ingredients center'>".PHP_EOL.
       "<h2 class='center'><span class='fas icon'>&#xf0ce;</span>Eckdaten</h2>".PHP_EOL.
       "<ul>".PHP_EOL.
-      "<li>".stars($row['votes'], $row['voteCount'])." - <a href='/vote/".$row['shortTitle']."'>Abstimmen</a><br>".$row['votes']." von 5 Sternen (".number_format($row['voteCount'], 0, ",", ".")." Stimmen)</li>".PHP_EOL.
+      "<li>".stars($row['votes'], $row['voteCount'])." - ".(((isset($_COOKIE['cooking']) AND !empty($_COOKIE['cooking'])) AND preg_match('/[a-f0-9]{64}/i', defuse($_COOKIE['cooking']), $match) === 1) ? "<a href='/vote/".$row['shortTitle']."'>Abstimmen</a>" : "zum Abstimmen <a href='/login'>Einloggen</a>")."<br>".$row['votes']." von 5 Sternen (".number_format($row['voteCount'], 0, ",", ".")." Stimmen)</li>".PHP_EOL.
+      "<li><span class='far icon'>&#xf005;</span>".(((isset($_COOKIE['cooking']) AND !empty($_COOKIE['cooking'])) AND preg_match('/[a-f0-9]{64}/i', defuse($_COOKIE['cooking']), $match) === 1) ? "<a href='/fav/".$row['shortTitle']."'>Favorisieren</a>" : "zum Favorisieren <a href='/login'>Einloggen</a>")."</li>".PHP_EOL.
       "<li><span class='far icon'>&#xf25a;</span>".number_format($row['clicks'], 0, ",", ".")." Klicks</li>".PHP_EOL.
       "<li><span class='far icon'>&#xf0eb;</span>Schwierigkeit: ".$row['difficulty']."</li>".PHP_EOL.
       "<li><span class='far icon'>&#xf254;</span>Dauer: ".$row['duration']."</li>".PHP_EOL.
@@ -92,7 +93,8 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
       "<div class='col-x-12 col-s-12 col-m-12 col-l-6 col-xl-6 ingredients center'>".PHP_EOL.
       "<h2 class='center'><span class='fas icon'>&#xf0ce;</span>Eckdaten</h2>".PHP_EOL.
       "<ul>".PHP_EOL.
-      "<li>".stars($row['votes'], $row['voteCount'])." - <a href='/vote/".$row['shortTitle']."'>Abstimmen</a><br>".$row['votes']." von 5 Sternen (".number_format($row['voteCount'], 0, ",", ".")." Stimmen)</li>".PHP_EOL.
+      "<li>".stars($row['votes'], $row['voteCount'])." - ".(((isset($_COOKIE['cooking']) AND !empty($_COOKIE['cooking'])) AND preg_match('/[a-f0-9]{64}/i', defuse($_COOKIE['cooking']), $match) === 1) ? "<a href='/vote/".$row['shortTitle']."'>Abstimmen</a>" : "zum Abstimmen <a href='/login'>Einloggen</a>")."<br>".$row['votes']." von 5 Sternen (".number_format($row['voteCount'], 0, ",", ".")." Stimmen)</li>".PHP_EOL.
+      "<li><span class='far icon'>&#xf005;</span>".(((isset($_COOKIE['cooking']) AND !empty($_COOKIE['cooking'])) AND preg_match('/[a-f0-9]{64}/i', defuse($_COOKIE['cooking']), $match) === 1) ? "<a href='/fav/".$row['shortTitle']."'>Favorisieren</a>" : "zum Favorisieren <a href='/login'>Einloggen</a>")."</li>".PHP_EOL.
       "<li><span class='far icon'>&#xf25a;</span>".number_format($row['clicks'], 0, ",", ".")." Klicks</li>".PHP_EOL.
       "<li><span class='far icon'>&#xf0eb;</span>Schwierigkeit: ".$row['difficulty']."</li>".PHP_EOL.
       "<li><span class='far icon'>&#xf254;</span>Dauer: ".$row['duration']."</li>".PHP_EOL.

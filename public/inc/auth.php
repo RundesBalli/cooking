@@ -1,0 +1,139 @@
+<?php
+/**
+ * auth.php
+ * 
+ * Response Seite für die oAuth Schnittstelle
+ */
+
+/**
+ * Titel
+ */
+$title = "Authentifizierung";
+$content.= "<h1>Authentifizierung</h1>".PHP_EOL;
+
+/**
+ * Fehler Abfangen
+ */
+if(isset($_GET['error'])) {
+  $content.= "<div class='warnbox'>Du hast den Login abgebrochen.</div>".PHP_EOL;
+  $content.= "<div class='row'>".PHP_EOL.
+  "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12 hover'><a href='/loginRedirect'>nochmal versuchen</a></div>".PHP_EOL.
+  "</div>".PHP_EOL;
+  $content.= "<div class='spacer-l'></div>".PHP_EOL;
+} else {
+  $error = 0;
+  /**
+   * authCode auf Richtigkeit überprüfen
+   */
+  if(preg_match("/^[0-9a-f]{32}$/i", defuse($_GET['authCode']), $match) === 1) {
+    $authCode = $match[0];
+  } else {
+    $error = 1;
+  }
+  /**
+   * userId auf Richtigkeit überprüfen
+   */
+  if(preg_match("/^[0-9a-f]{32}$/i", defuse($_GET['userId']), $match) === 1) {
+    $userId = $match[0];
+  } else {
+    $error = 1;
+  }
+  /**
+   * state auf Richtigkeit überprüfen
+   */
+  if(preg_match("/^[0-9a-f]{32}$/i", defuse($_GET['state']), $match) === 1) {
+    $state = $match[0];
+    /**
+     * Prüfung ob der State Parameter vom auth mit dem Cookie übereinstimmt
+     */
+    if($_COOKIE['state'] != $state) {
+      $error = 1;
+    }
+    /**
+     * State Cookie entfernen
+     */
+    setcookie("state", NULL, 0);
+  } else {
+    $error = 1;
+  }
+  
+  /**
+   * Wenn ein Fehler aufgetreten ist, dann ist der Login fehlgeschlagen und ein Fehler wird ausgegeben.
+   */
+  if($error == 1) {
+    $content.= "<div class='warnbox'>Ein Fehler ist aufgetreten.</div>".PHP_EOL;
+    $content.= "<div class='row'>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12 hover'><a href='/loginRedirect'>nochmal versuchen</a></div>".PHP_EOL.
+    "</div>".PHP_EOL;
+    $content.= "<div class='spacer-l'></div>".PHP_EOL;
+  } else {
+    /**
+     * Einbindung des apiCall
+     */
+    require_once($apiCall);
+
+    /**
+     * Wenn kein Fehler aufgetreten ist, wird mit den vorher überprüften Parametern das AuthToken angefragt.
+     */
+    $response = apiCall("https://pr0gramm.com/api/user/authtoken", array('authCode' => $authCode, 'userId' => $userId, 'clientId' => $clientId, 'clientSecret' => $clientSecret));
+    if(preg_match("/^[0-9a-f]{32}$/i", trim($response['accessToken']), $match) === 1) {
+      $token = $match[0];
+      /**
+       * Mit dem AuthToken wird dann der Username angefragt, entschärft und validiert.
+       * 
+       * Hinweis zum Regex: Es gibt noch ganz alte User, die ein Binde- oder Unterstrich im Namen haben. Heutzutage ist es /[0-9a-z]{2,32}/i
+       */
+      if(preg_match("/^[0-9a-z-_]{2,32}$/i", defuse(apiCall("https://pr0gramm.com/api/user/name", NULL, $token)['name']), $match) === 1) {
+        $username = $match[0];
+      } else {
+        /**
+         * Die pr0gramm API sollte keinen ungültigen Usernamen zurückgeben, deshalb wird das hier wohl nie passieren.
+         * Nur für den Fall der Fälle.
+         */
+        die("Username ungültig.");
+      }
+
+      /**
+       * Prüfung ob der User sich schon einmal angemeldet hat.
+       */
+      $result = mysqli_query($dbl, "SELECT * FROM `users` WHERE `username`='".$username."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+      if(mysqli_num_rows($result) == 0) {
+        /**
+         * Neuanlage des Users, sofern nicht vorhanden.
+         */
+        mysqli_query($dbl, "INSERT INTO `users` (`username`) VALUES ('".$username."')") OR DIE(MYSQLI_ERROR($dbl));
+        $userId = mysqli_insert_id($dbl);
+      } else {
+        /**
+         * Abfrage der User-ID, wenn schon vorhanden.
+         */
+        $row = mysqli_fetch_array($result);
+        $userId = $row['id'];
+      }
+      
+      /**
+       * Generierung der Sitzung
+       */
+      $sessionHash = hash("sha256", random_bytes(4096));
+      setcookie("cooking", $sessionHash, time()+(86400*30));
+      mysqli_query($dbl, "INSERT INTO `userSessions` (`userId`, `sessionHash`) VALUES ('".$userId."', '".$sessionHash."')") OR DIE(MYSQLI_ERROR($dbl));
+
+      /**
+       * Meldung, dass die Sitzung angelegt wurde und weiterleitung auf die Übersichtsseite.
+       */
+      $content.= "<div class='successbox'>Login erfolgreich.</div>".PHP_EOL;
+      $content.= "<div class='row'>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12 hover'>Hallo ".output($username)."!</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12 hover'><a href='/overview'>Weiter zur Übersicht</a></div>".PHP_EOL.
+      "</div>".PHP_EOL;
+      $content.= "<div class='spacer-l'></div>".PHP_EOL;
+    } else {
+      $content.= "<div class='warnbox'>Ein Fehler ist aufgetreten.</div>".PHP_EOL;
+      $content.= "<div class='row'>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12 hover'><a href='/loginRedirect'>nochmal versuchen</a></div>".PHP_EOL.
+      "</div>".PHP_EOL;
+      $content.= "<div class='spacer-l'></div>".PHP_EOL;
+    }
+  }
+}
+?>

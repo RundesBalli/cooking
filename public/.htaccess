@@ -28,9 +28,9 @@ RewriteRule ^kategorie\/([\w\d-]+)$ /index.php?p=showCategory&category=$1 [NC,L,
 # rezept/{Name}
 RewriteRule ^rezept\/([\w\d-]+)$ /index.php?p=showItem&item=$1 [NC,L,QSA]
 
-# Vote Regel
-# vote/{Name}
-RewriteRule ^vote\/([\w\d-]+)$ /index.php?p=vote&item=$1 [NC,L,QSA]
+# Vote/Fav Regel
+# vote|fav/{Name}
+RewriteRule ^(vote|fav)\/([\w\d-]+)$ /index.php?p=$1&item=$2 [NC,L,QSA]
 
 # Admin Regel
 # admin.../{Funktion} ohne ID
