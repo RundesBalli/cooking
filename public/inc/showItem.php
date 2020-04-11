@@ -112,7 +112,7 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
      */
     $content.= "<h2><span class='fas icon'>&#xf03a;</span>Zubereitung</h2>".PHP_EOL;
     $content.= "<div class='row'>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'>".Slimdown::render($row['text'])."</div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12 preparation'>".Slimdown::render($row['text'])."</div>".PHP_EOL.
     "</div>".PHP_EOL;
     $content.= "<div class='spacer-m'></div>".PHP_EOL;
   } else {
