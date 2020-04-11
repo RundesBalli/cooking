@@ -10,7 +10,10 @@ USE `pr0cooking`;
 DELIMITER ;;
 
 DROP EVENT IF EXISTS `Sitzungsbereinigung Admin`;;
-CREATE EVENT `Sitzungsbereinigung Admin` ON SCHEDULE EVERY 1 HOUR STARTS '2019-09-21 20:33:20' ON COMPLETION NOT PRESERVE ENABLE COMMENT 'Löscht abgelaufene Sitzungen nach sechs Wochen' DO DELETE FROM `sessions` WHERE `lastactivity` < DATE_SUB(NOW(), INTERVAL 6 WEEK);;
+CREATE EVENT `Sitzungsbereinigung Admin` ON SCHEDULE EVERY 6 HOUR STARTS '2020-04-01 00:00:00' ON COMPLETION NOT PRESERVE ENABLE COMMENT 'Löscht abgelaufene Admin-Sitzungen nach sechs Wochen' DO DELETE FROM `accountSessions` WHERE `lastActivity` < DATE_SUB(NOW(), INTERVAL 6 WEEK);;
+
+DROP EVENT IF EXISTS `Sitzungsbereinigung User`;;
+CREATE EVENT `Sitzungsbereinigung User` ON SCHEDULE EVERY 6 HOUR STARTS '2020-04-01 00:00:00' ON COMPLETION NOT PRESERVE ENABLE COMMENT 'Löscht abgelaufene User-Sitzungen nach sechs Wochen' DO DELETE FROM `userSessions` WHERE `lastActivity` < DATE_SUB(NOW(), INTERVAL 6 WEEK);;
 
 DELIMITER ;
 
@@ -244,4 +247,4 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `mostClicked` AS select `cl
 DROP TABLE IF EXISTS `stats`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `stats` AS select (select count(`categories`.`id`) from `categories`) AS `catCount`,(select count(`items`.`id`) from `items`) AS `itemCount`,(select count(`clicks`.`id`) from `clicks`) AS `clickCount`,(select count(`clicks`.`id`) from `clicks` where (`clicks`.`ts` > cast(curdate() as datetime))) AS `clicksToday`;
 
--- 2020-03-26 19:40:56
+-- 2020-04-01 17:47:19
