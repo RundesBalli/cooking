@@ -7,7 +7,7 @@
  * Eine Sammlung leckerer Rezepte von Nezos
  * 
  * @author    RundesBalli <webspam@rundesballi.com>
- * @copyright 2019 RundesBalli
+ * @copyright 2020 RundesBalli
  * @version   1.0
  * @see       https://github.com/RundesBalli/pr0cooking
  */
