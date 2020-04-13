@@ -194,7 +194,7 @@ if(!isset($_GET['action'])) {
       if(mysqli_query($dbl, "INSERT INTO `items` (`title`, `shortTitle`, `text`, `ingredients`, `persons`, `cost`, `difficulty`, `duration`) VALUES ('".$form_title."', '".$shortTitle."', ".($text === NULL ? "NULL" : "'".$text."'").", ".($ingredients === NULL ? "NULL" : "'".$ingredients."'").", '".$persons."', '".$cost."', '".$difficulty."', '".$duration."')")) {
         $content.= "<div class='successbox'>Rezept erfolgreich angelegt.</div>".PHP_EOL;
         $content.= "<div class='row'>".PHP_EOL.
-        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminItems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminItems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a> - <a href='/adminItems/assign/".mysqli_insert_id($dbl)."'><span class='far icon'>&#xf07c;</span>Kategorien zuweisen</a></div>".PHP_EOL.
         "</div>".PHP_EOL;
       } else {
         $form = 1;
