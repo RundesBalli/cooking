@@ -533,16 +533,15 @@ h1 .icon, h2 .icon, h3 .icon {
 }
 
 #footer {
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
+  position: relative;
+  padding: 8px 16px;
 }
 
 #footer a {
   display: inline;
   color: #888888;
   font-size: 10px;
-  padding: 5px;
+  padding: 0px 5px;
   text-decoration: none;
 }
 
