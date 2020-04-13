@@ -708,7 +708,7 @@ if(!isset($_GET['action'])) {
   /**
    * Prüfen ob das Rezept existiert.
    */
-  $result = mysqli_query($dbl, "SELECT `id`, `title` FROM `items` WHERE `id`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+  $result = mysqli_query($dbl, "SELECT `id`, `title`, `shortTitle` FROM `items` WHERE `id`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
   if(mysqli_num_rows($result) == 0) {
     /**
      * Falls das Rezept nicht existiert, wird ein 404er und eine Fehlermeldung zurückgegeben.
@@ -724,7 +724,7 @@ if(!isset($_GET['action'])) {
      */
     $row = mysqli_fetch_array($result);
     $content.= "<div class='row'>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><span class='highlight bold'>Rezept:</span> ".$row['title']."</div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><span class='highlight bold'>Rezept:</span> <a href='/rezept/".$row['shortTitle']."' target='_blank'>".$row['title']."<span class='fas iconright'>&#xf35d;</span></a></div>".PHP_EOL.
     "</div>".PHP_EOL;
     $content.= "<div class='row'>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminItems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
