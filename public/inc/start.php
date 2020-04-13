@@ -12,7 +12,26 @@ $content.= "<div class='row'>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'>Feedback bitte an <a href='https://pr0gramm.com/inbox/messages/Nezos' target='_blank' rel='noopener'>Nezos</a>.</div>".PHP_EOL.
 "</div>".PHP_EOL;
 
-$content.= "<div class='spacer-l'></div>".PHP_EOL;
+$content.= "<div class='spacer-m'></div>".PHP_EOL;
+
+/**
+ * Team Aufstellung
+ */
+$content.= "<h1><span class='fas icon'>&#xf0c0;</span>Team</h1>".PHP_EOL;
+$content.= "<div class='row hover'>".PHP_EOL.
+"<div class='col-x-6 col-s-6 col-m-5 col-l-4 col-xl-3'><a href='https://pr0gramm.com/inbox/messages/Nezos' target='_blank' rel='noopener'>Nezos</a></div>".PHP_EOL.
+"<div class='col-x-6 col-s-6 col-m-7 col-l-8 col-xl-9'>Rezepte, Bilder, Erstausarbeitung</div>".PHP_EOL.
+"</div>".PHP_EOL;
+$content.= "<div class='row hover'>".PHP_EOL.
+"<div class='col-x-6 col-s-6 col-m-5 col-l-4 col-xl-3'><a href='https://pr0gramm.com/inbox/messages/KaiserMolay' target='_blank' rel='noopener'>KaiserMolay</a></div>".PHP_EOL.
+"<div class='col-x-6 col-s-6 col-m-7 col-l-8 col-xl-9'>Sichtung, Korrektur, Text</div>".PHP_EOL.
+"</div>".PHP_EOL;
+$content.= "<div class='row hover'>".PHP_EOL.
+"<div class='col-x-6 col-s-6 col-m-5 col-l-4 col-xl-3'><a href='https://pr0gramm.com/inbox/messages/RundesBalli' target='_blank' rel='noopener'>RundesBalli</a></div>".PHP_EOL.
+"<div class='col-x-6 col-s-6 col-m-7 col-l-8 col-xl-9'><a href='https://github.com/RundesBalli/pr0cooking' target='_blank' rel='noopener'>Entwicklung</a> und Hosting</div>".PHP_EOL.
+"</div>".PHP_EOL;
+
+$content.= "<div class='spacer-m'></div>".PHP_EOL;
 
 /**
  * ...sowie Auflistung aller Kategorien mit Kurzbeschreibung.
