@@ -32,6 +32,7 @@ class Slimdown {
     '/(\*|_)(.*?)\1/' => '<em>\2</em>',                                                          // emphasis
     '/\~\~(.*?)\~\~/' => '<s>\1</s>',                                                            // del
     '/`(.*?)`/' => '<code>\1</code>',                                                            // inline code
+    '/---/' => '<div class=\'spacer-m\'></div>',                                                 // spacer
     '/\n\*(.*)/' => 'self::ul_list',                                                             // ul lists
     '/\n[0-9]+\.(.*)/' => 'self::ol_list',                                                       // ol lists
     '/\n([^\n]+)\n/' => 'self::para',                                                            // add paragraphs

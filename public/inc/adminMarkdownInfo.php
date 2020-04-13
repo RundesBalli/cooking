@@ -83,6 +83,13 @@ $content.= "<div class='row bordered'>".PHP_EOL.
 "</div>".PHP_EOL;
 
 $content.= "<div class='row bordered'>".PHP_EOL.
+"<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><code>---</code></div>".PHP_EOL.
+"<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'>".Slimdown::render("---")."</div>".PHP_EOL.
+"<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'>Kleiner Abstandshalter (30px)</div>".PHP_EOL.
+"<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
+"</div>".PHP_EOL;
+
+$content.= "<div class='row bordered'>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><code>* Butter<br>* Margarine<br>* Bratfett</code></div>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'>".Slimdown::render("* Butter\n* Margarine\n* Bratfett")."</div>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'>Eingerückte, unsortierte Liste</div>".PHP_EOL.
