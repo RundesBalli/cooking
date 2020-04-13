@@ -851,7 +851,7 @@ if(!isset($_GET['action'])) {
     "<div class='col-x-12 col-s-8 col-m-8 col-l-8 col-xl-8'>Kategorie</div>".PHP_EOL.
     "<div class='col-x-12 col-s-4 col-m-4 col-l-4 col-xl-4'>Aktionen</div>".PHP_EOL.
     "</div>".PHP_EOL;
-    $result = mysqli_query($dbl, "SELECT `categories`.`id`, `categories`.`title`, `categories`.`shortTitle`, `categories`.`shortDescription`, (SELECT COUNT(`id`) FROM `categoryItems` WHERE `categoryItems`.`categoryId`=`categories`.`id` AND `categoryItems`.`itemId`='".$id."') AS `isset` FROM `categories` ORDER BY `categories`.`sortIndex`") OR DIE(MYSQLI_ERROR($dbl));
+    $result = mysqli_query($dbl, "SELECT `categories`.`id`, `categories`.`title`, `categories`.`shortTitle`, `categories`.`shortDescription`, (SELECT COUNT(`id`) FROM `categoryItems` WHERE `categoryItems`.`categoryId`=`categories`.`id` AND `categoryItems`.`itemId`='".$id."') AS `isset` FROM `categories` ORDER BY `categories`.`sortIndex` ASC, `categories`.`title` ASC") OR DIE(MYSQLI_ERROR($dbl));
     while($row = mysqli_fetch_array($result)) {
       $content.= "<div class='row hover bordered'>".PHP_EOL.
       "<div class='col-x-12 col-s-8 col-m-8 col-l-8 col-xl-8'>".$row['title']."</div>".PHP_EOL.
