@@ -54,6 +54,7 @@ if(!isset($_GET['category']) OR empty(trim($_GET['category']))) {
         "<div class='stars'>".stars($row['votes'], $row['voteCount'])."</div>".PHP_EOL.
         "<div class='specs'><span class='far icon'>&#xf25a;</span>&nbsp;".number_format($row['clicks'], 0, ",", ".")."</div>".PHP_EOL.
         "<div class='specs'><span class='far icon'>&#xf0eb;</span> ".$row['difficulty']."</div>".PHP_EOL.
+        "<br>".PHP_EOL.
         "<div class='specs'><span class='far icon'>&#xf254;</span> ".$row['duration']."</div>".PHP_EOL.
         "<div class='specs'><span class='fas icon'>&#xf153;</span> ".$row['cost']."</div>".PHP_EOL.
         "</div>".PHP_EOL;
