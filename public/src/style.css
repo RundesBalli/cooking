@@ -501,7 +501,7 @@ label {
 #sidebar a {
   display: block;
   color: #f2f5f4;
-  padding: 8px 16px;
+  padding: 5px 16px;
   text-decoration: none;
   transition: background-color 0.3s, color 0.3s;
 }
