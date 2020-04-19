@@ -92,7 +92,7 @@ if(!isset($_GET['action'])) {
      * Titel
      */
     if(preg_match('/^.{5,100}$/', $_POST['title'], $match) === 1) {
-      $form_title = defuse($match[0]);
+      $formTitle = defuse($match[0]);
     } else {
       $form = 1;
       $content.= "<div class='warnbox'>Der Name des Rezepts ist ungültig. Er muss zwischen 5 und 100 Zeichen lang sein.</div>".PHP_EOL;
@@ -191,7 +191,7 @@ if(!isset($_GET['action'])) {
      * Wenn durch die Postdaten-Validierung die Inhalte geprüft und entschärft wurden, kann der Query erzeugt und ausgeführt werden.
      */
     if($form == 0) {
-      if(mysqli_query($dbl, "INSERT INTO `items` (`title`, `shortTitle`, `text`, `ingredients`, `persons`, `cost`, `difficulty`, `duration`) VALUES ('".$form_title."', '".$shortTitle."', ".($text === NULL ? "NULL" : "'".$text."'").", ".($ingredients === NULL ? "NULL" : "'".$ingredients."'").", '".$persons."', '".$cost."', '".$difficulty."', '".$duration."')")) {
+      if(mysqli_query($dbl, "INSERT INTO `items` (`title`, `shortTitle`, `text`, `ingredients`, `persons`, `cost`, `difficulty`, `duration`) VALUES ('".$formTitle."', '".$shortTitle."', ".($text === NULL ? "NULL" : "'".$text."'").", ".($ingredients === NULL ? "NULL" : "'".$ingredients."'").", '".$persons."', '".$cost."', '".$difficulty."', '".$duration."')")) {
         $content.= "<div class='successbox'>Rezept erfolgreich angelegt.</div>".PHP_EOL;
         $content.= "<div class='row'>".PHP_EOL.
         "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminItems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a> - <a href='/adminItems/assign/".mysqli_insert_id($dbl)."'><span class='far icon'>&#xf07c;</span>Kategorien zuweisen</a></div>".PHP_EOL.
@@ -461,7 +461,7 @@ if(!isset($_GET['action'])) {
        * Titel
        */
       if(preg_match('/^.{5,100}$/', $_POST['title'], $match) === 1) {
-        $form_title = defuse($match[0]);
+        $formTitle = defuse($match[0]);
       } else {
         $form = 1;
         $content.= "<div class='warnbox'>Der Name des Rezepts ist ungültig. Er muss zwischen 5 und 100 Zeichen lang sein.</div>".PHP_EOL;
@@ -560,7 +560,7 @@ if(!isset($_GET['action'])) {
         /**
          * Wenn durch die Postdaten-Validierung die Inhalte geprüft und entschärft wurden, kann der Query erzeugt und ausgeführt werden.
          */
-        if(mysqli_query($dbl, "UPDATE `items` SET `title`='".$form_title."', `shortTitle`='".$shortTitle."', `text`=".($text === NULL ? "NULL" : "'".$text."'").", `ingredients`=".($ingredients === NULL ? "NULL" : "'".$ingredients."'").", `persons`='".$persons."', `cost`='".$cost."', `difficulty`='".$difficulty."', `duration`='".$duration."' WHERE `id`='".$id."' LIMIT 1")) {
+        if(mysqli_query($dbl, "UPDATE `items` SET `title`='".$formTitle."', `shortTitle`='".$shortTitle."', `text`=".($text === NULL ? "NULL" : "'".$text."'").", `ingredients`=".($ingredients === NULL ? "NULL" : "'".$ingredients."'").", `persons`='".$persons."', `cost`='".$cost."', `difficulty`='".$difficulty."', `duration`='".$duration."' WHERE `id`='".$id."' LIMIT 1")) {
           $content.= "<div class='successbox'>Rezept erfolgreich geändert.</div>".PHP_EOL;
           $content.= "<div class='row'>".PHP_EOL.
           "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminItems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
