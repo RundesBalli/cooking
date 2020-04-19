@@ -508,7 +508,7 @@ label {
 
 #sidebar span {
   display: block;
-  padding: 16px;
+  padding: 5px 16px;
 }
 
 #sidebar span.icon, .icon {
