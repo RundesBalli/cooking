@@ -432,6 +432,10 @@ Lizenz: https://fontawesome.com/license/free
   border: 1px solid #f2f5f4;
 }
 
+.preparation {
+  font-size: 18px;
+}
+
 .preparation ul li, .preparation ol li {
   margin: 3px 0px;
 }
