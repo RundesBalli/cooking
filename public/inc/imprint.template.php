@@ -25,6 +25,7 @@ $content.= "<div class='row'>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'>Haftungsausschluss von <a href='http://www.mustervorlage.net/disclaimer-muster' target='_blank' rel='noopener'>mustervorlage.net</a>.</div>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'>Danke an <a href='https://github.com/NLDev' target='_blank' rel='noopener'>NLDev</a> für sein <a href='https://gist.github.com/NLDev/464b08135138f1c1a135053a898b1a79' target='_blank' rel='noopener'>StarRating</a>.</div>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'>Danke an <a href='https://github.com/jbroadway' target='_blank' rel='noopener'>jbroadway</a> für seinen <a href='https://gist.github.com/jbroadway/2836900' target='_blank' rel='noopener'>Markdownparser</a>.</div>".PHP_EOL.
+"<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='https://www.w3schools.com/howto/howto_js_slideshow.asp' target='_blank' rel='noopener'>Slideshow</a></div>".PHP_EOL.
 "</div>".PHP_EOL;
 
 $content.= "<div class='spacer-m'></div>".PHP_EOL;
