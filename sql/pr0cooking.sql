@@ -134,16 +134,19 @@ CREATE TABLE `items` (
   `persons` int(10) unsigned NOT NULL DEFAULT '1' COMMENT 'Ausgelegt für ... Personen',
   `cost` tinyint(3) unsigned NOT NULL COMMENT 'Querverweis zu metaCost',
   `difficulty` tinyint(3) unsigned NOT NULL COMMENT 'Querverweis zu metaDifficulty',
-  `duration` tinyint(3) unsigned NOT NULL COMMENT 'Querverweis zu metaDuration',
+  `workDuration` tinyint(3) unsigned NOT NULL COMMENT 'Querverweis zu metaDuration',
+  `totalDuration` tinyint(3) unsigned NOT NULL COMMENT 'Querverweis zu metaDuration',
   PRIMARY KEY (`id`),
   UNIQUE KEY `shortTitle` (`shortTitle`),
   KEY `persons` (`persons`),
   KEY `cost` (`cost`),
   KEY `difficulty` (`difficulty`),
-  KEY `duration` (`duration`),
+  KEY `workDuration` (`workDuration`),
+  KEY `totalDuration` (`totalDuration`),
   CONSTRAINT `items_ibfk_1` FOREIGN KEY (`cost`) REFERENCES `metaCost` (`id`) ON UPDATE CASCADE,
   CONSTRAINT `items_ibfk_2` FOREIGN KEY (`difficulty`) REFERENCES `metaDifficulty` (`id`) ON UPDATE CASCADE,
-  CONSTRAINT `items_ibfk_3` FOREIGN KEY (`duration`) REFERENCES `metaDuration` (`id`) ON UPDATE CASCADE
+  CONSTRAINT `items_ibfk_3` FOREIGN KEY (`workDuration`) REFERENCES `metaDuration` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `items_ibfk_5` FOREIGN KEY (`totalDuration`) REFERENCES `metaDuration` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Rezepttabelle';
 
 
@@ -247,4 +250,4 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `mostClicked` AS select `cl
 DROP TABLE IF EXISTS `stats`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `stats` AS select (select count(`categories`.`id`) from `categories`) AS `catCount`,(select count(`items`.`id`) from `items`) AS `itemCount`,(select count(`clicks`.`id`) from `clicks`) AS `clickCount`,(select count(`clicks`.`id`) from `clicks` where (`clicks`.`ts` > cast(curdate() as datetime))) AS `clicksToday`;
 
--- 2020-04-01 17:47:19
+-- 2020-05-01 14:49:11

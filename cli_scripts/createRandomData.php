@@ -66,7 +66,7 @@ for($i = 1; $i < 8; $i++) {
  */
 echo "Lege Rezepte an.\n";
 for($i = 1; $i < 101; $i++) {
-  mysqli_query($dbl, "INSERT INTO `items` (`title`, `shortTitle`, `text`, `ingredients`, `persons`, `cost`, `difficulty`, `duration`) VALUES ('".$itemNames[array_rand($itemNames)].rand(10000,99999)."', '".$i."-".md5(random_bytes(128))."', 'LOREM IPSUM\nBeispieltext **MEHRZEILIG**', '- Inhaltsstoff 1\n- Inhaltsstoff 2', '".rand(1, 10)."', '".rand(1, 3)."', '".rand(1, 4)."', '".rand(1, 6)."')") OR DIE(MYSQLI_ERROR($dbl));
+  mysqli_query($dbl, "INSERT INTO `items` (`title`, `shortTitle`, `text`, `ingredients`, `persons`, `cost`, `difficulty`, `workDuration`, `totalDuration`) VALUES ('".$itemNames[array_rand($itemNames)].rand(10000,99999)."', '".$i."-".md5(random_bytes(128))."', 'LOREM IPSUM\nBeispieltext **MEHRZEILIG**', '- Inhaltsstoff 1\n- Inhaltsstoff 2', '".rand(1, 10)."', '".rand(1, 3)."', '".rand(1, 4)."', '".rand(1, 6)."', '6')") OR DIE(MYSQLI_ERROR($dbl));
 }
 
 /**

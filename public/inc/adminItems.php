@@ -174,24 +174,41 @@ if(!isset($_GET['action'])) {
       $content.= "<div class='warnbox'>Die Angabe der Schwierigkeit ist ungültig.</div>".PHP_EOL;
     }
     /**
-     * Dauer
+     * Arbeitszeit
      */
-    if(!empty($_POST['duration'])) {
-      $duration = (int)defuse($_POST['duration']);
-      $result = mysqli_query($dbl, "SELECT `id` FROM `metaDuration` WHERE `id`='".$duration."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+    if(!empty($_POST['workDuration'])) {
+      $workDuration = (int)defuse($_POST['workDuration']);
+      $result = mysqli_query($dbl, "SELECT `id` FROM `metaDuration` WHERE `id`='".$workDuration."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
       if(mysqli_num_rows($result) == 0) {
         $form = 1;
-        $content.= "<div class='warnbox'>Die Angabe der Dauer ist ungültig.</div>".PHP_EOL;
+        $content.= "<div class='warnbox'>Die Angabe der Arbeitszeit ist ungültig.</div>".PHP_EOL;
       }
     } else {
       $form = 1;
-      $content.= "<div class='warnbox'>Die Angabe der Dauer ist ungültig.</div>".PHP_EOL;
+      $content.= "<div class='warnbox'>Die Angabe der Arbeitszeit ist ungültig.</div>".PHP_EOL;
+    }
+    /**
+     * Gesamtzeit
+     */
+    if(!empty($_POST['totalDuration'])) {
+      $totalDuration = (int)defuse($_POST['totalDuration']);
+      $result = mysqli_query($dbl, "SELECT `id` FROM `metaDuration` WHERE `id`='".$totalDuration."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+      if(mysqli_num_rows($result) == 0) {
+        $form = 1;
+        $content.= "<div class='warnbox'>Die Angabe der Gesamtzeit ist ungültig.</div>".PHP_EOL;
+      } elseif($totalDuration < $workDuration) {
+        $form = 1;
+        $content.= "<div class='warnbox'>Die Angabe der Gesamtzeit darf die Angabe der Arbeitszeit nicht unterschreiten.</div>".PHP_EOL;
+      }
+    } else {
+      $form = 1;
+      $content.= "<div class='warnbox'>Die Angabe der Gesamtzeit ist ungültig.</div>".PHP_EOL;
     }
     /**
      * Wenn durch die Postdaten-Validierung die Inhalte geprüft und entschärft wurden, kann der Query erzeugt und ausgeführt werden.
      */
     if($form == 0) {
-      if(mysqli_query($dbl, "INSERT INTO `items` (`title`, `shortTitle`, `text`, `ingredients`, `persons`, `cost`, `difficulty`, `duration`) VALUES ('".$formTitle."', '".$shortTitle."', ".($text === NULL ? "NULL" : "'".$text."'").", ".($ingredients === NULL ? "NULL" : "'".$ingredients."'").", '".$persons."', '".$cost."', '".$difficulty."', '".$duration."')")) {
+      if(mysqli_query($dbl, "INSERT INTO `items` (`title`, `shortTitle`, `text`, `ingredients`, `persons`, `cost`, `difficulty`, `workDuration`, `totalDuration`) VALUES ('".$formTitle."', '".$shortTitle."', ".($text === NULL ? "NULL" : "'".$text."'").", ".($ingredients === NULL ? "NULL" : "'".$ingredients."'").", '".$persons."', '".$cost."', '".$difficulty."', '".$workDuration."', '.$totalDuration.')")) {
         $content.= "<div class='successbox'>Rezept erfolgreich angelegt.</div>".PHP_EOL;
         $content.= "<div class='row'>".PHP_EOL.
         "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminItems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a> - <a href='/adminItems/assign/".mysqli_insert_id($dbl)."'><span class='far icon'>&#xf07c;</span>Kategorien zuweisen</a> - <a href='/rezept/".$shortTitle."'><span class='fas icon'>&#xf543;</span>Zum Rezept</a></div>".PHP_EOL.
@@ -303,17 +320,31 @@ if(!isset($_GET['action'])) {
     "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
     "</div>".PHP_EOL;
     /**
-     * Dauer
+     * Arbeitszeit
      */
     $content.= "<div class='row hover bordered'>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Dauer</div>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><select name='duration' tabindex='8'>".PHP_EOL."<option value='' selected disabled hidden>Bitte wählen</option>".PHP_EOL;
+    "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Arbeitszeit</div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><select name='workDuration' tabindex='8'>".PHP_EOL."<option value='' selected disabled hidden>Bitte wählen</option>".PHP_EOL;
     $result = mysqli_query($dbl, "SELECT * FROM `metaDuration` ORDER BY `id` ASC") OR DIE(MYSQLI_ERROR($dbl));
     while($row = mysqli_fetch_array($result)) {
-      $content.= "<option value='".$row['id']."'".((isset($_POST['duration']) && !empty($_POST['duration']) AND $row['id'] == $_POST['duration']) ? " selected" : NULL).">".output($row['title'])."</option>".PHP_EOL;
+      $content.= "<option value='".$row['id']."'".((isset($_POST['workDuration']) && !empty($_POST['workDuration']) AND $row['id'] == $_POST['workDuration']) ? " selected" : NULL).">".output($row['title'])."</option>".PHP_EOL;
     }
     $content.= "</select></div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'></div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
+    "</div>".PHP_EOL;
+    /**
+     * Gesamtzeit
+     */
+    $content.= "<div class='row hover bordered'>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Gesamtzeit</div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><select name='totalDuration' tabindex='9'>".PHP_EOL."<option value='' selected disabled hidden>Bitte wählen</option>".PHP_EOL;
+    $result = mysqli_query($dbl, "SELECT * FROM `metaDuration` ORDER BY `id` ASC") OR DIE(MYSQLI_ERROR($dbl));
+    while($row = mysqli_fetch_array($result)) {
+      $content.= "<option value='".$row['id']."'".((isset($_POST['totalDuration']) && !empty($_POST['totalDuration']) AND $row['id'] == $_POST['totalDuration']) ? " selected" : NULL).">".output($row['title'])."</option>".PHP_EOL;
+    }
+    $content.= "</select></div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>Hiermit ist die Gesamtzeit des Kochvorgangs gemeint (incl. das Warten auf den Backofen, etc.).</div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
     "</div>".PHP_EOL;
     /**
@@ -321,7 +352,7 @@ if(!isset($_GET['action'])) {
      */
     $content.= "<div class='row hover bordered'>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Rezept anlegen</div>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='submit' name='submit' value='Anlegen' tabindex='9'></div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='submit' name='submit' value='Anlegen' tabindex='10'></div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'></div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
     "</div>".PHP_EOL;
@@ -543,24 +574,41 @@ if(!isset($_GET['action'])) {
         $content.= "<div class='warnbox'>Die Angabe der Schwierigkeit ist ungültig.</div>".PHP_EOL;
       }
       /**
-       * Dauer
+       * Arbeitszeit
        */
-      if(!empty($_POST['duration'])) {
-        $duration = (int)defuse($_POST['duration']);
-        $result = mysqli_query($dbl, "SELECT `id` FROM `metaDuration` WHERE `id`='".$duration."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+      if(!empty($_POST['workDuration'])) {
+        $workDuration = (int)defuse($_POST['workDuration']);
+        $result = mysqli_query($dbl, "SELECT `id` FROM `metaDuration` WHERE `id`='".$workDuration."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
         if(mysqli_num_rows($result) == 0) {
           $form = 1;
-          $content.= "<div class='warnbox'>Die Angabe der Dauer ist ungültig.</div>".PHP_EOL;
+          $content.= "<div class='warnbox'>Die Angabe der Arbeitszeit ist ungültig.</div>".PHP_EOL;
         }
       } else {
         $form = 1;
-        $content.= "<div class='warnbox'>Die Angabe der Dauer ist ungültig.</div>".PHP_EOL;
+        $content.= "<div class='warnbox'>Die Angabe der Arbeitszeit ist ungültig.</div>".PHP_EOL;
+      }
+      /**
+       * Gesamtzeit
+       */
+      if(!empty($_POST['totalDuration'])) {
+        $totalDuration = (int)defuse($_POST['totalDuration']);
+        $result = mysqli_query($dbl, "SELECT `id` FROM `metaDuration` WHERE `id`='".$totalDuration."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+        if(mysqli_num_rows($result) == 0) {
+          $form = 1;
+          $content.= "<div class='warnbox'>Die Angabe der Gesamtzeit ist ungültig.</div>".PHP_EOL;
+        } elseif($totalDuration < $workDuration) {
+          $form = 1;
+          $content.= "<div class='warnbox'>Die Angabe der Gesamtzeit darf die Angabe der Arbeitszeit nicht unterschreiten.</div>".PHP_EOL;
+        }
+      } else {
+        $form = 1;
+        $content.= "<div class='warnbox'>Die Angabe der Gesamtzeit ist ungültig.</div>".PHP_EOL;
       }
       if($form == 0) {
         /**
          * Wenn durch die Postdaten-Validierung die Inhalte geprüft und entschärft wurden, kann der Query erzeugt und ausgeführt werden.
          */
-        if(mysqli_query($dbl, "UPDATE `items` SET `title`='".$formTitle."', `shortTitle`='".$shortTitle."', `text`=".($text === NULL ? "NULL" : "'".$text."'").", `ingredients`=".($ingredients === NULL ? "NULL" : "'".$ingredients."'").", `persons`='".$persons."', `cost`='".$cost."', `difficulty`='".$difficulty."', `duration`='".$duration."' WHERE `id`='".$id."' LIMIT 1")) {
+        if(mysqli_query($dbl, "UPDATE `items` SET `title`='".$formTitle."', `shortTitle`='".$shortTitle."', `text`=".($text === NULL ? "NULL" : "'".$text."'").", `ingredients`=".($ingredients === NULL ? "NULL" : "'".$ingredients."'").", `persons`='".$persons."', `cost`='".$cost."', `difficulty`='".$difficulty."', `workDuration`='".$workDuration."', `totalDuration`='".$totalDuration."' WHERE `id`='".$id."' LIMIT 1")) {
           $content.= "<div class='successbox'>Rezept erfolgreich geändert.</div>".PHP_EOL;
           $content.= "<div class='row'>".PHP_EOL.
           "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminItems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a> - <a href='/rezept/".$shortTitle."'><span class='fas icon'>&#xf543;</span>Zum Rezept</a></div>".PHP_EOL.
@@ -673,17 +721,31 @@ if(!isset($_GET['action'])) {
       "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
       "</div>".PHP_EOL;
       /**
-       * Dauer
+       * Arbeitszeit
        */
       $content.= "<div class='row hover bordered'>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Dauer</div>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><select name='duration' tabindex='8'>".PHP_EOL."<option value='' selected disabled hidden>Bitte wählen</option>".PHP_EOL;
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Arbeitszeit</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><select name='workDuration' tabindex='8'>".PHP_EOL."<option value='' selected disabled hidden>Bitte wählen</option>".PHP_EOL;
       $innerresult = mysqli_query($dbl, "SELECT * FROM `metaDuration` ORDER BY `id` ASC") OR DIE(MYSQLI_ERROR($dbl));
       while($innerrow = mysqli_fetch_array($innerresult)) {
-        $content.= "<option value='".$innerrow['id']."'".(isset($row['duration']) ? ($row['duration'] == $innerrow['id'] ? " selected" : NULL) : ((isset($_POST['duration']) && !empty($_POST['duration']) AND $innerrow['id'] == $_POST['duration']) ? " selected" : NULL)).">".output($innerrow['title'])."</option>".PHP_EOL;
+        $content.= "<option value='".$innerrow['id']."'".(isset($row['workDuration']) ? ($row['workDuration'] == $innerrow['id'] ? " selected" : NULL) : ((isset($_POST['workDuration']) && !empty($_POST['workDuration']) AND $innerrow['id'] == $_POST['workDuration']) ? " selected" : NULL)).">".output($innerrow['title'])."</option>".PHP_EOL;
       }
       $content.= "</select></div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
+      "</div>".PHP_EOL;
+      /**
+       * Gesamtzeit
+       */
+      $content.= "<div class='row hover bordered'>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Gesamtzeit</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><select name='totalDuration' tabindex='9'>".PHP_EOL."<option value='' selected disabled hidden>Bitte wählen</option>".PHP_EOL;
+      $innerresult = mysqli_query($dbl, "SELECT * FROM `metaDuration` ORDER BY `id` ASC") OR DIE(MYSQLI_ERROR($dbl));
+      while($innerrow = mysqli_fetch_array($innerresult)) {
+        $content.= "<option value='".$innerrow['id']."'".(isset($row['totalDuration']) ? ($row['totalDuration'] == $innerrow['id'] ? " selected" : NULL) : ((isset($_POST['totalDuration']) && !empty($_POST['totalDuration']) AND $innerrow['id'] == $_POST['totalDuration']) ? " selected" : NULL)).">".output($innerrow['title'])."</option>".PHP_EOL;
+      }
+      $content.= "</select></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>Hiermit ist die Gesamtzeit des Kochvorgangs gemeint (incl. das Warten auf den Backofen, etc.).</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
       "</div>".PHP_EOL;
       /**
@@ -691,7 +753,7 @@ if(!isset($_GET['action'])) {
        */
       $content.= "<div class='row hover bordered'>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Rezept ändern</div>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='submit' name='submit' value='Ändern' tabindex='9'></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='submit' name='submit' value='Ändern' tabindex='10'></div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'></div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
       "</div>".PHP_EOL;
