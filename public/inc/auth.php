@@ -76,7 +76,7 @@ if(isset($_GET['error'])) {
      * Wenn kein Fehler aufgetreten ist, wird mit den vorher überprüften Parametern das AuthToken angefragt.
      */
     $response = apiCall("https://pr0gramm.com/api/user/authtoken", array('authCode' => $authCode, 'userId' => $userId, 'clientId' => $clientId, 'clientSecret' => $clientSecret));
-    if(preg_match("/^[0-9a-f]{32}$/i", trim($response['accessToken']), $match) === 1) {
+    if(preg_match("/^[0-9a-f]{32}$/i", defuse($response['accessToken']), $match) === 1) {
       $token = $match[0];
       /**
        * Mit dem AuthToken wird dann der Username angefragt, entschärft und validiert.
@@ -87,30 +87,52 @@ if(isset($_GET['error'])) {
         $username = $match[0];
       } else {
         /**
-         * Die pr0gramm API sollte keinen ungültigen Usernamen zurückgeben, deshalb wird das hier wohl nie passieren.
-         * Nur für den Fall der Fälle.
+         * Es ist unwahrscheinlich, dass die pr0gramm-API einen ungültigen Nutzernamen zurückgibt.
+         * An dieser Stelle ist es wahrscheinlicher, dass das Token ungültig/abgelaufen ist oder die oAuth Sitzung vom User beendet wurde.
          */
-        die("Username ungültig.");
+        header("Location: /login?e=oAuth");
+        die();
       }
+
+      /**
+       * Abrufen der pr0grammUserId
+       */
+      $pr0grammUserId = (int)defuse(apiCall("https://pr0gramm.com/api/profile/info/?name=".$username)['user']['id']);
 
       /**
        * Prüfung ob der User sich schon einmal angemeldet hat.
        */
-      $result = mysqli_query($dbl, "SELECT * FROM `users` WHERE `username`='".$username."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+      $result = mysqli_query($dbl, "SELECT * FROM `users` WHERE `pr0grammUserId`='".$pr0grammUserId."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
       if(mysqli_num_rows($result) == 0) {
         /**
-         * Neuanlage des Users, sofern nicht vorhanden.
+         * Für den unwahrscheinlichen Fall, dass ein User sich umbenannt hat, und der einloggende User sich den Namen ausgesucht hat,
+         * wird geprüft, ob bereits ein solcher Username existiert, und falls ja wird der auf einen Randomwert geändert.
          */
-        mysqli_query($dbl, "INSERT INTO `users` (`username`) VALUES ('".$username."')") OR DIE(MYSQLI_ERROR($dbl));
+        $innerresult = mysqli_query($dbl, "SELECT * FROM `users` WHERE `username`='".$username."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+        if(mysqli_num_rows($innerresult) == 1) {
+          /**
+           * Es existiert bereits ein User mit dem Namen aber mit einer anderen pr0grammUserId, also wird der Name ungültig gemacht und alle Sitzungen beendet.
+           */
+          $innerrow = mysqli_fetch_array($innerresult);
+          mysqli_query($dbl, "UPDATE `users` SET `username`='*".substr(md5(random_bytes(4096)), 0, 31)."' WHERE `username`='".$username."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+          //-------------------------------------------------^ Der Stern ist dafür, dass man nicht nicht versehentlich einen richtigen Usernamen mit dem md5-Hash erzeugt.
+          mysqli_query($dbl, "DELETE FROM `userSessions` WHERE `userId`='".$innerrow['id']."'") OR DIE(MYSQLI_ERROR($dbl));
+        }
+
+        /**
+         * Neuanlage des Users, da nicht vorhanden.
+         */
+        mysqli_query($dbl, "INSERT INTO `users` (`username`, `pr0grammUserId`, `accessToken`) VALUES ('".$username."', '".$pr0grammUserId."', '".$token."')") OR DIE(MYSQLI_ERROR($dbl));
         $userId = mysqli_insert_id($dbl);
       } else {
         /**
-         * Abfrage der User-ID, wenn schon vorhanden.
+         * Abfrage der User-ID, Aktualisierung des Usernamens und des accessToken.
          */
         $row = mysqli_fetch_array($result);
         $userId = $row['id'];
+        mysqli_query($dbl, "UPDATE `users` SET `username`='".$username."', `accessToken`='".$token."' WHERE `pr0grammUserId`='".$pr0grammUserId."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
       }
-      
+
       /**
        * Generierung der Sitzung
        */

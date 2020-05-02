@@ -205,7 +205,12 @@ DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Laufende ID',
   `username` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'pr0gramm Username',
-  PRIMARY KEY (`id`)
+  `pr0grammUserId` int(10) unsigned NOT NULL COMMENT 'pr0gramm User-ID',
+  `accessToken` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Header-Token für die oAuth Anfrage',
+  `lastSynced` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Zeitpunkt der letzten Ban-Abfrage',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`),
+  UNIQUE KEY `pr0grammUserId` (`pr0grammUserId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Usertabelle';
 
 
@@ -250,4 +255,4 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `mostClicked` AS select `cl
 DROP TABLE IF EXISTS `stats`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `stats` AS select (select count(`categories`.`id`) from `categories`) AS `catCount`,(select count(`items`.`id`) from `items`) AS `itemCount`,(select count(`clicks`.`id`) from `clicks`) AS `clickCount`,(select count(`clicks`.`id`) from `clicks` where (`clicks`.`ts` > cast(curdate() as datetime))) AS `clicksToday`;
 
--- 2020-05-01 14:49:11
+-- 2020-05-02 12:57:15
