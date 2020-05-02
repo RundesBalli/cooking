@@ -16,6 +16,8 @@ Logout:             <span class='fas icon'>&#xf2f5;</span>
 Login:              <span class='fas icon'>&#xf2f6;</span>
 Bilder:             <span class='fas icon'>&#xf302;</span>
 Übersicht/Pfeil:    <span class='fas icon'>&#xf359;</span>
+Sitzungen/Team:     <span class='fas icon'>&#xf0c0;</span>
+Passwort:           <span class='fas icon'>&#xf084;</span>
 
 Schwierigkeit:      <span class='far icon pointer' title='Schwierigkeitsgrad'>&#xf0eb;</span>
 Arbeitszeit:        <span class='fas icon pointer' title='Arbeitszeit'>&#xf252;</span>
@@ -30,5 +32,3 @@ Bewertungen:        <span class='fas icon'>&#xf772;</span>
 
 Forbidden:          <span class='fas icon'>&#xf057;</span>
 Not Found:          <span class='fas icon'>&#xf002;</span>
-
-Team:               <span class='fas icon'>&#xf0c0;</span>

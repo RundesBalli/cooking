@@ -11,7 +11,7 @@
 require_once('adminCookie.php');
 
 $title = "Sitzungen anzeigen";
-$content.= "<h1>Sitzungen anzeigen</h1>".PHP_EOL;
+$content.= "<h1><span class='fas icon'>&#xf0c0;</span>Sitzungen anzeigen</h1>".PHP_EOL;
 
 /**
  * Löschfunktion
@@ -86,7 +86,7 @@ while($row = mysqli_fetch_array($result)) {
  * Eigenes Passwort ändern
  */
 $content.= "<div class='spacer-m'></div>".PHP_EOL;
-$content.= "<h1>Eigenes Passwort ändern</h1>".PHP_EOL;
+$content.= "<h1><span class='fas icon'>&#xf084;</span>Eigenes Passwort ändern</h1>".PHP_EOL;
 
 /**
  * Änderung des Passworts
