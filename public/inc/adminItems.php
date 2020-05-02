@@ -389,7 +389,7 @@ if(!isset($_GET['action'])) {
        * Formular wurde noch nicht gesendet.
        */
       $content.= "<div class='row'>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'>Soll das Rezept <span class='italic highlight'>".$row['title']."</span> wirklich gelöscht werden? Alle Bilder, Votes, Klicks und Kategoriezuweisungen werden dabei ebenfalls gelöscht.</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'>Soll das Rezept <span class='italic highlight'>".output($row['title'])."</span> wirklich gelöscht werden? Alle Bilder, Votes, Klicks und Kategoriezuweisungen werden dabei ebenfalls gelöscht.</div>".PHP_EOL.
       "</div>".PHP_EOL;
       /**
        * Es wird ein "verwirrendes" Select-Feld gebaut, damit die "ja"-Option jedes mal woanders steht und man bewusster löscht.
