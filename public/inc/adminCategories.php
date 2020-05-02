@@ -118,7 +118,8 @@ if(!isset($_GET['action'])) {
       if(mysqli_query($dbl, "INSERT INTO `categories` (`title`, `shortTitle`, `description`, `shortDescription`) VALUES ('".$formTitle."', '".$shortTitle."', ".($description === NULL ? "NULL" : "'".$description."'").", ".($shortDescription === NULL ? "NULL" : "'".$shortDescription."'").")")) {
         $content.= "<div class='successbox'>Kategorie erfolgreich angelegt.</div>".PHP_EOL;
         $content.= "<div class='row'>".PHP_EOL.
-        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminCategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a> - <a href='/kategorie/".$shortTitle."'><span class='far icon'>&#xf07c;</span>Zur Kategorie</a></div>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminCategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/kategorie/".$shortTitle."'><span class='far icon'>&#xf07c;</span>Zur Kategorie</a></div>".PHP_EOL.
         "</div>".PHP_EOL;
       } else {
         $form = 1;
@@ -367,7 +368,8 @@ if(!isset($_GET['action'])) {
         if(mysqli_query($dbl, "UPDATE `categories` SET `title`='".$formTitle."', `shortTitle`='".$shortTitle."', `description`=".($description === NULL ? "NULL" : "'".$description."'").", `shortDescription`=".($shortDescription === NULL ? "NULL" : "'".$shortDescription."'")." WHERE `id`='".$id."' LIMIT 1")) {
           $content.= "<div class='successbox'>Kategorie erfolgreich geändert.</div>".PHP_EOL;
           $content.= "<div class='row'>".PHP_EOL.
-          "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminCategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a> - <a href='/kategorie/".$shortTitle."'><span class='far icon'>&#xf07c;</span>Zur Kategorie</a></div>".PHP_EOL.
+          "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminCategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
+          "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/kategorie/".$shortTitle."'><span class='far icon'>&#xf07c;</span>Zur Kategorie</a></div>".PHP_EOL.
           "</div>".PHP_EOL;
         } else {
           $form = 1;
