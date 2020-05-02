@@ -60,6 +60,7 @@ $pageArray = array(
   'adminCategories'   => 'adminCategories.php',
   'adminItems'        => 'adminItems.php',
   'adminFiles'        => 'adminFiles.php',
+  'adminIngredients'  => 'adminIngredients.php',
   'adminSessions'     => 'adminSessions.php',
   'adminMarkdownInfo' => 'adminMarkdownInfo.php',
 
@@ -109,8 +110,9 @@ if((isset($_COOKIE['cookingAdmin']) AND !empty($_COOKIE['cookingAdmin'])) AND pr
   $nav.= "<hr>".PHP_EOL;
   $nav.= "<span class='warn bold'>Admin</span>".PHP_EOL;
   $nav.= "<a href='/adminIndex'><span class='fas icon'>&#xf0cb;</span>Index</a>".PHP_EOL;
-  $nav.= "<a href='/adminCategories'><span class='far icon'>&#xf07c;</span>Kategorien bearbeiten</a>".PHP_EOL;
-  $nav.= "<a href='/adminItems'><span class='fas icon'>&#xf543;</span>Rezepte bearbeiten</a>".PHP_EOL;
+  $nav.= "<a href='/adminCategories'><span class='far icon'>&#xf07c;</span>Kategorien</a>".PHP_EOL;
+  $nav.= "<a href='/adminItems'><span class='fas icon'>&#xf543;</span>Rezepte</a>".PHP_EOL;
+  $nav.= "<a href='/adminIngredients'><span class='fas icon'>&#xf4d8;</span>Zutaten</a>".PHP_EOL;
   $nav.= "<a href='/adminSessions'><span class='fas icon'>&#xf0c0;</span>Sitzungen</a>".PHP_EOL;
   $nav.= "<a href='/adminLogout'><span class='fas icon'>&#xf2f5;</span>Logout</a>".PHP_EOL;
 }

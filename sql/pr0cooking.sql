@@ -124,6 +124,24 @@ CREATE TABLE `images` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Tabelle mit Bildzuordnungen';
 
 
+DROP TABLE IF EXISTS `itemIngredients`;
+CREATE TABLE `itemIngredients` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Laufende ID',
+  `itemId` int(10) unsigned NOT NULL COMMENT 'Querverweis - items.id',
+  `ingredientId` int(10) unsigned NOT NULL COMMENT 'Querverweis - metaIngredients.id',
+  `unitId` int(10) unsigned NOT NULL COMMENT 'Querverweis - metaUnits.id',
+  `quantity` double(10,2) unsigned NOT NULL COMMENT 'Menge der Einheit',
+  `sortIndex` int(10) unsigned NOT NULL DEFAULT '9999999' COMMENT 'Sortierindex',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `itemId_ingredientId` (`itemId`,`ingredientId`),
+  KEY `ingredientId` (`ingredientId`),
+  KEY `unitId` (`unitId`),
+  CONSTRAINT `itemIngredients_ibfk_1` FOREIGN KEY (`itemId`) REFERENCES `items` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `itemIngredients_ibfk_2` FOREIGN KEY (`ingredientId`) REFERENCES `metaIngredients` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `itemIngredients_ibfk_3` FOREIGN KEY (`unitId`) REFERENCES `metaUnits` (`id`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Querverweistabelle - Zutaten/Mengeneinheiten/Rezepte';
+
+
 DROP TABLE IF EXISTS `items`;
 CREATE TABLE `items` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Laufende ID',
@@ -193,6 +211,26 @@ INSERT INTO `metaDuration` (`id`, `title`) VALUES
 (5,	'60 bis 90 Minuten'),
 (6,	'länger als 90 Minuten');
 
+DROP TABLE IF EXISTS `metaIngredients`;
+CREATE TABLE `metaIngredients` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Laufende ID',
+  `title` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Bezeichnung der Zutat',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `title` (`title`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Tabelle mit Metadaten: Zutaten';
+
+
+DROP TABLE IF EXISTS `metaUnits`;
+CREATE TABLE `metaUnits` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Laufende ID',
+  `title` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Titel der Einheit',
+  `short` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Kurzform der Einheit',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `title` (`title`),
+  UNIQUE KEY `short` (`short`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Tabelle mit Metadaten: Einheiten';
+
+
 DROP VIEW IF EXISTS `mostClicked`;
 CREATE TABLE `mostClicked` (`itemId` int(10) unsigned, `c` bigint(21), `title` varchar(100), `shortTitle` varchar(64));
 
@@ -255,4 +293,4 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `mostClicked` AS select `cl
 DROP TABLE IF EXISTS `stats`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `stats` AS select (select count(`categories`.`id`) from `categories`) AS `catCount`,(select count(`items`.`id`) from `items`) AS `itemCount`,(select count(`clicks`.`id`) from `clicks`) AS `clickCount`,(select count(`clicks`.`id`) from `clicks` where (`clicks`.`ts` > cast(curdate() as datetime))) AS `clicksToday`;
 
--- 2020-05-02 12:57:15
+-- 2020-05-02 19:32:29
