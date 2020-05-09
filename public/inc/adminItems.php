@@ -375,7 +375,7 @@ if(!isset($_GET['action'])) {
      * Falls das Rezept nicht existiert, wird ein 404er und eine Fehlermeldung zurückgegeben.
      */
     http_response_code(404);
-    $content.= "<div class='warnbox'>Das Rezept mit der ID <span class='italic'>".$id."</span> existiert nicht.</div>".PHP_EOL;
+    $content.= "<div class='warnbox'>Das Rezept mit der ID <span class='italic'>".output($id)."</span> existiert nicht.</div>".PHP_EOL;
     $content.= "<div class='row'>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminItems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
     "</div>".PHP_EOL;
@@ -466,7 +466,7 @@ if(!isset($_GET['action'])) {
      * Falls das Rezept nicht existiert, wird ein 404er und eine Fehlermeldung zurückgegeben.
      */
     http_response_code(404);
-    $content.= "<div class='warnbox'>Das Rezept mit der ID <span class='italic'>".$id."</span> existiert nicht.</div>".PHP_EOL;
+    $content.= "<div class='warnbox'>Das Rezept mit der ID <span class='italic'>".output($id)."</span> existiert nicht.</div>".PHP_EOL;
     $content.= "<div class='row'>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminItems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
     "</div>".PHP_EOL;
@@ -635,7 +635,7 @@ if(!isset($_GET['action'])) {
      * Das Formular wird beim Erstaufruf und bei Fehleingaben angezeigt.
      */
     if($form == 1) {
-      $content.= "<form action='/adminItems/edit/".$id."' method='post' autocomplete='off'>".PHP_EOL;
+      $content.= "<form action='/adminItems/edit/".output($id)."' method='post' autocomplete='off'>".PHP_EOL;
       /**
        * Sitzungstoken
        */
@@ -778,7 +778,7 @@ if(!isset($_GET['action'])) {
      * Falls das Rezept nicht existiert, wird ein 404er und eine Fehlermeldung zurückgegeben.
      */
     http_response_code(404);
-    $content.= "<div class='warnbox'>Das Rezept mit der ID <span class='italic'>".$id."</span> existiert nicht.</div>".PHP_EOL;
+    $content.= "<div class='warnbox'>Das Rezept mit der ID <span class='italic'>".output($id)."</span> existiert nicht.</div>".PHP_EOL;
     $content.= "<div class='row'>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminItems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
     "</div>".PHP_EOL;
@@ -788,7 +788,7 @@ if(!isset($_GET['action'])) {
      */
     $row = mysqli_fetch_array($result);
     $content.= "<div class='row'>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><span class='highlight bold'>Rezept:</span> <a href='/rezept/".$row['shortTitle']."' target='_blank'>".$row['title']."<span class='fas iconright'>&#xf35d;</span></a></div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><span class='highlight bold'>Rezept:</span> <a href='/rezept/".output($row['shortTitle'])."' target='_blank'>".output($row['title'])."<span class='fas iconright'>&#xf35d;</span></a></div>".PHP_EOL.
     "</div>".PHP_EOL;
     $content.= "<div class='row'>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminItems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
@@ -805,7 +805,7 @@ if(!isset($_GET['action'])) {
          */
         $content.= "<h1>Hinzufügen bestätigen</h1>".PHP_EOL;
         $content.= "<div class='infobox'>Zuweisung bitte bestätigen.</div>".PHP_EOL;
-        $content.= "<form action='/adminItems/assign/".$id."/add/".$addId."' method='post'>";
+        $content.= "<form action='/adminItems/assign/".output($id)."/add/".output($addId)."' method='post'>";
         /**
          * Sitzungstoken
          */
@@ -854,7 +854,7 @@ if(!isset($_GET['action'])) {
          */
         $content.= "<h1>Löschen bestätigen</h1>".PHP_EOL;
         $content.= "<div class='infobox'>Löschung bitte bestätigen.</div>".PHP_EOL;
-        $content.= "<form action='/adminItems/assign/".$id."/del/".$delId."' method='post'>";
+        $content.= "<form action='/adminItems/assign/".output($id)."/del/".output($delId)."' method='post'>";
         /**
          * Sitzungstoken
          */
@@ -875,7 +875,7 @@ if(!isset($_GET['action'])) {
           if(mysqli_affected_rows($dbl) == 1) {
             $content.= "<div class='successbox'>Die Zuweisung wurde gelöscht.</div>".PHP_EOL;
           } else {
-            $content.= "<div class='warnbox'>Es existiert für dieses Rezept keine Kategoriezuweisung mit der ID <span class='italic'>".$delId."</span>.</div>".PHP_EOL;
+            $content.= "<div class='warnbox'>Es existiert für dieses Rezept keine Kategoriezuweisung mit der ID <span class='italic'>".output($delId)."</span>.</div>".PHP_EOL;
           }
         } else {
           /**
@@ -902,7 +902,7 @@ if(!isset($_GET['action'])) {
       while($row = mysqli_fetch_array($result)) {
         $content.= "<div class='row hover bordered'>".PHP_EOL.
         "<div class='col-x-12 col-s-8 col-m-8 col-l-8 col-xl-8'>".$row['title']."</div>".PHP_EOL.
-        "<div class='col-x-12 col-s-4 col-m-4 col-l-4 col-xl-4'><a href='/adminItems/assign/".$id."/del/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a><br>".PHP_EOL."<a href='/adminCategories/sort/".$row['categoryId']."' class='nowrap'><span class='fas icon'>&#xf0dc;</span>in dieser Kategorie sortieren</a></div>".PHP_EOL.
+        "<div class='col-x-12 col-s-4 col-m-4 col-l-4 col-xl-4'><a href='/adminItems/assign/".output($id)."/del/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a><br>".PHP_EOL."<a href='/adminCategories/sort/".$row['categoryId']."' class='nowrap'><span class='fas icon'>&#xf0dc;</span>in dieser Kategorie sortieren</a></div>".PHP_EOL.
         "</div>".PHP_EOL;
       }
     }
@@ -918,8 +918,8 @@ if(!isset($_GET['action'])) {
     $result = mysqli_query($dbl, "SELECT `categories`.`id`, `categories`.`title`, `categories`.`shortTitle`, `categories`.`shortDescription`, (SELECT COUNT(`id`) FROM `categoryItems` WHERE `categoryItems`.`categoryId`=`categories`.`id` AND `categoryItems`.`itemId`='".$id."') AS `isset` FROM `categories` ORDER BY `categories`.`sortIndex` ASC, `categories`.`title` ASC") OR DIE(MYSQLI_ERROR($dbl));
     while($row = mysqli_fetch_array($result)) {
       $content.= "<div class='row hover bordered'>".PHP_EOL.
-      "<div class='col-x-12 col-s-8 col-m-8 col-l-8 col-xl-8'>".$row['title']."</div>".PHP_EOL.
-      "<div class='col-x-12 col-s-4 col-m-4 col-l-4 col-xl-4'>".($row['isset'] == 1 ? "bereits zugewiesen" : "<a href='/adminItems/assign/".$id."/add/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf067;</span>Hinzufügen</a>")."</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-8 col-m-8 col-l-8 col-xl-8'>".output($row['title'])."</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-4 col-m-4 col-l-4 col-xl-4'>".($row['isset'] == 1 ? "bereits zugewiesen" : "<a href='/adminItems/assign/".output($id)."/add/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf067;</span>Hinzufügen</a>")."</div>".PHP_EOL.
       "</div>".PHP_EOL;
     }
   }

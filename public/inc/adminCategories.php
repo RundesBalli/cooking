@@ -119,7 +119,7 @@ if(!isset($_GET['action'])) {
         $content.= "<div class='successbox'>Kategorie erfolgreich angelegt.</div>".PHP_EOL;
         $content.= "<div class='row'>".PHP_EOL.
         "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminCategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
-        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/kategorie/".$shortTitle."'><span class='far icon'>&#xf07c;</span>Zur Kategorie</a></div>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/kategorie/".output($shortTitle)."'><span class='far icon'>&#xf07c;</span>Zur Kategorie</a></div>".PHP_EOL.
         "</div>".PHP_EOL;
       } else {
         $form = 1;
@@ -217,7 +217,7 @@ if(!isset($_GET['action'])) {
      * Falls die Kategorie nicht existiert, wird ein 404er und eine Fehlermeldung zurückgegeben.
      */
     http_response_code(404);
-    $content.= "<div class='warnbox'>Die Kategorie mit der ID <span class='italic'>".$id."</span> existiert nicht.</div>".PHP_EOL;
+    $content.= "<div class='warnbox'>Die Kategorie mit der ID <span class='italic'>".output($id)."</span> existiert nicht.</div>".PHP_EOL;
     $content.= "<div class='row'>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminCategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
     "</div>".PHP_EOL;
@@ -242,7 +242,7 @@ if(!isset($_GET['action'])) {
         $options1[] = "<option value='".$key."'>".$val."</option>".PHP_EOL;
       }
       shuffle($options1);
-      $content.= "<form action='/adminCategories/del/".$id."' method='post' autocomplete='off'>".PHP_EOL;
+      $content.= "<form action='/adminCategories/del/".output($id)."' method='post' autocomplete='off'>".PHP_EOL;
       /**
        * Sitzungstoken
        */
@@ -304,7 +304,7 @@ if(!isset($_GET['action'])) {
      * Falls die Kategorie nicht existiert, wird ein 404er und eine Fehlermeldung zurückgegeben.
      */
     http_response_code(404);
-    $content.= "<div class='warnbox'>Die Kategorie mit der ID <span class='italic'>".$id."</span> existiert nicht.</div>".PHP_EOL;
+    $content.= "<div class='warnbox'>Die Kategorie mit der ID <span class='italic'>".output($id)."</span> existiert nicht.</div>".PHP_EOL;
     $content.= "<div class='row'>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminCategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
     "</div>".PHP_EOL;
@@ -369,7 +369,7 @@ if(!isset($_GET['action'])) {
           $content.= "<div class='successbox'>Kategorie erfolgreich geändert.</div>".PHP_EOL;
           $content.= "<div class='row'>".PHP_EOL.
           "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminCategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
-          "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/kategorie/".$shortTitle."'><span class='far icon'>&#xf07c;</span>Zur Kategorie</a></div>".PHP_EOL.
+          "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/kategorie/".output($shortTitle)."'><span class='far icon'>&#xf07c;</span>Zur Kategorie</a></div>".PHP_EOL.
           "</div>".PHP_EOL;
         } else {
           $form = 1;
@@ -391,7 +391,7 @@ if(!isset($_GET['action'])) {
      * Das Formular wird beim Erstaufruf und bei Fehleingaben angezeigt.
      */
     if($form == 1) {
-      $content.= "<form action='/adminCategories/edit/".$id."' method='post' autocomplete='off'>".PHP_EOL;
+      $content.= "<form action='/adminCategories/edit/".output($id)."' method='post' autocomplete='off'>".PHP_EOL;
       /**
        * Sitzungstoken
        */
@@ -469,7 +469,7 @@ if(!isset($_GET['action'])) {
      * Falls die Kategorie nicht existiert, wird ein 404er und eine Fehlermeldung zurückgegeben.
      */
     http_response_code(404);
-    $content.= "<div class='warnbox'>Die Kategorie mit der ID <span class='italic'>".$id."</span> existiert nicht.</div>".PHP_EOL;
+    $content.= "<div class='warnbox'>Die Kategorie mit der ID <span class='italic'>".output($id)."</span> existiert nicht.</div>".PHP_EOL;
     $content.= "<div class='row'>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminCategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
     "</div>".PHP_EOL;
@@ -493,7 +493,7 @@ if(!isset($_GET['action'])) {
         /**
          * Wenn kein Formular übergeben wurde, dann zeig es an.
          */
-        $content.= "<form action='/adminCategories/sort/".$id."' method='post' autocomplete='off'>".PHP_EOL;
+        $content.= "<form action='/adminCategories/sort/".output($id)."' method='post' autocomplete='off'>".PHP_EOL;
         /**
          * Sitzungstoken
          */
@@ -547,7 +547,7 @@ if(!isset($_GET['action'])) {
         } else {
           $content.= "<div class='warnbox'>Ungültige Werte übergeben.</div>".PHP_EOL;
           $content.= "<div class='row'>".PHP_EOL.
-          "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminCategories/sort/".$id."'><span class='fas icon'>&#xf359;</span>Zurück zur Sortierung</a></div>".PHP_EOL.
+          "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminCategories/sort/".output($id)."'><span class='fas icon'>&#xf359;</span>Zurück zur Sortierung</a></div>".PHP_EOL.
           "</div>".PHP_EOL;
         }
       } else {
@@ -557,7 +557,7 @@ if(!isset($_GET['action'])) {
         http_response_code(403);
         $content.= "<div class='warnbox'>Ungültiges Token.</div>".PHP_EOL;
         $content.= "<div class='row'>".PHP_EOL.
-        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminCategories/sort/".$id."'><span class='fas icon'>&#xf359;</span>Zurück zur Sortierung</a></div>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminCategories/sort/".output($id)."'><span class='fas icon'>&#xf359;</span>Zurück zur Sortierung</a></div>".PHP_EOL.
         "</div>".PHP_EOL;
       }
     }
