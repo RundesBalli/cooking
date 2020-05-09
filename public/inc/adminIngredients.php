@@ -77,14 +77,16 @@ if(!isset($_GET['action'])) {
      */
     $content.= "<div class='row highlight bold bordered'>".PHP_EOL.
     "<div class='col-x-9 col-s-9 col-m-7 col-l-7 col-xl-7'>Bezeichnung</div>".PHP_EOL.
-    "<div class='col-x-3 col-s-3 col-m-3 col-l-3 col-xl-3'>Kurzform</div>".PHP_EOL.
+    "<div class='col-x-2 col-s-2 col-m-2 col-l-2 col-xl-2'>Kurzform</div>".PHP_EOL.
+    "<div class='col-x-1 col-s-1 col-m-1 col-l-1 col-xl-1'>Trennung</div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-2 col-l-2 col-xl-2'>Aktionen</div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
     "</div>".PHP_EOL;
     while($row = mysqli_fetch_array($result)) {
       $content.= "<div class='row hover bordered'>".PHP_EOL.
       "<div class='col-x-9 col-s-9 col-m-7 col-l-7 col-xl-7'>".output($row['title'])."</div>".PHP_EOL.
-      "<div class='col-x-3 col-s-3 col-m-3 col-l-3 col-xl-3'>".output($row['short'])."</div>".PHP_EOL.
+      "<div class='col-x-2 col-s-2 col-m-2 col-l-2 col-xl-2'>".output($row['short'])."</div>".PHP_EOL.
+      "<div class='col-x-1 col-s-1 col-m-1 col-l-1 col-xl-1'>".($row['spacer'] == 1 ? "Ja" : "Nein")."</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-2 col-l-2 col-xl-2'><a href='/adminIngredients/editU/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf044;</span>Editieren</a><br>".PHP_EOL."<a href='/adminIngredients/delU/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a></div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
       "</div>".PHP_EOL;
@@ -432,10 +434,18 @@ if(!isset($_GET['action'])) {
       $content.= "<div class='warnbox'>Die Kurzform der Maßeinheit ist ungültig. Sie muss zwischen 1 und 10 Zeichen lang sein.</div>".PHP_EOL;
     }
     /**
+     * Spacer zwischen Titel und Einheit
+     */
+    if($_POST['spacer'] == 1) {
+      $spacer = 1;
+    } else {
+      $spacer = 0;
+    }
+    /**
      * Wenn durch die Postdaten-Validierung die Inhalte geprüft und entschärft wurden, kann der Query erzeugt und ausgeführt werden.
      */
     if($form == 0) {
-      if(mysqli_query($dbl, "INSERT INTO `metaUnits` (`title`, `short`) VALUES ('".$formTitle."', '".$short."')")) {
+      if(mysqli_query($dbl, "INSERT INTO `metaUnits` (`title`, `short`, `spacer`) VALUES ('".$formTitle."', '".$short."', '".$spacer."')")) {
         $content.= "<div class='successbox'>Zutat erfolgreich angelegt.</div>".PHP_EOL;
         $content.= "<div class='row'>".PHP_EOL.
         "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminIngredients/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
@@ -493,11 +503,20 @@ if(!isset($_GET['action'])) {
     "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
     "</div>".PHP_EOL;
     /**
+     * Trennung zwischen Menge und Kurzform
+     */
+    $content.= "<div class='row hover bordered'>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Trennung</div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><select name='spacer' tabindex='3'><option value='' ".(!isset($_POST['spacer']) OR ($_POST['spacer'] != "1" && $_POST['spacer'] != "0") ? "selected " : NULL)."disabled hidden>Bitte wählen</option><option value='1'".(isset($_POST['spacer']) && $_POST['spacer'] == "1" ? " selected" : NULL).">Ja</option><option value='0'".(isset($_POST['spacer']) && $_POST['spacer'] == "0" ? " selected" : NULL).">Nein</option></select></div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("Trennung zwischen Menge und Kurzform\n* Ja: `100 g`\n* Nein: `100g`")."</div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
+    "</div>".PHP_EOL;
+    /**
      * Absenden
      */
     $content.= "<div class='row hover bordered'>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Maßeinheit anlegen</div>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='submit' name='submit' value='Anlegen' tabindex='3'></div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='submit' name='submit' value='Anlegen' tabindex='4'></div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'></div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
     "</div>".PHP_EOL;
@@ -552,7 +571,7 @@ if(!isset($_GET['action'])) {
         $content.= "<div class='warnbox'>Die Bezeichnung der Maßeinheit ist ungültig. Sie muss zwischen 2 und 50 Zeichen lang sein.</div>".PHP_EOL;
       }
       /**
-       * Bezeichnung
+       * Kurzform
        */
       if(preg_match('/^.{1,10}$/', $_POST['short'], $match) === 1) {
         $short = defuse($match[0]);
@@ -560,11 +579,19 @@ if(!isset($_GET['action'])) {
         $form = 1;
         $content.= "<div class='warnbox'>Die Kurzform der Maßeinheit ist ungültig. Sie muss zwischen 1 und 10 Zeichen lang sein.</div>".PHP_EOL;
       }
+      /**
+       * Spacer zwischen Titel und Einheit
+       */
+      if($_POST['spacer'] == 1) {
+        $spacer = 1;
+      } else {
+        $spacer = 0;
+      }
       if($form == 0) {
         /**
          * Wenn durch die Postdaten-Validierung die Inhalte geprüft und entschärft wurden, kann der Query erzeugt und ausgeführt werden.
          */
-        if(mysqli_query($dbl, "UPDATE `metaUnits` SET `title`='".$formTitle."', `short`='".$short."' WHERE `id`='".$id."' LIMIT 1")) {
+        if(mysqli_query($dbl, "UPDATE `metaUnits` SET `title`='".$formTitle."', `short`='".$short."', `spacer`='".$spacer."' WHERE `id`='".$id."' LIMIT 1")) {
           $content.= "<div class='successbox'>Maßeinheit erfolgreich geändert.</div>".PHP_EOL;
           $content.= "<div class='row'>".PHP_EOL.
           "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminIngredients/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
@@ -622,11 +649,20 @@ if(!isset($_GET['action'])) {
       "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
       "</div>".PHP_EOL;
       /**
+       * Trennung zwischen Menge und Kurzform
+       */
+      $content.= "<div class='row hover bordered'>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Trennung</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><select name='spacer' tabindex='3'><option value='1'".(isset($row['spacer']) && $row['spacer'] == 1 ? " selected" : (isset($_POST['spacer']) && $_POST['spacer'] == "1" ? " selected" : NULL)).">Ja</option><option value='0'".(isset($row['spacer']) && $row['spacer'] == 0 ? " selected" : (isset($_POST['spacer']) && $_POST['spacer'] == "0" ? " selected" : NULL)).">Nein</option></select></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("Trennung zwischen Menge und Kurzform\n* Ja: `100 g`\n* Nein: `100g`")."</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
+      "</div>".PHP_EOL;
+      /**
        * Absenden
        */
       $content.= "<div class='row hover bordered'>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Kategorie anlegen</div>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='submit' name='submit' value='Anlegen' tabindex='3'></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='submit' name='submit' value='Anlegen' tabindex='4'></div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'></div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
       "</div>".PHP_EOL;
