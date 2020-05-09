@@ -425,11 +425,11 @@ if(!isset($_GET['action'])) {
     /**
      * Kurzform
      */
-    if(preg_match('/^.{2,10}$/', $_POST['short'], $match) === 1) {
+    if(preg_match('/^.{1,10}$/', $_POST['short'], $match) === 1) {
       $short = defuse($match[0]);
     } else {
       $form = 1;
-      $content.= "<div class='warnbox'>Die Kurzform der Maßeinheit ist ungültig. Sie muss zwischen 2 und 10 Zeichen lang sein.</div>".PHP_EOL;
+      $content.= "<div class='warnbox'>Die Kurzform der Maßeinheit ist ungültig. Sie muss zwischen 1 und 10 Zeichen lang sein.</div>".PHP_EOL;
     }
     /**
      * Wenn durch die Postdaten-Validierung die Inhalte geprüft und entschärft wurden, kann der Query erzeugt und ausgeführt werden.
@@ -489,7 +489,7 @@ if(!isset($_GET['action'])) {
     $content.= "<div class='row hover bordered'>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Kurzform</div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='text' name='short' placeholder='Kurzform der Maßeinheit' tabindex='2' autofocus value='".(isset($_POST['short']) && !empty($_POST['short']) ? output($_POST['short']) : NULL)."'></div>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>2 bis 10 Zeichen</div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>1 bis 10 Zeichen</div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
     "</div>".PHP_EOL;
     /**
@@ -554,11 +554,11 @@ if(!isset($_GET['action'])) {
       /**
        * Bezeichnung
        */
-      if(preg_match('/^.{2,10}$/', $_POST['short'], $match) === 1) {
+      if(preg_match('/^.{1,10}$/', $_POST['short'], $match) === 1) {
         $short = defuse($match[0]);
       } else {
         $form = 1;
-        $content.= "<div class='warnbox'>Die Kurzform der Maßeinheit ist ungültig. Sie muss zwischen 2 und 10 Zeichen lang sein.</div>".PHP_EOL;
+        $content.= "<div class='warnbox'>Die Kurzform der Maßeinheit ist ungültig. Sie muss zwischen 1 und 10 Zeichen lang sein.</div>".PHP_EOL;
       }
       if($form == 0) {
         /**
@@ -618,7 +618,7 @@ if(!isset($_GET['action'])) {
       $content.= "<div class='row hover bordered'>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Kurzform</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='text' name='short' placeholder='Kurzform der Maßeinheit' tabindex='2' autofocus value='".(isset($row['short']) ? output($row['short']) : (isset($_POST['short']) && !empty($_POST['short']) ? output($_POST['short']) : NULL))."'></div>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>2 bis 10 Zeichen</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>1 bis 10 Zeichen</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
       "</div>".PHP_EOL;
       /**
