@@ -76,17 +76,17 @@ if(!isset($_GET['action'])) {
      * Anzeige vorhandener Maßeinheiten.
      */
     $content.= "<div class='row highlight bold bordered'>".PHP_EOL.
-    "<div class='col-x-9 col-s-9 col-m-7 col-l-7 col-xl-7'>Bezeichnung</div>".PHP_EOL.
-    "<div class='col-x-2 col-s-2 col-m-2 col-l-2 col-xl-2'>Kurzform</div>".PHP_EOL.
-    "<div class='col-x-1 col-s-1 col-m-1 col-l-1 col-xl-1'>Trennung</div>".PHP_EOL.
+    "<div class='col-x-7 col-s-7 col-m-5 col-l-5 col-xl-5'>Bezeichnung</div>".PHP_EOL.
+    "<div class='col-x-3 col-s-3 col-m-3 col-l-3 col-xl-3'>Kurzform</div>".PHP_EOL.
+    "<div class='col-x-2 col-s-2 col-m-2 col-l-2 col-xl-2'>Trennung</div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-2 col-l-2 col-xl-2'>Aktionen</div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
     "</div>".PHP_EOL;
     while($row = mysqli_fetch_array($result)) {
       $content.= "<div class='row hover bordered'>".PHP_EOL.
-      "<div class='col-x-9 col-s-9 col-m-7 col-l-7 col-xl-7'>".output($row['title'])."</div>".PHP_EOL.
-      "<div class='col-x-2 col-s-2 col-m-2 col-l-2 col-xl-2'>".output($row['short'])."</div>".PHP_EOL.
-      "<div class='col-x-1 col-s-1 col-m-1 col-l-1 col-xl-1'>".($row['spacer'] == 1 ? "Ja" : "Nein")."</div>".PHP_EOL.
+      "<div class='col-x-7 col-s-7 col-m-5 col-l-5 col-xl-5'>".output($row['title'])."</div>".PHP_EOL.
+      "<div class='col-x-3 col-s-3 col-m-3 col-l-3 col-xl-3'>".output($row['short'])."</div>".PHP_EOL.
+      "<div class='col-x-1 col-s-1 col-m-2 col-l-2 col-xl-2'>".($row['spacer'] == 1 ? "Ja" : "Nein")."</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-2 col-l-2 col-xl-2'><a href='/adminIngredients/editU/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf044;</span>Editieren</a><br>".PHP_EOL."<a href='/adminIngredients/delU/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a></div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
       "</div>".PHP_EOL;
