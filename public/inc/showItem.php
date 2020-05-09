@@ -37,7 +37,7 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
      */
     if((isset($_COOKIE['cookingAdmin']) AND !empty($_COOKIE['cookingAdmin'])) AND preg_match('/[a-f0-9]{64}/i', defuse($_COOKIE['cookingAdmin']), $match) === 1) {
       $content.= "<div class='row'>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12 center'><span class='bold warn'>Admin-Schnellzugriff:</span> <a href='/adminItems/edit/".$row['id']."'><span class='fas icon'>&#xf044;</span>Editieren</a> - <a href='/adminItems/assign/".$row['id']."'><span class='far icon'>&#xf07c;</span>Kategorien</a> - <a href='/adminFiles/list/".$row['id']."'><span class='fas icon'>&#xf302;</span>Bilder</a></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12 center'><span class='bold warn'>Admin-Schnellzugriff:</span> <a href='/adminItems/edit/".$row['id']."'><span class='fas icon'>&#xf044;</span>Editieren</a> - <a href='/adminItems/assign/".$row['id']."'><span class='far icon'>&#xf07c;</span>Kategorien</a> - <a href='/adminFiles/list/".$row['id']."'><span class='fas icon'>&#xf302;</span>Bilder</a> - <a href='/adminIngredients/assign/".$row['id']."'><span class='fas icon'>&#xf4d8;</span>Zutaten</a></div>".PHP_EOL.
       "</div>".PHP_EOL;
     }
 
