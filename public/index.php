@@ -46,6 +46,7 @@ $pageArray = array(
   /* Standardseiten */
   'start'             => 'start.php',
   'imprint'           => 'imprint.php',
+  'team'              => 'team.php',
 
   /* Seiten zur Ansicht der Kategorien und Einträge */
   'showCategory'      => 'showCategory.php',
