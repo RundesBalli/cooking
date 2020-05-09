@@ -130,7 +130,7 @@ CREATE TABLE `itemIngredients` (
   `itemId` int(10) unsigned NOT NULL COMMENT 'Querverweis - items.id',
   `ingredientId` int(10) unsigned NOT NULL COMMENT 'Querverweis - metaIngredients.id',
   `unitId` int(10) unsigned DEFAULT NULL COMMENT 'Querverweis - metaUnits.id',
-  `quantity` double(10,2) unsigned NOT NULL COMMENT 'Menge der Einheit',
+  `quantity` double(10,2) unsigned DEFAULT NULL COMMENT 'Menge der Einheit',
   `sortIndex` int(10) unsigned NOT NULL DEFAULT '9999999' COMMENT 'Sortierindex',
   PRIMARY KEY (`id`),
   UNIQUE KEY `itemId_ingredientId` (`itemId`,`ingredientId`),
@@ -214,6 +214,7 @@ DROP TABLE IF EXISTS `metaIngredients`;
 CREATE TABLE `metaIngredients` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Laufende ID',
   `title` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Bezeichnung der Zutat',
+  `searchable` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '0=nicht suchbar; 1=suchbar',
   PRIMARY KEY (`id`),
   UNIQUE KEY `title` (`title`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Tabelle mit Metadaten: Zutaten';
@@ -293,4 +294,4 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `mostClicked` AS select `cl
 DROP TABLE IF EXISTS `stats`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `stats` AS select (select count(`categories`.`id`) from `categories`) AS `catCount`,(select count(`items`.`id`) from `items`) AS `itemCount`,(select count(`clicks`.`id`) from `clicks`) AS `clickCount`,(select count(`clicks`.`id`) from `clicks` where (`clicks`.`ts` > cast(curdate() as datetime))) AS `clicksToday`;
 
--- 2020-05-09 13:31:40
+-- 2020-05-09 17:27:13

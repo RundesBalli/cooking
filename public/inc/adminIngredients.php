@@ -40,13 +40,15 @@ if(!isset($_GET['action'])) {
      * Anzeige vorhandener Zutaten.
      */
     $content.= "<div class='row highlight bold bordered'>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-10 col-l-10 col-xl-10'>Bezeichnung</div>".PHP_EOL.
+    "<div class='col-x-7 col-s-7 col-m-8 col-l-8 col-xl-8'>Bezeichnung</div>".PHP_EOL.
+    "<div class='col-x-3 col-s-3 col-m-2 col-l-2 col-xl-2'>Suchbar</div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-2 col-l-2 col-xl-2'>Aktionen</div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
     "</div>".PHP_EOL;
     while($row = mysqli_fetch_array($result)) {
       $content.= "<div class='row hover bordered'>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-10 col-l-10 col-xl-10'>".output($row['title'])."</div>".PHP_EOL.
+      "<div class='col-x-7 col-s-7 col-m-8 col-l-8 col-xl-8'>".output($row['title'])."</div>".PHP_EOL.
+      "<div class='col-x-3 col-s-3 col-m-2 col-l-2 col-xl-2'>".($row['searchable'] == 1 ? "Ja" : "Nein")."</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-2 col-l-2 col-xl-2'><a href='/adminIngredients/editI/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf044;</span>Editieren</a><br>".PHP_EOL."<a href='/adminIngredients/delI/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a></div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
       "</div>".PHP_EOL;
@@ -126,10 +128,18 @@ if(!isset($_GET['action'])) {
       $content.= "<div class='warnbox'>Die Bezeichnung der Zutat ist ungültig. Sie muss zwischen 2 und 150 Zeichen lang sein.</div>".PHP_EOL;
     }
     /**
+     * Suchbar-Flag
+     */
+    if(!empty($_POST['searchable']) AND $_POST['searchable'] == 1) {
+      $searchable = 1;
+    } else {
+      $searchable = 0;
+    }
+    /**
      * Wenn durch die Postdaten-Validierung die Inhalte geprüft und entschärft wurden, kann der Query erzeugt und ausgeführt werden.
      */
     if($form == 0) {
-      if(mysqli_query($dbl, "INSERT INTO `metaIngredients` (`title`) VALUES ('".$formTitle."')")) {
+      if(mysqli_query($dbl, "INSERT INTO `metaIngredients` (`title`, `searchable`) VALUES ('".$formTitle."', '".$searchable."')")) {
         $content.= "<div class='successbox'>Zutat erfolgreich angelegt.</div>".PHP_EOL;
         $content.= "<div class='row'>".PHP_EOL.
         "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminIngredients/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
@@ -178,11 +188,20 @@ if(!isset($_GET['action'])) {
     "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
     "</div>".PHP_EOL;
     /**
+     * Suchbar
+     */
+    $content.= "<div class='row hover bordered'>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Suchbar?</div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><select name='searchable' tabindex='2'><option value='' selected hidden disabled>Bitte auswählen</option><option value='1'>Ja</option><option value='0'>Nein</option></select></div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("Zutat suchbar machen.\nEin Beispiel für `nein` wäre \"Salz\".")."</div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
+    "</div>".PHP_EOL;
+    /**
      * Absenden
      */
     $content.= "<div class='row hover bordered'>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Zutat anlegen</div>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='submit' name='submit' value='Anlegen' tabindex='2'></div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='submit' name='submit' value='Anlegen' tabindex='3'></div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'></div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
     "</div>".PHP_EOL;
@@ -236,11 +255,19 @@ if(!isset($_GET['action'])) {
         $form = 1;
         $content.= "<div class='warnbox'>Die Bezeichnung der Zutat ist ungültig. Sie muss zwischen 2 und 150 Zeichen lang sein.</div>".PHP_EOL;
       }
+      /**
+       * Suchbar-Flag
+       */
+      if(!empty($_POST['searchable']) AND $_POST['searchable'] == 1) {
+        $searchable = 1;
+      } else {
+        $searchable = 0;
+      }
       if($form == 0) {
         /**
          * Wenn durch die Postdaten-Validierung die Inhalte geprüft und entschärft wurden, kann der Query erzeugt und ausgeführt werden.
          */
-        if(mysqli_query($dbl, "UPDATE `metaIngredients` SET `title`='".$formTitle."' WHERE `id`='".$id."' LIMIT 1")) {
+        if(mysqli_query($dbl, "UPDATE `metaIngredients` SET `title`='".$formTitle."', `searchable`='".$searchable."' WHERE `id`='".$id."' LIMIT 1")) {
           $content.= "<div class='successbox'>Zutat erfolgreich geändert.</div>".PHP_EOL;
           $content.= "<div class='row'>".PHP_EOL.
           "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminIngredients/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
@@ -289,11 +316,20 @@ if(!isset($_GET['action'])) {
       "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
       "</div>".PHP_EOL;
       /**
+       * Suchbar
+       */
+      $content.= "<div class='row hover bordered'>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Suchbar?</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><select name='searchable' tabindex='2'><option value='1'".(isset($row['searchable']) ? ($row['searchable'] == 1 ? " selected" : NULL) : (isset($_POST['searchable']) && $_POST['searchable'] == 1 ? " selected" : NULL)).">Ja</option><option value='0'".(isset($row['searchable']) ? ($row['searchable'] == 0 ? " selected" : NULL) : (isset($_POST['searchable']) && $_POST['searchable'] == 0 ? " selected" : NULL)).">Nein</option></select></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("Zutat suchbar machen.\nEin Beispiel für `nein` wäre \"Salz\".")."</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
+      "</div>".PHP_EOL;
+      /**
        * Absenden
        */
       $content.= "<div class='row hover bordered'>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Kategorie anlegen</div>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='submit' name='submit' value='Anlegen' tabindex='2'></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='submit' name='submit' value='Anlegen' tabindex='3'></div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'></div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
       "</div>".PHP_EOL;
