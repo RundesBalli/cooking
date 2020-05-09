@@ -89,9 +89,11 @@ if(isset($pageArray[$getp])) {
 
 /**
  * Navigation
- * Hinweis: Die Startseitenverlinkung und das Toggle-Element sind im Template enthalten.
+ * Hinweis: Das Toggle-Element ist im Template enthalten.
  */
-$nav = "";
+$a = " class='active'";
+$nav = "<a href='/'".($getp == "start" ? $a : NULL)."><span class='fas icon'>&#xf015;</span>Startseite</a>";
+$nav.= "<a href='/team'".($getp == "team" ? $a : NULL)."><span class='fas icon'>&#xf0c0;</span>Team</a>";
 
 /**
  * Alle Kategorien auflisten
@@ -99,7 +101,7 @@ $nav = "";
 $result = mysqli_query($dbl, "SELECT `title`, `shortTitle` FROM `categories` ORDER BY `sortIndex` ASC, `title` ASC") OR DIE(MYSQLI_ERROR($dbl));
 if(mysqli_num_rows($result) != 0) {
   while($row = mysqli_fetch_array($result)) {
-    $nav.= "<a href='/kategorie/".output($row['shortTitle'])."'><span class='far icon'>&#xf07c;</span>".output($row['title'])."</a>".PHP_EOL;
+    $nav.= "<a href='/kategorie/".output($row['shortTitle'])."'".(($getp == "showCategory" AND (isset($_GET['category']) AND $_GET['category'] == $row['shortTitle'])) ? $a : NULL)."><span class='far icon'>&#xf07c;</span>".output($row['title'])."</a>".PHP_EOL;
   }
 }
 
@@ -110,12 +112,12 @@ if(mysqli_num_rows($result) != 0) {
 if((isset($_COOKIE['cookingAdmin']) AND !empty($_COOKIE['cookingAdmin'])) AND preg_match('/[a-f0-9]{64}/i', defuse($_COOKIE['cookingAdmin']), $match) === 1) {
   $nav.= "<hr>".PHP_EOL;
   $nav.= "<span class='warn bold'>Admin</span>".PHP_EOL;
-  $nav.= "<a href='/adminIndex'><span class='fas icon'>&#xf0cb;</span>Index</a>".PHP_EOL;
-  $nav.= "<a href='/adminCategories'><span class='far icon'>&#xf07c;</span>Kategorien</a>".PHP_EOL;
-  $nav.= "<a href='/adminItems'><span class='fas icon'>&#xf543;</span>Rezepte</a>".PHP_EOL;
-  $nav.= "<a href='/adminIngredients'><span class='fas icon'>&#xf4d8;</span>Zutaten</a>".PHP_EOL;
-  $nav.= "<a href='/adminSessions'><span class='fas icon'>&#xf0c0;</span>Sitzungen</a>".PHP_EOL;
-  $nav.= "<a href='/adminLogout'><span class='fas icon'>&#xf2f5;</span>Logout</a>".PHP_EOL;
+  $nav.= "<a href='/adminIndex'".($getp == "adminIndex" ? $a : NULL)."><span class='fas icon'>&#xf0cb;</span>Index</a>".PHP_EOL;
+  $nav.= "<a href='/adminCategories'".($getp == "adminCategories" ? $a : NULL)."><span class='far icon'>&#xf07c;</span>Kategorien</a>".PHP_EOL;
+  $nav.= "<a href='/adminItems'".($getp == "adminItems" ? $a : NULL)."><span class='fas icon'>&#xf543;</span>Rezepte</a>".PHP_EOL;
+  $nav.= "<a href='/adminIngredients'".($getp == "adminIngredients" ? $a : NULL)."><span class='fas icon'>&#xf4d8;</span>Zutaten</a>".PHP_EOL;
+  $nav.= "<a href='/adminSessions'".($getp == "adminSessions" ? $a : NULL)."><span class='fas icon'>&#xf0c0;</span>Sitzungen</a>".PHP_EOL;
+  $nav.= "<a href='/adminLogout'".($getp == "adminLogout" ? $a : NULL)."><span class='fas icon'>&#xf2f5;</span>Logout</a>".PHP_EOL;
 }
 
 /**
@@ -124,9 +126,9 @@ if((isset($_COOKIE['cookingAdmin']) AND !empty($_COOKIE['cookingAdmin'])) AND pr
 $nav.= "<hr>".PHP_EOL;
 $nav.= "<span class='bold'>Userbereich</span>".PHP_EOL;
 if((isset($_COOKIE['cooking']) AND !empty($_COOKIE['cooking'])) AND preg_match('/[a-f0-9]{64}/i', defuse($_COOKIE['cooking']), $match) === 1) {
-  $nav.= "<a href='/overview'><span class='fas icon'>&#xf0cb;</span>Übersicht</a>".PHP_EOL;
-  $nav.= "<a href='/favs'><span class='fas icon'>&#xf005;</span>Favoriten</a>".PHP_EOL;
-  $nav.= "<a href='/logout'><span class='fas icon'>&#xf2f5;</span>Logout</a>".PHP_EOL;
+  $nav.= "<a href='/overview'".($getp == "overview" ? $a : NULL)."><span class='fas icon'>&#xf0cb;</span>Übersicht</a>".PHP_EOL;
+  $nav.= "<a href='/favs'".($getp == "favs" ? $a : NULL)."><span class='fas icon'>&#xf005;</span>Favoriten</a>".PHP_EOL;
+  $nav.= "<a href='/logout'".($getp == "logout" ? $a : NULL)."><span class='fas icon'>&#xf2f5;</span>Logout</a>".PHP_EOL;
 } else {
   /**
    * Nutzernavigation wenn nicht eingeloggt

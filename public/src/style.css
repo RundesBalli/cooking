@@ -541,6 +541,11 @@ h1 .icon, h2 .icon, h3 .icon {
   display: none;
 }
 
+#sidebar a.active {
+  font-weight: bold;
+  color: #f7c516;
+}
+
 #sidebar a:hover:not(.toggle) {
   background-color: #2a2e31;
   color: #ee4d2e;
