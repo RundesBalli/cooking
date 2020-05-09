@@ -21,7 +21,7 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
   /**
    * Rezept abfragen
    */
-  $result = mysqli_query($dbl, "SELECT `items`.`id`, `items`.`title`, `items`.`shortTitle`, `items`.`text`, `items`.`ingredients`, `items`.`persons`, `metaCost`.`title` AS `cost`, `metaDifficulty`.`title` AS `difficulty`, `wD`.`title` AS `workDuration`, `tD`.`title` AS `totalDuration`, (SELECT COUNT(`id`) FROM `clicks` WHERE `clicks`.`itemId` = `items`.`id`) AS `clicks`, IFNULL((SELECT round(avg(`votes`.`stars`),2) FROM `votes` WHERE `votes`.`itemId` = `items`.`id`), 0) AS `votes`, IFNULL((SELECT COUNT(`votes`.`id`) FROM `votes` WHERE `votes`.`itemId` = `items`.`id`), 0) AS `voteCount` FROM `items` JOIN `metaCost` ON `items`.`cost` = `metaCost`.`id` JOIN `metaDifficulty` ON `items`.`difficulty` = `metaDifficulty`.`id` JOIN `metaDuration` AS `wD` ON `items`.`workDuration` = `wD`.`id` JOIN `metaDuration` AS `tD` ON `items`.`totalDuration` = `tD`.`id` WHERE `shortTitle`='".$item."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+  $result = mysqli_query($dbl, "SELECT `items`.`id`, `items`.`title`, `items`.`shortTitle`, `items`.`text`, `items`.`persons`, `metaCost`.`title` AS `cost`, `metaDifficulty`.`title` AS `difficulty`, `wD`.`title` AS `workDuration`, `tD`.`title` AS `totalDuration`, (SELECT COUNT(`id`) FROM `clicks` WHERE `clicks`.`itemId` = `items`.`id`) AS `clicks`, IFNULL((SELECT round(avg(`votes`.`stars`),2) FROM `votes` WHERE `votes`.`itemId` = `items`.`id`), 0) AS `votes`, IFNULL((SELECT COUNT(`votes`.`id`) FROM `votes` WHERE `votes`.`itemId` = `items`.`id`), 0) AS `voteCount` FROM `items` JOIN `metaCost` ON `items`.`cost` = `metaCost`.`id` JOIN `metaDifficulty` ON `items`.`difficulty` = `metaDifficulty`.`id` JOIN `metaDuration` AS `wD` ON `items`.`workDuration` = `wD`.`id` JOIN `metaDuration` AS `tD` ON `items`.`totalDuration` = `tD`.`id` WHERE `shortTitle`='".$item."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
   if(mysqli_num_rows($result) == 1) {
     $row = mysqli_fetch_array($result);
     /**
@@ -63,6 +63,9 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
        * Bei mehreren Bildern
        */
       $content.= "<div class='row recipe center'>".PHP_EOL.
+      /**
+       * Eckdaten
+       */
       "<div class='col-x-12 col-s-12 col-m-12 col-l-6 col-xl-6 ingredients center'>".PHP_EOL.
       "<h2 class='center'><span class='fas icon'>&#xf0ce;</span>Eckdaten</h2>".PHP_EOL.
       "<ul>".PHP_EOL.
@@ -75,12 +78,27 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
       "<li><span class='fas icon'>&#xf153;</span>Kosten: ".$row['cost']."</li>".PHP_EOL.
       "</ul>".PHP_EOL.
       "<div class='spacer-s'></div>".PHP_EOL;
-      if(!empty($row['ingredients'])) {
-        $content.= "<h2 class='center'><span class='fas icon'>&#xf4d8;</span>Zutaten".($row['persons'] > 0 ? " für ".$row['persons']." Personen" : NULL)."</h2>".PHP_EOL.Slimdown::render($row['ingredients']).PHP_EOL.
-        "<div class='spacer-s'></div>".PHP_EOL;
+      /**
+       * Zutaten
+       */
+      $content.= "<h2 class='center'><span class='fas icon'>&#xf4d8;</span>Zutaten".($row['persons'] > 0 ? " für ".$row['persons']." Personen" : NULL)."</h2>".PHP_EOL;
+      $innerresult = mysqli_query($dbl, "SELECT `metaIngredients`.`title` AS `ingredientTitle`, `metaUnits`.`title` AS `unitTitle`, `metaUnits`.`short`, `metaUnits`.`spacer`, `itemIngredients`.`quantity` FROM `itemIngredients` JOIN `metaIngredients` ON `metaIngredients`.`id` = `itemIngredients`.`ingredientId` LEFT OUTER JOIN `metaUnits` ON `metaUnits`.`id` = `itemIngredients`.`unitId` WHERE `itemIngredients`.`itemId`='".$row['id']."' ORDER BY `itemIngredients`.`sortIndex` ASC") OR DIE(MYSQLI_ERROR($dbl));
+      if(mysqli_num_rows($innerresult) == 0) {
+        $content.= "<div class='infobox'>Es wurden noch keine Zutaten hinzugefügt.</div>".PHP_EOL;
+      } else {
+        while($innerrow = mysqli_fetch_array($innerresult)) {
+          $ingredients[] = ($innerrow['quantity'] > 0 ? (fmod($innerrow['quantity'], 1) == 0 ? number_format($innerrow['quantity'], 0) : number_format($innerrow['quantity'], 2, ".", ",")).($innerrow['spacer'] == 1 ? " " : NULL).output($innerrow['short'])." - ".output($innerrow['ingredientTitle']) : output($innerrow['ingredientTitle']));
+        }
+        $content.= "<ul>".PHP_EOL;
+        $content.= "<li>".implode("</li>".PHP_EOL."<li>", $ingredients)."</li>".PHP_EOL;
+        $content.= "</ul>".PHP_EOL;
       }
-      $content.= "</div>".PHP_EOL;
+      $content.= "<div class='spacer-s'></div>".PHP_EOL;
+      $content.= "</div>".PHP_EOL;//der ingredients center div
 
+      /**
+       * Bild
+       */
       $slideshow = "<div id='slideshowContainer'>".PHP_EOL;
       foreach($images as $key => $val) {
         $internalId = $key + 1;
@@ -100,6 +118,9 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
        * Bei einem oder keinem Bild
        */
       $content.= "<div class='row recipe center'>".PHP_EOL.
+      /**
+       * Eckdaten
+       */
       "<div class='col-x-12 col-s-12 col-m-12 col-l-6 col-xl-6 ingredients center'>".PHP_EOL.
       "<h2 class='center'><span class='fas icon'>&#xf0ce;</span>Eckdaten</h2>".PHP_EOL.
       "<ul>".PHP_EOL.
@@ -112,12 +133,27 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
       "<li><span class='fas icon'>&#xf153;</span>Kosten: ".$row['cost']."</li>".PHP_EOL.
       "</ul>".PHP_EOL.
       "<div class='spacer-s'></div>".PHP_EOL;
-      if(!empty($row['ingredients'])) {
-        $content.= "<h2 class='center'><span class='fas icon'>&#xf4d8;</span>Zutaten".($row['persons'] > 0 ? " für ".$row['persons']." Personen" : NULL)."</h2>".PHP_EOL.Slimdown::render($row['ingredients']).PHP_EOL.
-        "<div class='spacer-s'></div>".PHP_EOL;
+      /**
+       * Zutaten
+       */
+      $content.= "<h2 class='center'><span class='fas icon'>&#xf4d8;</span>Zutaten".($row['persons'] > 0 ? " für ".$row['persons']." Personen" : NULL)."</h2>".PHP_EOL;
+      $innerresult = mysqli_query($dbl, "SELECT `metaIngredients`.`title` AS `ingredientTitle`, `metaUnits`.`title` AS `unitTitle`, `metaUnits`.`short`, `metaUnits`.`spacer`, `itemIngredients`.`quantity` FROM `itemIngredients` JOIN `metaIngredients` ON `metaIngredients`.`id` = `itemIngredients`.`ingredientId` LEFT OUTER JOIN `metaUnits` ON `metaUnits`.`id` = `itemIngredients`.`unitId` WHERE `itemIngredients`.`itemId`='".$row['id']."' ORDER BY `itemIngredients`.`sortIndex` ASC") OR DIE(MYSQLI_ERROR($dbl));
+      if(mysqli_num_rows($innerresult) == 0) {
+        $content.= "<div class='infobox'>Es wurden noch keine Zutaten hinzugefügt.</div>".PHP_EOL;
+      } else {
+        while($innerrow = mysqli_fetch_array($innerresult)) {
+          $ingredients[] = ($innerrow['quantity'] > 0 ? (fmod($innerrow['quantity'], 1) == 0 ? number_format($innerrow['quantity'], 0) : number_format($innerrow['quantity'], 2, ".", ",")).($innerrow['spacer'] == 1 ? " " : NULL).output($innerrow['short'])." - ".output($innerrow['ingredientTitle']) : output($innerrow['ingredientTitle']));
+        }
+        $content.= "<ul>".PHP_EOL;
+        $content.= "<li>".implode("</li>".PHP_EOL."<li>", $ingredients)."</li>".PHP_EOL;
+        $content.= "</ul>".PHP_EOL;
       }
-      $content.= "</div>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-12 col-l-6 col-xl-6'>".(count($images) == 1 ? "<img src='/img/img-".$row['id']."-".$images[0].".png' alt='Bild'>" : "<img src='/img/noImg.png' alt='kein Bild vorhanden'>")."</div>".PHP_EOL.
+      $content.= "<div class='spacer-s'></div>".PHP_EOL;
+      $content.= "</div>".PHP_EOL;//der ingredients center div
+      /**
+       * Bild
+       */
+      $content.= "<div class='col-x-12 col-s-12 col-m-12 col-l-6 col-xl-6'>".(count($images) == 1 ? "<img src='/img/img-".$row['id']."-".$images[0].".png' alt='Bild'>" : "<img src='/img/noImg.png' alt='kein Bild vorhanden'>")."</div>".PHP_EOL.
       "</div>".PHP_EOL;
     }
     /**
