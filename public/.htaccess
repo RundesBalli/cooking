@@ -32,7 +32,7 @@ RewriteRule ^rezept\/([\w\d-]+)$ /index.php?p=showItem&item=$1 [NC,L,QSA]
 # vote|fav/{Name}
 RewriteRule ^(vote|fav)\/([\w\d-]+)$ /index.php?p=$1&item=$2 [NC,L,QSA]
 
-# Admin Regel
+# Admin Regeln
 # admin.../{Funktion} ohne ID
 # admin.../{Funktion}/id
 RewriteRule ^(admin(?:Categories|Items|Files))\/(add|list|catsort)$ /index.php?p=$1&action=$2 [NC,L,QSA]
@@ -41,9 +41,10 @@ RewriteRule ^(admin(?:Categories|Items|Files|Sessions))\/(list|add|edit|del|assi
 RewriteRule ^adminItems\/assign\/([\d]+)\/(del|add)\/([\d]+)$ /index.php?p=adminItems&action=assign&id=$1&$2=$3 [NC,L,QSA]
 # Bilder löschen
 RewriteRule ^adminFiles\/del\/([\d]+)\/([\d]+)$ /index.php?p=adminFiles&action=del&id=$1&imageId=$2 [NC,L,QSA]
-# Zutaten und Maßeinheiten
+# Zutaten und Maßeinheiten, Zuweisung der Zutaten
 RewriteRule ^adminIngredients\/(addI|addU|list)$ /index.php?p=adminIngredients&action=$1 [NC,L,QSA]
-RewriteRule ^adminIngredients\/(editI|editU|delI|delU)\/([\d]+)$ /index.php?p=adminIngredients&action=$1&id=$2 [NC,L,QSA]
+RewriteRule ^adminIngredients\/(editI|editU|delI|delU|assign)\/([\d]+)$ /index.php?p=adminIngredients&action=$1&id=$2 [NC,L,QSA]
+RewriteRule ^adminIngredients\/assign\/([\d]+)\/del\/([\d]+)$ /index.php?p=adminIngredients&action=assign&id=$1&del=$2 [NC,L,QSA]
 
 # Regel für den Rest
 RewriteRule ^([\w\d-]+)$ /index.php?p=$1 [NC,L,QSA]
