@@ -129,7 +129,7 @@ CREATE TABLE `itemIngredients` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Laufende ID',
   `itemId` int(10) unsigned NOT NULL COMMENT 'Querverweis - items.id',
   `ingredientId` int(10) unsigned NOT NULL COMMENT 'Querverweis - metaIngredients.id',
-  `unitId` int(10) unsigned NOT NULL COMMENT 'Querverweis - metaUnits.id',
+  `unitId` int(10) unsigned DEFAULT NULL COMMENT 'Querverweis - metaUnits.id',
   `quantity` double(10,2) unsigned NOT NULL COMMENT 'Menge der Einheit',
   `sortIndex` int(10) unsigned NOT NULL DEFAULT '9999999' COMMENT 'Sortierindex',
   PRIMARY KEY (`id`),
@@ -148,7 +148,6 @@ CREATE TABLE `items` (
   `title` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Angezeigter Titel',
   `shortTitle` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Kurzer Titel für die URL',
   `text` text COLLATE utf8mb4_unicode_ci COMMENT 'Text des Eintrags',
-  `ingredients` text COLLATE utf8mb4_unicode_ci COMMENT 'Zutaten',
   `persons` int(10) unsigned NOT NULL DEFAULT '1' COMMENT 'Ausgelegt für ... Personen',
   `cost` tinyint(3) unsigned NOT NULL COMMENT 'Querverweis zu metaCost',
   `difficulty` tinyint(3) unsigned NOT NULL COMMENT 'Querverweis zu metaDifficulty',
@@ -225,6 +224,7 @@ CREATE TABLE `metaUnits` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Laufende ID',
   `title` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Titel der Einheit',
   `short` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Kurzform der Einheit',
+  `spacer` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT 'Leerzeichen zwischen Menge und Maßeinheit, ja oder nein',
   PRIMARY KEY (`id`),
   UNIQUE KEY `title` (`title`),
   UNIQUE KEY `short` (`short`)
@@ -293,4 +293,4 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `mostClicked` AS select `cl
 DROP TABLE IF EXISTS `stats`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `stats` AS select (select count(`categories`.`id`) from `categories`) AS `catCount`,(select count(`items`.`id`) from `items`) AS `itemCount`,(select count(`clicks`.`id`) from `clicks`) AS `clickCount`,(select count(`clicks`.`id`) from `clicks` where (`clicks`.`ts` > cast(curdate() as datetime))) AS `clicksToday`;
 
--- 2020-05-02 19:32:29
+-- 2020-05-09 13:31:40
