@@ -100,6 +100,10 @@ a:active, a:hover, a:focus {
   text-align: center;
 }
 
+.text-right {
+  text-align: right;
+}
+
 .left {
   float: left;
 }
