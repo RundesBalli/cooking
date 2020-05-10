@@ -414,7 +414,7 @@ if(!isset($_GET['action'])) {
             array_map('unlink', glob($uploaddir."*-".$row['fileHash'].".png"));
           }
           mysqli_query($dbl, "DELETE FROM `items` WHERE `id`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
-          adminLog($row['id'], 4, NULL, NULL, "Rezept gelöscht: `".$itemTitle."`");
+          adminLog($adminUserId, 4, NULL, NULL, "Rezept gelöscht: `".$itemTitle."`");
           $content.= "<div class='successbox'>Rezept erfolgreich gelöscht.</div>".PHP_EOL;
           $content.= "<div class='row'>".PHP_EOL.
           "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminItems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
