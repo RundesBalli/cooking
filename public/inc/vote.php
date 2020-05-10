@@ -61,7 +61,7 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
        */
       $content.= "<div class='row hover bordered'>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-2 col-l-2 col-xl-2'>Abstimmen</div>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-3'><select name='vote'><option value='0' selected disabled hidden>Bitte auswählen</option><option value='1'>1 Stern - schlecht</option><option value='2'>2 Sterne</option><option value='3'>3 Sterne</option><option value='4'>4 Sterne</option><option value='5'>5 Sterne - sehr gut</option></select></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-3'><select name='vote'><option value='0'".(!isset($innerrow['stars']) ? " selected" : NULL)." disabled hidden>Bitte auswählen</option>".(isset($innerrow['stars']) ? "<option value='del'>Vote entfernen</option>" : NULL)."<option value='1'".((isset($innerrow['stars']) AND $innerrow['stars'] == 1) ? " selected" : NULL).">1 Stern - schlecht</option><option value='2'".((isset($innerrow['stars']) AND $innerrow['stars'] == 2) ? " selected" : NULL).">2 Sterne</option><option value='3'".((isset($innerrow['stars']) AND $innerrow['stars'] == 3) ? " selected" : NULL).">3 Sterne</option><option value='4'".((isset($innerrow['stars']) AND $innerrow['stars'] == 4) ? " selected" : NULL).">4 Sterne</option><option value='5'".((isset($innerrow['stars']) AND $innerrow['stars'] == 5) ? " selected" : NULL).">5 Sterne - sehr gut</option></select></div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-3'><input type='submit' name='submit' value='Abstimmen'></div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-2 col-l-4 col-xl-4'></div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
@@ -80,28 +80,40 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
       if($_POST['token'] != $UUI) {
         $content.= "<div class='warnbox'>Der Vote ist ungültig.</div>".PHP_EOL;
       } else {
-        /**
-         * Entschärfung des Votes und umwandlung in INT.
-         */
-        $vote = (int)defuse($_POST['vote']);
-        /**
-         * Prüfung ob Vote gültig (zwischen 1 und 5)
-         */
-        if($vote < 1 OR $vote > 5) {
-          $content.= "<div class='warnbox'>Der Vote ist ungültig.</div>".PHP_EOL;
+        if($_POST['vote'] == "del") {
+          /**
+           * Vote löschen
+           */
+          mysqli_query($dbl, "DELETE FROM `votes` WHERE `itemId`='".$row['id']."' AND `userId`='".$userId."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+          if(mysqli_affected_rows($dbl) == 1) {
+            $content.= "<div class='successbox'>Dein Vote wurde gelöscht.</div>".PHP_EOL;
+          } else {
+            $content.= "<div class='warnbox'>Es existiert kein Vote.</div>".PHP_EOL;
+          }
         } else {
           /**
-           * Update eines vorhandenen Votes
+           * Entschärfung des Votes und umwandlung in INT.
            */
-          mysqli_query($dbl, "UPDATE `votes` SET `ts`=CURRENT_TIMESTAMP, `stars`='".$vote."' WHERE `itemId`='".$row['id']."' AND `userId`='".$userId."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
-          if(mysqli_affected_rows($dbl) != 1) {
-            /**
-             * Falls kein Vote vorhanden war, wird einer angelegt.
-             */
-            mysqli_query($dbl, "INSERT INTO `votes` (`itemId`, `userId`, `stars`) VALUES ('".$row['id']."', '".$userId."', '".$vote."')") OR DIE(MYSQLI_ERROR($dbl));
-            $content.= "<div class='successbox'>Dein Vote wurde eingetragen.</div>".PHP_EOL;
+          $vote = (int)defuse($_POST['vote']);
+          /**
+           * Prüfung ob Vote gültig (zwischen 1 und 5)
+           */
+          if($vote < 1 OR $vote > 5) {
+            $content.= "<div class='warnbox'>Der Vote ist ungültig.</div>".PHP_EOL;
           } else {
-            $content.= "<div class='successbox'>Dein Vote wurde aktualisiert.</div>".PHP_EOL;
+            /**
+             * Update eines vorhandenen Votes
+             */
+            mysqli_query($dbl, "UPDATE `votes` SET `ts`=CURRENT_TIMESTAMP, `stars`='".$vote."' WHERE `itemId`='".$row['id']."' AND `userId`='".$userId."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+            if(mysqli_affected_rows($dbl) != 1) {
+              /**
+               * Falls kein Vote vorhanden war, wird einer angelegt.
+               */
+              mysqli_query($dbl, "INSERT INTO `votes` (`itemId`, `userId`, `stars`) VALUES ('".$row['id']."', '".$userId."', '".$vote."')") OR DIE(MYSQLI_ERROR($dbl));
+              $content.= "<div class='successbox'>Dein Vote wurde eingetragen.</div>".PHP_EOL;
+            } else {
+              $content.= "<div class='successbox'>Dein Vote wurde aktualisiert.</div>".PHP_EOL;
+            }
           }
         }
       }
