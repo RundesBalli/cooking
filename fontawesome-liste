@@ -17,8 +17,12 @@ Login:              <span class='fas icon'>&#xf2f6;</span>
 Bilder:             <span class='fas icon'>&#xf302;</span>
 Übersicht/Pfeil:    <span class='fas icon'>&#xf359;</span>
 Sitzungen/Team:     <span class='fas icon'>&#xf0c0;</span>
+Person:             <span class='fas icon'>&#xf007;</span>
 Passwort:           <span class='fas icon'>&#xf084;</span>
 Einheiten:          <span class='fas icon'>&#xf24e;</span>
+Log:                <span class='fas icon'>&#xf70e;</span>
+Uhr:                <span class='far icon'>&#xf017;</span>
+Text:               <span class='fas icon'>&#xf1dd;</span>
 
 Schwierigkeit:      <span class='far icon pointer' title='Schwierigkeitsgrad'>&#xf0eb;</span>
 Arbeitszeit:        <span class='fas icon pointer' title='Arbeitszeit'>&#xf252;</span>

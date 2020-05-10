@@ -62,7 +62,7 @@ if((isset($_GET['action']) AND $_GET['action'] == 'del') AND (isset($_GET['id'])
 }
 
 /**
- * Alle aktiven Sitzungen selecten und ausgeben.
+ * Alle aktiven Sitzungen selektieren und ausgeben.
  */
 $result = mysqli_query($dbl, "SELECT `accountSessions`.`id`, `accountSessions`.`hash`, UNIX_TIMESTAMP(`accountSessions`.`lastActivity`) AS `lastActivity`, UNIX_TIMESTAMP(DATE_ADD(`accountSessions`.`lastActivity`, INTERVAL 6 WEEK)) AS `validuntil`, `accounts`.`username` AS `username` FROM `accountSessions` LEFT JOIN `accounts` ON `accountSessions`.`userId` = `accounts`.`id` ORDER BY `accountSessions`.`id` ASC") OR DIE(MYSQLI_ERROR($dbl));
 $content.= "<div class='row highlight bold bordered'>".PHP_EOL.
@@ -97,10 +97,12 @@ if(isset($_POST['password'])) {
       $salt = hash('sha256', random_bytes(4096));
       $password = password_hash($_POST['password'].$salt, PASSWORD_DEFAULT);
       mysqli_query($dbl, "UPDATE `accounts` SET `password`='".defuse($password)."', `salt`='".$salt."' WHERE `username`='".$username."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+      adminLog($adminUserId, 1, NULL, NULL, "Passwort geändert");
       /**
-       * Löschen der Sitzung.
+       * Löschen aller Sitzungen des Users.
        */
-      mysqli_query($dbl, "DELETE FROM `accountSessions` WHERE `hash`='".$adminSessionHash."'") OR DIE(MYSQLI_ERROR($dbl));
+      mysqli_query($dbl, "DELETE FROM `accountSessions` WHERE `userId`='".$adminUserId."'") OR DIE(MYSQLI_ERROR($dbl));
+      adminLog($adminUserId, 1, NULL, NULL, "Logout nach Passwortänderung");
       /**
        * Entfernen des Cookies und Umleitung zur Loginseite.
        */
@@ -136,7 +138,7 @@ $content.= "<div class='row hover bordered'>".PHP_EOL.
 $content.= "<div class='row hover bordered'>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Passwort ändern</div>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='submit' name='submit' value='ändern' tabindex='2'></div>".PHP_EOL.
-"<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'><span class='highlight'>Info:</span> Bei Erfolg wird die Sitzung geschlossen.</div>".PHP_EOL.
+"<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'><span class='highlight'>Info:</span> Bei Erfolg werden alle Sitzungen dieses Users geschlossen.</div>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
 "</div>".PHP_EOL;
 $content.= "</form>".PHP_EOL;

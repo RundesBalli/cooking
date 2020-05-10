@@ -116,6 +116,7 @@ if(!isset($_GET['action'])) {
      */
     if($form == 0) {
       if(mysqli_query($dbl, "INSERT INTO `categories` (`title`, `shortTitle`, `description`, `shortDescription`) VALUES ('".$formTitle."', '".$shortTitle."', ".($description === NULL ? "NULL" : "'".$description."'").", ".($shortDescription === NULL ? "NULL" : "'".$shortDescription."'").")")) {
+        adminLog($adminUserId, 2, NULL, mysqli_insert_id($dbl), "Kategorie angelegt");
         $content.= "<div class='successbox'>Kategorie erfolgreich angelegt.</div>".PHP_EOL;
         $content.= "<div class='row'>".PHP_EOL.
         "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminCategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
@@ -262,7 +263,10 @@ if(!isset($_GET['action'])) {
          * Im Select wurde "ja" ausgewählt, jetzt wird das Sitzungstoken geprüft.
          */
         if($_POST['token'] == $adminSessionHash) {
+          $result = mysqli_query($dbl, "SELECT * FROM `categories` WHERE `id`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+          $row = mysqli_fetch_array($result);
           mysqli_query($dbl, "DELETE FROM `categories` WHERE `id`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+          adminLog($adminUserId, 4, NULL, NULL, "Kategorie gelöscht: `".$row['title']."`");
           $content.= "<div class='successbox'>Kategorie erfolgreich gelöscht.</div>".PHP_EOL;
           $content.= "<div class='row'>".PHP_EOL.
           "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminCategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
@@ -366,6 +370,7 @@ if(!isset($_GET['action'])) {
          * Wenn durch die Postdaten-Validierung die Inhalte geprüft und entschärft wurden, kann der Query erzeugt und ausgeführt werden.
          */
         if(mysqli_query($dbl, "UPDATE `categories` SET `title`='".$formTitle."', `shortTitle`='".$shortTitle."', `description`=".($description === NULL ? "NULL" : "'".$description."'").", `shortDescription`=".($shortDescription === NULL ? "NULL" : "'".$shortDescription."'")." WHERE `id`='".$id."' LIMIT 1")) {
+          adminLog($adminUserId, 3, NULL, $id, "Kategorie bearbeitet");
           $content.= "<div class='successbox'>Kategorie erfolgreich geändert.</div>".PHP_EOL;
           $content.= "<div class='row'>".PHP_EOL.
           "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminCategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
@@ -540,6 +545,7 @@ if(!isset($_GET['action'])) {
           }
           $query.= "ELSE '9999999' END WHERE `categoryId`='".$id."'";
           mysqli_query($dbl, $query) OR DIE(MYSQLI_ERROR($dbl));
+          adminLog($adminUserId, 7, NULL, $id, "Rezepte in Kategorie sortiert");
           $content.= "<div class='successbox'>Sortierung geändert.</div>".PHP_EOL;
           $content.= "<div class='row'>".PHP_EOL.
           "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminCategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
@@ -640,6 +646,7 @@ if(!isset($_GET['action'])) {
         }
         $query.= "ELSE '9999999' END";
         mysqli_query($dbl, $query) OR DIE(MYSQLI_ERROR($dbl));
+        adminLog($adminUserId, 3, NULL, NULL, "Kategorien sortiert");
         $content.= "<div class='successbox'>Sortierung geändert.</div>".PHP_EOL;
         $content.= "<div class='row'>".PHP_EOL.
         "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminCategories/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.

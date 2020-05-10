@@ -14,14 +14,16 @@ if(isset($_COOKIE['cookingAdmin']) AND !empty($_COOKIE['cookingAdmin'])) {
     /**
      * Abfrage in der Datenbank, ob eine Sitzung mit diesem Hash existiert.
      */
-    $result = mysqli_query($dbl, "SELECT `accounts`.`username` FROM `accountSessions` JOIN `accounts` ON `accounts`.`id`=`accountSessions`.`userId` WHERE `hash`='".$match[0]."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+    $result = mysqli_query($dbl, "SELECT `accounts`.`id`, `accounts`.`username` FROM `accountSessions` JOIN `accounts` ON `accounts`.`id`=`accountSessions`.`userId` WHERE `hash`='".$match[0]."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
     if(mysqli_num_rows($result) == 1) {
       /**
        * Wenn eine Sitzung existiert wird der letzte Nutzungszeitpunkt aktualisiert und der Username in die Variable $username geladen.
        */
       mysqli_query($dbl, "UPDATE `accountSessions` SET `lastActivity`=CURRENT_TIMESTAMP WHERE `hash`='".$match[0]."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
       setcookie('cookingAdmin', $match[0], time()+(6*7*86400));
-      $username = mysqli_fetch_array($result)['username'];
+      $adminrow = mysqli_fetch_array($result);
+      $username = $adminrow['username'];
+      $adminUserId = $adminrow['id'];
       $adminSessionHash = $match[0];
     } else {
       /**

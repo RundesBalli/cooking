@@ -193,11 +193,13 @@ if(!isset($_GET['action'])) {
      * Wenn durch die Postdaten-Validierung die Inhalte geprüft und entschärft wurden, kann der Query erzeugt und ausgeführt werden.
      */
     if($form == 0) {
-      if(mysqli_query($dbl, "INSERT INTO `items` (`title`, `shortTitle`, `text`, `ingredients`, `persons`, `cost`, `difficulty`, `workDuration`, `totalDuration`) VALUES ('".$formTitle."', '".$shortTitle."', ".($text === NULL ? "NULL" : "'".$text."'").", ".($ingredients === NULL ? "NULL" : "'".$ingredients."'").", '".$persons."', '".$cost."', '".$difficulty."', '".$workDuration."', '.$totalDuration.')")) {
+      if(mysqli_query($dbl, "INSERT INTO `items` (`title`, `shortTitle`, `text`, `persons`, `cost`, `difficulty`, `workDuration`, `totalDuration`) VALUES ('".$formTitle."', '".$shortTitle."', ".($text === NULL ? "NULL" : "'".$text."'").", '".$persons."', '".$cost."', '".$difficulty."', '".$workDuration."', '.$totalDuration.')")) {
+        $lastId = mysqli_insert_id($dbl);
+        adminLog($adminUserId, 2, $lastId, NULL, "Rezept angelegt");
         $content.= "<div class='successbox'>Rezept erfolgreich angelegt.</div>".PHP_EOL;
         $content.= "<div class='row'>".PHP_EOL.
         "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminItems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
-        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminIngredients/assign/".mysqli_insert_id($dbl)."'><span class='fas icon'>&#xf4d8;</span>Zutatenpflege</a></div>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminIngredients/assign/".$lastId."'><span class='fas icon'>&#xf4d8;</span>Zutatenpflege</a></div>".PHP_EOL.
         "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/rezept/".output($shortTitle)."'><span class='fas icon'>&#xf543;</span>Zum Rezept</a></div>".PHP_EOL.
         "</div>".PHP_EOL;
       } else {
@@ -406,11 +408,13 @@ if(!isset($_GET['action'])) {
           /**
            * Im Select wurde "ja" ausgewählt
            */
+          $itemTitle = $row['title'];
           $result = mysqli_query($dbl, "SELECT * FROM `images` WHERE `itemId`='".$id."'") OR DIE(MYSQLI_ERROR($dbl));
           while($row = mysqli_fetch_array($result)) {
             array_map('unlink', glob($uploaddir."*-".$row['fileHash'].".png"));
           }
           mysqli_query($dbl, "DELETE FROM `items` WHERE `id`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+          adminLog($row['id'], 4, NULL, NULL, "Rezept gelöscht: `".$itemTitle."`");
           $content.= "<div class='successbox'>Rezept erfolgreich gelöscht.</div>".PHP_EOL;
           $content.= "<div class='row'>".PHP_EOL.
           "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminItems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
@@ -580,7 +584,8 @@ if(!isset($_GET['action'])) {
         /**
          * Wenn durch die Postdaten-Validierung die Inhalte geprüft und entschärft wurden, kann der Query erzeugt und ausgeführt werden.
          */
-        if(mysqli_query($dbl, "UPDATE `items` SET `title`='".$formTitle."', `shortTitle`='".$shortTitle."', `text`=".($text === NULL ? "NULL" : "'".$text."'").", `ingredients`=".($ingredients === NULL ? "NULL" : "'".$ingredients."'").", `persons`='".$persons."', `cost`='".$cost."', `difficulty`='".$difficulty."', `workDuration`='".$workDuration."', `totalDuration`='".$totalDuration."' WHERE `id`='".$id."' LIMIT 1")) {
+        if(mysqli_query($dbl, "UPDATE `items` SET `title`='".$formTitle."', `shortTitle`='".$shortTitle."', `text`=".($text === NULL ? "NULL" : "'".$text."'").", `persons`='".$persons."', `cost`='".$cost."', `difficulty`='".$difficulty."', `workDuration`='".$workDuration."', `totalDuration`='".$totalDuration."' WHERE `id`='".$id."' LIMIT 1")) {
+          adminLog($adminUserId, 3, $id, NULL, "Rezept bearbeitet");
           $content.= "<div class='successbox'>Rezept erfolgreich geändert.</div>".PHP_EOL;
           $content.= "<div class='row'>".PHP_EOL.
           "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminItems/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
@@ -795,6 +800,7 @@ if(!isset($_GET['action'])) {
            * Token gültig.
            */
           if(mysqli_query($dbl, "INSERT INTO `categoryItems` (`categoryId`, `itemId`) VALUES ('".$addId."', '".$id."')")) {
+            adminLog($adminUserId, 8, $id, $addId, "Kategorie zugewiesen");
             $content.= "<div class='successbox'>Zuweisung erfolgreich angelegt.</div>".PHP_EOL;
           } else {
             if(mysqli_errno($dbl) == 1062) {
@@ -843,9 +849,12 @@ if(!isset($_GET['action'])) {
           /**
            * Token gültig.
            */
+          $result = mysqli_query($dbl, "SELECT `categories`.`id` FROM `categoryItems` JOIN `categories` ON `categoryItems`.`categoryId`=`categories`.`id` WHERE `categoryItems`.`id`='".$delId."' AND `itemId`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
           mysqli_query($dbl, "DELETE FROM `categoryItems` WHERE `id`='".$delId."' AND `itemId`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
           if(mysqli_affected_rows($dbl) == 1) {
             $content.= "<div class='successbox'>Die Zuweisung wurde gelöscht.</div>".PHP_EOL;
+            $row = mysqli_fetch_array($result);
+            adminLog($adminUserId, 8, $id, $row['id'], "Kategoriezuweisung entfernt");
           } else {
             $content.= "<div class='warnbox'>Es existiert für dieses Rezept keine Kategoriezuweisung mit der ID <span class='italic'>".output($delId)."</span>.</div>".PHP_EOL;
           }

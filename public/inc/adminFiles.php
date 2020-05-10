@@ -215,6 +215,7 @@ if(mysqli_num_rows($result) == 0) {
                   imagedestroy($image);
                   unlink($_FILES['file']['tmp_name']);
                   mysqli_query($dbl, "INSERT INTO `images` (`itemId`, `thumb`, `fileHash`) VALUES ('".$id."', 1, '".$fileHash."')") OR DIE(MYSQLI_ERROR($dbl));
+                  adminLog($adminUserId, 2, $id, NULL, "Thumbnail hinzugefügt");
                   $content.= "<div class='successbox'>Der Thumbnail wurde erfolgreich hochgeladen.</div>".PHP_EOL;
                 }
               } else {
@@ -275,6 +276,7 @@ if(mysqli_num_rows($result) == 0) {
                    * Eintrag in die Datenbank
                    */
                   mysqli_query($dbl, "INSERT INTO `images` (`itemId`, `thumb`, `fileHash`) VALUES ('".$id."', 0, '".$fileHash."')") OR DIE(MYSQLI_ERROR($dbl));
+                  adminLog($adminUserId, 2, $id, NULL, "Bild hinzugefügt");
                   $content.= "<div class='successbox'>Das Bild wurde erfolgreich hochgeladen.</div>".PHP_EOL;
                 }
               }
@@ -418,6 +420,7 @@ if(mysqli_num_rows($result) == 0) {
             $row = mysqli_fetch_array($result);
             array_map('unlink', glob($uploaddir."*-".$row['fileHash'].".png"));
             mysqli_query($dbl, "DELETE FROM `images` WHERE `id`='".$imageId."' AND `itemId`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+            adminLog($adminUserId, 4, $id, NULL, "Bild/Thumbnail gelöscht");
             $content.= "<div class='successbox'>Bild erfolgreich gelöscht.</div>".PHP_EOL;
             $content.= "<div class='row'>".PHP_EOL.
             "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminFiles/list/".output($id)."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht.</a></div>".PHP_EOL.
@@ -534,6 +537,7 @@ if(mysqli_num_rows($result) == 0) {
             }
             $query.= "ELSE '9999999' END WHERE `itemId`='".$id."'";
             mysqli_query($dbl, $query) OR DIE(MYSQLI_ERROR($dbl));
+            adminLog($adminUserId, 7, $id, NULL, "Bildersortierung geändert");
             $content.= "<div class='successbox'>Sortierung geändert.</div>".PHP_EOL;
             $content.= "<div class='row'>".PHP_EOL.
             "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminFiles/list/".output($id)."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.

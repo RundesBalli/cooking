@@ -44,6 +44,28 @@ CREATE TABLE `accountSessions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Administratorsitzungen';
 
 
+DROP TABLE IF EXISTS `adminLog`;
+CREATE TABLE `adminLog` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Laufende ID',
+  `userId` int(10) unsigned DEFAULT NULL COMMENT 'Querverweis - accounts.id',
+  `timestamp` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Zeitpunkt des Eintrags',
+  `logLevel` int(10) unsigned NOT NULL COMMENT 'Querverweis - logLevel.id',
+  `itemId` int(10) unsigned DEFAULT NULL COMMENT 'Querverweis - items.id, oder NULL bei User-/Systemaktion oder Irrelevanz',
+  `categoryId` int(10) unsigned DEFAULT NULL COMMENT 'Querverweis - categories.id, oder NULL bei User-/Systemaktion oder Irrelevanz',
+  `text` text COLLATE utf8mb4_unicode_ci COMMENT 'Logtext (optional)',
+  PRIMARY KEY (`id`),
+  KEY `userId` (`userId`),
+  KEY `timestamp` (`timestamp`),
+  KEY `logLevel` (`logLevel`),
+  KEY `itemId` (`itemId`),
+  KEY `categoryId` (`categoryId`),
+  CONSTRAINT `adminLog_ibfk_3` FOREIGN KEY (`logLevel`) REFERENCES `logLevel` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `adminLog_ibfk_5` FOREIGN KEY (`itemId`) REFERENCES `items` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `adminLog_ibfk_6` FOREIGN KEY (`categoryId`) REFERENCES `categories` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `adminLog_ibfk_7` FOREIGN KEY (`userId`) REFERENCES `accounts` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Adminlog';
+
+
 DROP VIEW IF EXISTS `bestVoted`;
 CREATE TABLE `bestVoted` (`title` varchar(100), `shortTitle` varchar(64), `a` decimal(6,2));
 
@@ -165,6 +187,25 @@ CREATE TABLE `items` (
   CONSTRAINT `items_ibfk_5` FOREIGN KEY (`totalDuration`) REFERENCES `metaDuration` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Rezepttabelle';
 
+
+DROP TABLE IF EXISTS `logLevel`;
+CREATE TABLE `logLevel` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Laufende ID',
+  `title` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Meldungsart',
+  `color` varchar(6) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'HexCode der Meldungsfarbe',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+TRUNCATE `logLevel`;
+INSERT INTO `logLevel` (`id`, `title`, `color`) VALUES
+(1,	'User-/Systemaktion',	'888888'),
+(2,	'Neuanlage',	'e108e9'),
+(3,	'Bearbeitung',	'ff9900'),
+(4,	'Löschung',	'c52b2f'),
+(5,	'Vote',	'1db992'),
+(6,	'Favoriten',	'5bb91c'),
+(7,	'Sortierung',	'bfbc06'),
+(8,	'Zuweisung',	'008fff');
 
 DROP TABLE IF EXISTS `metaCost`;
 CREATE TABLE `metaCost` (
@@ -293,4 +334,4 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `mostClicked` AS select `cl
 DROP TABLE IF EXISTS `stats`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `stats` AS select (select count(`categories`.`id`) from `categories`) AS `catCount`,(select count(`items`.`id`) from `items`) AS `itemCount`,(select count(`clicks`.`id`) from `clicks`) AS `clickCount`,(select count(`clicks`.`id`) from `clicks` where (`clicks`.`ts` > cast(curdate() as datetime))) AS `clicksToday`;
 
--- 2020-05-09 17:53:44
+-- 2020-05-10 16:39:31

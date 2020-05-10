@@ -140,6 +140,7 @@ if(!isset($_GET['action'])) {
      */
     if($form == 0) {
       if(mysqli_query($dbl, "INSERT INTO `metaIngredients` (`title`, `searchable`) VALUES ('".$formTitle."', '".$searchable."')")) {
+        adminLog($adminUserId, 2, NULL, NULL, "Zutat angelegt: `".$formTitle."`");
         $content.= "<div class='successbox'>Zutat erfolgreich angelegt.</div>".PHP_EOL;
         $content.= "<div class='row'>".PHP_EOL.
         "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminIngredients/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
@@ -268,6 +269,7 @@ if(!isset($_GET['action'])) {
          * Wenn durch die Postdaten-Validierung die Inhalte geprüft und entschärft wurden, kann der Query erzeugt und ausgeführt werden.
          */
         if(mysqli_query($dbl, "UPDATE `metaIngredients` SET `title`='".$formTitle."', `searchable`='".$searchable."' WHERE `id`='".$id."' LIMIT 1")) {
+          adminLog($adminUserId, 3, NULL, NULL, "Zutat geändert: `".$formTitle."`");
           $content.= "<div class='successbox'>Zutat erfolgreich geändert.</div>".PHP_EOL;
           $content.= "<div class='row'>".PHP_EOL.
           "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminIngredients/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
@@ -397,7 +399,10 @@ if(!isset($_GET['action'])) {
          * Im Select wurde "ja" ausgewählt, jetzt wird das Sitzungstoken geprüft.
          */
         if($_POST['token'] == $adminSessionHash) {
+          $result = mysqli_query($dbl, "SELECT * FROM `metaIngredients` WHERE `id`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+          $row = mysqli_fetch_array($result);
           if(mysqli_query($dbl, "DELETE FROM `metaIngredients` WHERE `id`='".$id."' LIMIT 1")) {
+            adminLog($adminUserId, 4, NULL, NULL, "Zutat gelöscht: `".$row['title']."`");
             $content.= "<div class='successbox'>Zutat erfolgreich gelöscht.</div>".PHP_EOL;
           } elseif(mysqli_errno($dbl) == 1451) {
             $content.= "<div class='warnbox'>Die Zutat ist noch in Rezepten zugewiesen. Es müssen zuerst alle Zuweisungen entfernt werden, bevor die Zutat gelöscht werden kann.</div>".PHP_EOL;
@@ -482,7 +487,8 @@ if(!isset($_GET['action'])) {
      */
     if($form == 0) {
       if(mysqli_query($dbl, "INSERT INTO `metaUnits` (`title`, `short`, `spacer`) VALUES ('".$formTitle."', '".$short."', '".$spacer."')")) {
-        $content.= "<div class='successbox'>Zutat erfolgreich angelegt.</div>".PHP_EOL;
+        adminLog($adminUserId, 2, NULL, NULL, "Maßeinheit angelegt: `".$formTitle."`");
+        $content.= "<div class='successbox'>Maßeinheit erfolgreich angelegt.</div>".PHP_EOL;
         $content.= "<div class='row'>".PHP_EOL.
         "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminIngredients/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
         "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminIngredients/addU'><span class='fas icon'>&#xf067;</span>eine weitere Maßeinheit anlegen</a></div>".PHP_EOL.
@@ -628,6 +634,7 @@ if(!isset($_GET['action'])) {
          * Wenn durch die Postdaten-Validierung die Inhalte geprüft und entschärft wurden, kann der Query erzeugt und ausgeführt werden.
          */
         if(mysqli_query($dbl, "UPDATE `metaUnits` SET `title`='".$formTitle."', `short`='".$short."', `spacer`='".$spacer."' WHERE `id`='".$id."' LIMIT 1")) {
+          adminLog($adminUserId, 3, NULL, NULL, "Maßeinheit geändert: `".$formTitle."`");
           $content.= "<div class='successbox'>Maßeinheit erfolgreich geändert.</div>".PHP_EOL;
           $content.= "<div class='row'>".PHP_EOL.
           "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminIngredients/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
@@ -766,7 +773,10 @@ if(!isset($_GET['action'])) {
          * Im Select wurde "ja" ausgewählt, jetzt wird das Sitzungstoken geprüft.
          */
         if($_POST['token'] == $adminSessionHash) {
+          $result = mysqli_query($dbl, "SELECT * FROM `metaUnits` WHERE `id`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+          $row = mysqli_fetch_array($result);
           if(mysqli_query($dbl, "DELETE FROM `metaUnits` WHERE `id`='".$id."' LIMIT 1")) {
+            adminLog($adminUserId, 4, NULL, NULL, "Maßeinheit gelöscht: `".$row['title']."`");
             $content.= "<div class='successbox'>Maßeinheit erfolgreich gelöscht.</div>".PHP_EOL;
           } elseif(mysqli_errno($dbl) == 1451) {
             $content.= "<div class='warnbox'>Die Maßeinheit ist noch in Rezepten zugewiesen. Es müssen zuerst alle Zuweisungen entfernt werden, bevor die Maßeinheit gelöscht werden kann.</div>".PHP_EOL;
@@ -937,10 +947,13 @@ if(!isset($_GET['action'])) {
        */
       if(!empty($_POST['ingredient'])) {
         $ingredient = (int)defuse($_POST['ingredient']);
-        $result = mysqli_query($dbl, "SELECT `id` FROM `metaIngredients` WHERE `id`='".$ingredient."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+        $result = mysqli_query($dbl, "SELECT `id`, `title` FROM `metaIngredients` WHERE `id`='".$ingredient."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
         if(mysqli_num_rows($result) == 0) {
           $add = 0;
           $content.= "<div class='warnbox'>Die Zutat existiert nicht.</div>".PHP_EOL;
+        } else {
+          $row = mysqli_fetch_array($result);
+          $ingredientTitle = $row['title'];
         }
       } else {
         $add = 0;
@@ -959,10 +972,13 @@ if(!isset($_GET['action'])) {
          */
         if(!empty($_POST['unit'])) {
           $unit = (int)defuse($_POST['unit']);
-          $result = mysqli_query($dbl, "SELECT `id` FROM `metaUnits` WHERE `id`='".$unit."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+          $result = mysqli_query($dbl, "SELECT `id`, `title` FROM `metaUnits` WHERE `id`='".$unit."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
           if(mysqli_num_rows($result) == 0) {
             $add = 0;
             $content.= "<div class='warnbox'>Die Maßeinheit existiert nicht.</div>".PHP_EOL;
+          } else {
+            $row = mysqli_fetch_array($result);
+            $unitTitle = $row['title'];
           }
         } else {
           $add = 0;
@@ -986,6 +1002,7 @@ if(!isset($_GET['action'])) {
             /**
              * Aktualisierung erfolgreich.
              */
+            adminLog($adminUserId, 8, $id, NULL, "Zuweisung aktualisiert: qty: ".($quantity === NULL ? "NULL" : "`".$quantity."`")."; unit: ".($unit === NULL ? "NULL" : "`".$unitTitle."`")."; ing: `".$ingredientTitle."`");
             $content.= "<div class='successbox'>Datensatz aktualisiert.</div>".PHP_EOL;
           } else {
             /**
@@ -1002,6 +1019,7 @@ if(!isset($_GET['action'])) {
             /**
              * Eintrag erfolgreich.
              */
+            adminLog($adminUserId, 8, $id, NULL, "Zuweisung angelegt: qty: ".($quantity === NULL ? "NULL" : "`".$quantity."`")."; unit: ".($unit === NULL ? "NULL" : "`".$unitTitle."`")."; ing: `".$ingredientTitle."`");
             $content.= "<div class='successbox'>Zuweisung angelegt.</div>".PHP_EOL;
           } else {
             /**
@@ -1060,8 +1078,11 @@ if(!isset($_GET['action'])) {
             /**
              * Kann gelöscht werden
              */
+            $result = mysqli_query($dbl, "SELECT `metaIngredients`.`title` AS `ingredientTitle`, `metaUnits`.`title` AS `unitTitle`, `itemIngredients`.`quantity` FROM `itemIngredients` JOIN `metaIngredients` ON `itemIngredients`.`ingredientId`=`metaIngredients`.`id` LEFT OUTER JOIN `metaUnits` ON `itemIngredients`.`unitId`=`metaUnits`.`id` WHERE `itemIngredients`.`id`='".$del."' AND `itemIngredients`.`itemId`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+            $row = mysqli_fetch_array($result);
             mysqli_query($dbl, "DELETE FROM `itemIngredients` WHERE `id`='".$del."' AND `itemId`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
             if(mysqli_affected_rows($dbl) == 1) {
+              adminLog($adminUserId, 8, $id, NULL, "Zuweisung gelöscht: qty: ".($row['quantity'] === NULL ? "NULL" : "`".$row['quantity']."`")."; unit: ".($row['unitTitle'] === NULL ? "NULL" : "`".$row['unitTitle']."`")."; ing: `".$row['ingredientTitle']."`");
               $content.= "<div class='successbox'>Zuweisung erfolgreich gelöscht.</div>".PHP_EOL;
             } else {
               $content.= "<div class='warnbox'>Löschung schlug fehl.</div>".PHP_EOL;

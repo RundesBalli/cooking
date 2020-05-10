@@ -67,4 +67,81 @@ function stars(float $stars = 0, $voteCount = NULL) {
 </div>";
   return $layout;
 }
+
+/**
+ * Adminlog Funktion
+ * Zum loggen aller Administrator Handlungen
+ * 
+ * @param int    $userId      userId des Administrators oder NULL bei Systemaktion
+ * @param int    $logLevel    logLevel der Aktion
+ * @param int    $itemId      itemId falls es ein Rezept betrifft, sonst NULL
+ * @param int    $categoryId  categoryId falls es eine Kategorie betrifft, sonst NULL
+ * @param string $text        optionaler Text
+ */
+function adminLog($userId = NULL, int $logLevel, $itemId = NULL, $categoryId = NULL, $text = NULL) {
+  global $dbl;
+
+  /**
+   * Prüfung, ob die userId existiert. Falls nicht wird sie genullt.
+   */
+  if($userId !== NULL) {
+    $userId = (int)defuse($userId);
+    $result = mysqli_query($dbl, "SELECT `id` FROM `accounts` WHERE `id`='".$userId."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+    if(mysqli_num_rows($result) != 1) {
+      $userId = NULL;
+    }
+  }
+
+  /**
+   * Prüfung ob das logLevel existiert. Falls nicht, wird es auf "User-/Systemaktion" (1) gesetzt.
+   */
+  if(is_int($logLevel)) {
+    $logLevel = defuse($logLevel);
+    $result = mysqli_query($dbl, "SELECT `id` FROM `logLevel` WHERE `id`='".$logLevel."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+    if(mysqli_num_rows($result) != 1) {
+      $logLevel = 1;
+    }
+  } else {
+    $logLevel = 1;
+  }
+
+  /**
+   * Prüfung ob die itemId existiert. Falls nicht wird sie genullt.
+   */
+  if($itemId !== NULL) {
+    $itemId = (int)defuse($itemId);
+    $result = mysqli_query($dbl, "SELECT `id` FROM `items` WHERE `id`='".$itemId."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+    if(mysqli_num_rows($result) != 1) {
+      $itemId = NULL;
+    }
+  }
+
+  /**
+   * Prüfung ob die categoryId existiert. Falls nicht wird sie genullt.
+   */
+  if($categoryId !== NULL) {
+    $categoryId = (int)defuse($categoryId);
+    $result = mysqli_query($dbl, "SELECT `id` FROM `categories` WHERE `id`='".$categoryId."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+    if(mysqli_num_rows($result) != 1) {
+      $categoryId = NULL;
+    }
+  }
+
+  /**
+   * Entschärfen des Textes, sofern vorhanden.
+   */
+  if($text !== NULL) {
+    $text = defuse($text);
+  }
+
+  /**
+   * Eintragen ins Log
+   */
+  mysqli_query($dbl, "INSERT INTO `adminLog` (`userId`, `logLevel`, `itemId`, `categoryId`, `text`) VALUES (".($userId !== NULL ? "'".$userId."'" : "NULL").", '".$logLevel."', ".($itemId !== NULL ? "'".$itemId."'" : "NULL").", ".($categoryId !== NULL ? "'".$categoryId."'" : "NULL").", ".($text !== NULL ? "'".$text."'" : "NULL").")") OR DIE(MYSQLI_ERROR($dbl));
+  if(mysqli_affected_rows($dbl) != 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
 ?>
