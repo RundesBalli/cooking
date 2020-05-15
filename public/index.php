@@ -65,6 +65,7 @@ $pageArray = array(
   'adminSessions'     => 'adminSessions.php',
   'adminMarkdownInfo' => 'adminMarkdownInfo.php',
   'adminLog'          => 'adminLog.php',
+  'adminUserLog'      => 'adminUserLog.php',
 
   /* Userseiten */
   'login'             => 'login.php',
@@ -119,6 +120,7 @@ if((isset($_COOKIE['cookingAdmin']) AND !empty($_COOKIE['cookingAdmin'])) AND pr
   $nav.= "<a href='/adminIngredients'".($getp == "adminIngredients" ? $a : NULL)."><span class='fas icon'>&#xf4d8;</span>Zutaten</a>".PHP_EOL;
   $nav.= "<a href='/adminSessions'".($getp == "adminSessions" ? $a : NULL)."><span class='fas icon'>&#xf0c0;</span>Sitzungen</a>".PHP_EOL;
   $nav.= "<a href='/adminLog'".($getp == "adminLog" ? $a : NULL)."><span class='fas icon'>&#xf70e;</span>Log</a>".PHP_EOL;
+  $nav.= "<a href='/adminUserLog'".($getp == "adminUserLog" ? $a : NULL)."><span class='fas icon'>&#xf70e;</span>UserLog</a>".PHP_EOL;
   $nav.= "<a href='/adminLogout'".($getp == "adminLogout" ? $a : NULL)."><span class='fas icon'>&#xf2f5;</span>Logout</a>".PHP_EOL;
 }
 

@@ -29,7 +29,7 @@ if(!isset($_POST['submit'])) {
    * Auswahl
    */
   $content.= "<div class='row bordered'>".PHP_EOL.
-  "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Möchtest du dich ausloggen?</div>".PHP_EOL.
+  "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Möchtest du dich ausloggen? (alle offenen Sitzungen)</div>".PHP_EOL.
   "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='submit' name='submit' value='Ja'></div>".PHP_EOL.
   "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'><a href='/overview'>Nein, zurück.</a></div>".PHP_EOL.
   "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
@@ -52,7 +52,8 @@ if(!isset($_POST['submit'])) {
     /**
      * Löschen der Sitzung.
      */
-    mysqli_query($dbl, "DELETE FROM `userSessions` WHERE `sessionHash`='".$match[0]."'") OR DIE(MYSQLI_ERROR($dbl));
+    mysqli_query($dbl, "DELETE FROM `userSessions` WHERE `userId`='".$userId."'") OR DIE(MYSQLI_ERROR($dbl));
+    userLog($userId, 1, NULL, "Logout");
     /**
      * Entfernen des Cookies und Umleitung zur Loginseite.
      */

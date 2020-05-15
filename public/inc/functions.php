@@ -144,4 +144,71 @@ function adminLog($userId = NULL, int $logLevel, $itemId = NULL, $categoryId = N
     return false;
   }
 }
+
+/**
+ * Userlog Funktion
+ * Zum loggen aller User Handlungen
+ * 
+ * @param int    $userId      userId des Users
+ * @param int    $logLevel    logLevel der Aktion
+ * @param int    $itemId      itemId falls es ein Rezept betrifft, sonst NULL
+ * @param string $text        optionaler Text
+ */
+function userLog($userId = NULL, int $logLevel, $itemId = NULL, $text = NULL) {
+  global $dbl;
+
+  /**
+   * Prüfung, ob die userId existiert. Falls nicht wird sie genullt.
+   */
+  if($userId !== NULL) {
+    $userId = (int)defuse($userId);
+    $result = mysqli_query($dbl, "SELECT `id` FROM `users` WHERE `id`='".$userId."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+    if(mysqli_num_rows($result) != 1) {
+      $userId = NULL;
+    }
+  } else {
+    $userId = NULL;
+  }
+
+  /**
+   * Prüfung ob das logLevel existiert. Falls nicht, wird es auf "User-/Systemaktion" (1) gesetzt.
+   */
+  if(is_int($logLevel)) {
+    $logLevel = defuse($logLevel);
+    $result = mysqli_query($dbl, "SELECT `id` FROM `logLevel` WHERE `id`='".$logLevel."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+    if(mysqli_num_rows($result) != 1) {
+      $logLevel = 1;
+    }
+  } else {
+    $logLevel = 1;
+  }
+
+  /**
+   * Prüfung ob die itemId existiert. Falls nicht wird sie genullt.
+   */
+  if($itemId !== NULL) {
+    $itemId = (int)defuse($itemId);
+    $result = mysqli_query($dbl, "SELECT `id` FROM `items` WHERE `id`='".$itemId."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+    if(mysqli_num_rows($result) != 1) {
+      $itemId = NULL;
+    }
+  }
+
+  /**
+   * Entschärfen des Textes, sofern vorhanden.
+   */
+  if($text !== NULL) {
+    $text = defuse($text);
+  }
+
+  /**
+   * Eintragen ins Log
+   */
+  mysqli_query($dbl, "INSERT INTO `userLog` (`userId`, `logLevel`, `itemId`, `text`) VALUES (".($userId !== NULL ? "'".$userId."'" : "NULL").", '".$logLevel."', ".($itemId !== NULL ? "'".$itemId."'" : "NULL").", ".($text !== NULL ? "'".$text."'" : "NULL").")") OR DIE(MYSQLI_ERROR($dbl));
+  if(mysqli_affected_rows($dbl) != 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
 ?>

@@ -63,7 +63,7 @@ CREATE TABLE `adminLog` (
   CONSTRAINT `adminLog_ibfk_5` FOREIGN KEY (`itemId`) REFERENCES `items` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `adminLog_ibfk_6` FOREIGN KEY (`categoryId`) REFERENCES `categories` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `adminLog_ibfk_7` FOREIGN KEY (`userId`) REFERENCES `accounts` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Adminlog';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='AdminLog';
 
 
 DROP VIEW IF EXISTS `bestVoted`;
@@ -280,6 +280,25 @@ DROP VIEW IF EXISTS `stats`;
 CREATE TABLE `stats` (`catCount` bigint(21), `itemCount` bigint(21), `clickCount` bigint(21), `clicksToday` bigint(21));
 
 
+DROP TABLE IF EXISTS `userLog`;
+CREATE TABLE `userLog` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Laufende ID',
+  `userId` int(10) unsigned DEFAULT NULL COMMENT 'Querverweis - users.id',
+  `timestamp` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Zeitpunkt des Eintrags',
+  `logLevel` int(10) unsigned NOT NULL COMMENT 'Querverweis - logLevel.id',
+  `itemId` int(10) unsigned DEFAULT NULL COMMENT 'Querverweis - items.id, oder NULL bei User-/Systemaktion oder Irrelevanz',
+  `text` text COLLATE utf8mb4_unicode_ci COMMENT 'Logtext (optional)',
+  PRIMARY KEY (`id`),
+  KEY `userId` (`userId`),
+  KEY `timestamp` (`timestamp`),
+  KEY `logLevel` (`logLevel`),
+  KEY `itemId` (`itemId`),
+  CONSTRAINT `userLog_ibfk_2` FOREIGN KEY (`logLevel`) REFERENCES `logLevel` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `userLog_ibfk_4` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `userLog_ibfk_5` FOREIGN KEY (`itemId`) REFERENCES `items` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='UserLog';
+
+
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Laufende ID',
@@ -334,4 +353,4 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `mostClicked` AS select `cl
 DROP TABLE IF EXISTS `stats`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `stats` AS select (select count(`categories`.`id`) from `categories`) AS `catCount`,(select count(`items`.`id`) from `items`) AS `itemCount`,(select count(`clicks`.`id`) from `clicks`) AS `clickCount`,(select count(`clicks`.`id`) from `clicks` where (`clicks`.`ts` > cast(curdate() as datetime))) AS `clicksToday`;
 
--- 2020-05-10 16:39:31
+-- 2020-05-15 19:20:12

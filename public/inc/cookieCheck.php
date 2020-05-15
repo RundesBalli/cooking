@@ -47,6 +47,7 @@ if(isset($_COOKIE['cooking']) AND !empty($_COOKIE['cooking'])) {
            * Prüfung ob die pr0grammUserId mit der API-userId übereinstimmt. Falls nicht wird die Sitzung beendet.
            */
           if($userrow['pr0grammUserId'] != $response['user']['id']) {
+            userLog($userrow['id'], 1, NULL, "pr0grammUserId stmmt nicht mit der API-userId überein. Logout");
             setcookie('cooking', NULL, 0);
             header("Location: /login?e=mismatchingIds");
             die();
@@ -68,13 +69,18 @@ if(isset($_COOKIE['cooking']) AND !empty($_COOKIE['cooking'])) {
               $innerrow = mysqli_fetch_array($innerresult);
               mysqli_query($dbl, "UPDATE `users` SET `username`='*".substr(md5(random_bytes(4096)), 0, 31)."' WHERE `username`='".$username."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
               //-------------------------------------------------^ Der Stern ist dafür, dass man nicht nicht versehentlich einen richtigen Usernamen mit dem md5-Hash erzeugt.
+              userLog($innerrow['id'], 3, NULL, "Name `".$username."` mit einer anderen ID `".$innerrow['pr0grammUserId']."` existent. Wurde umbenannt");
               mysqli_query($dbl, "DELETE FROM `userSessions` WHERE `userId`='".$innerrow['id']."'") OR DIE(MYSQLI_ERROR($dbl));
+              userLog($innerrow['id'], 1, NULL, "Alle Sitzungen beendet");
             }
 
             /**
              * Aktualisierung des Nutzernamens
              */
+            $logresult = mysqli_query($dbl, "SELECT `id`, `username` FROM `users` WHERE `pr0grammUserId`='".defuse($response['user']['id'])."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+            $logrow = mysqli_fetch_array($logresult);
             mysqli_query($dbl, "UPDATE `users` SET `username`='".$username."' WHERE `pr0grammUserId`='".defuse($response['user']['id'])."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+            userLog($logrow['id'], 1, NULL, "Umbenennung von `".$logrow['username']."` in `".$username."`");
           } else {
             mysqli_query($dbl, "UPDATE `users` SET `lastSynced`=CURRENT_TIMESTAMP WHERE `id`='".$userrow['id']."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
           }
@@ -84,6 +90,7 @@ if(isset($_COOKIE['cooking']) AND !empty($_COOKIE['cooking'])) {
            */
           if($response['user']['banned'] != 0) {
             mysqli_query($dbl, "DELETE FROM `userSessions` WHERE `userId`='".$userrow['id']."'") OR DIE(MYSQLI_ERROR($dbl));
+            userLog($userrow['id'], 1, NULL, "User auf pr0gramm gesperrt. Logout");
             setcookie('cooking', NULL, 0);
             header("Location: /login?e=banned");
             die();
@@ -94,6 +101,7 @@ if(isset($_COOKIE['cooking']) AND !empty($_COOKIE['cooking'])) {
            * An dieser Stelle ist es wahrscheinlicher, dass das Token ungültig/abgelaufen ist oder die oAuth Sitzung vom User beendet wurde.
            */
           mysqli_query($dbl, "DELETE FROM `userSessions` WHERE `userId`='".$userrow['id']."'") OR DIE(MYSQLI_ERROR($dbl));
+          userLog($userrow['id'], 1, NULL, "oAuth-Token abgelaufen. Logout");
           setcookie('cooking', NULL, 0);
           header("Location: /login?e=oAuth");
           die();

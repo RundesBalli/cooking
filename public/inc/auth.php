@@ -116,7 +116,9 @@ if(isset($_GET['error'])) {
           $innerrow = mysqli_fetch_array($innerresult);
           mysqli_query($dbl, "UPDATE `users` SET `username`='*".substr(md5(random_bytes(4096)), 0, 31)."' WHERE `username`='".$username."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
           //-------------------------------------------------^ Der Stern ist dafür, dass man nicht nicht versehentlich einen richtigen Usernamen mit dem md5-Hash erzeugt.
+          userLog($innerrow['id'], 3, NULL, "Name `".$username."` mit einer anderen pr0gramm-ID `".$innerrow['pr0grammUserId']."` existent. Wurde umbenannt");
           mysqli_query($dbl, "DELETE FROM `userSessions` WHERE `userId`='".$innerrow['id']."'") OR DIE(MYSQLI_ERROR($dbl));
+          userLog($innerrow['id'], 1, NULL, "Alle Sitzungen beendet");
         }
 
         /**
@@ -124,6 +126,7 @@ if(isset($_GET['error'])) {
          */
         mysqli_query($dbl, "INSERT INTO `users` (`username`, `pr0grammUserId`, `accessToken`) VALUES ('".$username."', '".$pr0grammUserId."', '".$token."')") OR DIE(MYSQLI_ERROR($dbl));
         $userId = mysqli_insert_id($dbl);
+        userLog($userId, 2, NULL, "User `".$username."` hat sich zum ersten Mal eingeloggt");
       } else {
         /**
          * Abfrage der User-ID, Aktualisierung des Usernamens und des accessToken.
@@ -131,6 +134,9 @@ if(isset($_GET['error'])) {
         $row = mysqli_fetch_array($result);
         $userId = $row['id'];
         mysqli_query($dbl, "UPDATE `users` SET `username`='".$username."', `accessToken`='".$token."' WHERE `pr0grammUserId`='".$pr0grammUserId."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+        if($row['username'] != $username) {
+          userLog($userId, 3, NULL, "User `".$row['username']."` wurde in `".$username."` umbenannt");
+        }
       }
 
       /**
@@ -139,6 +145,7 @@ if(isset($_GET['error'])) {
       $sessionHash = hash("sha256", random_bytes(4096));
       setcookie("cooking", $sessionHash, time()+(86400*30));
       mysqli_query($dbl, "INSERT INTO `userSessions` (`userId`, `sessionHash`) VALUES ('".$userId."', '".$sessionHash."')") OR DIE(MYSQLI_ERROR($dbl));
+      userLog($userId, 1, NULL, "Login");
 
       /**
        * Meldung, dass die Sitzung angelegt wurde und weiterleitung auf die Übersichtsseite.

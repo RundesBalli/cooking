@@ -86,6 +86,7 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
            */
           mysqli_query($dbl, "DELETE FROM `votes` WHERE `itemId`='".$row['id']."' AND `userId`='".$userId."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
           if(mysqli_affected_rows($dbl) == 1) {
+            userLog($userId, 5, $row['id'], "Vote entfernt");
             $content.= "<div class='successbox'>Dein Vote wurde gelöscht.</div>".PHP_EOL;
           } else {
             $content.= "<div class='warnbox'>Es existiert kein Vote.</div>".PHP_EOL;
@@ -110,8 +111,10 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
                * Falls kein Vote vorhanden war, wird einer angelegt.
                */
               mysqli_query($dbl, "INSERT INTO `votes` (`itemId`, `userId`, `stars`) VALUES ('".$row['id']."', '".$userId."', '".$vote."')") OR DIE(MYSQLI_ERROR($dbl));
+              userLog($userId, 5, $row['id'], "Vote hinzugefügt (".$vote.")");
               $content.= "<div class='successbox'>Dein Vote wurde eingetragen.</div>".PHP_EOL;
             } else {
+              userLog($userId, 5, $row['id'], "Vote aktualisiert (".$vote.")");
               $content.= "<div class='successbox'>Dein Vote wurde aktualisiert.</div>".PHP_EOL;
             }
           }

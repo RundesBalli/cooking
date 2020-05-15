@@ -79,6 +79,7 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
            */
           mysqli_query($dbl, "DELETE FROM `favs` WHERE `itemId`='".$row['id']."' AND `userId`='".$userId."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
           if(mysqli_affected_rows($dbl) == 1) {
+            userLog($userId, 6, $row['id'], "Favorit entfernt");
             $content.= "<div class='successbox'>Rezept aus den Favoriten entfernt.</div>".PHP_EOL;
           } else {
             $content.= "<div class='warnbox'>Es ist ein Fehler aufgetreten.</div>".PHP_EOL;
@@ -94,6 +95,7 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
        */
       mysqli_query($dbl, "INSERT INTO `favs` (`itemId`, `userId`) VALUES ('".$row['id']."', '".$userId."')") OR DIE(MYSQLI_ERROR($dbl));
       if(mysqli_affected_rows($dbl) == 1) {
+        userLog($userId, 6, $row['id'], "Favorisiert");
         $content.= "<div class='successbox'>Rezept in die Favoriten hinzugefügt.</div>".PHP_EOL;
       } else {
         $content.= "<div class='warnbox'>Es ist ein Fehler aufgetreten.</div>".PHP_EOL;
