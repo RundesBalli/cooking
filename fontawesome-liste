@@ -23,6 +23,8 @@ Einheiten:          <span class='fas icon'>&#xf24e;</span>
 Log:                <span class='fas icon'>&#xf70e;</span>
 Uhr:                <span class='far icon'>&#xf017;</span>
 Text:               <span class='fas icon'>&#xf1dd;</span>
+Suche:              <span class='fas icon'>&#xf002;</span>
+Suchergebnisse:     <span class='fas icon'>&#xf1e5;</span>
 
 Schwierigkeit:      <span class='far icon pointer' title='Schwierigkeitsgrad'>&#xf0eb;</span>
 Arbeitszeit:        <span class='fas icon pointer' title='Arbeitszeit'>&#xf252;</span>

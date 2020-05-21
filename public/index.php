@@ -53,6 +53,7 @@ $pageArray = array(
   'showItem'          => 'showItem.php',
   'vote'              => 'vote.php',
   'fav'               => 'fav.php',
+  'search'            => 'search.php',
 
   /* Adminseiten */
   'adminLogin'        => 'adminLogin.php',
@@ -96,6 +97,7 @@ if(isset($pageArray[$getp])) {
 $a = " class='active'";
 $nav = "<a href='/'".($getp == "start" ? $a : NULL)."><span class='fas icon'>&#xf015;</span>Startseite</a>";
 $nav.= "<a href='/team'".($getp == "team" ? $a : NULL)."><span class='fas icon'>&#xf0c0;</span>Team</a>";
+$nav.= "<a href='/search'".($getp == "search" ? $a : NULL)."><span class='fas icon'>&#xf002;</span>Suche</a>";
 
 /**
  * Alle Kategorien auflisten
