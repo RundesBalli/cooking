@@ -87,7 +87,7 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
         $content.= "<div class='infobox'>Es wurden noch keine Zutaten hinzugefügt.</div>".PHP_EOL;
       } else {
         while($innerrow = mysqli_fetch_array($innerresult)) {
-          $ingredients[] = ($innerrow['quantity'] > 0 ? (fmod($innerrow['quantity'], 1) == 0 ? number_format($innerrow['quantity'], 0, ",", ".") : number_format($innerrow['quantity'], 2, ",", ".")).($innerrow['spacer'] == 1 ? " " : NULL).output($innerrow['short'])." - ".output($innerrow['ingredientTitle']) : output($innerrow['ingredientTitle']));
+          $ingredients[] = ($innerrow['quantity'] > 0 ? fractionizer($innerrow['quantity'], 2).($innerrow['spacer'] == 1 ? " " : NULL)."<span class='help' title='".output($innerrow['unitTitle'])."'>".output($innerrow['short'])."</span> - " : NULL).output($innerrow['ingredientTitle']);
         }
         $content.= "<ul>".PHP_EOL;
         $content.= "<li>".implode("</li>".PHP_EOL."<li>", $ingredients)."</li>".PHP_EOL;
@@ -142,7 +142,7 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
         $content.= "<div class='infobox'>Es wurden noch keine Zutaten hinzugefügt.</div>".PHP_EOL;
       } else {
         while($innerrow = mysqli_fetch_array($innerresult)) {
-          $ingredients[] = ($innerrow['quantity'] > 0 ? (fmod($innerrow['quantity'], 1) == 0 ? number_format($innerrow['quantity'], 0, ",", ".") : number_format($innerrow['quantity'], 2, ",", ".")).($innerrow['spacer'] == 1 ? " " : NULL).output($innerrow['short'])." - ".output($innerrow['ingredientTitle']) : output($innerrow['ingredientTitle']));
+          $ingredients[] = ($innerrow['quantity'] > 0 ? fractionizer($innerrow['quantity'], 2).($innerrow['spacer'] == 1 ? " " : NULL)."<span class='help' title='".output($innerrow['unitTitle'])."'>".output($innerrow['short'])."</span> - " : NULL).output($innerrow['ingredientTitle']);
         }
         $content.= "<ul>".PHP_EOL;
         $content.= "<li>".implode("</li>".PHP_EOL."<li>", $ingredients)."</li>".PHP_EOL;

@@ -1119,7 +1119,7 @@ if(!isset($_GET['action'])) {
       while($row = mysqli_fetch_array($result)) {
         $content.= "<div class='row hover bordered'>".PHP_EOL.
         "<div class='col-x-7 col-s-7 col-m-5 col-l-5 col-xl-5'>".output($row['ingredientTitle'])."</div>".PHP_EOL.
-        "<div class='col-x-2 col-s-2 col-m-2 col-l-2 col-xl-2'>".($row['quantity'] > 0 ? (fmod($row['quantity'], 1) == 0 ? number_format($row['quantity'], 0, ",", ".") : number_format($row['quantity'], 2, ",", ".")) : "<span class='italic'>NULL</span>")."</div>".PHP_EOL.
+        "<div class='col-x-2 col-s-2 col-m-2 col-l-2 col-xl-2'>".($row['quantity'] > 0 ? fractionizer($row['quantity'], 2) : "<span class='italic'>NULL</span>")."</div>".PHP_EOL.
         "<div class='col-x-3 col-s-3 col-m-3 col-l-3 col-xl-3'>".($row['unitTitle'] == NULL ? "<span class='italic'>NULL</span>" : output($row['unitTitle']))."</div>".PHP_EOL.
         "<div class='col-x-12 col-s-12 col-m-2 col-l-2 col-xl-2'><a href='/adminIngredients/assign/".$id."/del/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a></div>".PHP_EOL.
         "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.

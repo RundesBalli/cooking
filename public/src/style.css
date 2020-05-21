@@ -120,6 +120,11 @@ a:active, a:hover, a:focus {
   font-size: 22px;
 }
 
+.help {
+  cursor: help;
+  border-bottom: 1px dotted rgba(136, 136, 136, 0.3); /* #888888 */
+}
+
 hr {
   border: 2.5px solid #ee4d2e;
 }

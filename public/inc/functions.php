@@ -34,9 +34,15 @@ function output($string) {
 
 /**
  * Slimdown
- * https://gist.github.com/jbroadway/2836900
+ * @see https://gist.github.com/jbroadway/2836900
  */
 require_once(__DIR__.DIRECTORY_SEPARATOR."slimdown.php");
+
+/**
+ * Fractionizer
+ * @see https://gist.github.com/RundesBalli/a987971322ce7122e223393901fd90ec
+ */
+require_once(__DIR__.DIRECTORY_SEPARATOR."fractionizer.php");
 
 /**
  * Sternfunktion
