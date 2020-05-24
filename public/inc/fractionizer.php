@@ -63,9 +63,9 @@ function fractionizer($number, int $decimals = 0, bool $decimalsIfInt = FALSE, s
      * @see https://www.php.net/manual/en/function.floor.php
      */
     if($number < 0) {
-      return ceil($number).$fraction;
+      return (ceil($number) == 0 ? NULL : ceil($number)).$fraction;
     }
-    return floor($number).$fraction;
+    return (floor($number) == 0 ? NULL : floor($number)).$fraction;
   }
   
   /**
