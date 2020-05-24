@@ -123,7 +123,7 @@ if(isset($_POST['submit'])) {
     JOIN `metaDuration` AS `tD` ON `items`.`totalDuration` = `tD`.`id`
     ".$join."
     
-    WHERE ".implode(" AND ", $searchFlags)." 
+    ".(!empty($searchFlags) ? "WHERE ".implode(" AND ", $searchFlags) : NULL)."
     
     ORDER BY `clicks` DESC, `items`.`id` ASC
     LIMIT 25";
