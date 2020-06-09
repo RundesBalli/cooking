@@ -19,7 +19,7 @@ $id = (int)defuse($_GET['id']);
 /**
  * Prüfen ob das Rezept existiert.
  */
-$result = mysqli_query($dbl, "SELECT `id`, `title` FROM `items` WHERE `id`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+$result = mysqli_query($dbl, "SELECT `id`, `title`, `shortTitle` FROM `items` WHERE `id`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
 if(mysqli_num_rows($result) == 0) {
   /**
    * Falls das Rezept nicht existiert, wird ein 404er und eine Fehlermeldung zurückgegeben.
@@ -48,9 +48,14 @@ if(mysqli_num_rows($result) == 0) {
      */
     $title = "Dateiverwaltung - Bilder anzeigen";
     $content.= "<h1>Dateiverwaltung - Bilder anzeigen</h1>".PHP_EOL;
+    /**
+     * Grundlegende Infos anzeigen
+     */
     $content.= "<div class='row'>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><span class='highlight bold'>Rezept:</span> <a href='/rezept/".output($row['shortTitle'])."' target='_blank'>".output($row['title'])."<span class='fas iconright'>&#xf35d;</span></a></div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><span class='highlight bold'>Aktionen:</span> <a href='/adminFiles/add/".output($id)."'><span class='fas icon'>&#xf067;</span>Hinzufügen</a> - <a href='/adminFiles/sort/".$id."'><span class='fas icon'>&#xf0dc;</span>Sortieren</a></div>".PHP_EOL.
     "</div>".PHP_EOL;
+    $content.= "<div class='spacer-m'></div>".PHP_EOL;
     /**
      * Thumbnail
      */
@@ -131,6 +136,13 @@ if(mysqli_num_rows($result) == 0) {
      */
     $title = "Dateiverwaltung - Bild hinzufügen";
     $content.= "<h1>Dateiverwaltung - Bild hinzufügen</h1>".PHP_EOL;
+    /**
+     * Grundlegende Infos anzeigen
+     */
+    $content.= "<div class='row'>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><span class='highlight bold'>Rezept:</span> <a href='/rezept/".output($row['shortTitle'])."' target='_blank'>".output($row['title'])."<span class='fas iconright'>&#xf35d;</span></a></div>".PHP_EOL.
+    "</div>".PHP_EOL;
+    $content.= "<div class='spacer-m'></div>".PHP_EOL;
     if(isset($_POST['submit'])) {
       /**
        * Formular wurde abgesendet, Upload verarbeiten.
@@ -310,7 +322,8 @@ if(mysqli_num_rows($result) == 0) {
        * Link zum Zurückkommen.
        */
       $content.= "<div class='row'>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminFiles/list/".output($id)."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht.</a></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminFiles/add/".output($id)."'><span class='fas icon'>&#xf302;</span>Ein weiteres Bild hochladen</a></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminFiles/list/".output($id)."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
       "</div>".PHP_EOL;
     } else {
       /**
@@ -364,6 +377,13 @@ if(mysqli_num_rows($result) == 0) {
      */
     $title = "Dateiverwaltung - Bild löschen";
     $content.= "<h1>Dateiverwaltung - Bild löschen</h1>".PHP_EOL;
+    /**
+     * Grundlegende Infos anzeigen
+     */
+    $content.= "<div class='row'>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><span class='highlight bold'>Rezept:</span> <a href='/rezept/".output($row['shortTitle'])."' target='_blank'>".output($row['title'])."<span class='fas iconright'>&#xf35d;</span></a></div>".PHP_EOL.
+    "</div>".PHP_EOL;
+    $content.= "<div class='spacer-m'></div>".PHP_EOL;
 
     /**
      * Entschärfen der übergebenen Image-ID
