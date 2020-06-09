@@ -897,7 +897,7 @@ if(!isset($_GET['action'])) {
       $content.= "<div class='row hover bordered'>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Zutat</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'>".$ingredients."</div>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'><a href='/adminIngredients/addI' target='_blank'><span class='fas icon'>&#xf4d8;</span>Zutat hinzufügen<span class='fas iconright'>&#xf35d;</span></a><br><a href='/adminIngredients/assign/".output($id)."'><span class='fas icon'>&#xf021;</span>Neu laden</a></div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
       "</div>".PHP_EOL;
       /**
@@ -915,7 +915,7 @@ if(!isset($_GET['action'])) {
       $content.= "<div class='row hover bordered'>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Einheit</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'>".$units."</div>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>Wird ignoriert, wenn Menge = 0</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>Wird ignoriert, wenn Menge = 0<br><a href='/adminIngredients/addU' target='_blank'><span class='fas icon'>&#xf24e;</span>Einheit hinzufügen<span class='fas iconright'>&#xf35d;</span></a><br><a href='/adminIngredients/assign/".output($id)."'><span class='fas icon'>&#xf021;</span>Neu laden</a></div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
       "</div>".PHP_EOL;
       /**
