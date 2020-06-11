@@ -46,6 +46,7 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
      */
     $title = $row['title'];
     $content.= "<h1 class='center'><span class='fas icon'>&#xf543;</span>Rezept: ".$row['title']."</h1>".PHP_EOL;
+
     /**
      * Bilder Selektieren
      */
@@ -54,10 +55,12 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
     while($imgrow = mysqli_fetch_array($imgresult)) {
       $images[] = $imgrow['fileHash'];
     }
+
     /**
      * Bilder, Eckdaten & Zutaten ausgeben
      */
     $content.= "<div class='row recipe center'>".PHP_EOL.
+
     /**
      * Eckdaten
      */
@@ -73,7 +76,7 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
     "<li><span class='fas icon'>&#xf153;</span>Kosten: ".$row['cost']."</li>".PHP_EOL.
     "</ul>".PHP_EOL.
     "<div class='spacer-s'></div>".PHP_EOL;
-    
+
     /**
      * Zutaten
      */
@@ -120,6 +123,7 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
       $content.= "<div class='col-x-12 col-s-12 col-m-12 col-l-6 col-xl-6'>".($count == 1 ? "<img src='/img/img-".$row['id']."-".$images[0].".png' alt='Bild'>" : "<img src='/img/noImg.png' alt='kein Bild vorhanden'>")."</div>".PHP_EOL;
     }
     $content.= "</div>".PHP_EOL;
+    
     /**
      * Text
      */
