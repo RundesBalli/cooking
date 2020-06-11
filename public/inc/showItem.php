@@ -33,6 +33,30 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
     }
 
     /**
+     * OG-Metadaten
+     */
+    $thumbresult = mysqli_query($dbl, "SELECT * FROM `images` WHERE `itemId`='".$row['id']."' AND `thumb`='1' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+    if(mysqli_num_rows($thumbresult) == 1) {
+      $thumbrow = mysqli_fetch_array($thumbresult);
+      $thumb = 'https://'.$_SERVER['HTTP_HOST']."/img/thumb-".$row['id']."-".$thumbrow['fileHash'].".png";
+    } else {
+      $thumb = 'https://'.$_SERVER['HTTP_HOST'].'/src/og_favicon.png';
+    }
+    $ogMeta = array(
+      'title'            => 'pr0.cooking | Rezept: '.output($row['title']),
+      'type'             => 'article',
+      'url'              => 'https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'],
+      'image'            => $thumb,
+      'image:secure_url' => $thumb,
+      'image:width'      => '300',
+      'image:height'     => '300',
+      'image:alt'        => 'pr0.cooking',
+      'description'      => 'Rezeptsammlung von Fettsäcken für Fettsäcke',
+      'locale'           => 'de_DE',
+      'site_name'        => 'pr0.cooking'
+    );
+
+    /**
      * Adminschnellnavigation
      */
     if((isset($_COOKIE['cookingAdmin']) AND !empty($_COOKIE['cookingAdmin'])) AND preg_match('/[a-f0-9]{64}/i', defuse($_COOKIE['cookingAdmin']), $match) === 1) {

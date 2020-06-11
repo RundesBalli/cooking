@@ -19,10 +19,24 @@ require_once(__DIR__.DIRECTORY_SEPARATOR."inc".DIRECTORY_SEPARATOR."config.php")
 require_once(__DIR__.DIRECTORY_SEPARATOR."inc".DIRECTORY_SEPARATOR."functions.php");
 
 /**
- * Initialisieren des Outputs und des Standardtitels
+ * Initialisieren des Outputs, des Standardtitels und der OG-Metadaten
+ * @see https://ogp.me/
  */
 $content = "";
 $title = "";
+$ogMeta = array(
+  'title'            => 'pr0.cooking',
+  'type'             => 'article',
+  'url'              => 'https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'],
+  'image'            => 'https://'.$_SERVER['HTTP_HOST'].'/src/og_favicon.png',
+  'image:secure_url' => 'https://'.$_SERVER['HTTP_HOST'].'/src/og_favicon.png',
+  'image:width'      => '300',
+  'image:height'     => '300',
+  'image:alt'        => 'pr0.cooking',
+  'description'      => 'Rezeptsammlung von Fettsäcken für Fettsäcke',
+  'locale'           => 'de_DE',
+  'site_name'        => 'pr0.cooking'
+);
 
 /**
  * Erzeugen des Unique-User-Identifier
@@ -144,10 +158,24 @@ if((isset($_COOKIE['cooking']) AND !empty($_COOKIE['cooking'])) AND preg_match('
 
 
 /**
- * Templateeinbindung und Einsetzen der Variablen
+ * Laden der Templatedatei
  */
 $templateFile = __DIR__.DIRECTORY_SEPARATOR."src".DIRECTORY_SEPARATOR."template.tpl";
 $fp = fopen($templateFile, "r");
-echo preg_replace(array("/{TITLE}/im", "/{NAV}/im", "/{CONTENT}/im"), array(($title == "" ? "" : " - ".$title), $nav, $content), fread($fp, filesize($templateFile)));
+
+/**
+ * Aufbereitung der Metadaten
+ */
+if(!empty($ogMeta)) {
+  $ogData = array();
+  foreach($ogMeta AS $key => $val) {
+    $ogData[] = "<meta property='og:".output($key)."' content='".output($val)."'/>";
+  }
+}
+
+/**
+ * Einsetzen der Inhalte und Ausgabe ebenjener
+ */
+echo preg_replace(array("/{TITLE}/im", "/{NAV}/im", "/{CONTENT}/im", "/{OGMETA}/im"), array(($title == "" ? "" : " - ".$title), $nav, $content, (!empty($ogMeta) ? PHP_EOL.implode(PHP_EOL, $ogData) : NULL)), fread($fp, filesize($templateFile)));
 fclose($fp);
 ?>
