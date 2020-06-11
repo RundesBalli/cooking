@@ -57,47 +57,48 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
     /**
      * Bilder, Eckdaten & Zutaten ausgeben
      */
+    $content.= "<div class='row recipe center'>".PHP_EOL.
+    /**
+     * Eckdaten
+     */
+    "<div class='col-x-12 col-s-12 col-m-12 col-l-6 col-xl-6 ingredients center'>".PHP_EOL.
+    "<h2 class='center'><span class='fas icon'>&#xf0ce;</span>Eckdaten</h2>".PHP_EOL.
+    "<ul>".PHP_EOL.
+    "<li>".stars($row['votes'], $row['voteCount'])." - ".(((isset($_COOKIE['cooking']) AND !empty($_COOKIE['cooking'])) AND preg_match('/[a-f0-9]{64}/i', defuse($_COOKIE['cooking']), $match) === 1) ? "<a href='/vote/".$row['shortTitle']."'>Abstimmen</a>" : "zum Abstimmen <a href='/login'>Einloggen</a>")."<br>".$row['votes']." von 5 Sternen (".number_format($row['voteCount'], 0, ",", ".")." Stimmen)</li>".PHP_EOL.
+    "<li><span class='far icon'>&#xf005;</span>".(((isset($_COOKIE['cooking']) AND !empty($_COOKIE['cooking'])) AND preg_match('/[a-f0-9]{64}/i', defuse($_COOKIE['cooking']), $match) === 1) ? "<a href='/fav/".$row['shortTitle']."'>Favorisieren</a>" : "zum Favorisieren <a href='/login'>Einloggen</a>")."</li>".PHP_EOL.
+    "<li><span class='far icon'>&#xf25a;</span>".number_format($row['clicks'], 0, ",", ".")." Klicks</li>".PHP_EOL.
+    "<li><span class='far icon'>&#xf0eb;</span>Schwierigkeit: ".$row['difficulty']."</li>".PHP_EOL.
+    "<li><span class='fas icon'>&#xf252;</span>Arbeitszeit: ".$row['workDuration']."</li>".PHP_EOL.
+    "<li><span class='fas icon'>&#xf253;</span>Gesamtzeit: ".$row['totalDuration']."</li>".PHP_EOL.
+    "<li><span class='fas icon'>&#xf153;</span>Kosten: ".$row['cost']."</li>".PHP_EOL.
+    "</ul>".PHP_EOL.
+    "<div class='spacer-s'></div>".PHP_EOL;
+    
+    /**
+     * Zutaten
+     */
+    $content.= "<h2 class='center'><span class='fas icon'>&#xf4d8;</span>Zutaten".($row['persons'] > 0 ? " für ".$row['persons']." Personen" : NULL)."</h2>".PHP_EOL;
+    $innerresult = mysqli_query($dbl, "SELECT `metaIngredients`.`title` AS `ingredientTitle`, `metaUnits`.`title` AS `unitTitle`, `metaUnits`.`short`, `metaUnits`.`spacer`, `itemIngredients`.`quantity` FROM `itemIngredients` JOIN `metaIngredients` ON `metaIngredients`.`id` = `itemIngredients`.`ingredientId` LEFT OUTER JOIN `metaUnits` ON `metaUnits`.`id` = `itemIngredients`.`unitId` WHERE `itemIngredients`.`itemId`='".$row['id']."' ORDER BY `ingredientTitle` ASC") OR DIE(MYSQLI_ERROR($dbl));
+    if(mysqli_num_rows($innerresult) == 0) {
+      $content.= "<div class='infobox'>Es wurden noch keine Zutaten hinzugefügt.</div>".PHP_EOL;
+    } else {
+      while($innerrow = mysqli_fetch_array($innerresult)) {
+        $ingredients[] = ($innerrow['quantity'] > 0 ? fractionizer($innerrow['quantity'], 2).($innerrow['spacer'] == 1 ? " " : NULL)."<span class='help' title='".output($innerrow['unitTitle'])."'>".output($innerrow['short'])."</span> - " : NULL).output($innerrow['ingredientTitle']);
+      }
+      $content.= "<ul>".PHP_EOL;
+      $content.= "<li>".implode("</li>".PHP_EOL."<li>", $ingredients)."</li>".PHP_EOL;
+      $content.= "</ul>".PHP_EOL;
+    }
+    $content.= "<div class='spacer-s'></div>".PHP_EOL;
+    $content.= "</div>".PHP_EOL;//der ingredients center div
+
+    /**
+     * Bilder
+     */
     $count = count($images);
     if($count > 1) {
       /**
-       * Bei mehreren Bildern
-       */
-      $content.= "<div class='row recipe center'>".PHP_EOL.
-      /**
-       * Eckdaten
-       */
-      "<div class='col-x-12 col-s-12 col-m-12 col-l-6 col-xl-6 ingredients center'>".PHP_EOL.
-      "<h2 class='center'><span class='fas icon'>&#xf0ce;</span>Eckdaten</h2>".PHP_EOL.
-      "<ul>".PHP_EOL.
-      "<li>".stars($row['votes'], $row['voteCount'])." - ".(((isset($_COOKIE['cooking']) AND !empty($_COOKIE['cooking'])) AND preg_match('/[a-f0-9]{64}/i', defuse($_COOKIE['cooking']), $match) === 1) ? "<a href='/vote/".$row['shortTitle']."'>Abstimmen</a>" : "zum Abstimmen <a href='/login'>Einloggen</a>")."<br>".$row['votes']." von 5 Sternen (".number_format($row['voteCount'], 0, ",", ".")." Stimmen)</li>".PHP_EOL.
-      "<li><span class='far icon'>&#xf005;</span>".(((isset($_COOKIE['cooking']) AND !empty($_COOKIE['cooking'])) AND preg_match('/[a-f0-9]{64}/i', defuse($_COOKIE['cooking']), $match) === 1) ? "<a href='/fav/".$row['shortTitle']."'>Favorisieren</a>" : "zum Favorisieren <a href='/login'>Einloggen</a>")."</li>".PHP_EOL.
-      "<li><span class='far icon'>&#xf25a;</span>".number_format($row['clicks'], 0, ",", ".")." Klicks</li>".PHP_EOL.
-      "<li><span class='far icon'>&#xf0eb;</span>Schwierigkeit: ".$row['difficulty']."</li>".PHP_EOL.
-      "<li><span class='fas icon'>&#xf252;</span>Arbeitszeit: ".$row['workDuration']."</li>".PHP_EOL.
-      "<li><span class='fas icon'>&#xf253;</span>Gesamtzeit: ".$row['totalDuration']."</li>".PHP_EOL.
-      "<li><span class='fas icon'>&#xf153;</span>Kosten: ".$row['cost']."</li>".PHP_EOL.
-      "</ul>".PHP_EOL.
-      "<div class='spacer-s'></div>".PHP_EOL;
-      /**
-       * Zutaten
-       */
-      $content.= "<h2 class='center'><span class='fas icon'>&#xf4d8;</span>Zutaten".($row['persons'] > 0 ? " für ".$row['persons']." Personen" : NULL)."</h2>".PHP_EOL;
-      $innerresult = mysqli_query($dbl, "SELECT `metaIngredients`.`title` AS `ingredientTitle`, `metaUnits`.`title` AS `unitTitle`, `metaUnits`.`short`, `metaUnits`.`spacer`, `itemIngredients`.`quantity` FROM `itemIngredients` JOIN `metaIngredients` ON `metaIngredients`.`id` = `itemIngredients`.`ingredientId` LEFT OUTER JOIN `metaUnits` ON `metaUnits`.`id` = `itemIngredients`.`unitId` WHERE `itemIngredients`.`itemId`='".$row['id']."' ORDER BY `ingredientTitle` ASC") OR DIE(MYSQLI_ERROR($dbl));
-      if(mysqli_num_rows($innerresult) == 0) {
-        $content.= "<div class='infobox'>Es wurden noch keine Zutaten hinzugefügt.</div>".PHP_EOL;
-      } else {
-        while($innerrow = mysqli_fetch_array($innerresult)) {
-          $ingredients[] = ($innerrow['quantity'] > 0 ? fractionizer($innerrow['quantity'], 2).($innerrow['spacer'] == 1 ? " " : NULL)."<span class='help' title='".output($innerrow['unitTitle'])."'>".output($innerrow['short'])."</span> - " : NULL).output($innerrow['ingredientTitle']);
-        }
-        $content.= "<ul>".PHP_EOL;
-        $content.= "<li>".implode("</li>".PHP_EOL."<li>", $ingredients)."</li>".PHP_EOL;
-        $content.= "</ul>".PHP_EOL;
-      }
-      $content.= "<div class='spacer-s'></div>".PHP_EOL;
-      $content.= "</div>".PHP_EOL;//der ingredients center div
-
-      /**
-       * Bild
+       * Mehr als ein Bild => Slideshow
        */
       $slideshow = "<div id='slideshowContainer'>".PHP_EOL;
       foreach($images as $key => $val) {
@@ -111,51 +112,14 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
       $slideshow.= "<a id='next'>&#10095;</a>".PHP_EOL;
       $slideshow.= "</div>".PHP_EOL;
 
-      $content.= "<div class='col-x-12 col-s-12 col-m-12 col-l-6 col-xl-6'>".$slideshow."</div>".PHP_EOL.
-      "</div>".PHP_EOL;
+      $content.= "<div class='col-x-12 col-s-12 col-m-12 col-l-6 col-xl-6'>".$slideshow."</div>".PHP_EOL;
     } else {
       /**
-       * Bei einem oder keinem Bild
+       * Ein oder kein Bild => keine Slideshow
        */
-      $content.= "<div class='row recipe center'>".PHP_EOL.
-      /**
-       * Eckdaten
-       */
-      "<div class='col-x-12 col-s-12 col-m-12 col-l-6 col-xl-6 ingredients center'>".PHP_EOL.
-      "<h2 class='center'><span class='fas icon'>&#xf0ce;</span>Eckdaten</h2>".PHP_EOL.
-      "<ul>".PHP_EOL.
-      "<li>".stars($row['votes'], $row['voteCount'])." - ".(((isset($_COOKIE['cooking']) AND !empty($_COOKIE['cooking'])) AND preg_match('/[a-f0-9]{64}/i', defuse($_COOKIE['cooking']), $match) === 1) ? "<a href='/vote/".$row['shortTitle']."'>Abstimmen</a>" : "zum Abstimmen <a href='/login'>Einloggen</a>")."<br>".$row['votes']." von 5 Sternen (".number_format($row['voteCount'], 0, ",", ".")." Stimmen)</li>".PHP_EOL.
-      "<li><span class='far icon'>&#xf005;</span>".(((isset($_COOKIE['cooking']) AND !empty($_COOKIE['cooking'])) AND preg_match('/[a-f0-9]{64}/i', defuse($_COOKIE['cooking']), $match) === 1) ? "<a href='/fav/".$row['shortTitle']."'>Favorisieren</a>" : "zum Favorisieren <a href='/login'>Einloggen</a>")."</li>".PHP_EOL.
-      "<li><span class='far icon'>&#xf25a;</span>".number_format($row['clicks'], 0, ",", ".")." Klicks</li>".PHP_EOL.
-      "<li><span class='far icon'>&#xf0eb;</span>Schwierigkeit: ".$row['difficulty']."</li>".PHP_EOL.
-      "<li><span class='fas icon'>&#xf252;</span>Arbeitszeit: ".$row['workDuration']."</li>".PHP_EOL.
-      "<li><span class='fas icon'>&#xf253;</span>Gesamtzeit: ".$row['totalDuration']."</li>".PHP_EOL.
-      "<li><span class='fas icon'>&#xf153;</span>Kosten: ".$row['cost']."</li>".PHP_EOL.
-      "</ul>".PHP_EOL.
-      "<div class='spacer-s'></div>".PHP_EOL;
-      /**
-       * Zutaten
-       */
-      $content.= "<h2 class='center'><span class='fas icon'>&#xf4d8;</span>Zutaten".($row['persons'] > 0 ? " für ".$row['persons']." Personen" : NULL)."</h2>".PHP_EOL;
-      $innerresult = mysqli_query($dbl, "SELECT `metaIngredients`.`title` AS `ingredientTitle`, `metaUnits`.`title` AS `unitTitle`, `metaUnits`.`short`, `metaUnits`.`spacer`, `itemIngredients`.`quantity` FROM `itemIngredients` JOIN `metaIngredients` ON `metaIngredients`.`id` = `itemIngredients`.`ingredientId` LEFT OUTER JOIN `metaUnits` ON `metaUnits`.`id` = `itemIngredients`.`unitId` WHERE `itemIngredients`.`itemId`='".$row['id']."' ORDER BY `ingredientTitle` ASC") OR DIE(MYSQLI_ERROR($dbl));
-      if(mysqli_num_rows($innerresult) == 0) {
-        $content.= "<div class='infobox'>Es wurden noch keine Zutaten hinzugefügt.</div>".PHP_EOL;
-      } else {
-        while($innerrow = mysqli_fetch_array($innerresult)) {
-          $ingredients[] = ($innerrow['quantity'] > 0 ? fractionizer($innerrow['quantity'], 2).($innerrow['spacer'] == 1 ? " " : NULL)."<span class='help' title='".output($innerrow['unitTitle'])."'>".output($innerrow['short'])."</span> - " : NULL).output($innerrow['ingredientTitle']);
-        }
-        $content.= "<ul>".PHP_EOL;
-        $content.= "<li>".implode("</li>".PHP_EOL."<li>", $ingredients)."</li>".PHP_EOL;
-        $content.= "</ul>".PHP_EOL;
-      }
-      $content.= "<div class='spacer-s'></div>".PHP_EOL;
-      $content.= "</div>".PHP_EOL;//der ingredients center div
-      /**
-       * Bild
-       */
-      $content.= "<div class='col-x-12 col-s-12 col-m-12 col-l-6 col-xl-6'>".(count($images) == 1 ? "<img src='/img/img-".$row['id']."-".$images[0].".png' alt='Bild'>" : "<img src='/img/noImg.png' alt='kein Bild vorhanden'>")."</div>".PHP_EOL.
-      "</div>".PHP_EOL;
+      $content.= "<div class='col-x-12 col-s-12 col-m-12 col-l-6 col-xl-6'>".($count == 1 ? "<img src='/img/img-".$row['id']."-".$images[0].".png' alt='Bild'>" : "<img src='/img/noImg.png' alt='kein Bild vorhanden'>")."</div>".PHP_EOL;
     }
+    $content.= "</div>".PHP_EOL;
     /**
      * Text
      */
