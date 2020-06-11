@@ -33,7 +33,7 @@ if(!isset($_GET['category']) OR empty(trim($_GET['category']))) {
       "</div>".PHP_EOL;
     }
     $title = $row['title'];
-    $content.= "<h1><span class='far icon'>&#xf07c;</span>Kategorie: ".$row['title']."</h1>".PHP_EOL;
+    $content.= "<h1><span class='far icon'>&#xf07c;</span>Kategorie: ".output($row['title'])."</h1>".PHP_EOL;
     /**
      * Kategorienbeschreibung anzeigen, sofern vorhanden.
      */

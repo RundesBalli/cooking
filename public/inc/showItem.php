@@ -44,8 +44,8 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
     /**
      * Titel anzeigen
      */
-    $title = $row['title'];
-    $content.= "<h1 class='center'><span class='fas icon'>&#xf543;</span>Rezept: ".$row['title']."</h1>".PHP_EOL;
+    $title = output($row['title']);
+    $content.= "<h1 class='center'><span class='fas icon'>&#xf543;</span>Rezept: ".output($row['title'])."</h1>".PHP_EOL;
 
     /**
      * Bilder Selektieren
