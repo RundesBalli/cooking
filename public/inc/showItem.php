@@ -80,17 +80,47 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
     /**
      * Zutaten
      */
-    $content.= "<h2 class='center'><span class='fas icon'>&#xf4d8;</span>Zutaten".($row['persons'] > 0 ? " für ".$row['persons']." Personen" : NULL)."</h2>".PHP_EOL;
+    $customPersons = FALSE;
+    if($row['persons'] > 0) {
+      /**
+       * Personenrechner für Zutaten
+       */
+      if(!empty($_GET['persons'])) {
+        $persons = (int)$_GET['persons'];
+        if($persons < 1 OR $persons > 100) {
+          $persons = $row['persons'];
+        } else {
+          $customPersons = TRUE;
+        }
+      } else {
+        $persons = $row['persons'];
+      }
+    } else {
+      $persons = 0;
+    }
+    $content.= "<h2 class='center'><span class='fas icon'>&#xf4d8;</span>Zutaten".($persons > 0 ? " für ".output($persons)." Person".($persons > 1 ? "en" : NULL) : NULL)."</h2>".PHP_EOL;
     $innerresult = mysqli_query($dbl, "SELECT `metaIngredients`.`title` AS `ingredientTitle`, `metaUnits`.`title` AS `unitTitle`, `metaUnits`.`short`, `metaUnits`.`spacer`, `itemIngredients`.`quantity` FROM `itemIngredients` JOIN `metaIngredients` ON `metaIngredients`.`id` = `itemIngredients`.`ingredientId` LEFT OUTER JOIN `metaUnits` ON `metaUnits`.`id` = `itemIngredients`.`unitId` WHERE `itemIngredients`.`itemId`='".$row['id']."' ORDER BY `ingredientTitle` ASC") OR DIE(MYSQLI_ERROR($dbl));
     if(mysqli_num_rows($innerresult) == 0) {
-      $content.= "<div class='infobox'>Es wurden noch keine Zutaten hinzugefügt.</div>".PHP_EOL;
+      $content.= "<div class='warnbox'>Es wurden noch keine Zutaten hinzugefügt.</div>".PHP_EOL;
     } else {
       while($innerrow = mysqli_fetch_array($innerresult)) {
-        $ingredients[] = ($innerrow['quantity'] > 0 ? fractionizer($innerrow['quantity'], 2).($innerrow['spacer'] == 1 ? " " : NULL)."<span class='help' title='".output($innerrow['unitTitle'])."'>".output($innerrow['short'])."</span> - " : NULL).output($innerrow['ingredientTitle']);
+        if($customPersons == TRUE) {
+          $quantity = $innerrow['quantity']/$row['persons']*$persons;
+        } else {
+          $quantity = $innerrow['quantity'];
+        }
+        $ingredients[] = ($quantity > 0 ? fractionizer($quantity, 2).($innerrow['spacer'] == 1 ? " " : NULL)."<span class='help' title='".output($innerrow['unitTitle'])."'>".output($innerrow['short'])."</span> - " : NULL).output($innerrow['ingredientTitle']);
       }
       $content.= "<ul>".PHP_EOL;
       $content.= "<li>".implode("</li>".PHP_EOL."<li>", $ingredients)."</li>".PHP_EOL;
       $content.= "</ul>".PHP_EOL;
+      if($persons > 0) {
+        $content.= "<form method='get'>".PHP_EOL;
+        $content.= "<div class='row'>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12 center'>Zutaten auf <input type='number' min='1' max='100' value='".output($persons)."' size='3' name='persons' style='width: auto;'> Person(en) <input type='submit' value='umrechnen' style='width: auto;'></div>".PHP_EOL.
+        "</div>".PHP_EOL;
+        $content.= "</form>".PHP_EOL;
+      }
     }
     $content.= "<div class='spacer-s'></div>".PHP_EOL;
     $content.= "</div>".PHP_EOL;//der ingredients center div
@@ -123,7 +153,7 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
       $content.= "<div class='col-x-12 col-s-12 col-m-12 col-l-6 col-xl-6'>".($count == 1 ? "<img src='/img/img-".$row['id']."-".$images[0].".png' alt='Bild'>" : "<img src='/img/noImg.png' alt='kein Bild vorhanden'>")."</div>".PHP_EOL;
     }
     $content.= "</div>".PHP_EOL;
-    
+
     /**
      * Text
      */
