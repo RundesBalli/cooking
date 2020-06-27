@@ -24,6 +24,31 @@ if(!isset($_GET['category']) OR empty(trim($_GET['category']))) {
   $result = mysqli_query($dbl, "SELECT * FROM `categories` WHERE `shortTitle`='".$category."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
   if(mysqli_num_rows($result) == 1) {
     $row = mysqli_fetch_array($result);
+
+    /**
+     * OG-Metadaten
+     */
+    $thumbresult = mysqli_query($dbl, "SELECT `categoryItems`.`itemId`, `images`.`fileHash` FROM `categoryItems` JOIN `images` ON `categoryItems`.`itemId`=`images`.`itemId` AND `thumb`='1' WHERE `categoryId` = '".$row['id']."' ORDER BY RAND() LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+    if(mysqli_num_rows($thumbresult) == 1) {
+      $thumbrow = mysqli_fetch_array($thumbresult);
+      $thumb = 'https://'.$_SERVER['HTTP_HOST']."/img/thumb-".$thumbrow['itemId']."-".$thumbrow['fileHash'].".png";
+    } else {
+      $thumb = 'https://'.$_SERVER['HTTP_HOST'].'/src/og_favicon.png';
+    }
+    $ogMeta = array(
+      'title'            => 'pr0.cooking | Kategorie: '.output($row['title']),
+      'type'             => 'article',
+      'url'              => 'https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'],
+      'image'            => $thumb,
+      'image:secure_url' => $thumb,
+      'image:width'      => '300',
+      'image:height'     => '300',
+      'image:alt'        => 'pr0.cooking',
+      'description'      => 'Rezeptsammlung von Fettsäcken für Fettsäcke',
+      'locale'           => 'de_DE',
+      'site_name'        => 'pr0.cooking'
+    );
+
     /**
      * Adminschnellnavigation
      */
