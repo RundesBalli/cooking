@@ -87,7 +87,7 @@ if(!isset($_GET['category']) OR empty(trim($_GET['category']))) {
             "</a>".PHP_EOL.
           "</div>".PHP_EOL.
           "<div class='col-x-12 col-s-12 col-m-12 col-l-8 col-xl-9 iteminfo'>".PHP_EOL.
-            "<div class='title'><a href='/rezept/".output($row['shortTitle'])."'>".$row['title']."</a></div>".PHP_EOL.
+            "<div class='title'><a href='/rezept/".output($row['shortTitle'])."'>".output($row['title'])."</a></div>".PHP_EOL.
             "<div class='stars'>".stars($row['votes'], $row['voteCount'])."</div>".PHP_EOL.
             "<div class='specs'><span class='far icon pointer' title='Klicks'>&#xf25a;</span> ".number_format($row['clicks'], 0, ",", ".")."</div>".PHP_EOL.
             "<div class='specs'><span class='far icon pointer' title='Schwierigkeitsgrad'>&#xf0eb;</span> ".$row['difficulty']."</div>".PHP_EOL.

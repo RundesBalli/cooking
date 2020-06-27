@@ -24,7 +24,7 @@ if(mysqli_num_rows($result) == 0) {
 } else {
   while($row = mysqli_fetch_array($result)) {
     $content.= "<div class='row hover'>".PHP_EOL;
-    $content.= "<div class='col-x-12 col-s-12 col-m-5 col-l-4 col-xl-3'><a href='/kategorie/".$row['shortTitle']."'>".$row['title']."</a></div>".PHP_EOL.
+    $content.= "<div class='col-x-12 col-s-12 col-m-5 col-l-4 col-xl-3'><a href='/kategorie/".output($row['shortTitle'])."'>".output($row['title'])."</a></div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-7 col-l-8 col-xl-9'>".($row['shortDescription'] == NULL ? "<span class='italic'>Keine Beschreibung vorhanden</span>" : SlimdownOneline::render($row['shortDescription']))."</div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL;
     $content.= "</div>".PHP_EOL;
