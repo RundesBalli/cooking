@@ -50,6 +50,7 @@ if((isset($_GET['action']) AND $_GET['action'] == 'del') AND (isset($_GET['id'])
         $content.= "<div class='warnbox'>Es existiert keine Sitzung mit der ID.</div>".PHP_EOL;
       } else {
         $content.= "<div class='successbox'>Die Sitzung wurde beendet.</div>".PHP_EOL;
+        adminLog($adminUserId, 1, NULL, NULL, "Sitzung manuell beendet.");
       }
     } else {
       /**
