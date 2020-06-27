@@ -195,7 +195,7 @@ CREATE TABLE `logLevel` (
   `title` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Meldungsart',
   `color` varchar(6) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'HexCode der Meldungsfarbe',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='logLevel Einträge für das adminLog und userLog';
 
 TRUNCATE `logLevel`;
 INSERT INTO `logLevel` (`id`, `title`, `color`) VALUES
