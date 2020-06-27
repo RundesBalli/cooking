@@ -77,7 +77,7 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
     $imgresult = mysqli_query($dbl, "SELECT * FROM `images` WHERE `itemId`='".$row['id']."' AND `thumb`='0' ORDER BY `sortIndex` ASC") OR DIE(MYSQLI_ERROR($dbl));
     $images = array();
     while($imgrow = mysqli_fetch_array($imgresult)) {
-      $images[] = $imgrow['fileHash'];
+      $images[] = array('fileHash' => $imgrow['fileHash'], 'description' => $imgrow['description']);
     }
 
     /**
@@ -153,28 +153,34 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
      * Bilder
      */
     $count = count($images);
-    if($count > 1) {
+    if($count > 0) {
       /**
-       * Mehr als ein Bild => Slideshow
+       * Wenn wenigstens ein Bild vorhanden => Slideshow
        */
       $slideshow = "<div id='slideshowContainer'>".PHP_EOL;
       foreach($images as $key => $val) {
         $internalId = $key + 1;
         $slideshow.= "<div class='mySlides fade'>".PHP_EOL.
         "<div class='numbertext'>".$internalId." / ".$count."</div>".PHP_EOL.
-        "<img src='/img/img-".$row['id']."-".$val.".png' alt='Bild'>".PHP_EOL.
+        "<img src='/img/img-".$row['id']."-".$val['fileHash'].".png' alt='Bild'>".PHP_EOL.
+        (!empty($val['description']) ? "<div class='imagetext'>".output($val['description'])."</div>".PHP_EOL : NULL).
         "</div>".PHP_EOL;
       }
-      $slideshow.= "<a id='prev'>&#10094;</a>".PHP_EOL;
-      $slideshow.= "<a id='next'>&#10095;</a>".PHP_EOL;
+      /**
+       * Wenn mehr als ein Bild vorhanden ist, muss gescrollt werden können.
+       */
+      if($count > 1) {
+        $slideshow.= "<a id='prev'>&#10094;</a>".PHP_EOL;
+        $slideshow.= "<a id='next'>&#10095;</a>".PHP_EOL;
+      }
       $slideshow.= "</div>".PHP_EOL;
 
       $content.= "<div class='col-x-12 col-s-12 col-m-12 col-l-6 col-xl-6'>".$slideshow."</div>".PHP_EOL;
     } else {
       /**
-       * Ein oder kein Bild => keine Slideshow
+       * kein Bild => Standard-Thumbnail
        */
-      $content.= "<div class='col-x-12 col-s-12 col-m-12 col-l-6 col-xl-6'>".($count == 1 ? "<img src='/img/img-".$row['id']."-".$images[0].".png' alt='Bild'>" : "<img src='/img/noImg.png' alt='kein Bild vorhanden'>")."</div>".PHP_EOL;
+      $content.= "<div class='col-x-12 col-s-12 col-m-12 col-l-6 col-xl-6'><img src='/img/noImg.png' alt='kein Bild vorhanden'></div>".PHP_EOL;
     }
     $content.= "</div>".PHP_EOL;
 
