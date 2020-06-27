@@ -15,19 +15,24 @@ $content.= "<div class='row'>".PHP_EOL.
 $content.= "<div class='spacer-m'></div>".PHP_EOL;
 
 /**
- * Auflistung aller Kategorien mit Kurzbeschreibung.
+ * Kategorienauflistung mit Kacheln
  */
 $content.= "<h1><span class='far icon'>&#xf07c;</span>Kategorien</h1>".PHP_EOL;
 $result = mysqli_query($dbl, "SELECT * FROM `categories` ORDER BY `sortIndex` ASC, `title` ASC") OR DIE(MYSQLI_ERROR($dbl));
 if(mysqli_num_rows($result) == 0) {
   $content.= "<div class='infobox'>Es existieren noch keine Kategorien.</div>".PHP_EOL;
 } else {
+  $content.= "<div id='categoryContainer'>".PHP_EOL;
   while($row = mysqli_fetch_array($result)) {
-    $content.= "<div class='row hover'>".PHP_EOL;
-    $content.= "<div class='col-x-12 col-s-12 col-m-5 col-l-4 col-xl-3'><a href='/kategorie/".output($row['shortTitle'])."'>".output($row['title'])."</a></div>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-7 col-l-8 col-xl-9'>".($row['shortDescription'] == NULL ? "<span class='italic'>Keine Beschreibung vorhanden</span>" : SlimdownOneline::render($row['shortDescription']))."</div>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL;
-    $content.= "</div>".PHP_EOL;
+    $thumbresult = mysqli_query($dbl, "SELECT `categoryItems`.`itemId`, `images`.`fileHash` FROM `categoryItems` JOIN `images` ON `categoryItems`.`itemId`=`images`.`itemId` AND `thumb`='1' WHERE `categoryId` = '".$row['id']."' ORDER BY RAND() LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+    if(mysqli_num_rows($thumbresult) == 1) {
+      $thumbrow = mysqli_fetch_array($thumbresult);
+      $thumb = "/img/thumb-".$thumbrow['itemId']."-".$thumbrow['fileHash'].".png";
+    } else {
+      $thumb = "/src/og_favicon.png";
+    }
+    $content.= "<a href='/kategorie/".$row['shortTitle']."' style='background-image: linear-gradient(0deg, rgba(22,22,24, 0.7), rgba(22,22,24, 0.7)), url(\"".$thumb."\");'>".output($row['title'])."</a>".PHP_EOL;
   }
+  $content.= "</div>".PHP_EOL;
 }
 ?>

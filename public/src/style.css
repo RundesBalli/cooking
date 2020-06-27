@@ -748,3 +748,43 @@ h1 .icon, h2 .icon, h3 .icon {
   from { opacity: 0.4 }
   to { opacity: 1 }
 }
+
+/*
+  Kategorie Kacheln
+  Danke an @NLDev
+  https://github.com/NLDev
+*/
+#categoryContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+#categoryContainer > a {
+  display: flex;
+  min-height: 300px;
+  min-width: 300px;
+  max-width: 306px;
+  justify-content: center;
+  align-items: center;
+  flex: 1 0 21%;
+  margin: 5px;
+  
+  color: #f2f5f4;
+  text-shadow: 2px 2px #333333;
+  font-size: 25px;
+  word-break: break-word;
+  text-decoration: none;
+  
+  background-repeat: repeat, no-repeat;
+  background-position: center center, center center;
+  background-size: cover, cover;
+  
+  border-radius: 10px;
+
+  transition: background-size 0.5s;
+}
+
+#categoryContainer > a:hover {
+  background-size: 0px, cover;
+}
