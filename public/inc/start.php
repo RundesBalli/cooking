@@ -31,7 +31,7 @@ if(mysqli_num_rows($result) == 0) {
     } else {
       $thumb = "/src/og_favicon.png";
     }
-    $content.= "<a href='/kategorie/".$row['shortTitle']."' style='background-image: linear-gradient(0deg, rgba(22,22,24, 0.7), rgba(22,22,24, 0.7)), url(\"".$thumb."\");'>".output($row['title'])."</a>".PHP_EOL;
+    $content.= "<a href='/kategorie/".$row['shortTitle']."' style='background-image: linear-gradient(0deg, rgba(22,22,24, 0.7), rgba(22,22,24, 0.7)), url(\"".$thumb."\");'>".output($row['title']).(!empty($row['shortDescription']) ? "<span>".output($row['shortDescription'])."</span>" : NULL)."</a>".PHP_EOL;
   }
   $content.= "</div>".PHP_EOL;
 }
