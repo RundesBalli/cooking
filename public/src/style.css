@@ -455,6 +455,8 @@ Lizenz: https://fontawesome.com/license/free
 
 #shareButtons {
   display: none;
+  text-align: center;
+  margin-bottom: 25px;
 }
 
 #shareButtons > a {
