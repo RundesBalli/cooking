@@ -785,7 +785,7 @@ h1 .icon, h2 .icon, h3 .icon {
 
 #categoryContainer > a {
   display: flex;
-  flex-wrap: wrap;
+  position: relative;
   min-height: 300px;
   min-width: 300px;
   max-width: 306px;
@@ -812,10 +812,15 @@ h1 .icon, h2 .icon, h3 .icon {
   background-size: 0px, cover;
 }
 
-#categoryContainer > a > span {
+#categoryContainer > a > .category-wrap {
+  text-align: center;
+}
+
+#categoryContainer > a > .category-wrap > span {
   color: #f2f5f4;
   text-shadow: 1px 1px #333333;
   font-size: 18px;
   display: block;
   text-align: center;
+  margin-top: 10px;
 }
