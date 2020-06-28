@@ -730,11 +730,13 @@ h1 .icon, h2 .icon, h3 .icon {
 #next {
   right: 0;
   border-radius: 3px 0 0 3px;
+  text-shadow: 3px 2px #333333;
 }
 
 #prev {
   left: 0;
   border-radius: 0 3px 3px 0;
+  text-shadow: -3px 2px #333333;
 }
 
 .numbertext {
@@ -742,6 +744,7 @@ h1 .icon, h2 .icon, h3 .icon {
   padding: 8px 12px;
   position: absolute;
   top: 0;
+  text-shadow: -1px -1px #333333;
 }
 
 .imagetext {
@@ -751,10 +754,11 @@ h1 .icon, h2 .icon, h3 .icon {
   bottom: 8px;
   width: 100%;
   text-align: center;
+  text-shadow: 0px 1px #333333;
 }
 
 #prev:hover, #next:hover {
-  background-color: rgba(0,0,0,0.8);
+  background-color: rgba(0,0,0,0.5);
   text-decoration: none;
 }
 
