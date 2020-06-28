@@ -37,5 +37,6 @@ https://github.com/RundesBalli/pr0cooking
     </div>
     <script type="text/javascript" src="/src/toggleMenu.js"></script>
     <script type="text/javascript" src="/src/slideshow.js"></script>
+    <script type="text/javascript" src="/src/shareLink.js"></script>
   </body>
 </html>
