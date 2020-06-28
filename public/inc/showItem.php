@@ -81,6 +81,12 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
     }
 
     /**
+     * ShareButtons
+     */
+    $shareText = urlencode("Ich habe ein leckeres Rezept für ".$row['title']." gefunden!\n"."Schau mal hier: https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+    $content.= "<div id='shareButtons'><a href='tg://msg?text=".$shareText."' target='_blank' rel='noopener'><span class='fab icon'>&#xf3fe;</span></a><a href='whatsapp://send?text=".$shareText."' target='_blank' rel='noopener'><span class='fab icon'>&#xf232;</span></a></div>".PHP_EOL;
+
+    /**
      * Bilder, Eckdaten & Zutaten ausgeben
      */
     $content.= "<div class='row recipe center'>".PHP_EOL.
@@ -181,13 +187,6 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
        */
       $content.= "<div class='col-x-12 col-s-12 col-m-12 col-l-6 col-xl-6'><img src='/img/noImg.png' alt='kein Bild vorhanden'></div>".PHP_EOL;
     }
-
-    /**
-     * ShareButtons
-     */
-    $shareText = urlencode("Ich habe ein leckeres Rezept gefunden!\n".$row['title']."\n"."https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
-    $content.= "<div id='shareButtons'><a href='tg://msg?text=".$shareText."' target='_blank' rel='noopener'><span class='fab icon'>&#xf3fe;</span></a><a href='whatsapp://send?text=".$shareText."' target='_blank' rel='noopener'><span class='fab icon'>&#xf232;</span></a></div>".PHP_EOL;
-
     $content.= "</div>".PHP_EOL;
 
     $content.= "<div class='spacer-m'></div>".PHP_EOL;
