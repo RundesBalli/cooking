@@ -146,7 +146,6 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
         $content.= "</form>".PHP_EOL;
       }
     }
-    $content.= "<div class='spacer-s'></div>".PHP_EOL;
     $content.= "</div>".PHP_EOL;//der ingredients center div
 
     /**
@@ -183,6 +182,8 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
       $content.= "<div class='col-x-12 col-s-12 col-m-12 col-l-6 col-xl-6'><img src='/img/noImg.png' alt='kein Bild vorhanden'></div>".PHP_EOL;
     }
     $content.= "</div>".PHP_EOL;
+
+    $content.= "<div class='spacer-m'></div>".PHP_EOL;
 
     /**
      * Text
