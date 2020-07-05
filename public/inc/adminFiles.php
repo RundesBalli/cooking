@@ -116,14 +116,16 @@ if(mysqli_num_rows($result) == 0) {
        * Bilder vorhanden. Auflistung nach Sortierindex.
        */
       $content.= "<div class='row highlight bold bordered'>".PHP_EOL.
-      "<div class='col-x-12 col-s-12 col-m-8 col-l-8 col-xl-8'>Dateiname</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-5 col-l-5 col-xl-5'>Dateiname</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-3 col-l-3 col-xl-3'>Bildbeschreibung</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-2 col-l-2 col-xl-2'>Sortierindex</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-2 col-l-2 col-xl-2'>Aktionen</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
       "</div>".PHP_EOL;
       while($row = mysqli_fetch_array($result)) {
         $content.= "<div class='row hover bordered'>".PHP_EOL.
-        "<div class='col-x-12 col-s-12 col-m-8 col-l-8 col-xl-8'><a href='/img/img-".$row['itemId']."-".$row['fileHash'].".png' target='_blank'>/img/img-".$row['itemId']."-".$row['fileHash'].".png<span class='fas iconright'>&#xf35d;</span></a></div>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-5 col-l-5 col-xl-5'><a href='/img/img-".$row['itemId']."-".$row['fileHash'].".png' target='_blank'>/img/img-".$row['itemId']."-".$row['fileHash'].".png<span class='fas iconright'>&#xf35d;</span></a></div>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-3 col-l-3 col-xl-3'>".($row['description'] != NULL ? output($row['description']) : "<span class='italic'>NULL</span>")."</div>".PHP_EOL.
         "<div class='col-x-12 col-s-12 col-m-2 col-l-2 col-xl-2'>".$row['sortIndex']."</div>".PHP_EOL.
         "<div class='col-x-12 col-s-12 col-m-2 col-l-2 col-xl-2'><a href='/adminFiles/del/".output($id)."/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a></div>".PHP_EOL.
         "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
@@ -285,9 +287,23 @@ if(mysqli_num_rows($result) == 0) {
                   unlink($_FILES['file']['tmp_name']);
 
                   /**
+                   * Bildbeschreibung
+                   */
+                  if(!empty($_POST['description'])) {
+                    if(preg_match('/^.{2,100}$/', $_POST['description'], $match) === 1) {
+                      $description = defuse($match[0]);
+                    } else {
+                      $description = NULL;
+                      $content.= "<div class='infobox'>Die Bildbeschreibung ist ungültig und wurde entfernt. Sie darf nur zwischen 2 und 100 Zeichen beinhalten.</div>".PHP_EOL;
+                    }
+                  } else {
+                    $description = NULL;
+                  }
+
+                  /**
                    * Eintrag in die Datenbank
                    */
-                  mysqli_query($dbl, "INSERT INTO `images` (`itemId`, `thumb`, `fileHash`) VALUES ('".$id."', 0, '".$fileHash."')") OR DIE(MYSQLI_ERROR($dbl));
+                  mysqli_query($dbl, "INSERT INTO `images` (`itemId`, `thumb`, `fileHash`, `description`) VALUES ('".$id."', 0, '".$fileHash."', ".($description != NULL ? "'".$description."'" : "NULL").")") OR DIE(MYSQLI_ERROR($dbl));
                   adminLog($adminUserId, 2, $id, NULL, "Bild hinzugefügt");
                   $content.= "<div class='successbox'>Das Bild wurde erfolgreich hochgeladen.</div>".PHP_EOL;
                 }
@@ -359,6 +375,15 @@ if(mysqli_num_rows($result) == 0) {
       "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Typ</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='radio' name='type' tabindex='2' id='thumb' value='thumb'><label for='thumb'>Thumbnail</label><br><input type='radio' name='type' tabindex='3' id='pic' value='pic' checked><label for='pic'>Bild</label></div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("* Wenn bereits ein Thumbnail vorhanden ist wird er gelöscht und der neue wird aktiv")."</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
+      "</div>".PHP_EOL;
+      /**
+       * Bildbeschreibung bei "Bild"
+       */
+      $content.= "<div class='row hover bordered'>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-3 col-xl-2'>Bildbeschreibung</div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'><input type='text' name='description' tabindex='3' placeholder='Bildbeschreibung'></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-4 col-l-5 col-xl-6'>".Slimdown::render("* nur bei Bildern möglich, nicht bei Thumbnails\n* Wird am unteren Bildrand eingeblendet\n* Kein Markdown möglich\n* Spätere Änderung nicht möglich")."</div>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
       "</div>".PHP_EOL;
       /**

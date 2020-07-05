@@ -137,7 +137,7 @@ CREATE TABLE `images` (
   `sortIndex` int(10) unsigned NOT NULL DEFAULT '9999999' COMMENT 'Sortierindex',
   `thumb` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT 'Thumbnail = 1, normales Bild = 0',
   `fileHash` varchar(16) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Unikat-Hash',
-  `description` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Beschreibung des Bildes',
+  `description` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Beschreibung des Bildes',
   PRIMARY KEY (`id`),
   UNIQUE KEY `filehash` (`fileHash`),
   KEY `itemId` (`itemId`),
@@ -354,4 +354,4 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `mostClicked` AS select `cl
 DROP TABLE IF EXISTS `stats`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `stats` AS select (select count(`categories`.`id`) from `categories`) AS `catCount`,(select count(`items`.`id`) from `items`) AS `itemCount`,(select count(`clicks`.`id`) from `clicks`) AS `clickCount`,(select count(`clicks`.`id`) from `clicks` where (`clicks`.`ts` > cast(curdate() as datetime))) AS `clicksToday`;
 
--- 2020-06-27 18:30:58
+-- 2020-07-05 13:21:17
