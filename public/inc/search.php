@@ -229,7 +229,7 @@ $content.= "<div class='spacer-m'></div>".PHP_EOL;
  * Wenn ein Suchquery erzeugt wurde, dann wird hier das Ergebnis angezeigt.
  */
 if(!empty($searchQuery)) {
-  $content.= "<h1><span class='fas icon'>&#xf1e5;</span>Suchergebnisse</h1>".PHP_EOL;
+  $content.= "<h2><span class='fas icon'>&#xf1e5;</span>Suchergebnisse</h2>".PHP_EOL;
   $result = mysqli_query($dbl, $searchQuery) OR DIE(MYSQLI_ERROR($dbl));
   if(mysqli_num_rows($result) == 0) {
     $content.= "<div class='infobox'>Kein Rezept fällt in das eingetragene Suchmuster.</div>".PHP_EOL;

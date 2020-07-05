@@ -22,11 +22,11 @@ https://github.com/RundesBalli/pr0cooking
     <meta name="viewport" content="width=device-width, initial-scale=1.0">{OGMETA}
   </head>
   <body>
-    <div id="sidebar">
+    <div id="sidebar" class="no-print">
       <a href="/" id="headerimg"><img src="/src/header.png" alt="Header"></a>
       <a class="toggle" id="toggle"></a>
       {NAV}
-      <div id="footer">
+      <div id="footer" class="no-print">
         <a href="/imprint">Impressum</a>
         <a href="https://nezos.wtf" target="_blank" rel="noopener">Nezos</a>
         <a href="https://github.com/RundesBalli/pr0cooking" target="_blank" rel="noopener">GitHub</a>

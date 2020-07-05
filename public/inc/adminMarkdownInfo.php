@@ -25,7 +25,7 @@ $content.= "<div class='spacer-m'></div>".PHP_EOL;
  * Mehrzeilige Textfelder
  */
 $content.= "<a name='multiline'></a>".PHP_EOL;
-$content.= "<h1>Mehrzeilige Textfelder</h1>".PHP_EOL;
+$content.= "<h2>Mehrzeilige Textfelder</h2>".PHP_EOL;
 $content.= "<div class='row highlight bold bordered'>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'>Markdown-Code</div>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'>Beispielausgabe</div>".PHP_EOL.
@@ -109,7 +109,7 @@ $content.= "<div class='spacer-m'></div>".PHP_EOL;
  * Einzeilige Textfelder
  */
 $content.= "<a name='singleline'></a>".PHP_EOL;
-$content.= "<h1>Einzeilige Textfelder</h1>".PHP_EOL;
+$content.= "<h2>Einzeilige Textfelder</h2>".PHP_EOL;
 $content.= "<div class='row highlight bold bordered'>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'>Markdown-Code</div>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-4 col-l-4 col-xl-4'>Beispielausgabe</div>".PHP_EOL.

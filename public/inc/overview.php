@@ -22,7 +22,7 @@ require_once('cookieCheck.php');
 $result = mysqli_query($dbl, "SELECT (SELECT COUNT(*) FROM `votes` WHERE `userId`='".$userId."') AS `voteCount`, (SELECT COUNT(*) FROM `favs` WHERE `userId`='".$userId."') AS `favCount`") OR DIE(MYSQLI_ERROR($dbl));
 $row = mysqli_fetch_array($result);
 
-$content.= "<h3><span class='fas icon'>&#xf0cb;</span>Zahlen, Daten, Fakten</h1>".PHP_EOL;
+$content.= "<h2><span class='fas icon'>&#xf0cb;</span>Zahlen, Daten, Fakten</h2>".PHP_EOL;
 $content.= "<div class='row highlight bold bordered'>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-3 col-l-3 col-xl-3'>Bezeichnung</div>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-9 col-l-9 col-xl-9'>Anzahl</div>".PHP_EOL.

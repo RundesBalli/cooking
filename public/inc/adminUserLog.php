@@ -62,7 +62,7 @@ $content.= "<div class='spacer-m'></div>".PHP_EOL;
 /**
  * Loglevel
  */
-$content.= "<h1>Loglevel</h1>".PHP_EOL;
+$content.= "<h2>Loglevel</h2>".PHP_EOL;
 $result = mysqli_query($dbl, "SELECT * FROM `logLevel` ORDER BY `id` ASC") OR DIE(MYSQLI_ERROR($dbl));
 while($row = mysqli_fetch_array($result)) {
   $content.= "<div class='row'>".PHP_EOL.

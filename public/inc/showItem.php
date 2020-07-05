@@ -60,7 +60,7 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
      * Adminschnellnavigation
      */
     if((isset($_COOKIE['cookingAdmin']) AND !empty($_COOKIE['cookingAdmin'])) AND preg_match('/[a-f0-9]{64}/i', defuse($_COOKIE['cookingAdmin']), $match) === 1) {
-      $content.= "<div class='row'>".PHP_EOL.
+      $content.= "<div class='row no-print'>".PHP_EOL.
       "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12 center'><span class='bold warn'>Admin-Schnellzugriff:</span> <a href='/adminItems/edit/".$row['id']."'><span class='fas icon'>&#xf044;</span>Editieren</a> - <a href='/adminItems/assign/".$row['id']."'><span class='far icon'>&#xf07c;</span>Kategorien</a> - <a href='/adminFiles/list/".$row['id']."'><span class='fas icon'>&#xf302;</span>Bilder</a> - <a href='/adminIngredients/assign/".$row['id']."'><span class='fas icon'>&#xf4d8;</span>Zutaten</a></div>".PHP_EOL.
       "</div>".PHP_EOL;
     }
@@ -84,7 +84,7 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
      * ShareButtons
      */
     $shareText = urlencode("Ich habe ein leckeres Rezept für ".$row['title']." gefunden!\n"."Schau mal hier: https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
-    $content.= "<div id='shareButtons'><a href='tg://msg?text=".$shareText."' target='_blank' rel='noopener'><span class='fab icon'>&#xf3fe;</span></a><a href='whatsapp://send?text=".$shareText."' target='_blank' rel='noopener'><span class='fab icon'>&#xf232;</span></a><a href=\"#\" class=\"copy-link-btn\"><span class='far icon'>&#xf0c5;</span></a></div>".PHP_EOL;
+    $content.= "<div id='shareButtons' class='no-print'><a href='tg://msg?text=".$shareText."' target='_blank' rel='noopener'><span class='fab icon'>&#xf3fe;</span></a><a href='whatsapp://send?text=".$shareText."' target='_blank' rel='noopener'><span class='fab icon'>&#xf232;</span></a><a href=\"#\" class=\"copy-link-btn\"><span class='far icon'>&#xf0c5;</span></a></div>".PHP_EOL;
 
     /**
      * Bilder, Eckdaten & Zutaten ausgeben
@@ -94,7 +94,7 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
     /**
      * Eckdaten
      */
-    "<div class='col-x-12 col-s-12 col-m-12 col-l-6 col-xl-6 ingredients center'>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-12 col-l-6 col-xl-6 ingredients center print-fullWidth'>".PHP_EOL.
     "<h2 class='center'><span class='fas icon'>&#xf0ce;</span>Eckdaten</h2>".PHP_EOL.
     "<ul>".PHP_EOL.
     "<li>".stars($row['votes'], $row['voteCount'])." - ".(((isset($_COOKIE['cooking']) AND !empty($_COOKIE['cooking'])) AND preg_match('/[a-f0-9]{64}/i', defuse($_COOKIE['cooking']), $match) === 1) ? "<a href='/vote/".$row['shortTitle']."'>Abstimmen</a>" : "zum Abstimmen <a href='/login'>Einloggen</a>")."<br>".$row['votes']." von 5 Sternen (".number_format($row['voteCount'], 0, ",", ".")." Stimmen)</li>".PHP_EOL.
@@ -146,7 +146,7 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
       $content.= "</ul>".PHP_EOL;
       if($persons > 0) {
         $content.= "<form method='get'>".PHP_EOL;
-        $content.= "<div class='row'>".PHP_EOL.
+        $content.= "<div class='row no-print'>".PHP_EOL.
         "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12 center'>Zutaten auf <input type='number' min='1' max='100' value='".output($persons)."' size='3' name='persons' style='width: auto;'> Person(en) <input type='submit' value='umrechnen' style='width: auto;'></div>".PHP_EOL.
         "</div>".PHP_EOL;
         $content.= "</form>".PHP_EOL;
@@ -180,7 +180,7 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
       }
       $slideshow.= "</div>".PHP_EOL;
 
-      $content.= "<div class='col-x-12 col-s-12 col-m-12 col-l-6 col-xl-6'>".$slideshow."</div>".PHP_EOL;
+      $content.= "<div class='col-x-12 col-s-12 col-m-12 col-l-6 col-xl-6 no-print'>".$slideshow."</div>".PHP_EOL;
     } else {
       /**
        * kein Bild => Standard-Thumbnail

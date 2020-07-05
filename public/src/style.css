@@ -841,3 +841,21 @@ h1 .icon, h2 .icon, h3 .icon {
     font-size: 18px;
   }
 }
+
+/*
+  Druckausgabe
+  @see https://stackoverflow.com/a/356123
+*/
+@media print {
+  .no-print, .no-print * {
+    display: none !important;
+  }
+  
+  .print-fullWidth {
+    width: 100%;
+  }
+
+  #content {
+    margin-left: 0px;
+  }
+}
