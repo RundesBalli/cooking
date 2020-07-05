@@ -1,6 +1,8 @@
 (function(){
     "use strict";
     
+    if (!window.matchMedia("(max-width: 700px)").matches) return; 
+
     function copyLink(e, callback){
         e.preventDefault();
         var el = document.createElement("textarea");
@@ -22,7 +24,11 @@
     }
 
     document.addEventListener("DOMContentLoaded", function(){
-        document.getElementsByClassName("copy-link-btn")[0].addEventListener("click", function(e){
+        var linkBtn = document.getElementsByClassName("copy-link-btn")[0];
+        
+        if (!linkBtn) return; 
+
+        linkBtn.addEventListener("click", function(e){
             copyLink(e, function(err){
                 if (err) return alert("Konnte URL nicht kopieren! Browser verhindert Zugriff auf die Zwischenablage =(");
                 alert("Link in die Zwischenablage kopiert!");

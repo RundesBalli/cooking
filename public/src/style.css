@@ -825,6 +825,23 @@ h1 .icon, h2 .icon, h3 .icon {
   margin-top: 10px;
 }
 
+@media screen and (max-width: 700px) {
+  #categoryContainer > a {
+    min-height: 140px;
+    min-width: 140px;
+    max-width: 145px;
+    flex: 0 0 21%;
+  }
+
+  #categoryContainer > a > .category-wrap {
+    font-size: 21px;
+  }
+
+  #categoryContainer > a > .category-wrap > span {
+    font-size: 18px;
+  }
+}
+
 /*
   Druckausgabe
   @see https://stackoverflow.com/a/356123
