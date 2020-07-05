@@ -26,7 +26,7 @@
     document.addEventListener("DOMContentLoaded", function(){
         var linkBtn = document.getElementsByClassName("copy-link-btn")[0];
         
-        if (!!linkBtn) return; 
+        if (!linkBtn) return; 
 
         linkBtn.addEventListener("click", function(e){
             copyLink(e, function(err){
