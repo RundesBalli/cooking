@@ -1,6 +1,8 @@
 (function(){
     "use strict";
     
+    // test
+    
     if (!window.matchMedia("(max-width: 700px)").matches) return; 
 
     function copyLink(e, callback){
