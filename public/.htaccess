@@ -52,9 +52,3 @@ RewriteRule ^([\w\d-]+)$ /index.php?p=$1 [NC,L,QSA]
 # Errorhandling
 ErrorDocument 404 /index.php?p=404
 ErrorDocument 403 /index.php?p=403
-
-## Entwicklung
-AuthName "In Bearbeitung"
-AuthType Basic
-AuthUserFile /var/www/_pr0.cooking/public/.htpasswd
-require valid-user
