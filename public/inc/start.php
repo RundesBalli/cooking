@@ -17,7 +17,7 @@ $content.= "<div class='spacer-m'></div>".PHP_EOL;
 /**
  * Kategorienauflistung mit Kacheln
  */
-$content.= "<h1><span class='far icon'>&#xf07c;</span>Kategorien</h1>".PHP_EOL;
+$content.= "<h2><span class='far icon'>&#xf07c;</span>Kategorien</h2>".PHP_EOL;
 $result = mysqli_query($dbl, "SELECT * FROM `categories` ORDER BY `sortIndex` ASC, `title` ASC") OR DIE(MYSQLI_ERROR($dbl));
 if(mysqli_num_rows($result) == 0) {
   $content.= "<div class='infobox'>Es existieren noch keine Kategorien.</div>".PHP_EOL;
