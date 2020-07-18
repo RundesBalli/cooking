@@ -58,42 +58,42 @@ if(!isset($_GET['p']) OR empty($_GET['p'])) {
  */
 $pageArray = array(
   /* Standardseiten */
-  'start'             => 'start.php',
-  'imprint'           => 'imprint.php',
-  'team'              => 'team.php',
+  'start'              => 'start.php',
+  'imprint'            => 'imprint.php',
+  'team'               => 'team.php',
 
   /* Seiten zur Ansicht der Kategorien und Einträge */
-  'showCategory'      => 'showCategory.php',
-  'showItem'          => 'showItem.php',
-  'vote'              => 'vote.php',
-  'fav'               => 'fav.php',
-  'search'            => 'search.php',
+  'showCategory'       => 'showCategory.php',
+  'showItem'           => 'showItem.php',
+  'vote'               => 'vote.php',
+  'fav'                => 'fav.php',
+  'search'             => 'search.php',
 
   /* Adminseiten */
-  'adminLogin'        => 'adminLogin.php',
-  'adminIndex'        => 'adminIndex.php',
-  'adminLogout'       => 'adminLogout.php',
-  'adminCategories'   => 'adminCategories.php',
-  'adminItems'        => 'adminItems.php',
-  'adminFiles'        => 'adminFiles.php',
-  'adminIngredients'  => 'adminIngredients.php',
-  'adminSessions'     => 'adminSessions.php',
-  'adminMarkdownInfo' => 'adminMarkdownInfo.php',
-  'adminLog'          => 'adminLog.php',
-  'adminUserLog'      => 'adminUserLog.php',
+  'adminLogin'         => 'adminLogin.php',
+  'adminIndex'         => 'adminIndex.php',
+  'adminLogout'        => 'adminLogout.php',
+  'adminCategories'    => 'adminCategories.php',
+  'adminItems'         => 'adminItems.php',
   'adminFeaturedItems' => 'adminFeaturedItems.php',
+  'adminFiles'         => 'adminFiles.php',
+  'adminIngredients'   => 'adminIngredients.php',
+  'adminSessions'      => 'adminSessions.php',
+  'adminMarkdownInfo'  => 'adminMarkdownInfo.php',
+  'adminLog'           => 'adminLog.php',
+  'adminUserLog'       => 'adminUserLog.php',
 
   /* Userseiten */
-  'login'             => 'login.php',
-  'loginRedirect'     => 'loginRedirect.php',
-  'logout'            => 'logout.php',
-  'auth'              => 'auth.php',
-  'overview'          => 'overview.php',
-  'favs'              => 'favs.php',
+  'login'              => 'login.php',
+  'loginRedirect'      => 'loginRedirect.php',
+  'logout'             => 'logout.php',
+  'auth'               => 'auth.php',
+  'overview'           => 'overview.php',
+  'favs'               => 'favs.php',
 
   /* Fehlerseiten */
-  '404'               => '404.php',
-  '403'               => '403.php'
+  '404'                => '404.php',
+  '403'                => '403.php'
 );
 
 /**
