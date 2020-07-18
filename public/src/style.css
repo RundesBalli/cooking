@@ -777,13 +777,13 @@ h1 .icon, h2 .icon, h3 .icon {
   Danke an @NLDev
   https://github.com/NLDev
 */
-#categoryContainer {
+.categoryContainer {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }
 
-#categoryContainer > a {
+.categoryContainer > a {
   display: flex;
   position: relative;
   min-height: 300px;
@@ -808,15 +808,15 @@ h1 .icon, h2 .icon, h3 .icon {
   border-radius: 10px;
 }
 
-#categoryContainer > a:hover {
+.categoryContainer > a:hover {
   background-size: 0px, cover;
 }
 
-#categoryContainer > a > .category-wrap {
+.categoryContainer > a > .category-wrap {
   text-align: center;
 }
 
-#categoryContainer > a > .category-wrap > span {
+.categoryContainer > a > .category-wrap > span {
   color: #f2f5f4;
   text-shadow: 1px 1px #333333;
   font-size: 18px;
@@ -826,18 +826,18 @@ h1 .icon, h2 .icon, h3 .icon {
 }
 
 @media screen and (max-width: 700px) {
-  #categoryContainer > a {
+  .categoryContainer > a {
     min-height: 140px;
     min-width: 140px;
     max-width: 145px;
     flex: 0 0 21%;
   }
 
-  #categoryContainer > a > .category-wrap {
+  .categoryContainer > a > .category-wrap {
     font-size: 21px;
   }
 
-  #categoryContainer > a > .category-wrap > span {
+  .categoryContainer > a > .category-wrap > span {
     font-size: 18px;
   }
 }

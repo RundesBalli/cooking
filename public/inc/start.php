@@ -22,7 +22,7 @@ $result = mysqli_query($dbl, "SELECT * FROM `categories` ORDER BY `sortIndex` AS
 if(mysqli_num_rows($result) == 0) {
   $content.= "<div class='infobox'>Es existieren noch keine Kategorien.</div>".PHP_EOL;
 } else {
-  $content.= "<div id='categoryContainer'>".PHP_EOL;
+  $content.= "<div class='categoryContainer'>".PHP_EOL;
   while($row = mysqli_fetch_array($result)) {
     $thumbresult = mysqli_query($dbl, "SELECT `categoryItems`.`itemId`, `images`.`fileHash` FROM `categoryItems` JOIN `images` ON `categoryItems`.`itemId`=`images`.`itemId` AND `thumb`='1' WHERE `categoryId` = '".$row['id']."' ORDER BY RAND() LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
     if(mysqli_num_rows($thumbresult) == 1) {
