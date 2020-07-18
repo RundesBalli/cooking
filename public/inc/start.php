@@ -15,6 +15,25 @@ $content.= "<div class='row center'>".PHP_EOL.
 $content.= "<div class='spacer-m'></div>".PHP_EOL;
 
 /**
+ * Vorgestellte Rezepte
+ */
+$result = mysqli_query($dbl, "SELECT `items`.`id`, `items`.`title`, `items`.`shortTitle`, (SELECT `images`.`fileHash` FROM `images` WHERE `images`.`itemId` = `featured`.`itemId` AND `images`.`thumb`=1) AS `fileHash` FROM `featured` JOIN `items` ON `featured`.`itemId` = `items`.`id` ORDER BY `featured`.`id` DESC LIMIT 4") OR DIE(MYSQLI_ERROR($dbl));
+if(mysqli_num_rows($result) > 0) {
+  $content.= "<h2 class='center'><span class='fas icon'>&#xf005;</span>Vorgestellte Rezepte</h2>".PHP_EOL;
+  $content.= "<div class='tileContainer'>".PHP_EOL;
+  while($row = mysqli_fetch_array($result)) {
+    if($row['fileHash'] !== NULL) {
+      $thumb = "/img/thumb-".$row['id']."-".$row['fileHash'].".png";
+    } else {
+      $thumb = "/src/og_favicon.png";
+    }
+    $content.= "<a href='/rezept/".$row['shortTitle']."' style='background-image: linear-gradient(0deg, rgba(22,22,24, 0.7), rgba(22,22,24, 0.7)), url(\"".$thumb."\");'><div class=\"tile-wrap\">".output($row['title'])."</div></a>".PHP_EOL;
+  }
+  $content.= "</div>".PHP_EOL;
+  $content.= "<div class='spacer-l'></div>".PHP_EOL;
+}
+
+/**
  * Kategorienauflistung mit Kacheln
  */
 $content.= "<h2 class='center'><span class='far icon'>&#xf07c;</span>Kategorien</h2>".PHP_EOL;

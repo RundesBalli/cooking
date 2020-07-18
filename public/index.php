@@ -81,6 +81,7 @@ $pageArray = array(
   'adminMarkdownInfo' => 'adminMarkdownInfo.php',
   'adminLog'          => 'adminLog.php',
   'adminUserLog'      => 'adminUserLog.php',
+  'adminFeaturedItems' => 'adminFeaturedItems.php',
 
   /* Userseiten */
   'login'             => 'login.php',
@@ -133,6 +134,7 @@ if((isset($_COOKIE['cookingAdmin']) AND !empty($_COOKIE['cookingAdmin'])) AND pr
   $nav.= "<a href='/adminIndex'".($getp == "adminIndex" ? $a : NULL)."><span class='fas icon'>&#xf0cb;</span>Index</a>".PHP_EOL;
   $nav.= "<a href='/adminCategories'".($getp == "adminCategories" ? $a : NULL)."><span class='far icon'>&#xf07c;</span>Kategorien</a>".PHP_EOL;
   $nav.= "<a href='/adminItems'".($getp == "adminItems" ? $a : NULL)."><span class='fas icon'>&#xf543;</span>Rezepte</a>".PHP_EOL;
+  $nav.= "<a href='/adminFeaturedItems'".($getp == "adminFeaturedItems" ? $a : NULL)."><span class='fas icon'>&#xf005;</span>Featured</a>".PHP_EOL;
   $nav.= "<a href='/adminIngredients'".($getp == "adminIngredients" ? $a : NULL)."><span class='fas icon'>&#xf4d8;</span>Zutaten</a>".PHP_EOL;
   $nav.= "<a href='/adminSessions'".($getp == "adminSessions" ? $a : NULL)."><span class='fas icon'>&#xf0c0;</span>Sitzungen</a>".PHP_EOL;
   $nav.= "<a href='/adminLog'".($getp == "adminLog" ? $a : NULL)."><span class='fas icon'>&#xf70e;</span>Log</a>".PHP_EOL;

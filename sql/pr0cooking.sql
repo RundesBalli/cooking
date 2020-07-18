@@ -9,6 +9,9 @@ USE `pr0cooking`;
 
 DELIMITER ;;
 
+DROP EVENT IF EXISTS `Featuredbereinigung`;;
+CREATE EVENT `Featuredbereinigung` ON SCHEDULE EVERY 6 HOUR STARTS '2020-04-01 00:00:00' ON COMPLETION NOT PRESERVE ENABLE COMMENT 'Löscht Rezeptvorschläge die älter als eine Woche sind' DO DELETE FROM `featured` WHERE `ts` < DATE_SUB(NOW(), INTERVAL 1 WEEK);;
+
 DROP EVENT IF EXISTS `Sitzungsbereinigung Admin`;;
 CREATE EVENT `Sitzungsbereinigung Admin` ON SCHEDULE EVERY 6 HOUR STARTS '2020-04-01 00:00:00' ON COMPLETION NOT PRESERVE ENABLE COMMENT 'Löscht abgelaufene Admin-Sitzungen nach sechs Wochen' DO DELETE FROM `accountSessions` WHERE `lastActivity` < DATE_SUB(NOW(), INTERVAL 6 WEEK);;
 
@@ -129,6 +132,25 @@ CREATE TABLE `favs` (
   CONSTRAINT `favs_ibfk_2` FOREIGN KEY (`itemId`) REFERENCES `items` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Favoritentabelle';
 
+
+DROP TABLE IF EXISTS `featured`;
+CREATE TABLE `featured` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Laufende ID',
+  `itemId` int(10) unsigned NOT NULL COMMENT 'Querverweis - items.id',
+  `ts` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Zeitpunkt der Anlage',
+  PRIMARY KEY (`id`),
+  KEY `itemId` (`itemId`),
+  KEY `tstampt` (`ts`),
+  CONSTRAINT `featured_ibfk_1` FOREIGN KEY (`itemId`) REFERENCES `items` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Vorgestellte Rezepte auf der Startseite';
+
+
+DELIMITER ;;
+
+CREATE TRIGGER `logTrig` AFTER DELETE ON `featured` FOR EACH ROW
+INSERT INTO `adminLog` (`logLevel`, `itemId`, `text`) VALUES(1, OLD.`itemId`, CONCAT("Featured Eintrag gelöscht."));;
+
+DELIMITER ;
 
 DROP TABLE IF EXISTS `images`;
 CREATE TABLE `images` (
@@ -354,4 +376,4 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `mostClicked` AS select `cl
 DROP TABLE IF EXISTS `stats`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `stats` AS select (select count(`categories`.`id`) from `categories`) AS `catCount`,(select count(`items`.`id`) from `items`) AS `itemCount`,(select count(`clicks`.`id`) from `clicks`) AS `clickCount`,(select count(`clicks`.`id`) from `clicks` where (`clicks`.`ts` > cast(curdate() as datetime))) AS `clicksToday`;
 
--- 2020-07-05 13:21:17
+-- 2020-07-18 19:25:28
