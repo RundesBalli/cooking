@@ -5,8 +5,8 @@
  * Startseite mit kurzer Begrüßung und Erläuterung.
  */
 $title = "Startseite";
-$content.= "<h1><span class='fas icon'>&#xf805;</span>pr0.cooking</h1>".PHP_EOL;
-$content.= "<div class='row'>".PHP_EOL.
+$content.= "<h1 class='center'><span class='fas icon'>&#xf805;</span>pr0.cooking</h1>".PHP_EOL;
+$content.= "<div class='row center'>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'>Willkommen auf pr0.cooking!</div>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'>pr0.cooking ist eine Rezeptsammlung für leckere Rezepte.</div>".PHP_EOL.
 "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'>Feedback bitte an <a href='https://pr0gramm.com/inbox/messages/Nezos' target='_blank' rel='noopener'>Nezos</a>.</div>".PHP_EOL.
@@ -17,7 +17,7 @@ $content.= "<div class='spacer-m'></div>".PHP_EOL;
 /**
  * Kategorienauflistung mit Kacheln
  */
-$content.= "<h2><span class='far icon'>&#xf07c;</span>Kategorien</h2>".PHP_EOL;
+$content.= "<h2 class='center'><span class='far icon'>&#xf07c;</span>Kategorien</h2>".PHP_EOL;
 $result = mysqli_query($dbl, "SELECT * FROM `categories` ORDER BY `sortIndex` ASC, `title` ASC") OR DIE(MYSQLI_ERROR($dbl));
 if(mysqli_num_rows($result) == 0) {
   $content.= "<div class='infobox'>Es existieren noch keine Kategorien.</div>".PHP_EOL;
