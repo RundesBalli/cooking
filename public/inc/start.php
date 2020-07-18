@@ -22,7 +22,7 @@ $result = mysqli_query($dbl, "SELECT * FROM `categories` ORDER BY `sortIndex` AS
 if(mysqli_num_rows($result) == 0) {
   $content.= "<div class='infobox'>Es existieren noch keine Kategorien.</div>".PHP_EOL;
 } else {
-  $content.= "<div class='categoryContainer'>".PHP_EOL;
+  $content.= "<div class='tileContainer'>".PHP_EOL;
   while($row = mysqli_fetch_array($result)) {
     $thumbresult = mysqli_query($dbl, "SELECT `categoryItems`.`itemId`, `images`.`fileHash` FROM `categoryItems` JOIN `images` ON `categoryItems`.`itemId`=`images`.`itemId` AND `thumb`='1' WHERE `categoryId` = '".$row['id']."' ORDER BY RAND() LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
     if(mysqli_num_rows($thumbresult) == 1) {
@@ -31,7 +31,7 @@ if(mysqli_num_rows($result) == 0) {
     } else {
       $thumb = "/src/og_favicon.png";
     }
-    $content.= "<a href='/kategorie/".$row['shortTitle']."' style='background-image: linear-gradient(0deg, rgba(22,22,24, 0.7), rgba(22,22,24, 0.7)), url(\"".$thumb."\");'><div class=\"category-wrap\">".output($row['title']).(!empty($row['shortDescription']) ? "<span>".SlimdownOneline::render($row['shortDescription'])."</span>" : NULL)."</div></a>".PHP_EOL;
+    $content.= "<a href='/kategorie/".$row['shortTitle']."' style='background-image: linear-gradient(0deg, rgba(22,22,24, 0.7), rgba(22,22,24, 0.7)), url(\"".$thumb."\");'><div class=\"tile-wrap\">".output($row['title']).(!empty($row['shortDescription']) ? "<span>".SlimdownOneline::render($row['shortDescription'])."</span>" : NULL)."</div></a>".PHP_EOL;
   }
   $content.= "</div>".PHP_EOL;
 }

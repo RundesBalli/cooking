@@ -777,13 +777,13 @@ h1 .icon, h2 .icon, h3 .icon {
   Danke an @NLDev
   https://github.com/NLDev
 */
-.categoryContainer {
+.tileContainer {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }
 
-.categoryContainer > a {
+.tileContainer > a {
   display: flex;
   position: relative;
   min-height: 300px;
@@ -808,15 +808,15 @@ h1 .icon, h2 .icon, h3 .icon {
   border-radius: 10px;
 }
 
-.categoryContainer > a:hover {
+.tileContainer > a:hover {
   background-size: 0px, cover;
 }
 
-.categoryContainer > a > .category-wrap {
+.tileContainer > a > .tile-wrap {
   text-align: center;
 }
 
-.categoryContainer > a > .category-wrap > span {
+.tileContainer > a > .tile-wrap > span {
   color: #f2f5f4;
   text-shadow: 1px 1px #333333;
   font-size: 18px;
@@ -826,18 +826,18 @@ h1 .icon, h2 .icon, h3 .icon {
 }
 
 @media screen and (max-width: 700px) {
-  .categoryContainer > a {
+  .tileContainer > a {
     min-height: 140px;
     min-width: 140px;
     max-width: 145px;
     flex: 0 0 21%;
   }
 
-  .categoryContainer > a > .category-wrap {
+  .tileContainer > a > .tile-wrap {
     font-size: 21px;
   }
 
-  .categoryContainer > a > .category-wrap > span {
+  .tileContainer > a > .tile-wrap > span {
     font-size: 18px;
   }
 }
