@@ -11,7 +11,7 @@
 require_once('adminCookie.php');
 
 $title = "Sitzungen anzeigen";
-$content.= "<h1><span class='fas icon'>&#xf0c0;</span>Sitzungen anzeigen</h1>".PHP_EOL;
+$content.= "<h1><span class='fas icon'>&#xf51c;</span>Sitzungen anzeigen</h1>".PHP_EOL;
 
 /**
  * Löschfunktion
