@@ -194,7 +194,88 @@ if(!isset($_GET['action'])) {
   /**
    * Löschen
    */
+  $title = "User löschen";
+  $content.= "<h1><span class='fas icon'>&#xf506;</span>User löschen</h1>".PHP_EOL;
+  $id = (int)defuse($_GET['id']);
   
+  /**
+   * Prüfen ob der User existiert
+   */
+  $result = mysqli_query($dbl, "SELECT `users`.`id`, `users`.`username`, `users`.`pr0grammUserId`, `users`.`lastSynced` FROM `users` WHERE `id`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+  if(mysqli_num_rows($result) != 1) {
+    /**
+     * User existiert nicht
+     */
+    http_response_code(404);
+    $content.= "<div class='warnbox'>Der User mit der ID <span class='italic'>".output($id)."</span> existiert nicht.</div>".PHP_EOL;
+    $content.= "<div class='row'>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminUsers/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
+    "</div>".PHP_EOL;
+  } else {
+    $row = mysqli_fetch_array($result);
+    if(!isset($_POST['submit'])) {
+      /**
+       * Formular wurde noch nicht gesendet.
+       */
+      $content.= "<div class='row'>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'>Soll der User <span class='italic highlight'>".output($row['username'])."</span> wirklich gelöscht werden?</div>".PHP_EOL.
+      "</div>".PHP_EOL;
+      /**
+       * Es wird ein "verwirrendes" Select-Feld gebaut, damit die "ja"-Option jedes mal woanders steht und man bewusster löscht.
+       */
+      $options = array(1 => "Ja, wirklich löschen", 2 => "nein, nicht löschen", 3 => "nope", 4 => "auf keinen Fall", 5 => "nö", 6 => "hab es mir anders überlegt");
+      $options1 = array();
+      foreach($options as $key => $val) {
+        $options1[] = "<option value='".$key."'>".$val."</option>".PHP_EOL;
+      }
+      shuffle($options1);
+      $content.= "<form action='/adminUsers/del/".$id."' method='post' autocomplete='off'>".PHP_EOL;
+      /**
+       * Sitzungstoken
+       */
+      $content.= "<input type='hidden' name='token' value='".$adminSessionHash."'>".PHP_EOL;
+      $content.= "<div class='row'>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-4 col-xl-4'><select name='selection'>".PHP_EOL."<option value='' selected disabled hidden>Bitte wählen</option>".PHP_EOL.implode("", $options1)."</select></div>".PHP_EOL.
+      "<div class='col-x-12 col-s-12 col-m-12 col-l-4 col-xl-4'><input type='submit' name='submit' value='Handeln'></div>".PHP_EOL.
+      "<div class='col-x-0 col-s-0 col-m-0 col-l-4 col-xl-4'></div>".PHP_EOL.
+      "</div>".PHP_EOL;
+      $content.= "</form>".PHP_EOL;
+    } else {
+      /**
+       * Formular wurde abgesendet. Jetzt muss das Select Feld geprüft werden.
+       */
+      if($_POST['token'] == $adminSessionHash) {
+        if(isset($_POST['selection']) AND $_POST['selection'] == 1) {
+          /**
+           * Im Select wurde "ja" ausgewählt
+           */
+          mysqli_query($dbl, "DELETE FROM `users` WHERE `id`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+          adminLog($adminUserId, 4, NULL, NULL, "User gelöscht: `".md5($row['username'])."` (hashed)");
+          $content.= "<div class='successbox'>User erfolgreich gelöscht.</div>".PHP_EOL;
+          $content.= "<div class='row'>".PHP_EOL.
+          "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminUsers/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
+          "</div>".PHP_EOL;
+        } else {
+          /**
+           * Im Select wurde etwas anderes als "ja" ausgewählt.
+           */
+          $content.= "<div class='infobox'>User unverändert.</div>".PHP_EOL;
+          $content.= "<div class='row'>".PHP_EOL.
+          "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminUsers/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
+          "</div>".PHP_EOL;
+        }
+      } else {
+        /**
+         * Ungültiges Sitzungstoken
+         */
+        http_response_code(403);
+        $content.= "<div class='warnbox'>Ungültiges Token.</div>".PHP_EOL;
+        $content.= "<div class='row'>".PHP_EOL.
+        "<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><a href='/adminUsers/list'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".PHP_EOL.
+        "</div>".PHP_EOL;
+      }
+    }
+  }
 } else {
   header("Location: /adminUsers/list");
   die();
