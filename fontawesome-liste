@@ -47,3 +47,7 @@ WhatsApp:           <span class='fab icon'>&#xf232;</span>
 Kopieren:           <span class='far icon'>&#xf0c5;</span>
 
 Featured:           <span class='fas icon'>&#xf005;</span>
+
+Userliste:          <span class='fas icon'>&#xf2b9;</span>
+User anzeigen:      <span class='fas icon'>&#xf530;</span>
+User löschen:       <span class='fas icon'>&#xf506;</span>

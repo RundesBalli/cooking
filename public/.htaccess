@@ -35,8 +35,8 @@ RewriteRule ^(vote|fav)\/([\w\d-]+)$ /index.php?p=$1&item=$2 [NC,L,QSA]
 # Admin Regeln
 # admin.../{Funktion} ohne ID
 # admin.../{Funktion}/id
-RewriteRule ^(admin(?:Categories|Items|Files|FeaturedItems))\/(add|list|catsort)$ /index.php?p=$1&action=$2 [NC,L,QSA]
-RewriteRule ^(admin(?:Categories|Items|Files|Sessions|FeaturedItems))\/(list|add|edit|del|assign|sort)\/([\d]+)$ /index.php?p=$1&action=$2&id=$3 [NC,L,QSA]
+RewriteRule ^(admin(?:Categories|Items|Files|FeaturedItems|Users))\/(add|list|catsort)$ /index.php?p=$1&action=$2 [NC,L,QSA]
+RewriteRule ^(admin(?:Categories|Items|Files|Sessions|FeaturedItems|Users))\/(list|add|edit|del|assign|sort|show)\/([\d]+)$ /index.php?p=$1&action=$2&id=$3 [NC,L,QSA]
 # Zuweisen von Kategorien
 RewriteRule ^adminItems\/assign\/([\d]+)\/(del|add)\/([\d]+)$ /index.php?p=adminItems&action=assign&id=$1&$2=$3 [NC,L,QSA]
 # Bilder löschen
