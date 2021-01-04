@@ -148,7 +148,7 @@ if(mysqli_num_rows($result) != 0) {
 /**
  * Wenn nicht zugewiesene Rezepte existieren, dann werden sie hier aufgeführt.
  */
-$result = mysqli_query($dbl, "SELECT `id`, `title` FROM `items` WHERE NOT EXISTS (SELECT * FROM `categoryItems` WHERE `items`.`id`=`categoryItems`.`itemId`)") OR DIE(MYSQLI_ERROR($dbl));
+$result = mysqli_query($dbl, "SELECT `id`, `shortTitle`, `title` FROM `items` WHERE NOT EXISTS (SELECT * FROM `categoryItems` WHERE `items`.`id`=`categoryItems`.`itemId`)") OR DIE(MYSQLI_ERROR($dbl));
 if(mysqli_num_rows($result) != 0) {
   $content.= "<div class='spacer-m'></div>".PHP_EOL;
   $content.= "<h2 class='warn'><span class='fas icon'>&#xf543;</span>Nicht in Kategorien eingeteilte Rezepte</h2>".PHP_EOL;
@@ -159,7 +159,7 @@ if(mysqli_num_rows($result) != 0) {
   "</div>".PHP_EOL;
   while($row = mysqli_fetch_array($result)) {
     $content.= "<div class='row hover bordered'>".PHP_EOL.
-    "<div class='col-x-12 col-s-12 col-m-9 col-l-9 col-xl-9'>".output($row['title'])."</div>".PHP_EOL.
+    "<div class='col-x-12 col-s-12 col-m-9 col-l-9 col-xl-9'><a href='/rezept/".output($row['shortTitle'])."' target='_blank'>".output($row['title'])."<span class='fas iconright'>&#xf35d;</span></a></div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-3 col-l-3 col-xl-3'><a href='/adminItems/edit/".$row['id']."' class='nowrap'>Bearbeiten</a><br><a href='/adminItems/assign/".$row['id']."' class='nowrap'>Zuweisen</a></div>".PHP_EOL.
     "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".PHP_EOL.
     "</div>".PHP_EOL;
