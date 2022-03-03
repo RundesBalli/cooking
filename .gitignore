@@ -1,4 +1,4 @@
 public/inc/config.php
 public/inc/imprint.php
-config/ogMeta.php
-config/config.php
+includes/ogMeta.php
+includes/config.php
