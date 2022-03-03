@@ -1,7 +1,0 @@
-Dateinamen:
-
-Thumbnail:
-/img/thumb-<itemId>-<fileHash>.png
-
-Bilder:
-/img/img-<itemId>-<fileHash>.png = 600x600px
