@@ -1,0 +1,200 @@
+/**
+ * Grundlegendes CSS
+ */
+:root {
+  --fontSize: 18px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+
+/**
+ * Gesamtgerüst
+ */
+html, body {
+  padding: 0px;
+  margin: 0px;
+  width: 100%;
+  height: auto;
+}
+
+body {
+  background-image: var(--bgImg);
+  font-family: sans-serif;
+  color: var(--fontColor);
+  font-size: var(--fontSize);
+}
+
+
+/**
+ * Bilder
+ */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+img.thumb {
+  border: 1px solid var(--fontColor);
+}
+
+
+/**
+ * Links
+ */
+a {
+  outline: none;
+  color: var(--linkColor);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.4s;
+}
+
+a:active, a:hover, a:focus {
+  color: var(--linkHover);
+  text-decoration: underline;
+}
+
+
+/**
+ * Allgemeine HTML Elemente
+ */
+hr {
+  border: 1px solid var(--hrColor);
+  width: 100%;
+  margin: 0;
+}
+
+code, pre {
+  font-family: monospace;
+  background: var(--codeBackground);
+  color: var(--codeFontColor);
+  padding: 2px;
+}
+
+ul, ol {
+  margin: 0 0 10px;
+  padding-left: 5px;
+}
+
+p {
+  margin: 0 0 10px;
+}
+
+h1, h2, h3 {
+  word-break: break-word;
+}
+
+h1 {
+  font-size: calc(var(--fontSize) * 2);
+  margin: calc(var(--fontSize) * 1.5) 0 calc(var(--fontSize) * 0.7);
+}
+
+h2 {
+  font-size: calc(var(--fontSize) * 1.5);
+  margin: calc(var(--fontSize) * 1.2) 0 calc(var(--fontSize) * 0.5);
+}
+
+h3 {
+  font-size: calc(var(--fontSize) * 1.2);
+  margin: calc(var(--fontSize) * 0.85) 0 calc(var(--fontSize) * 0.35);
+}
+
+
+/**
+ * Boxen
+ */
+.warnbox {
+  background: var(--warnBackground);
+  border-left: 5px solid var(--warnBorder);
+  color: var(--warnFontColor);
+  padding: 15px;
+  margin: 10px 0;
+}
+
+.infobox {
+  background: var(--infoBackground);
+  border-left: 5px solid var(--infoBorder);
+  color: var(--infoFontColor);
+  padding: 15px;
+  margin: 10px 0;
+}
+
+.successbox {
+  background: var(--successBackground);
+  border-left: 5px solid var(--successBorder);
+  color: var(--successFontColor);
+  padding: 15px;
+  margin: 10px 0;
+}
+
+
+/**
+ * Textgestaltung
+ */
+.bold {
+  font-weight: bold;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+.alignCenter {
+  text-align: center;
+}
+
+.alignRight {
+  text-align: right;
+}
+
+.small {
+  font-size: calc(var(--fontSize) * 0.6);
+}
+
+.bigger {
+  font-size: calc(var(--fontSize) * 1.4);
+}
+
+.help {
+  cursor: help;
+  border-bottom: 1px dotted var(--linkColor);
+}
+
+
+/**
+ * Floating
+ */
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+.clear {
+  clear: both;
+}
+
+
+/**
+ * Spacer
+ */
+.spacer-s {
+  height: calc(var(--fontSize) * 1.5);
+}
+
+.spacer-m {
+  height: calc(var(--fontSize) * 2);
+}
+
+.spacer-l {
+  height: calc(var(--fontSize) * 3);
+}
