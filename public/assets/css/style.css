@@ -185,6 +185,41 @@ h3 {
 
 
 /**
+ * Grid
+ */
+#wrapper {
+  max-width: 1200px;
+  width: 100%;
+  margin: 12px auto;
+  flex: auto;
+}
+
+[class*="col-"] {
+  float: left;
+  padding: 5px 5px;
+  border: 0;
+}
+
+@media only screen and (max-width: 900px) {
+
+}
+
+@media only screen and (min-width: 901px) {
+
+}
+
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.row.hover:hover {
+  background-color: var(--hoverColor);
+}
+
+
+/**
  * Spacer
  */
 .spacer-s {
