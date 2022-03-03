@@ -98,6 +98,7 @@ if(!empty($ogMeta)) {
 $output = preg_replace(
   array(
     "/{TITLE}/im",
+    "/{STYLE}/im",
     "/{NAV}/im",
     "/{CONTENT}/im",
     "/{FOOTER}/im",
@@ -106,6 +107,7 @@ $output = preg_replace(
   ),
   array(
     $ogConfig['sitename'].($title == "" ? "" : " - ".$title),
+    $style,
     $nav,
     $content,
     $footer,
