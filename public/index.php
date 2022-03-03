@@ -67,7 +67,7 @@ if(!empty($ogMeta)) {
 /**
  * Einsetzen der Inhalte
  */
-$output = preg_replace(array("/{TITLE}/im", "/{NAV}/im", "/{CONTENT}/im", "/{OGMETA}/im"), array(($title == "" ? "" : " - ".$title), $nav, $content, (!empty($ogMeta) ? PHP_EOL.implode(PHP_EOL, $ogData) : NULL)), fread($fp, filesize($templateFile)));
+$output = preg_replace(array("/{TITLE}/im", "/{NAV}/im", "/{CONTENT}/im", "/{OGMETA}/im"), array($ogConfig['sitename'].($title == "" ? "" : " - ".$title), $nav, $content, (!empty($ogMeta) ? PHP_EOL.implode(PHP_EOL, $ogData) : NULL)), fread($fp, filesize($templateFile)));
 fclose($fp);
 
 /**

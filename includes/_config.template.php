@@ -34,7 +34,7 @@ $defaultTimezone = "Europe/Berlin";
  * @var string $ogConfig['imgAlt']      Ersatztext für das angezeigte Bild
  * @var string $ogConfig['description'] Angezeigte Beschreibung / Text unter dem Bild
  * @var string $ogConfig['locale']      Spracheinstellung. Standard: de_DE
- * @var string $ogConfig['sitename']    Titel der Seite
+ * @var string $ogConfig['sitename']    Titel der Seite, wird auch als Präfix für das <title> Element genutzt
  * 
  * @see https://ogp.me/
  */
