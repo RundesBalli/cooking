@@ -36,7 +36,12 @@ if((!isset($_GET['page']) OR empty($_GET['page'])) OR preg_match("/([a-z-\d]+)/i
  * Das Seitenarray für die Seitenzuordnung
  */
 $pageArray = array(
-  'start' => 'start.php'
+  /**
+   * Fehlerseiten
+   */
+  '404'                   => '404.php',
+  '403'                   => '403.php',
+
   /**
    * Standardseiten
    */
