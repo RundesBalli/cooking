@@ -1,0 +1,51 @@
+/*
+  FontAwesome
+  https://fontawesome.com
+*/
+
+/* Regular */
+
+@font-face {
+  font-family: 'fontawesome-r';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url("/assets/webfonts/fa-regular-400.woff2") format("woff2"), url("/assets/webfonts/fa-regular-400.ttf") format("truetype");
+}
+
+.far {
+  font-family: 'fontawesome-r';
+  font-weight: 400;
+}
+
+
+/* Solid */
+
+@font-face {
+  font-family: 'fontawesome-s';
+  font-style: normal;
+  font-weight: 900;
+  font-display: block;
+  src: url("/assets/webfonts/fa-solid-900.woff2") format("woff2"), url("/assets/webfonts/fa-solid-900.ttf") format("truetype");
+}
+
+.fas {
+  font-family: 'fontawesome-s';
+  font-weight: 900;
+}
+
+
+/* Brands */
+
+@font-face {
+  font-family: 'fontawesome-b';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url("/assets/webfonts/fa-brands-400.woff2") format("woff2"), url("/assets/webfonts/fa-brands-400.ttf") format("truetype");
+}
+
+.fab {
+  font-family: 'fontawesome-b';
+  font-weight: 400;
+}
