@@ -1,3 +1,4 @@
 public/inc/config.php
 public/inc/imprint.php
-public/.htpasswd
+config/ogMeta.php
+config/config.php
