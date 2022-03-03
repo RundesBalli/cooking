@@ -8,29 +8,29 @@
 /**
  * Grundlegende Webseitenkonfiguration
  */
-require_once("./_config.php");
-require_once("./timezone.php");
+require_once(__DIR__.DIRECTORY_SEPARATOR."_config.php");
+require_once(__DIR__.DIRECTORY_SEPARATOR."timezone.php");
 
 /**
  * Einbinden der OG Metadaten
  */
-require_once("./ogMeta.php");
+require_once(__DIR__.DIRECTORY_SEPARATOR."ogMeta.php");
 
 /**
  * Datenbank und Datenbankfunktionen
  */
-require_once("./sql.php");
-require_once("./defuse.php");
+require_once(__DIR__.DIRECTORY_SEPARATOR."sql.php");
+require_once(__DIR__.DIRECTORY_SEPARATOR."defuse.php");
 
 /**
  * Einbinden grundlegender Webseitenfunktionen
  */
-require_once("./fractionizer.php");
-require_once("./output.php");
-require_once("./UUID.php");
+require_once(__DIR__.DIRECTORY_SEPARATOR."fractionizer.php");
+require_once(__DIR__.DIRECTORY_SEPARATOR."output.php");
+require_once(__DIR__.DIRECTORY_SEPARATOR."UUID.php");
 
 /**
  * Slimdown Markdownparser
  */
-require_once("./slimdown.php");
+require_once(__DIR__.DIRECTORY_SEPARATOR."slimdown.php");
 ?>
