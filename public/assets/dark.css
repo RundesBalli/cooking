@@ -1,0 +1,48 @@
+/**
+ * Dunkles Farbschema
+ * 
+ * Hintergrundbild:
+ * https://php-noise.com
+ */
+:root {
+  /**
+   * Grundlegendes
+   * 
+   * Richtfarbe für den Hintergrund: #554640
+   */
+  --bgImg: url("/assets/bgDark.png");
+  --fontColor: #FDFFFF;
+  --hrColor: #3E332E;
+
+  /**
+   * Links
+   */
+  --linkColor: #314CB6;
+  --linkHover: #0A81D1;
+
+  /**
+   * Code
+   */
+  --codeBackground: #3E332E;
+  --codeFontColor: #FDFFFF;
+
+  /**
+   * Hervorhebungsfarben
+   */
+  --warnBackground: #CA1634;
+  --warnBorder: #E83151;
+  --warnFontColor: #FDFFFF;
+
+  --infoBackground: #C4921C;
+  --infoBorder: #E3B23C;
+  --infoFontColor: #3E332E;
+
+  --successBackground: #3E796A;
+  --successBorder: #519E8A;
+  --successFontColor: #FDFFFF;
+
+  /**
+   * Grid
+   */
+  --hoverColor: #3E332E;
+}
