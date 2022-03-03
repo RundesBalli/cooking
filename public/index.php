@@ -37,6 +37,14 @@ if((!isset($_GET['page']) OR empty($_GET['page'])) OR preg_match("/([a-z-\d]+)/i
  */
 $pageArray = array(
   'start' => 'start.php'
+  /**
+   * Standardseiten
+   */
+  'start'                 => 'start.php',
+  /**
+   * Funktionen
+   */
+  'changeStyle'           => 'changeStyle.php'
 );
 
 /**
@@ -47,6 +55,21 @@ if(isset($pageArray[$getp])) {
 } else {
   require_once(__DIR__.DIRECTORY_SEPARATOR."inc".DIRECTORY_SEPARATOR."404.php");
 }
+
+/**
+ * Stil Auswahl
+ */
+if(empty($_COOKIE[$styleName])) {
+  $style = $defaultStyle;
+} elseif($_COOKIE[$styleName] == "dark") {
+  $style = "dark";
+} elseif($_COOKIE[$styleName] == "light") {
+  $style = "light";
+} else {
+  $style = $defaultStyle;
+}
+setcookie($styleName, $style, time()+(6*7*86400), NULL, NULL, TRUE, TRUE);
+
 
 /**
  * Templateeinbindung
