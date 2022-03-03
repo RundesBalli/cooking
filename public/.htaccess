@@ -21,8 +21,8 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
 # Regel für alles
-RewriteRule ^([\w\d-]+)$ /index.php?p=$1 [NC,L,QSA]
+RewriteRule ^([a-z-\d]+)$ /index.php?page=$1 [NC,L,QSA]
 
 # Errorhandling
-ErrorDocument 404 /index.php?p=404
-ErrorDocument 403 /index.php?p=403
+ErrorDocument 404 /index.php?page=404
+ErrorDocument 403 /index.php?page=403

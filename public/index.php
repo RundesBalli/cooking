@@ -26,11 +26,10 @@ $title = "";
 /**
  * Herausfinden welche Seite angefordert wurde
  */
-if(!isset($_GET['p']) OR empty($_GET['p'])) {
+if((!isset($_GET['page']) OR empty($_GET['page'])) OR preg_match("/([a-z-\d]+)/i", $_GET['page'], $pageMatch) !== 1) {
   $getp = "start";
 } else {
-  preg_match("/([\d\w-]+)/i", $_GET['p'], $match);
-  $getp = $match[1];
+  $getp = $pageMatch[1];
 }
 
 /**
