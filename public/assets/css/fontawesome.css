@@ -10,7 +10,7 @@
   font-style: normal;
   font-weight: 400;
   font-display: block;
-  src: url("/assets/webfonts/fa-regular-400.woff2") format("woff2"), url("/assets/webfonts/fa-regular-400.ttf") format("truetype");
+  src: url("/assets/fontawesome/fa-regular-400.woff2") format("woff2"), url("/assets/fontawesome/fa-regular-400.ttf") format("truetype");
 }
 
 .far {
@@ -26,7 +26,7 @@
   font-style: normal;
   font-weight: 900;
   font-display: block;
-  src: url("/assets/webfonts/fa-solid-900.woff2") format("woff2"), url("/assets/webfonts/fa-solid-900.ttf") format("truetype");
+  src: url("/assets/fontawesome/fa-solid-900.woff2") format("woff2"), url("/assets/fontawesome/fa-solid-900.ttf") format("truetype");
 }
 
 .fas {
@@ -42,7 +42,7 @@
   font-style: normal;
   font-weight: 400;
   font-display: block;
-  src: url("/assets/webfonts/fa-brands-400.woff2") format("woff2"), url("/assets/webfonts/fa-brands-400.ttf") format("truetype");
+  src: url("/assets/fontawesome/fa-brands-400.woff2") format("woff2"), url("/assets/fontawesome/fa-brands-400.ttf") format("truetype");
 }
 
 .fab {
