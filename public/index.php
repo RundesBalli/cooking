@@ -79,7 +79,7 @@ setcookie($styleName, $style, time()+(6*7*86400), NULL, NULL, TRUE, TRUE);
 /**
  * Templateeinbindung
  */
-$templateFile = __DIR__.DIRECTORY_SEPARATOR."assets".DIRECTORY_SEPARATOR."template.tpl";
+$templateFile = __DIR__.DIRECTORY_SEPARATOR."assets".DIRECTORY_SEPARATOR."tpl".DIRECTORY_SEPARATOR."template.tpl";
 $fp = fopen($templateFile, "r");
 
 /**
