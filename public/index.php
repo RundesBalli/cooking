@@ -46,10 +46,6 @@ $pageArray = array(
    * Standardseiten
    */
   'start'                 => 'start.php',
-  /**
-   * Funktionen
-   */
-  'changeStyle'           => 'changeStyle.php'
 );
 
 /**
@@ -61,19 +57,6 @@ if(isset($pageArray[$getp])) {
   require_once(__DIR__.DIRECTORY_SEPARATOR."inc".DIRECTORY_SEPARATOR."404.php");
 }
 
-/**
- * Stil Auswahl
- */
-if(empty($_COOKIE[$styleName])) {
-  $style = $defaultStyle;
-} elseif($_COOKIE[$styleName] == "dark") {
-  $style = "dark";
-} elseif($_COOKIE[$styleName] == "light") {
-  $style = "light";
-} else {
-  $style = $defaultStyle;
-}
-setcookie($styleName, $style, time()+(6*7*86400), NULL, NULL, TRUE, TRUE);
 
 
 /**
@@ -98,21 +81,17 @@ if(!empty($ogMeta)) {
 $output = preg_replace(
   array(
     "/{TITLE}/im",
-    "/{STYLE}/im",
     "/{NAV}/im",
     "/{CONTENT}/im",
     "/{FOOTER}/im",
-    "/{OGMETA}/im",
-    "/{ADDITIONALSTYLES}/im"
+    "/{OGMETA}/im"
   ),
   array(
     $ogConfig['sitename'].($title == "" ? "" : " - ".$title),
-    $style,
     $nav,
     $content,
     $footer,
-    (!empty($ogMeta) ? PHP_EOL.implode(PHP_EOL, $ogData) : NULL),
-    NULL // ADDOTIONALSTYLES
+    (!empty($ogMeta) ? PHP_EOL.implode(PHP_EOL, $ogData) : NULL)
   ),
   fread($fp, filesize($templateFile)));
 fclose($fp);

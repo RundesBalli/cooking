@@ -28,18 +28,6 @@ $mysqlCharset = "utf8";
 $defaultTimezone = "Europe/Berlin";
 
 /**
- * Standardstil
- * @var string Darkmode oder Lightmode ('dark' / 'light')
- */
-$defaultStyle = "dark";
-
-/**
- * Cookie Bezeichnungen
- * @var string Name des Stil-Cookies
- */
-$styleName = "";
-
-/**
  * Standard OG Metadaten
  * 
  * @var string $ogConfig['name']        Titel der Seite

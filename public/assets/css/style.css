@@ -3,6 +3,46 @@
  */
 :root {
   --fontSize: 18px;
+  --bgImg: url("/assets/images/bg.png"); /* #D7CD9F */
+  --fontColor: #2B251E;
+  --hrColor: #3E332E;
+
+  /* Navigation */
+  --navBgColor: #554640;
+  --navFontColor: #FDFFFF;
+  --navLinkHover: #D7CD9F;
+
+  /**
+   * Links
+   */
+  --linkColor: #314CB6;
+  --linkHover: #0A81D1;
+
+  /**
+   * Code
+   */
+  --codeBackground: #3E332E;
+  --codeFontColor: #FDFFFF;
+
+  /**
+   * Hervorhebungsfarben
+   */
+  --warnBackground: #CA1634;
+  --warnBorder: #E83151;
+  --warnFontColor: #FDFFFF;
+
+  --infoBackground: #C4921C;
+  --infoBorder: #E3B23C;
+  --infoFontColor: #3E332E;
+
+  --successBackground: #3E796A;
+  --successBorder: #519E8A;
+  --successFontColor: #FDFFFF;
+
+  /**
+   * Grid
+   */
+  --hoverColor: #3E332E;
 }
 
 * {
