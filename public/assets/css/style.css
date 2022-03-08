@@ -227,18 +227,17 @@ h3 {
 /**
  * Grid
  */
-#wrapper {
-  max-width: 1200px;
-  width: 100%;
-  margin: 12px auto;
-  flex: auto;
-}
-
 [class*="col-"] {
   float: left;
   padding: 5px 5px;
   border: 0;
 }
+
+#content {
+  margin-left: 17vw;
+  padding: 10px 25px;
+}
+
 
 @media only screen and (max-width: 900px) {
 
