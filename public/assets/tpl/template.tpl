@@ -18,7 +18,9 @@ https://github.com/RundesBalli/cooking
   </head>
   <body>
     <div id="sidebar" class="no-print">
-      <a href="/" id="headerimg"><img src="/assets/images/header-{STYLE}.png" alt="Header"></a>
+      <span class="fas burger">&#xf805;</span>
+      <span class="header">{NAVTITLE}</span>
+      <div class="spacer-m"></div>
       <a class="toggle" id="toggle"></a>
       {NAV}
       <div id="footer" class="no-print">

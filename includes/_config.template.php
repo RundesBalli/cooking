@@ -45,6 +45,13 @@ $ogConfig['locale'] = "de_DE";
 $ogConfig['sitename'] = "";
 
 /**
+ * Diverse Variablen
+ * 
+ * @var string $navTitle Seitenname der in der Navigation angezeigt wird.
+ */
+$navTitle = "";
+
+/**
  * Speicherort der Bilder und Thumbnails
  */
 $uploadDir = __DIR__.DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."public".DIRECTORY_SEPARATOR."img";
