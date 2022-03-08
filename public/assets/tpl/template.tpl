@@ -22,8 +22,11 @@ https://github.com/RundesBalli/cooking
       <span class="header">{NAVTITLE}</span>
       <div class="spacer-m"></div>
       <a class="toggle" id="toggle"></a>
-      {NAV}
-      <div id="footer" class="no-print">
+      <div id="nav">
+        {NAV}
+      </div>
+      <div class="spacer-m"></div>
+      <div id="footer">
         {FOOTER}
       </div>
     </div>

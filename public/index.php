@@ -82,6 +82,7 @@ $output = preg_replace(
   array(
     "/{TITLE}/im",
     "/{NAV}/im",
+    "/{NAVTITLE}/im",
     "/{CONTENT}/im",
     "/{FOOTER}/im",
     "/{OGMETA}/im"
@@ -89,6 +90,7 @@ $output = preg_replace(
   array(
     $ogConfig['sitename'].($title == "" ? "" : " - ".$title),
     $nav,
+    $navTitle,
     $content,
     $footer,
     (!empty($ogMeta) ? PHP_EOL.implode(PHP_EOL, $ogData) : NULL)

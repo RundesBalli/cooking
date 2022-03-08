@@ -259,6 +259,97 @@ h3 {
 }
 
 
+/* Sidebar */
+#sidebar {
+  margin: 0;
+  padding: 0;
+  width: 15vw;
+  background-color: var(--navBgColor);
+  color: var(--navFontColor);
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+  /*border-right: 5px solid var(--hrColor);*/
+  -webkit-box-shadow: 5px 0px 8px 7px var(--hrColor);
+  box-shadow: 5px 0px 8px 7px var(--hrColor);
+}
+
+#sidebar > span {
+  width: 100%;
+  display: block;
+  text-align: center;
+}
+
+#sidebar .burger {
+  font-size: calc(var(--fontSize) * 4);
+}
+
+#sidebar .header {
+  font-size: calc(var(--fontSize) * 1.5);
+}
+
+
+/* Navigation */
+#sidebar > #nav {
+  width: 100%;
+}
+
+#sidebar > #nav > a {
+  color: var(--navFontColor);
+  display: block;
+  padding: calc(var(--fontSize) * 0.4) var(--fontSize);
+  text-decoration: none;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+#sidebar > #nav > a:hover:not(.toggle) {
+  background-color: var(--navLinkHover);
+  color: var(--fontColor);
+}
+
+#sidebar > #nav > a.toggle {
+  display: none;
+}
+
+#sidebar > #nav > a.active {
+  font-weight: bold;
+  color: var(--navLinkHover);
+}
+
+
+/* Footer */
+#sidebar > #footer {
+  width: 100%;
+  position: absolute;
+  bottom: 0px;
+  color: var(--navFontColor);
+  font-size: calc(var(--fontSize) * 0.6);
+  padding: calc(var(--fontSize) * 0.6);
+}
+
+#sidebar > #footer > span {
+  display: block;
+  width: 100%;
+}
+
+#sidebar > #footer a {
+  display: inline;
+  color: var(--navFontColor);
+  text-decoration: underline;
+  transition: all 0.3s;
+}
+
+#sidebar > #footer a:hover {
+  background-color: var(--navLinkHover);
+  color: var(--fontColor);
+  text-decoration: none;
+}
+
+#sidebar > #footer > span > a:not(:first-child) {
+  margin: 0 0 0 calc((var(--fontSize) * 0.6) * 0.4);
+}
+
+
 /**
  * Spacer
  */
