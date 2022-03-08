@@ -3,6 +3,17 @@
   https://fontawesome.com
 */
 
+/* Icon Klasse */
+.icon {
+  display: inline;
+  padding: 0px 5px 0px 0px;
+}
+
+h1 .icon, h2 .icon, h3 .icon {
+  padding: 0px 15px 0px 0px;
+}
+
+
 /* Regular */
 
 @font-face {
