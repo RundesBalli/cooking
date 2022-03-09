@@ -123,6 +123,7 @@ p {
   margin: 0 0 10px;
 }
 
+/* Überschriften */
 h1, h2, h3 {
   word-break: break-word;
 }
@@ -387,6 +388,22 @@ h3 {
 
 /* Responsive */
 @media screen and (max-width: 900px) {
+  /* Überschriften */
+  h1 {
+    font-size: calc(var(--fontSize) * 1.6);
+    margin: calc(var(--fontSize) * 1.2) 0 calc(var(--fontSize) * 0.7);
+  }
+  
+  h2 {
+    font-size: calc(var(--fontSize) * 1.5);
+    margin: calc(var(--fontSize) * 1.1) 0 calc(var(--fontSize) * 0.4);
+  }
+  
+  h3 {
+    font-size: calc(var(--fontSize) * 1.2);
+    margin: calc(var(--fontSize) * 0.85) 0 calc(var(--fontSize) * 0.35);
+  }
+
   /* Sidebar */
   #sidebar {
     width: 100%;
