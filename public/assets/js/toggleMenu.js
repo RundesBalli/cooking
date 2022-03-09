@@ -5,8 +5,8 @@
  * @returns {any}
  */
 let toggleMenu = function(){
-    const x = document.getElementById("sidebar");
-    x.classList.toggle("responsive");
+    document.getElementById("nav").classList.toggle("responsive");
+    document.getElementById("toggle").classList.toggle("responsive");
 };
 
 
