@@ -21,12 +21,10 @@ https://github.com/RundesBalli/cooking
     <div id="sidebar" class="no-print">
       <span class="fas burger">&#xf805;</span>
       <span class="header">{NAVTITLE}</span>
-      <div class="spacer-m"></div>
       <a class="toggle" id="toggle"></a>
       <div id="nav">
         {NAV}
       </div>
-      <div class="spacer-m"></div>
       <div id="footer">
         {FOOTER}
       </div>
