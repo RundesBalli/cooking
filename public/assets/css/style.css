@@ -498,3 +498,73 @@ h3 {
 .spacer-l {
   height: calc(var(--fontSize) * 3);
 }
+
+
+/**
+ * Kacheln für die Startseite (Kacheln)
+ * Danke an https://github.com/NullDev
+ */
+ .tileContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.tileContainer > a {
+  display: flex;
+  position: relative;
+  min-height: 250px;
+  min-width: 250px;
+  max-width: 256px;
+  justify-content: center;
+  align-items: center;
+  flex: 1 0 21%;
+  margin: 5px;
+  padding: 10px;
+  
+  color: var(--navFontColor);
+  text-shadow: 2px 2px 1px var(--fontColor);
+  font-size: 25px;
+  word-break: break-word;
+  text-decoration: none;
+  
+  background-repeat: repeat, no-repeat;
+  background-position: center center, center center;
+  background-size: cover, cover;
+  
+  border-radius: 10px;
+}
+
+.tileContainer > a:hover {
+  background-size: 0px, cover;
+}
+
+.tileContainer > a > .tile-wrap {
+  text-align: center;
+}
+
+.tileContainer > a > .tile-wrap > span {
+  color: var(--navFontColor);
+  text-shadow: 1px 1px 1px var(--fontColor);
+  font-size: 18px;
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+}
+
+@media screen and (max-width: 900px) {
+  .tileContainer > a {
+    min-height: 140px;
+    min-width: 140px;
+    max-width: 145px;
+    flex: 0 0 21%;
+  }
+
+  .tileContainer > a > .tile-wrap {
+    font-size: 21px;
+  }
+
+  .tileContainer > a > .tile-wrap > span {
+    font-size: 18px;
+  }
+}
