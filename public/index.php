@@ -61,6 +61,17 @@ if(isset($pageArray[$getp])) {
  * Navigation
  */
 $a = " class='active'";
+$nav = "<a href='/'".($getp == "start" ? $a : NULL)."><span class='fas icon'>&#xf015;</span>Startseite</a>";
+
+/**
+ * Alle Kategorien auflisten
+ */
+$result = mysqli_query($dbl, "SELECT `title`, `shortTitle` FROM `categories` ORDER BY `sortIndex` ASC, `title` ASC") OR DIE(MYSQLI_ERROR($dbl));
+if(mysqli_num_rows($result) != 0) {
+  while($row = mysqli_fetch_array($result)) {
+    $nav.= "<a href='/kategorie/".output($row['shortTitle'])."'".(($getp == "showCategory" AND (isset($_GET['category']) AND $_GET['category'] == $row['shortTitle'])) ? $a : NULL)."><span class='far icon'>&#xf07c;</span>".output($row['title'])."</a>";
+  }
+}
 
 /**
  * Administrator Navigation
