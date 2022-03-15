@@ -57,9 +57,18 @@ if(isset($pageArray[$getp])) {
   require_once(__DIR__.DIRECTORY_SEPARATOR."inc".DIRECTORY_SEPARATOR."404.php");
 }
 
-/** Navigation, Inhalte */
+/**
+ * Navigation
+ */
 $a = " class='active'";
 
+/**
+ * Administrator Navigation
+ */
+
+/**
+ * Footer
+ */
 $footer = "<span><a href='/imprint'>Impressum</a><a href='/privacy'>Datenschutz</a></span>";
 $footer.= "<span>Ein Projekt von: <a href='https://nezos.wtf' target='_blank' rel='noopener'>Nezos</a></span>";
 $footer.= "<span>Entwicklung durch: <a href='https://rundesballi.com' target='_blank' rel='noopener'>RundesBalli</a><a href='https://github.com/RundesBalli/cooking' target='_blank' rel='noopener'>GitHub</a></span>";
