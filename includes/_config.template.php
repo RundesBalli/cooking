@@ -29,6 +29,8 @@ $defaultTimezone = "Europe/Berlin";
 
 /**
  * Cookie Einstellungen
+ * 
+ * @var string $cookieName Der gewünschte Name des Cookies.
  */
 $cookieName = "";
 
