@@ -28,6 +28,11 @@ $mysqlCharset = "utf8";
 $defaultTimezone = "Europe/Berlin";
 
 /**
+ * Cookie Einstellungen
+ */
+$cookieName = "";
+
+/**
  * Standard OG Metadaten
  * 
  * @var string $ogConfig['name']        Titel der Seite
