@@ -20,6 +20,15 @@ RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
+# Kategorie Regel
+RewriteRule ^kategorie\/([a-z-\d]+)$ /index.php?page=showCategory&category=$1 [NC,L,QSA]
+
+# Rezept Regel
+RewriteRule ^rezept\/([a-z-\d]+)$ /index.php?page=showItem&item=$1 [NC,L,QSA]
+
+# Regel für Aktionen
+RewriteRule ^([a-z-\d]+)\/([a-z-\d]+)$ /index.php?page=$1&action=$2 [NC,L,QSA]
+
 # Regel für alles
 RewriteRule ^([a-z-\d]+)$ /index.php?page=$1 [NC,L,QSA]
 
