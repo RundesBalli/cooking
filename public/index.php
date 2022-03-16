@@ -53,6 +53,7 @@ $pageArray = array(
    */
   'adminLogin'            => 'adminLogin.php',
   'adminIndex'            => 'adminIndex.php',
+  'adminLogout'           => 'adminLogout.php',
 );
 
 /**
