@@ -42,7 +42,7 @@
   /**
    * Grid
    */
-  --hoverColor: #3E332E;
+  --hoverBackground: rgba(43, 37, 30, 0.15); /* #2B251E */
 }
 
 * {
@@ -286,8 +286,12 @@ h3 {
   display: table;
 }
 
+.row.hover {
+  transition: all 0.2s;
+}
+
 .row.hover:hover {
-  background-color: var(--hoverColor);
+  background-color: var(--hoverBackground);
 }
 
 
