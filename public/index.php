@@ -54,6 +54,7 @@ $pageArray = array(
   'adminLogin'            => 'adminLogin.php',
   'adminIndex'            => 'adminIndex.php',
   'adminLogout'           => 'adminLogout.php',
+  'adminMarkdownInfo'     => 'adminMarkdownInfo.php'
 );
 
 /**
@@ -85,6 +86,8 @@ if(mysqli_num_rows($result) != 0) {
  * Administrator Navigation
  */
 if(isset($_COOKIE[$cookieName]) AND !empty($_COOKIE[$cookieName])) {
+  $nav.= "<a href='/adminMarkdownInfo'".($getp == "adminMarkdownInfo" ? $a : NULL)."><span class='fab icon'>&#xf60f;</span>MarkdownInfo</a>".PHP_EOL;
+  $nav.= "<a href='/adminLogout'".($getp == "adminLogout" ? $a : NULL)."><span class='fas icon'>&#xf2f5;</span>Logout</a>".PHP_EOL;
 }
 
 /**

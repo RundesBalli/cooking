@@ -20,7 +20,7 @@ $content.= "<h1>Übersicht</h1>";
  * Allgemeine Infos und Links
  */
 $content.= "<div class='row'>".
-"<div class='col-s-12 col-l-12'>Eingeloggt als: <span class='warn bold'>".$username."</span> - (<a href='/adminLogout'><span class='fas icon'>&#xf2f5;</span>Ausloggen</a>) - <a href='/adminMarkdownInfo'><span class='fab icon'>&#xf60f;</span>Markdown Info</a></div>".
+"<div class='col-s-12 col-l-12'>Eingeloggt als: <span class='warn bold'>".$username."</span></div>".
 "</div>";
 
 /**
@@ -32,6 +32,7 @@ $content.= "<div class='row highlight bold'>".
 "<div class='col-s-12 col-l-9'>Wert</div>".
 "<div class='col-s-12 col-l-0'><div class='spacer-s'></div></div>".
 "</div>";
+
 /**
  * Abrufen und Ausgeben des "stats" SQL-Views.
  */
