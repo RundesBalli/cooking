@@ -26,7 +26,6 @@ if(isset($_COOKIE[$cookieName]) AND !empty($_COOKIE[$cookieName])) {
       $username = $adminRow['username'];
       $userId = $adminRow['id'];
       $sessionHash = $match[0];
-      define("adminNavigation", TRUE);
     } else {
       /**
        * Wenn keine Sitzung mit dem übergebenen Hash existiert wird der User durch Entfernen des Cookies und Umleitung zur Loginseite ausgeloggt.

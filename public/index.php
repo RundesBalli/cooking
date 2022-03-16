@@ -82,6 +82,8 @@ if(mysqli_num_rows($result) != 0) {
 /**
  * Administrator Navigation
  */
+if(isset($_COOKIE[$cookieName]) AND !empty($_COOKIE[$cookieName])) {
+}
 
 /**
  * Footer
