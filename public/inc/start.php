@@ -18,7 +18,7 @@ $result = mysqli_query($dbl, "SELECT `items`.`id`, `items`.`title`, `items`.`sho
 if(mysqli_num_rows($result) > 0) {
   $content.= "<h2 class='alignCenter'><span class='fas icon'>&#xf005;</span>Vorgestellte Rezepte</h2>";
   $content.= "<div class='tileContainer'>";
-  while($row = mysqli_fetch_array($result)) {
+  while($row = mysqli_fetch_assoc($result)) {
     if($row['fileHash'] !== NULL) {
       $thumb = "/img/thumb-".$row['id']."-".$row['fileHash'].".png";
     } else {
@@ -39,10 +39,10 @@ if(mysqli_num_rows($result) == 0) {
   $content.= "<div class='infobox'>Es existieren noch keine Kategorien.</div>";
 } else {
   $content.= "<div class='tileContainer'>";
-  while($row = mysqli_fetch_array($result)) {
+  while($row = mysqli_fetch_assoc($result)) {
     $thumbresult = mysqli_query($dbl, "SELECT `categoryItems`.`itemId`, `images`.`fileHash` FROM `categoryItems` JOIN `images` ON `categoryItems`.`itemId`=`images`.`itemId` AND `thumb`='1' WHERE `categoryId` = '".$row['id']."' ORDER BY RAND() LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
     if(mysqli_num_rows($thumbresult) == 1) {
-      $thumbrow = mysqli_fetch_array($thumbresult);
+      $thumbrow = mysqli_fetch_assoc($thumbresult);
       $thumb = "/img/thumb-".$thumbrow['itemId']."-".$thumbrow['fileHash'].".png";
     } else {
       $thumb = "/assets/images/favicon.png";

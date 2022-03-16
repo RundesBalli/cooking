@@ -49,7 +49,7 @@ if((!isset($_COOKIE[$cookieName]) OR empty($_COOKIE[$cookieName])) AND !isset($_
     /**
      * Wenn der User existiert, muss der Passworthash validiert werden.
      */
-    $row = mysqli_fetch_array($result);
+    $row = mysqli_fetch_assoc($result);
     if(password_verify($_POST['password'].$row['salt'], $row['password'])) {
       /**
        * Wenn das Passwort verifiziert werden konnte wird eine Sitzung generiert und im Cookie gespeichert.
