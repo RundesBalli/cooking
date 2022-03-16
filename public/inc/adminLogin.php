@@ -58,7 +58,7 @@ if((!isset($_COOKIE[$cookieName]) OR empty($_COOKIE[$cookieName])) AND !isset($_
       $adminSessionHash = hash('sha256', random_bytes(4096));
       mysqli_query($dbl, "INSERT INTO `sessions` (`accountId`, `hash`) VALUES ('".$row['id']."', '".$adminSessionHash."')") OR DIE(MYSQLI_ERROR($dbl));
       mysqli_query($dbl, "INSERT INTO `log` (`accountId`, `logLevel`, `text`) VALUES ('".$row['id']."', 1, 'Login')") OR DIE(MYSQLI_ERROR($dbl));
-      setcookie($cookieName, $adminSessionHash, time()+(6*7*86400));
+      setcookie($cookieName, $adminSessionHash, time()+(6*7*86400), NULL, NULL, TRUE, TRUE);
       header("Location: /adminIndex");
       die();
     } else {
