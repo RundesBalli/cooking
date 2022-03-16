@@ -310,6 +310,10 @@ h3 {
   background-color: var(--hoverBackground);
 }
 
+.row.bordered {
+  border-top: 1px solid var(--borderColor);
+}
+
 
 /* Sidebar */
 #sidebar {
