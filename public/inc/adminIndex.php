@@ -13,8 +13,8 @@ require_once('adminCookie.php');
 /**
  * Titel und Überschrift
  */
-$title = "Index";
-$content.= "<h1>Index</h1>";
+$title = "Übersicht";
+$content.= "<h1>Übersicht</h1>";
 
 /**
  * Allgemeine Infos und Links
@@ -68,9 +68,7 @@ if(mysqli_num_rows($result) == 0) {
   /**
    * Wenn noch keine Klicks vorhanden, dann kurze Info.
    */
-  $content.= "<div class='row'>".
-  "<div class='col-s-12 col-l-12'>Noch keine Klicks.</div>".
-  "</div>";
+  $content.= "<div class='infobox'>Noch keine Klicks.</div>";
 } else {
   /**
    * Wenn Klicks vorhanden sind, dann erfolgt die Auflistung.
