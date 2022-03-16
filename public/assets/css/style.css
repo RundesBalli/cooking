@@ -330,7 +330,7 @@ h3 {
   box-shadow: 5px 0px 8px 7px var(--hrColor);
 }
 
-#sidebar > span {
+#sidebar > span, #sidebar > #nav > span {
   width: 100%;
   display: block;
   text-align: center;
