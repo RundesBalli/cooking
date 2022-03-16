@@ -47,6 +47,11 @@ $pageArray = array(
    * Standardseiten
    */
   'start'                 => 'start.php',
+
+  /**
+   * Administratorseiten
+   */
+  'adminLogin'            => 'adminLogin.php'
 );
 
 /**
