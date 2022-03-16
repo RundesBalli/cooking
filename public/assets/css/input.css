@@ -1,0 +1,46 @@
+/**
+ * Inputfelder
+ */
+input, textarea, label {
+  outline: 0;
+}
+
+input[type=text], input[type=password], select, textarea, input[type=number], input[type=file] {
+  width: 100%;
+  font-size: var(--fontSize);
+  border: 1px solid var(--fontColor);
+  padding: calc(var(--fontSize) * 0.5);
+  background-color: transparent;
+  color: var(--fontColor);
+}
+
+textarea {
+  resize: none;
+  height: 120px;
+  font-family: sans-serif;
+}
+
+input[type=text]:focus, input[type=password]:focus, select:focus, textarea:focus, input[type=number]:focus, input[type=file]:focus {
+  background-color: var(--hoverBackground);
+  border: 1px solid var(--fontColor);
+}
+
+input[type=submit], input[type=reset], input[type=button] {
+  width: 100%;
+  cursor: pointer;
+  font-size: var(--fontSize);
+  padding: calc(var(--fontSize) * 0.5);
+  background-color: transparent;
+  color: var(--fontColor);
+  border: 1px solid var(--fontColor);
+}
+
+input[type=submit]:focus, input[type=submit]:hover, input[type=reset]:focus, input[type=reset]:hover, input[type=button]:focus, input[type=button]:hover {
+  background-color: var(--hoverBackground);
+  border: 1px solid var(--fontColor);
+}
+
+label {
+  display: inline-block;
+  color: var(--fontColor);
+}
