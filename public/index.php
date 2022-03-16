@@ -18,10 +18,11 @@
 require_once(__DIR__.DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."includes".DIRECTORY_SEPARATOR."_loader.php");
 
 /**
- * Initialisieren des Outputs und des Standardtitels
+ * Initialisieren des Outputs, des Standardtitels und der eventuell zusätzlichen Stile
  */
 $content = "";
 $title = "";
+$additionalStyles = array();
 
 /**
  * Herausfinden welche Seite angefordert wurde
@@ -100,6 +101,15 @@ if(!empty($ogMeta)) {
   }
 }
 
+if(!empty($additionalStyles)) {
+  $addStyles = "";
+  foreach($additionalStyles AS $key => $val) {
+    $addStyles.= "<link href=\"/assets/css/".$val.".css\" rel=\"stylesheet\">";
+  }
+} else {
+  $addStyles = NULL;
+}
+
 /**
  * Einsetzen der Inhalte
  */
@@ -107,6 +117,7 @@ $output = preg_replace(
   array(
     "/{TITLE}/im",
     "/{NAV}/im",
+    "/{ADDITIONALSTYLES}/im",
     "/{NAVTITLE}/im",
     "/{CONTENT}/im",
     "/{FOOTER}/im",
@@ -115,6 +126,7 @@ $output = preg_replace(
   array(
     $ogConfig['sitename'].($title == "" ? "" : " - ".$title),
     $nav,
+    $addStyles,
     $navTitle,
     $content,
     $footer,

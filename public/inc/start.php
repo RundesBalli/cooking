@@ -7,6 +7,11 @@
 $content.= "<h1 class='alignCenter'><span class='fas icon'>&#xf805;</span>".$ogConfig['sitename']."</h1>";
 
 /**
+ * Laden der zusätzlichen CSS Datei für die Kacheln
+ */
+$additionalStyles[] = "tiles";
+
+/**
  * Vorgestellte Rezepte
  */
 $result = mysqli_query($dbl, "SELECT `items`.`id`, `items`.`title`, `items`.`shortTitle`, (SELECT `images`.`fileHash` FROM `images` WHERE `images`.`itemId` = `featured`.`itemId` AND `images`.`thumb`=1) AS `fileHash` FROM `featured` JOIN `items` ON `featured`.`itemId` = `items`.`id` ORDER BY `featured`.`id` DESC LIMIT 4") OR DIE(MYSQLI_ERROR($dbl));

@@ -12,6 +12,7 @@ https://github.com/RundesBalli/cooking
     <meta name="revisit-after" content="3 days"/>
     <link href="/assets/css/style.css" rel="stylesheet">
     <link href="/assets/css/fontawesome.css" rel="stylesheet">
+    {ADDITIONALSTYLES}
     <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/png">
     <meta name="theme-color" content="#554640">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
