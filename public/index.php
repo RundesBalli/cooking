@@ -51,7 +51,8 @@ $pageArray = array(
   /**
    * Administratorseiten
    */
-  'adminLogin'            => 'adminLogin.php'
+  'adminLogin'            => 'adminLogin.php',
+  'adminIndex'            => 'adminIndex.php',
 );
 
 /**
