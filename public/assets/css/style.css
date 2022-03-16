@@ -25,24 +25,31 @@
   --codeFontColor: #FDFFFF;
 
   /**
-   * Hervorhebungsfarben
+   * Farben der Boxen
    */
-  --warnBackground: #CA1634;
-  --warnBorder: #E83151;
-  --warnFontColor: #FDFFFF;
+  --warnboxBackground: #CA1634;
+  --warnboxBorder: #E83151;
+  --warnboxFontColor: #FDFFFF;
 
-  --infoBackground: #C4921C;
-  --infoBorder: #E3B23C;
-  --infoFontColor: #3E332E;
+  --infoboxBackground: #C4921C;
+  --infoboxBorder: #E3B23C;
+  --infoboxFontColor: #3E332E;
 
-  --successBackground: #3E796A;
-  --successBorder: #519E8A;
-  --successFontColor: #FDFFFF;
+  --successboxBackground: #3E796A;
+  --successboxBorder: #519E8A;
+  --successboxFontColor: #FDFFFF;
+
+  /**
+   * Hervorhebungen
+   */
+  --warnFontColor: #CA1634;
+  --highlightFontColor: #4357AD;
 
   /**
    * Grid
    */
   --hoverBackground: rgba(43, 37, 30, 0.15); /* #2B251E */
+  --borderColor: rgba(62, 51, 46, 0.3); /* #3E332E */
 }
 
 * {
@@ -87,14 +94,14 @@ img.thumb {
 a {
   outline: none;
   color: var(--linkColor);
-  text-decoration: none;
+  text-decoration: underline dotted;
   cursor: pointer;
   transition: all 0.4s;
 }
 
 a:active, a:hover, a:focus {
   color: var(--linkHover);
-  text-decoration: underline;
+  text-decoration: underline solid;
 }
 
 
@@ -123,6 +130,7 @@ p {
   margin: 0 0 10px;
 }
 
+
 /* Überschriften */
 h1, h2, h3 {
   word-break: break-word;
@@ -148,25 +156,25 @@ h3 {
  * Boxen
  */
 .warnbox {
-  background: var(--warnBackground);
-  border-left: 5px solid var(--warnBorder);
-  color: var(--warnFontColor);
+  background: var(--warnboxBackground);
+  border-left: 5px solid var(--warnboxBorder);
+  color: var(--warnboxFontColor);
   padding: 15px;
   margin: 10px 0;
 }
 
 .infobox {
-  background: var(--infoBackground);
-  border-left: 5px solid var(--infoBorder);
-  color: var(--infoFontColor);
+  background: var(--infoboxBackground);
+  border-left: 5px solid var(--infoboxBorder);
+  color: var(--infoboxFontColor);
   padding: 15px;
   margin: 10px 0;
 }
 
 .successbox {
-  background: var(--successBackground);
-  border-left: 5px solid var(--successBorder);
-  color: var(--successFontColor);
+  background: var(--successboxBackground);
+  border-left: 5px solid var(--successboxBorder);
+  color: var(--successboxFontColor);
   padding: 15px;
   margin: 10px 0;
 }
