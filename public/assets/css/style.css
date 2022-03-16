@@ -216,6 +216,14 @@ h3 {
   border-bottom: 1px dotted var(--linkColor);
 }
 
+.warn {
+  color: var(--warnFontColor);
+}
+
+.highlight {
+  color: var(--highlightFontColor);
+}
+
 
 /**
  * Floating
