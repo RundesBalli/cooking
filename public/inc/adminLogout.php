@@ -8,7 +8,7 @@
 /**
  * Einbinden der Cookieüberprüfung.
  */
-require_once('adminCookie.php');
+require_once(PAGE_INCLUDE_DIR.'adminCookie.php');
 
 /**
  * Laden der zusätzlichen CSS Datei für die Inputfelder
