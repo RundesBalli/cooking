@@ -33,6 +33,12 @@ if((!isset($_GET['page']) OR empty($_GET['page'])) OR preg_match("/([a-z-\d]+)/i
   $getp = $pageMatch[1];
 }
 
+if((!isset($_GET['action']) OR empty($_GET['action'])) OR preg_match("/([a-z-\d]+)/i", $_GET['action'], $actionMatch) !== 1) {
+  $geta = NULL;
+} else {
+  $geta = $actionMatch[1];
+}
+
 /**
  * Das Seitenarray für die Seitenzuordnung
  */
@@ -60,10 +66,12 @@ $pageArray = array(
 /**
  * Prüfung ob die Unterseite im Array existiert, falls nicht 404
  */
-if(isset($pageArray[$getp])) {
-  require_once(__DIR__.DIRECTORY_SEPARATOR."inc".DIRECTORY_SEPARATOR.$pageArray[$getp]);
+if(isset($pageArray[$getp]) AND empty($geta)) {
+  require_once(PAGE_INCLUDE_DIR.$pageArray[$getp]);
+} elseif(!empty($geta) AND isset($actionArray[$getp][$geta])) {
+  require_once(PAGE_INCLUDE_DIR.$getp.DIRECTORY_SEPARATOR.$actionArray[$getp][$geta]);
 } else {
-  require_once(__DIR__.DIRECTORY_SEPARATOR."inc".DIRECTORY_SEPARATOR."404.php");
+  require_once(PAGE_INCLUDE_DIR."404.php");
 }
 
 /**
