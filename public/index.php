@@ -60,7 +60,8 @@ $pageArray = array(
   'adminLogin'            => 'adminLogin.php',
   'adminIndex'            => 'adminIndex.php',
   'adminLogout'           => 'adminLogout.php',
-  'adminMarkdownInfo'     => 'adminMarkdownInfo.php'
+  'adminMarkdownInfo'     => 'adminMarkdownInfo.php',
+  'adminLog'              => 'adminLog.php'
 );
 
 $actionArray = array(
@@ -108,6 +109,7 @@ if(isset($_COOKIE[$cookieName]) AND !empty($_COOKIE[$cookieName])) {
   $nav.= "<span class='bold'>Admin</span>".PHP_EOL;
   $nav.= "<a href='/adminIndex'".($getp == "adminIndex" ? $a : NULL)."><span class='fas icon'>&#xf0cb;</span>Index</a>".PHP_EOL;
   $nav.= "<a href='/adminSessions/show'".($getp == "adminSessions" ? $a : NULL)."><span class='fas icon'>&#xf51c;</span>Sitzungen</a>".PHP_EOL;
+  $nav.= "<a href='/adminLog'".($getp == "adminLog" ? $a : NULL)."><span class='fas icon'>&#xf70e;</span>Log</a>".PHP_EOL;
   $nav.= "<a href='/adminMarkdownInfo'".($getp == "adminMarkdownInfo" ? $a : NULL)."><span class='fab icon'>&#xf60f;</span>MarkdownInfo</a>".PHP_EOL;
   $nav.= "<a href='/adminLogout'".($getp == "adminLogout" ? $a : NULL)."><span class='fas icon'>&#xf2f5;</span>Logout</a>".PHP_EOL;
 }
