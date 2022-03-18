@@ -68,6 +68,9 @@ $actionArray = array(
     'show' => 'show.php',
     'del'  => 'del.php'
   ),
+  'adminPassword' => array(
+    'change' => 'change.php'
+  )
 );
 
 /**

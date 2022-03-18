@@ -39,4 +39,29 @@ while($row = mysqli_fetch_array($result)) {
   $content.= "<div class='col-s-12 col-l-0'><div class='spacer-s'></div></div>";
   $content.= "</div>";
 }
+
+/**
+ * Formular zum Passwort ändern
+ */
+$content.= "<div class='spacer-m'></div>";
+$content.= "<h2><span class='fas icon'>&#xf084;</span>Eigenes Passwort ändern</h2>";
+
+$content.= "<form action='/adminPassword/change' method='post'>";
+/**
+ * Sitzungstoken
+ */
+$content.= "<input type='hidden' name='token' value='".$sessionHash."'>";
+$content.= "<div class='row hover bordered'>".
+"<div class='col-s-12 col-l-3'>neues Passwort</div>".
+"<div class='col-s-12 col-l-4'><input type='password' name='password' tabindex='1'></div>".
+"<div class='col-s-12 col-l-5'>Muss mindestens aus 20 Zeichen bestehen.<br><a href='https://rundesballi.com/pwgen' target='_blank'>Passwortgenerator</a></div>".
+"<div class='col-s-12 col-l-0'><div class='spacer-s'></div></div>".
+"</div>";
+$content.= "<div class='row hover bordered'>".
+"<div class='col-s-12 col-l-3'>Passwort ändern</div>".
+"<div class='col-s-12 col-l-4'><input type='submit' name='submit' value='ändern' tabindex='2'></div>".
+"<div class='col-s-12 col-l-5'><span class='highlight'>Info:</span> Bei Erfolg werden alle eigenen offenen Sitzungen geschlossen.</div>".
+"<div class='col-s-12 col-l-0'><div class='spacer-s'></div></div>".
+"</div>";
+$content.= "</form>";
 ?>
