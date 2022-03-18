@@ -127,7 +127,7 @@ ul, ol {
 }
 
 p {
-  margin: 0 0 10px;
+  margin: 0;
 }
 
 
@@ -203,7 +203,7 @@ h3 {
   text-align: right;
 }
 
-.small {
+.smaller {
   font-size: calc(var(--fontSize) * 0.6);
 }
 
