@@ -63,6 +63,13 @@ $pageArray = array(
   'adminMarkdownInfo'     => 'adminMarkdownInfo.php'
 );
 
+$actionArray = array(
+  'adminSessions' => array(
+    'show' => 'show.php',
+    'del'  => 'del.php'
+  ),
+);
+
 /**
  * Prüfung ob die Unterseite im Array existiert, falls nicht 404
  */
@@ -97,6 +104,7 @@ if(isset($_COOKIE[$cookieName]) AND !empty($_COOKIE[$cookieName])) {
   $nav.= "<hr>";
   $nav.= "<span class='bold'>Admin</span>".PHP_EOL;
   $nav.= "<a href='/adminIndex'".($getp == "adminIndex" ? $a : NULL)."><span class='fas icon'>&#xf0cb;</span>Index</a>".PHP_EOL;
+  $nav.= "<a href='/adminSessions/show'".($getp == "adminSessions" ? $a : NULL)."><span class='fas icon'>&#xf51c;</span>Sitzungen</a>".PHP_EOL;
   $nav.= "<a href='/adminMarkdownInfo'".($getp == "adminMarkdownInfo" ? $a : NULL)."><span class='fab icon'>&#xf60f;</span>MarkdownInfo</a>".PHP_EOL;
   $nav.= "<a href='/adminLogout'".($getp == "adminLogout" ? $a : NULL)."><span class='fas icon'>&#xf2f5;</span>Logout</a>".PHP_EOL;
 }
