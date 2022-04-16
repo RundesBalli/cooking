@@ -1,6 +1,6 @@
 <?php
 /**
- * adminPassword.php
+ * adminPassword/change.php
  * 
  * Aktion zum ändern des eigenen Passwortes
  */

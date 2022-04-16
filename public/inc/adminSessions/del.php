@@ -1,8 +1,8 @@
 <?php
 /**
- * adminPassword.php
+ * adminSessions/del.php
  * 
- * Aktion zum ändern des eigenen Passwortes
+ * Aktion zum Beenden von Sitzungen.
  */
 
 /**

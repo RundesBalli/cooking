@@ -1,6 +1,6 @@
 <?php
 /**
- * adminSessions.php
+ * adminSessions/show.php
  * 
  * Seite um aktive Sitzungen anzuzeigen und ggf. zu beenden.
  * Weiterhin besteht die Möglichkeit sein eigenes Passwort zu ändern.
