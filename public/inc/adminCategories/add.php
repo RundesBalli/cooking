@@ -135,12 +135,12 @@ if($form == 1) {
   "</div>";
 
   /**
-   * Langbeschreibung
+   * Kurzbeschreibung
    */
   $content.= "<div class='row hover bordered'>".
   "<div class='col-s-12 col-l-3'>Kurzbeschreibung</div>".
   "<div class='col-s-12 col-l-4'><input type='text' name='description' placeholder='Kurzbeschreibung' tabindex='3' value='".(isset($_POST['description']) && !empty($_POST['description']) ? output($_POST['description']) : NULL)."'></div>".
-  "<div class='col-s-12 col-l-5'>".Slimdown::render("* _optional_\n* kein Markdown möglich\n* wird in den Kacheln auf der Startseite angezeigt")."</div>".
+  "<div class='col-s-12 col-l-5'>".Slimdown::render("* _optional_\n*  wird in den Kacheln auf der Startseite angezeigt")."</div>".
   "<div class='col-s-12 col-l-0'><div class='spacer-s'></div></div>".
   "</div>";
 
