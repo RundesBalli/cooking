@@ -24,7 +24,7 @@ $content.= "<div class='spacer-m'></div>";
 /**
  * Anzeige der vorgestellten Rezepte
  */
-$result = mysqli_query($dbl, "SELECT `items`.`id`, `items`.`title`, `items`.`shortTitle`, `featured`.`ts` FROM `featured` JOIN `items` ON `featured`.`itemId` = `items`.`id` ORDER BY `featured`.`id` DESC LIMIT 4") OR DIE(MYSQLI_ERROR($dbl));
+$result = mysqli_query($dbl, "SELECT `items`.`id`, `items`.`title`, `items`.`shortTitle`, `featured`.`timestamp` FROM `featured` JOIN `items` ON `featured`.`itemId` = `items`.`id` ORDER BY `featured`.`id` DESC LIMIT 4") OR DIE(MYSQLI_ERROR($dbl));
 if(mysqli_num_rows($result) == 0) {
   /**
    * Wenn keine Rezeptvorstellungen existieren.
@@ -44,8 +44,8 @@ if(mysqli_num_rows($result) == 0) {
   while($row = mysqli_fetch_array($result)) {
     $content.= "<div class='row hover bordered'>".
     "<div class='col-s-12 col-l-4'><a href='/rezept/".output($row['shortTitle'])."' target='_blank'>".output($row['title'])."<span class='fas iconright'>&#xf35d;</span></a></div>".
-    "<div class='col-s-6 col-l-3'>".date("d.m.Y, H:i:s", strtotime($row['ts']))."</div>".
-    "<div class='col-s-6 col-l-3'>".date("d.m.Y, H:i:s", strtotime($row['ts'])+86400*14)."</div>".
+    "<div class='col-s-6 col-l-3'>".date("d.m.Y, H:i:s", strtotime($row['timestamp']))."</div>".
+    "<div class='col-s-6 col-l-3'>".date("d.m.Y, H:i:s", strtotime($row['timestamp'])+86400*14)."</div>".
     "<div class='col-s-12 col-l-2'><a href='/adminFeaturedItems/del?id=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a></div>".
     "<div class='col-s-0 col-l-0'><div class='spacer-s'></div></div>".
     "</div>";
