@@ -79,6 +79,9 @@ $actionArray = array(
     'edit'     => 'edit.php',
     'itemSort' => 'itemSort.php',
     'sort'     => 'sort.php'
+  ),
+  'adminFeaturedItems' => array(
+    'show' => 'show.php'
   )
 );
 
