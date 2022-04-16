@@ -81,7 +81,8 @@ $actionArray = array(
     'sort'     => 'sort.php'
   ),
   'adminFeaturedItems' => array(
-    'show' => 'show.php'
+    'show' => 'show.php',
+    'add'  => 'add.php'
   )
 );
 
