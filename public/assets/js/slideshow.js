@@ -25,7 +25,7 @@
     if (document.getElementsByClassName("mySlides").length !== 0){
       showSlides(slideIndex);
     }
-    
+
     if (!!document.getElementById("prev") && !!document.getElementById("next")){
       document.getElementById("prev").addEventListener("click", function(){
         plusSlides(-1);

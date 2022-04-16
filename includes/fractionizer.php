@@ -25,7 +25,7 @@ function fractionizer($number, int $decimals = 0, bool $decimalsIfInt = FALSE, s
    * Convert the input number to float.
    */
   $number = floatval($number);
-  
+
   /**
    * Check if the number has no decimals.
    */
@@ -67,7 +67,7 @@ function fractionizer($number, int $decimals = 0, bool $decimalsIfInt = FALSE, s
     }
     return (floor($number) == 0 ? NULL : floor($number)).$fraction;
   }
-  
+
   /**
    * If the Number has no quarter, half or three quarter decimals, it will return without extra formatting.
    */

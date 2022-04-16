@@ -19,17 +19,17 @@
   flex: 1 0 21%;
   margin: 5px;
   padding: 10px;
-  
+
   color: var(--navFontColor);
   text-shadow: 2px 2px 1px var(--fontColor);
   font-size: 25px;
   word-break: break-word;
   text-decoration: none;
-  
+
   background-repeat: repeat, no-repeat;
   background-position: center center, center center;
   background-size: cover, cover;
-  
+
   border-radius: 10px;
 }
 

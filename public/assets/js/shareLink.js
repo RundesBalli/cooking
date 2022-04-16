@@ -1,6 +1,6 @@
 (function(){
   "use strict";
-  
+
   if (!window.matchMedia("(max-width: 900px)").matches) return; 
 
   function copyLink(e, callback){
@@ -25,7 +25,7 @@
 
   document.addEventListener("DOMContentLoaded", function(){
       var linkBtn = document.getElementsByClassName("copy-link-btn")[0];
-      
+
       if (!linkBtn) return; 
 
       linkBtn.addEventListener("click", function(e){

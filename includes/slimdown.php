@@ -48,7 +48,7 @@ class Slimdown {
     }
     return sprintf ("\n<p>%s</p>\n", $trimmed);
   }
-  
+
   private static function ul_list ($regs) {
     $item = $regs[1];
     return sprintf ("\n<ul>\n\t<li>%s</li>\n</ul>", trim ($item));
