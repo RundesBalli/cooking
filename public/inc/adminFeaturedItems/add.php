@@ -46,7 +46,7 @@ if(isset($_POST['submit'])) {
       /**
        * Erfolgreich angelegt.
        */
-      mysqli_query($dbl, "INSERT INTO `log` (`accountId`, `logLevel`, `itemId`, `text`) VALUES ('".$userId."', 5, ".$itemId.", 'Rezeptvorstellung angelegt')") OR DIE(MYSQLI_ERROR($dbl));
+      mysqli_query($dbl, "INSERT INTO `log` (`accountId`, `logLevel`, `itemId`, `text`) VALUES ('".$userId."', 2, ".$itemId.", 'Rezeptvorstellung angelegt')") OR DIE(MYSQLI_ERROR($dbl));
       $content.= "<div class='successbox'>Rezeptvorstellung erfolgreich angelegt.</div>";
     } else {
       if(mysqli_errno($dbl) == 1452) {
