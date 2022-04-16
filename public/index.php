@@ -73,10 +73,11 @@ $actionArray = array(
     'change' => 'change.php'
   ),
   'adminCategories' => array(
-    'show' => 'show.php',
-    'add'  => 'add.php',
-    'del'  => 'del.php',
-    'edit' => 'edit.php'
+    'show'     => 'show.php',
+    'add'      => 'add.php',
+    'del'      => 'del.php',
+    'edit'     => 'edit.php',
+    'itemSort' => 'itemSort.php'
   )
 );
 
