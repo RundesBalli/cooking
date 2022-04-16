@@ -73,6 +73,7 @@ $actionArray = array(
     'change' => 'change.php'
   ),
   'adminCategories' => array(
+    'show' => 'show.php',
     'add'  => 'add.php'
   )
 );
