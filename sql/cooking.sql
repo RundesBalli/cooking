@@ -38,7 +38,7 @@ CREATE TABLE `categories` (
   `title` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Angezeigter Titel',
   `shortTitle` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Kurzer Titel für die URL',
   `sortIndex` int(10) unsigned NOT NULL DEFAULT '9999999' COMMENT 'Sortierindex',
-  `description` varchar(250) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Kurzbeschreibung',
+  `description` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Kurzbeschreibung',
   PRIMARY KEY (`id`),
   UNIQUE KEY `shortTitle` (`shortTitle`),
   KEY `sortIndex` (`sortIndex`)
@@ -281,4 +281,4 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `mostClicked` AS select `cl
 DROP TABLE IF EXISTS `stats`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `stats` AS select (select count(`categories`.`id`) from `categories`) AS `catCount`,(select count(`items`.`id`) from `items`) AS `itemCount`,(select count(`clicks`.`id`) from `clicks`) AS `clickCount`,(select count(`clicks`.`id`) from `clicks` where (`clicks`.`timestamp` > cast(curdate() as datetime))) AS `clicksToday`;
 
--- 2022-03-02 20:45:22
+-- 2022-04-16 17:58:53

@@ -47,7 +47,7 @@ if(mysqli_num_rows($result) == 0) {
     } else {
       $thumb = "/assets/images/favicon.png";
     }
-    $content.= "<a href='/kategorie/".$row['shortTitle']."' style='background-image: linear-gradient(0deg, rgba(20, 20, 20, 0.7), rgba(20, 20, 20, 0.7)), url(\"".$thumb."\");'><div class=\"tile-wrap\">".output($row['title']).(!empty($row['shortDescription']) ? "<span>".SlimdownOneline::render($row['shortDescription'])."</span>" : NULL)."</div></a>";
+    $content.= "<a href='/kategorie/".$row['shortTitle']."' style='background-image: linear-gradient(0deg, rgba(20, 20, 20, 0.7), rgba(20, 20, 20, 0.7)), url(\"".$thumb."\");'><div class=\"tile-wrap\">".output($row['title']).(!empty($row['description']) ? "<span>".SlimdownOneline::render($row['description'])."</span>" : NULL)."</div></a>";
   }
   $content.= "</div>";
 }
