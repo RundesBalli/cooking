@@ -468,7 +468,7 @@ h3 {
     text-align: center;
   }
 
-  #sidebar > #nav a, #sidebar > #nav hr {
+  #sidebar > #nav a, #sidebar > #nav hr, #sidebar > #nav > span {
     display: none;
   }
 
@@ -483,6 +483,10 @@ h3 {
   #sidebar > #nav.responsive hr {
     display: block;
     margin: calc(var(--fontSize) * 0.7) 0;
+  }
+
+  #sidebar > #nav.responsive > span {
+    display: block;
   }
 
 
