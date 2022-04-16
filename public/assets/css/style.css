@@ -251,7 +251,7 @@ h3 {
 }
 
 #content {
-  margin-left: 17vw;
+  margin-left: max(17vw, 270px);
   padding: 10px 25px;
 }
 
@@ -320,6 +320,7 @@ h3 {
   margin: 0;
   padding: 0;
   width: 15vw;
+  min-width: 250px;
   background-color: var(--navBgColor);
   color: var(--navFontColor);
   position: fixed;
@@ -435,6 +436,7 @@ h3 {
   /* Sidebar */
   #sidebar {
     width: 100%;
+    min-width: 100%;
     height: auto;
     position: relative;
     border-right: 0;
