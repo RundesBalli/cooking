@@ -71,6 +71,9 @@ $actionArray = array(
   ),
   'adminPassword' => array(
     'change' => 'change.php'
+  ),
+  'adminCategories' => array(
+    'add'  => 'add.php'
   )
 );
 
@@ -108,6 +111,7 @@ if(isset($_COOKIE[$cookieName]) AND !empty($_COOKIE[$cookieName])) {
   $nav.= "<hr>";
   $nav.= "<span class='bold'>Admin</span>";
   $nav.= "<a href='/adminIndex'".($getp == "adminIndex" ? $a : NULL)."><span class='fas icon'>&#xf0cb;</span>Index</a>";
+  $nav.= "<a href='/adminCategories/show'".($getp == "adminCategories" ? $a : NULL)."><span class='far icon'>&#xf07c;</span>Kategorien</a>";
   $nav.= "<a href='/adminSessions/show'".($getp == "adminSessions" ? $a : NULL)."><span class='fas icon'>&#xf51c;</span>Sitzungen</a>";
   $nav.= "<a href='/adminLog'".($getp == "adminLog" ? $a : NULL)."><span class='fas icon'>&#xf70e;</span>Log</a>";
   $nav.= "<a href='/adminMarkdownInfo'".($getp == "adminMarkdownInfo" ? $a : NULL)."><span class='fab icon'>&#xf60f;</span>MarkdownInfo</a>";
