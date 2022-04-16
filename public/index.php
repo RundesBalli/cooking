@@ -74,7 +74,8 @@ $actionArray = array(
   ),
   'adminCategories' => array(
     'show' => 'show.php',
-    'add'  => 'add.php'
+    'add'  => 'add.php',
+    'del'  => 'del.php'
   )
 );
 
