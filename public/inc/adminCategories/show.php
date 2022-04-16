@@ -13,7 +13,7 @@ require_once(PAGE_INCLUDE_DIR.'adminCookie.php');
 $title = "Kategorien anzeigen";
 $content.= "<h1><span class='far icon'>&#xf07c;</span>Kategorien anzeigen</h1>";
 $content.= "<div class='row'>".
-"<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><span class='highlight bold'>Aktionen:</span> <a href='/adminCategories/add'><span class='fas icon'>&#xf067;</span>Anlegen</a> - <a href='/adminCategories/catsort'><span class='fas icon'>&#xf0dc;</span>Kategorien sortieren</a></div>".
+"<div class='col-x-12 col-s-12 col-m-12 col-l-12 col-xl-12'><span class='highlight bold'>Aktionen:</span> <a href='/adminCategories/add'><span class='fas icon'>&#xf067;</span>Anlegen</a> - <a href='/adminCategories/sort'><span class='fas icon'>&#xf0dc;</span>Kategorien sortieren</a></div>".
 "</div>";
 $content.= "<div class='spacer-m'></div>";
 

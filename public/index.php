@@ -77,7 +77,8 @@ $actionArray = array(
     'add'      => 'add.php',
     'del'      => 'del.php',
     'edit'     => 'edit.php',
-    'itemSort' => 'itemSort.php'
+    'itemSort' => 'itemSort.php',
+    'sort'     => 'sort.php'
   )
 );
 
