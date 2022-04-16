@@ -165,8 +165,12 @@ CREATE TABLE `log` (
   PRIMARY KEY (`id`),
   KEY `accountId` (`accountId`),
   KEY `logLevel` (`logLevel`),
+  KEY `categoryId` (`categoryId`),
+  KEY `itemId` (`itemId`),
   CONSTRAINT `log_ibfk_3` FOREIGN KEY (`accountId`) REFERENCES `accounts` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `log_ibfk_5` FOREIGN KEY (`logLevel`) REFERENCES `logLevel` (`id`) ON UPDATE CASCADE
+  CONSTRAINT `log_ibfk_5` FOREIGN KEY (`logLevel`) REFERENCES `logLevel` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `log_ibfk_6` FOREIGN KEY (`categoryId`) REFERENCES `categories` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `log_ibfk_7` FOREIGN KEY (`itemId`) REFERENCES `items` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Administratorlog';
 
 TRUNCATE `log`;
@@ -281,4 +285,4 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `mostClicked` AS select `cl
 DROP TABLE IF EXISTS `stats`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `stats` AS select (select count(`categories`.`id`) from `categories`) AS `catCount`,(select count(`items`.`id`) from `items`) AS `itemCount`,(select count(`clicks`.`id`) from `clicks`) AS `clickCount`,(select count(`clicks`.`id`) from `clicks` where (`clicks`.`timestamp` > cast(curdate() as datetime))) AS `clicksToday`;
 
--- 2022-04-16 17:58:53
+-- 2022-04-16 19:02:48
