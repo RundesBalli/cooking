@@ -21,7 +21,7 @@ if(!isset($_POST['submit'])) {
   /**
    * Wenn das Formular noch nicht übergeben wurde, dann zeig es an.
    */
-  $result = mysqli_query($dbl, "SELECT `id`, `title`, `shortTitle`, `sortIndex` FROM `categories` ORDER BY `sortIndex` ASC") OR DIE(MYSQLI_ERROR($dbl));
+  $result = mysqli_query($dbl, "SELECT `id`, `title`, `shortTitle`, `sortIndex` FROM `categories` ORDER BY `sortIndex` ASC, `title` ASC") OR DIE(MYSQLI_ERROR($dbl));
   if(mysqli_num_rows($result) == 0) {
     /**
      * Wenn noch keine Kategorien angelegt wurden.
