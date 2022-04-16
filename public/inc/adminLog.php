@@ -70,5 +70,4 @@ while($row = mysqli_fetch_array($result)) {
   "</div>";
 }
 $content.= "<div class='spacer-m'></div>";
-
 ?>
