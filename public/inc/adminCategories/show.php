@@ -40,7 +40,7 @@ if(mysqli_num_rows($result) == 0) {
     $content.= "<div class='row hover bordered'>".
     "<div class='col-x-12 col-s-12 col-m-8 col-l-8 col-xl-8'><a href='/kategorie/".output($row['shortTitle'])."' target='_blank'>".output($row['title'])."<span class='fas iconright'>&#xf35d;</span></a></div>".
     "<div class='col-x-12 col-s-12 col-m-2 col-l-2 col-xl-2'>".$row['itemCount']." Rezept".($row['itemCount'] == 1 ? "" : "e")."</div>".
-    "<div class='col-x-12 col-s-12 col-m-2 col-l-2 col-xl-2'><a href='/adminCategories/edit?id=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf044;</span>Editieren</a><br>"."<a href='/adminCategories/del?id=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a><br>"."<a href='/adminCategories/sort?id=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf0dc;</span>Rezepte sortieren</a></div>".
+    "<div class='col-x-12 col-s-12 col-m-2 col-l-2 col-xl-2'><a href='/adminCategories/edit?id=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf044;</span>Editieren</a><br>"."<a href='/adminCategories/del?id=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a><br>"."<a href='/adminCategories/itemSort?id=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf0dc;</span>Rezepte in Kategorie sortieren</a></div>".
     "<div class='col-x-12 col-s-12 col-m-0 col-l-0 col-xl-0'><div class='spacer-s'></div></div>".
     "</div>";
   }
