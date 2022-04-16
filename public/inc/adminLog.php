@@ -16,11 +16,11 @@ $content.= "<h1><span class='fas icon'>&#xf70e;</span>Log</h1>";
 /**
  * Tabellenüberschrift
  */
-$content.= "<div class='row highlight bold' style='border-left: 6px solid #888888;'>".
+$content.= "<div class='row highlight bold smaller' style='border-left: 6px solid #888888;'>".
 "<div class='col-s-2 col-l-1'>ID</div>".
-"<div class='col-s-4 col-l-5'><span class='fas icon'>&#xf007;</span>Username</div>".
-"<div class='col-s-6 col-l-6'><span class='far icon'>&#xf017;</span>Zeitpunkt</div>".
-"<div class='col-s-6 col-l-6'>Daten</div>".
+"<div class='col-s-4 col-l-1'><span class='fas icon'>&#xf007;</span>Username</div>".
+"<div class='col-s-6 col-l-2'><span class='far icon'>&#xf017;</span>Zeitpunkt</div>".
+"<div class='col-s-6 col-l-2'>Daten</div>".
 "<div class='col-s-6 col-l-6'><span class='fas icon'>&#xf1dd;</span>Text</div>".
 "<div class='col-s-12 col-l-0'><div class='spacer-s'></div></div>".
 "</div>";
@@ -43,9 +43,9 @@ $result = mysqli_query($dbl, "SELECT `log`.`id`, `accounts`.`username`, `log`.`t
 while($row = mysqli_fetch_array($result)) {
   $content.= "<div class='row hover bordered smaller' style='border-left: 6px solid #".$row['color'].";' title='".$row['logLevelTitle']."'>".
   "<div class='col-s-2 col-l-1'>".$row['id']."</div>".
-  "<div class='col-s-4 col-l-5'>".($row['username'] === NULL ? "-" : ($row['username'] == $username ? "<span class='highlight'>".output($row['username'])."</span>" : output($row['username'])))."</div>".
-  "<div class='col-s-6 col-l-6'>".date("d.m.Y, H:i:s", strtotime($row['timestamp']))."</div>".
-  "<div class='col-s-6 col-l-6'>".((!isset($row['itemId']) AND !isset($row['categoryId'])) ? "-" : NULL).($row['itemId'] !== NULL ? "<span class='fas icon'>&#xf543;</span><a href='/rezept/".output($row['itemShortTitle'])."' target='_blank'>".output($row['itemTitle'])."<span class='fas iconright'>&#xf35d;</span></a>" : NULL).((isset($row['itemId']) AND isset($row['categoryId'])) ? "<br>" : NULL).($row['categoryId'] !== NULL ? "<span class='far icon'>&#xf07c;</span><a href='/kategorie/".output($row['categoryShortTitle'])."' target='_blank'>".output($row['categoryTitle'])."<span class='fas iconright'>&#xf35d;</span></a>" : NULL)."</div>".
+  "<div class='col-s-4 col-l-1'>".($row['username'] === NULL ? "-" : ($row['username'] == $username ? "<span class='highlight'>".output($row['username'])."</span>" : output($row['username'])))."</div>".
+  "<div class='col-s-6 col-l-2'>".date("d.m.Y, H:i:s", strtotime($row['timestamp']))."</div>".
+  "<div class='col-s-6 col-l-2'>".((!isset($row['itemId']) AND !isset($row['categoryId'])) ? "-" : NULL).($row['itemId'] !== NULL ? "<span class='fas icon'>&#xf543;</span><a href='/rezept/".output($row['itemShortTitle'])."' target='_blank'>".output($row['itemTitle'])."<span class='fas iconright'>&#xf35d;</span></a>" : NULL).((isset($row['itemId']) AND isset($row['categoryId'])) ? "<br>" : NULL).($row['categoryId'] !== NULL ? "<span class='far icon'>&#xf07c;</span><a href='/kategorie/".output($row['categoryShortTitle'])."' target='_blank'>".output($row['categoryTitle'])."<span class='fas iconright'>&#xf35d;</span></a>" : NULL)."</div>".
   "<div class='col-s-6 col-l-6'>".Slimdown::render($row['text'])."</div>".
   "<div class='col-s-12 col-l-0'><div class='spacer-s'></div></div>".
   "</div>";
