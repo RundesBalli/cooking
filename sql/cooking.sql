@@ -53,7 +53,7 @@ CREATE TABLE `categoryItems` (
   `itemId` int(10) unsigned NOT NULL COMMENT 'Querverweis items.id',
   `sortIndex` int(10) unsigned NOT NULL COMMENT 'Sortierindex',
   PRIMARY KEY (`id`),
-  KEY `categoryId` (`categoryId`),
+  UNIQUE KEY `categoryId_itemId` (`categoryId`,`itemId`),
   KEY `itemId` (`itemId`),
   CONSTRAINT `categoryItems_ibfk_1` FOREIGN KEY (`categoryId`) REFERENCES `categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `categoryItems_ibfk_2` FOREIGN KEY (`itemId`) REFERENCES `items` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -285,4 +285,4 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `mostClicked` AS select `cl
 DROP TABLE IF EXISTS `stats`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `stats` AS select (select count(`categories`.`id`) from `categories`) AS `catCount`,(select count(`items`.`id`) from `items`) AS `itemCount`,(select count(`clicks`.`id`) from `clicks`) AS `clickCount`,(select count(`clicks`.`id`) from `clicks` where (`clicks`.`timestamp` > cast(curdate() as datetime))) AS `clicksToday`;
 
--- 2022-04-16 19:02:48
+-- 2022-04-16 20:06:53
