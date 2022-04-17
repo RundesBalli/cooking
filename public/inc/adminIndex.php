@@ -83,7 +83,7 @@ if(mysqli_num_rows($result) == 0) {
   while($row = mysqli_fetch_array($result)) {
     $top++;
     $content.= "<div class='row hover bordered'>".
-    "<div class='col-s-12 col-l-3'><span class='highlight'>#".$top."</span> (".$row['c']." Klicks)</div>".
+    "<div class='col-s-12 col-l-3'><span class='highlight'>#".$top."</span> (".number_format($row['c'], 0, ",", ".")." Klicks)</div>".
     "<div class='col-s-12 col-l-9'><a href='/rezept/".output($row['shortTitle'])."' target='_blank'>".output($row['title'])."<span class='fas iconright'>&#xf35d;</span></a></div>".
     "<div class='col-s-12 col-l-0'><div class='spacer-s'></div></div>".
     "</div>";
