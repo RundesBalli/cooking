@@ -14,7 +14,7 @@ $additionalStyles[] = "tiles";
 /**
  * Vorgestellte Rezepte
  */
-$result = mysqli_query($dbl, "SELECT `items`.`id`, `items`.`title`, `items`.`shortTitle`, (SELECT `images`.`fileHash` FROM `images` WHERE `images`.`itemId` = `featured`.`itemId` AND `images`.`thumb`=1) AS `fileHash` FROM `featured` JOIN `items` ON `featured`.`itemId` = `items`.`id` ORDER BY `featured`.`id` DESC LIMIT 4") OR DIE(MYSQLI_ERROR($dbl));
+$result = mysqli_query($dbl, "SELECT `items`.`id`, `items`.`title`, `items`.`shortTitle`, (SELECT `images`.`fileHash` FROM `images` WHERE `images`.`itemId` = `featured`.`itemId` AND `images`.`thumb`=1) AS `fileHash` FROM `featured` JOIN `items` ON `featured`.`itemId` = `items`.`id` ORDER BY `featured`.`timestamp` DESC LIMIT 4") OR DIE(MYSQLI_ERROR($dbl));
 if(mysqli_num_rows($result) > 0) {
   $content.= "<h2 class='alignCenter'><span class='fas icon'>&#xf005;</span>Vorgestellte Rezepte</h2>";
   $content.= "<div class='tileContainer'>";
