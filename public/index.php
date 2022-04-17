@@ -54,6 +54,7 @@ $pageArray = array(
    */
   'start'                 => 'start.php',
   'imprint'               => 'imprint.php',
+  'privacy'               => 'privacy.php',
 
   /**
    * Administratorseiten
