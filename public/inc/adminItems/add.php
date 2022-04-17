@@ -1,6 +1,6 @@
 <?php
 /**
- * adminItems/show.php
+ * adminItems/add.php
  * 
  * Hinzufügen eines Rezeptes
  */
