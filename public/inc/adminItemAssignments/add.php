@@ -16,7 +16,7 @@ require_once(PAGE_INCLUDE_DIR.'adminCookie.php');
 $additionalStyles[] = "input";
 
 $title = "Kategoriezuweisungen anlegen";
-$content.= "<h1><span class='far icon'>&#xf07c;</span>Kategoriezuweisung anlegen</h1>";
+$content.= "<h1><span class='fas icon'>&#xf067;</span>Kategoriezuweisung anlegen</h1>";
 
 /**
  * Prüfung ob eine itemId und eine categoryId übergeben wurde.
