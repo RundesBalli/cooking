@@ -85,7 +85,7 @@ if(!empty($_GET['itemId']) AND !empty($_GET['categoryId'])) {
       }
     }
   } else {
-    http_response_code(400);
+    http_response_code(404);
     $content.= "<div class='warnbox'>Es müssen ein gültiges Rezept und eine gültige Kategorie übergeben werden.</div>";
     $content.= "<div class='row'>".
     "<div class='col-s-12 col-l-12'><a href='/adminItems/show'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".
