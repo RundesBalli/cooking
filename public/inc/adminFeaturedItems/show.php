@@ -24,7 +24,7 @@ $content.= "<div class='spacer-m'></div>";
 /**
  * Anzeige der vorgestellten Rezepte
  */
-$result = mysqli_query($dbl, "SELECT `featured`.`id`, `items`.`title`, `items`.`shortTitle`, `featured`.`timestamp` FROM `featured` JOIN `items` ON `featured`.`itemId` = `items`.`id` ORDER BY `featured`.`id` DESC LIMIT 4") OR DIE(MYSQLI_ERROR($dbl));
+$result = mysqli_query($dbl, "SELECT `featured`.`id`, `items`.`title`, `items`.`shortTitle`, `featured`.`timestamp` FROM `featured` JOIN `items` ON `featured`.`itemId` = `items`.`id` ORDER BY `featured`.`timestamp` DESC LIMIT 4") OR DIE(MYSQLI_ERROR($dbl));
 if(mysqli_num_rows($result) == 0) {
   /**
    * Wenn keine Rezeptvorstellungen existieren.

@@ -41,21 +41,30 @@ if(isset($_POST['submit'])) {
     $content.= "<div class='warnbox'>Ungültiges Rezept.</div>";
   }
   if($error == 0) {
-    mysqli_query($dbl, "DELETE FROM `featured` WHERE `itemId`='".$itemId."'") OR DIE(MYSQLI_ERROR($dbl));
-    if(mysqli_query($dbl, "INSERT INTO `featured` (`itemId`) VALUES ('".$itemId."')")) {
+    $result = mysqli_query($dbl, "SELECT * FROM `featured` WHERE `itemId`='".$itemId."'") OR DIE(MYSQLI_ERROR($dbl));
+    if(mysqli_num_rows($result) != 0) {
       /**
-       * Erfolgreich angelegt.
+       * Rezeptfeature existiert bereits. Kann erneuert und "wieder nach vorne gezogen" werden.
        */
-      mysqli_query($dbl, "INSERT INTO `log` (`accountId`, `logLevel`, `itemId`, `text`) VALUES ('".$userId."', 2, ".$itemId.", 'Rezeptvorstellung angelegt')") OR DIE(MYSQLI_ERROR($dbl));
-      $content.= "<div class='successbox'>Rezeptvorstellung erfolgreich angelegt.</div>";
+      mysqli_query($dbl, "UPDATE `featured` SET `timestamp`=NOW() WHERE `itemId`='".$itemId."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+      mysqli_query($dbl, "INSERT INTO `log` (`accountId`, `logLevel`, `itemId`, `text`) VALUES ('".$userId."', 3, ".$itemId.", 'Rezeptvorstellung erneuert')") OR DIE(MYSQLI_ERROR($dbl));
+      $content.= "<div class='successbox'>Rezeptvorstellung erfolgreich erneuert.</div>";
     } else {
-      if(mysqli_errno($dbl) == 1452) {
+      if(mysqli_query($dbl, "INSERT INTO `featured` (`itemId`) VALUES ('".$itemId."')")) {
         /**
-         * Das Rezept existiert nicht.
+         * Erfolgreich angelegt.
          */
-        $content.= "<div class='warnbox'>Das Rezept existiert nicht.</div>";
+        mysqli_query($dbl, "INSERT INTO `log` (`accountId`, `logLevel`, `itemId`, `text`) VALUES ('".$userId."', 2, ".$itemId.", 'Rezeptvorstellung angelegt')") OR DIE(MYSQLI_ERROR($dbl));
+        $content.= "<div class='successbox'>Rezeptvorstellung erfolgreich angelegt.</div>";
       } else {
-        $content.= "<div class='warnbox'>Unbekannter Fehler (".mysqli_errno($dbl)."): ".mysqli_error($dbl)."</div>";
+        if(mysqli_errno($dbl) == 1452) {
+          /**
+           * Das Rezept existiert nicht.
+           */
+          $content.= "<div class='warnbox'>Das Rezept existiert nicht.</div>";
+        } else {
+          $content.= "<div class='warnbox'>Unbekannter Fehler (".mysqli_errno($dbl)."): ".mysqli_error($dbl)."</div>";
+        }
       }
     }
   } else {
