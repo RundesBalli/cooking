@@ -17,6 +17,7 @@ $additionalStyles[] = "input";
 
 $title = "Kategorien sortieren";
 $content.= "<h1><span class='fas icon'>&#xf0dc;</span>Kategorien sortieren</h1>";
+
 if(!isset($_POST['submit'])) {
   /**
    * Wenn das Formular noch nicht übergeben wurde, dann zeig es an.
