@@ -59,7 +59,7 @@ if(!empty($_GET['itemId'])) {
       while($row = mysqli_fetch_array($result)) {
         $content.= "<div class='row hover bordered'>".
         "<div class='col-s-8 col-l-8'>".$row['title']."</div>".
-        "<div class='col-s-4 col-l-4'><a href='/adminItemAssignments/del?id=".output($itemId)."&categoryId=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a> - "."<a href='/adminCategories/itemSort?id=".$row['categoryId']."' class='nowrap'><span class='fas icon'>&#xf0dc;</span>in dieser Kategorie sortieren</a></div>".
+        "<div class='col-s-4 col-l-4'><a href='/adminItemAssignments/del?itemId=".output($itemId)."&categoryId=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a> - "."<a href='/adminCategories/itemSort?id=".$row['categoryId']."' class='nowrap'><span class='fas icon'>&#xf0dc;</span>in dieser Kategorie sortieren</a></div>".
         "</div>";
       }
     }
