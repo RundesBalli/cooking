@@ -92,7 +92,8 @@ $actionArray = array(
     'edit'   => 'edit.php'
   ),
   'adminItemAssignments' => array(
-    'show' => 'show.php'
+    'show' => 'show.php',
+    'add'  => 'add.php'
   )
 );
 
