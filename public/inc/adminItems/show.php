@@ -55,7 +55,7 @@ if(mysqli_num_rows($result) == 0) {
     "<div class='col-s-8 col-l-4'><a href='/rezept/".output($row['shortTitle'])."' target='_blank'>".output($row['title'])."<span class='fas iconright'>&#xf35d;</span></a></div>".
     "<div class='col-s-4 col-l-1'>".number_format($row['clicks'], 0, ",", ".")."</div>".
     "<div class='col-s-12 col-l-2'>".$categories."</div>".
-    "<div class='col-s-12 col-l-5'><a href='/adminItems/edit?id=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf044;</span>Editieren</a> - "."<a href='/adminItems/del?id=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a> - "."<a href='/adminItemAssignments/show?id=".$row['id']."' class='nowrap'><span class='far icon'>&#xf07c;</span>Kategorien</a> - "."<a href='/adminFiles/list?id=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf302;</span>Bilder</a> - "."<a href='/adminIngredients/assign?id=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf4d8;</span>Zutaten</a></div>".
+    "<div class='col-s-12 col-l-5'><a href='/adminItems/edit?id=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf044;</span>Editieren</a> - "."<a href='/adminItems/del?id=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a> - "."<a href='/adminItemAssignments/show?itemId=".$row['id']."' class='nowrap'><span class='far icon'>&#xf07c;</span>Kategorien</a> - "."<a href='/adminFiles/list?id=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf302;</span>Bilder</a> - "."<a href='/adminIngredients/assign?id=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf4d8;</span>Zutaten</a></div>".
     "</div>";
   }
 }
