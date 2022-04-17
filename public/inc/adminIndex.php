@@ -100,12 +100,10 @@ if(mysqli_num_rows($result) != 0) {
   $content.= "<h2 class='warn'><span class='far icon'>&#xf07c;</span>Leere Kategorien</h2>";
   $content.= "<div class='row highlight bold'>".
   "<div class='col-s-12 col-l-12'>Titel</div>".
-  "<div class='col-s-12 col-l-0'><div class='spacer-s'></div></div>".
   "</div>";
   while($row = mysqli_fetch_array($result)) {
     $content.= "<div class='row hover bordered'>".
     "<div class='col-s-12 col-l-12'>".output($row['title'])."</div>".
-    "<div class='col-s-12 col-l-0'><div class='spacer-s'></div></div>".
     "</div>";
   }
 }
@@ -120,13 +118,11 @@ if(mysqli_num_rows($result) != 0) {
   $content.= "<div class='row highlight bold'>".
   "<div class='col-s-12 col-l-9'>Titel</div>".
   "<div class='col-s-12 col-l-3'>Aktionen</div>".
-  "<div class='col-s-12 col-l-0'><div class='spacer-s'></div></div>".
   "</div>";
   while($row = mysqli_fetch_array($result)) {
     $content.= "<div class='row hover bordered'>".
     "<div class='col-s-12 col-l-9'><a href='/rezept/".output($row['shortTitle'])."' target='_blank'>".output($row['title'])."<span class='fas iconright'>&#xf35d;</span></a></div>".
     "<div class='col-s-12 col-l-3'><a href='/adminItems/edit/".$row['id']."' class='nowrap'>Bearbeiten</a><br><a href='/adminItems/assign/".$row['id']."' class='nowrap'>Zuweisen</a></div>".
-    "<div class='col-s-12 col-l-0'><div class='spacer-s'></div></div>".
     "</div>";
   }
 }
