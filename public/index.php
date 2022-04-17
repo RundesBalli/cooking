@@ -86,7 +86,8 @@ $actionArray = array(
     'del'  => 'del.php'
   ),
   'adminItems' => array(
-    'show' => 'show.php'
+    'show' => 'show.php',
+    'add'  => 'add.php'
   )
 );
 
