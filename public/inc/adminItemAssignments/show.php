@@ -10,11 +10,6 @@
  */
 require_once(PAGE_INCLUDE_DIR.'adminCookie.php');
 
-/**
- * Laden der zusätzlichen CSS Datei für die Inputfelder
- */
-$additionalStyles[] = "input";
-
 $title = "Kategoriezuweisungen anzeigen";
 $content.= "<h1><span class='far icon'>&#xf07c;</span>Kategoriezuweisungen anzeigen</h1>";
 
