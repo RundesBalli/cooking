@@ -6,7 +6,7 @@
  */
 $title = "Impressum";
 
-$content.= "<h1>Impressum</h1>";
+$content.= "<h1><span class='fas icon'>&#xf674;</span>Impressum</h1>";
 $content.= "<div class='row'>".
 "<div class='col-s-12 col-l-12'>Dieses Projekt ist nicht kommerziell und demnach gemäß <a href='https://dejure.org/gesetze/TMG/5.html' target='_blank' rel='noopener'>§5 TMG</a> nicht impressumspflichtig.</div>".
 "</div>";
