@@ -25,9 +25,15 @@ if(!empty($_GET['itemId']) AND !empty($_GET['categoryId'])) {
   $itemId = (int)defuse($_GET['itemId']);
   $categoryId = (int)defuse($_GET['categoryId']);
 
+  /**
+   * Abfragen der jeweiligen IDs.
+   */
   $itemResult = mysqli_query($dbl, "SELECT `items`.`title` FROM `items` WHERE `items`.`id`=".$itemId." LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
   $categoryResult = mysqli_query($dbl, "SELECT `categories`.`title` FROM `categories` WHERE `categories`.`id`=".$categoryId." LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
 
+  /**
+   * Prüfung ob die IDs existieren.
+   */
   if(mysqli_num_rows($itemResult) == 1 AND mysqli_num_rows($categoryResult) == 1) {
     $itemRow = mysqli_fetch_assoc($itemResult);
     $categoryRow = mysqli_fetch_assoc($categoryResult);
@@ -40,16 +46,22 @@ if(!empty($_GET['itemId']) AND !empty($_GET['categoryId'])) {
        * CSRF Bestätigung
        */
       $content.= "<form action='/adminItemAssignments/add?itemId=".output($itemId)."&categoryId=".output($categoryId)."' method='post'>";
+
       /**
        * Sitzungstoken
        */
       $content.= "<input type='hidden' name='token' value='".$sessionHash."'>";
+
+      /**
+       * Formular
+       */
       $content.= "<div class='row hover bordered'>".
       "<div class='col-s-12 col-l-3'>Hinzufügen?</div>".
       "<div class='col-s-12 col-l-4'><input type='submit' name='submit' value='Ja'></div>".
       "<div class='col-s-12 col-l-5'></div>".
       "</div>";
       $content.= "</form>";
+
       $content.= "<div class='row'>".
       "<div class='col-s-12 col-l-12'><a href='/adminItemAssignments/show?itemId=".output($itemId)."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".
       "</div>";
@@ -85,6 +97,9 @@ if(!empty($_GET['itemId']) AND !empty($_GET['categoryId'])) {
       }
     }
   } else {
+    /**
+     * Übergebene IDs existieren nicht.
+     */
     http_response_code(404);
     $content.= "<div class='warnbox'>Es müssen ein gültiges Rezept und eine gültige Kategorie übergeben werden.</div>";
     $content.= "<div class='row'>".
@@ -92,6 +107,9 @@ if(!empty($_GET['itemId']) AND !empty($_GET['categoryId'])) {
     "</div>";
   }
 } else {
+  /**
+   * Es wurden keine IDs übergeben.
+   */
   http_response_code(400);
   $content.= "<div class='warnbox'>Es müssen eine <code>itemId</code> und eine <code>categoryId</code> übergeben werden.</div>";
   $content.= "<div class='row'>".
