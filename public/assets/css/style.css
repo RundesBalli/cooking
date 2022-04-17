@@ -131,23 +131,37 @@ p {
 }
 
 
-/* Überschriften */
+/**
+ * Fonts
+ */
+@font-face {
+  font-family: 'Caveat';
+  font-style: normal;
+  font-weight: 700;
+  src: url('/assets/fonts/Caveat-VariableFont_wght.ttf') format('truetype');
+}
+
+
+/**
+ * Überschriften
+ */
 h1, h2, h3 {
   word-break: break-word;
+  font-family: 'Caveat', sans-serif;
 }
 
 h1 {
-  font-size: calc(var(--fontSize) * 2);
+  font-size: calc(var(--fontSize) * 3.2);
   margin: calc(var(--fontSize) * 1.5) 0 calc(var(--fontSize) * 0.7);
 }
 
 h2 {
-  font-size: calc(var(--fontSize) * 1.5);
+  font-size: calc(var(--fontSize) * 2.2);
   margin: calc(var(--fontSize) * 1.2) 0 calc(var(--fontSize) * 0.5);
 }
 
 h3 {
-  font-size: calc(var(--fontSize) * 1.2);
+  font-size: calc(var(--fontSize) * 1.8);
   margin: calc(var(--fontSize) * 0.85) 0 calc(var(--fontSize) * 0.35);
 }
 
