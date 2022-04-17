@@ -53,6 +53,7 @@ $pageArray = array(
    * Standardseiten
    */
   'start'                 => 'start.php',
+  'imprint'               => 'imprint.php',
 
   /**
    * Administratorseiten
