@@ -86,10 +86,13 @@ $actionArray = array(
     'del'  => 'del.php'
   ),
   'adminItems' => array(
-    'show' => 'show.php',
-    'add'  => 'add.php',
-    'del'  => 'del.php',
-    'edit' => 'edit.php'
+    'show'   => 'show.php',
+    'add'    => 'add.php',
+    'del'    => 'del.php',
+    'edit'   => 'edit.php'
+  ),
+  'adminItemAssignments' => array(
+    'show' => 'show.php'
   )
 );
 
