@@ -122,7 +122,7 @@ if(mysqli_num_rows($result) != 0) {
   while($row = mysqli_fetch_array($result)) {
     $content.= "<div class='row hover bordered'>".
     "<div class='col-s-12 col-l-6'><a href='/rezept/".output($row['shortTitle'])."' target='_blank'>".output($row['title'])."<span class='fas iconright'>&#xf35d;</span></a></div>".
-    "<div class='col-s-12 col-l-6'><a href='/adminItems/edit?id=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf044;</span>Bearbeiten</a> - <a href='/adminItems/assign?id=".$row['id']."' class='nowrap'><span class='far icon'>&#xf07c;</span>Zuweisen</a></div>".
+    "<div class='col-s-12 col-l-6'><a href='/adminItems/edit?id=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf044;</span>Bearbeiten</a> - <a href='/adminItemAssignments/show?id=".$row['id']."' class='nowrap'><span class='far icon'>&#xf07c;</span>Zuweisen</a></div>".
     "</div>";
   }
 }
