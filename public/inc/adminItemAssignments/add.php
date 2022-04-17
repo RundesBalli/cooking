@@ -59,7 +59,7 @@ if(!empty($_GET['itemId']) AND !empty($_GET['categoryId'])) {
          * Token gültig.
          */
         if(mysqli_query($dbl, "INSERT INTO `categoryItems` (`categoryId`, `itemId`) VALUES ('".$categoryId."', '".$itemId."')")) {
-          mysqli_query($dbl, "INSERT INTO `log` (`accountId`, `logLevel`, `itemId`, `categoryId`, `text`) VALUES ('".$userId."', 6, ".$itemId.", ".$categoryId.", 'Rezept angelegt')") OR DIE(MYSQLI_ERROR($dbl));
+          mysqli_query($dbl, "INSERT INTO `log` (`accountId`, `logLevel`, `itemId`, `categoryId`, `text`) VALUES ('".$userId."', 6, ".$itemId.", ".$categoryId.", 'Rezept in Kategorie zugewiesen')") OR DIE(MYSQLI_ERROR($dbl));
           $content.= "<div class='successbox'>Zuweisung erfolgreich angelegt.</div>";
         } else {
           if(mysqli_errno($dbl) == 1062) {
