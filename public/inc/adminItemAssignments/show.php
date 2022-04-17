@@ -82,7 +82,7 @@ if(!empty($_GET['itemId'])) {
     while($row = mysqli_fetch_array($result)) {
       $content.= "<div class='row hover bordered'>".
       "<div class='col-s-8 col-l-8'><a href='/kategorie/".output($row['shortTitle'])."' target='_blank'>".output($row['title'])."<span class='fas iconright'>&#xf35d;</span></a></div>".
-      "<div class='col-s-4 col-l-4'>".($row['isset'] == 1 ? "bereits zugewiesen" : "<a href='/adminItemAssignments/show?itemId=".output($itemId)."/add/".$row['id']."' class='nowrap'><span class='fas icon'>&#xf067;</span>Hinzufügen</a>")."</div>".
+      "<div class='col-s-4 col-l-4'>".($row['isset'] == 1 ? "bereits zugewiesen" : "<a href='/adminItemAssignments/add?itemId=".output($itemId)."&categoryId=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf067;</span>Hinzufügen</a>")."</div>".
       "</div>";
     }
   }
