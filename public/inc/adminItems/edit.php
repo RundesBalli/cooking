@@ -2,7 +2,7 @@
 /**
  * adminItems/edit.php
  * 
- * Löschen eines Rezeptes
+ * Bearbeiten eines Rezeptes
  */
 
 /**
