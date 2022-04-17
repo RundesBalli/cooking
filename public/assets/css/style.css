@@ -4,6 +4,7 @@
 :root {
   --fontSize: 18px;
   --bgImg: url("/assets/images/bg.png"); /* #9b9b9b */
+  --bgFallbackColor: #9b9b9b;
   --fontColor: #2B251E;
   --hrColor: #3E332E;
 
@@ -68,7 +69,7 @@ html, body {
 }
 
 body {
-  background-image: var(--bgImg);
+  background: var(--bgImg), var(--bgFallbackColor);
   font-family: sans-serif;
   color: var(--fontColor);
   font-size: var(--fontSize);
