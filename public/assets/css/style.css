@@ -207,6 +207,10 @@ h3 {
   font-size: calc(var(--fontSize) * 0.6);
 }
 
+.mobileSmaller {
+  font-size: var(--fontSize);
+}
+
 .bigger {
   font-size: calc(var(--fontSize) * 1.4);
 }
@@ -510,6 +514,10 @@ h3 {
 
   #sidebar > #footer > span {
     display: inline-block;
+  }
+
+  .mobileSmaller {
+    font-size: calc(var(--fontSize) * 0.6);
   }
 }
 
