@@ -1,0 +1,44 @@
+/**
+ * Kategorien
+ */
+ .item {
+  max-width: 1000px;
+}
+
+.itemHr {
+  border: 1px solid var(--borderColor);
+  max-width: 1000px;
+  margin: 10px auto 10px 0px;
+}
+
+@media only screen and (max-width: 900px) {
+  .item {
+    text-align: center;
+  }
+
+  .item img {
+    max-width: 200px;
+  }
+}
+
+.item img {
+  border-radius: 15px;
+  border: 1px solid var(--borderColor);
+}
+
+.iteminfo .title a {
+  font-size: calc(var(--fontSize) * 1.8);
+  font-weight: bold;
+  display: block;
+  margin: calc(var(--fontSize) * 0.30) 0 calc(var(--fontSize) * 0.35);
+  text-decoration: none;
+}
+
+.iteminfo .specs {
+  margin: 10px;
+  display: inline-block;
+}
+
+.cursorHelp {
+  cursor: help;
+}

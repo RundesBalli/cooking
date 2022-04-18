@@ -55,6 +55,7 @@ $pageArray = array(
   'start'                 => 'start.php',
   'imprint'               => 'imprint.php',
   'privacy'               => 'privacy.php',
+  'showCategory'          => 'showCategory.php',
 
   /**
    * Administratorseiten
@@ -166,6 +167,9 @@ if(!empty($ogMeta)) {
   }
 }
 
+/**
+ * Hinzufügen zusätzlicher Stile
+ */
 if(!empty($additionalStyles)) {
   $addStyles = "";
   foreach($additionalStyles AS $key => $val) {

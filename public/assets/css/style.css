@@ -534,6 +534,10 @@ h3 {
   .mobileSmaller {
     font-size: calc(var(--fontSize) * 0.6);
   }
+
+  .mobileCenter {
+    text-align: center;
+  }
 }
 
 
