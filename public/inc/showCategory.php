@@ -60,6 +60,7 @@ if(!isset($_GET['category']) OR empty(trim($_GET['category']))) {
 
     $title = "Kategorie: ".$row['title'];
     $content.= "<h1 class='mobileCenter'><span class='far icon'>&#xf07c;</span>Kategorie: ".output($row['title'])."</h1>";
+    $content.= "<div class='spacer-m'></div>";
 
     /**
      * Inhalte der Kategorie anzeigen.
@@ -79,12 +80,12 @@ if(!isset($_GET['category']) OR empty(trim($_GET['category']))) {
           "</div>".
           "<div class='col-s-12 col-l-10 itemInfo'>".
             "<div class='title'><a href='/rezept/".output($row['shortTitle'])."'>".output($row['title'])."</a></div>".
-            "<div class='specs'><span class='far icon cursorHelp' title='Klicks'>&#xf25a;</span> ".number_format($row['clicks'], 0, ",", ".")."</div>".
-            "<div class='specs'><span class='far icon cursorHelp' title='Schwierigkeitsgrad'>&#xf0eb;</span> ".$row['difficulty']."</div>".
-            "<div class='specs'><span class='fas icon cursorHelp' title='Kosten'>&#xf153;</span> ".$row['cost']."</div>".
+            "<div class='specs cursorHelp' title='Klicks'><span class='far icon'>&#xf25a;</span> ".number_format($row['clicks'], 0, ",", ".")."</div>".
+            "<div class='specs cursorHelp' title='Schwierigkeitsgrad'><span class='far icon'>&#xf0eb;</span> ".$row['difficulty']."</div>".
+            "<div class='specs cursorHelp' title='Kosten'><span class='fas icon'>&#xf153;</span> ".$row['cost']."</div>".
             "<br>".
-            "<div class='specs'><span class='fas icon cursorHelp' title='Arbeitszeit'>&#xf252;</span> ".$row['workDuration']."</div>".
-            "<div class='specs'><span class='fas icon cursorHelp' title='Gesamtzeit'>&#xf253;</span> ".$row['totalDuration']."</div>".
+            "<div class='specs cursorHelp' title='Arbeitszeit'><span class='fas icon'>&#xf252;</span> ".$row['workDuration']."</div>".
+            "<div class='specs cursorHelp' title='Gesamtzeit'><span class='fas icon'>&#xf253;</span> ".$row['totalDuration']."</div>".
           "</div>".
         "</div>";
       }
