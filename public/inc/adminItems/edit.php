@@ -78,6 +78,29 @@ if(!empty($_GET['id'])) {
       }
 
       /**
+       * Gastautor & Link zum Gastautor
+       */
+      if(!empty(trim($_POST['author'])) AND preg_match('/^.{1,64}$/', trim($_POST['author']), $match) === 1) {
+        $author = defuse($match[0]);
+        if(!empty(trim($_POST['authorURL']))) {
+          if(preg_match('/^https?:\/\/.{5,192}$/', trim($_POST['authorURL']), $match) === 1) {
+            if(filter_var($match[0], FILTER_VALIDATE_URL)) {
+              $authorURL = defuse($match[0]);
+            } else {
+              $form = 1;
+              $content.= "<div class='warnbox'>Der eingegebene Gastautor Link ist ungültig.</div>";
+            }
+          } else {
+            $form = 1;
+            $content.= "<div class='warnbox'>Der eingegebene Gastautor Link ist ungültig.</div>";
+          }
+        }
+      } else {
+        $author = NULL;
+        $authorURL = NULL;
+      }
+
+      /**
        * Text
        */
       if(!empty(trim($_POST['text']))) {
@@ -170,7 +193,7 @@ if(!empty($_GET['id'])) {
        * Wenn durch die Postdaten-Validierung die Inhalte geprüft und entschärft wurden, kann der Query erzeugt und ausgeführt werden.
        */
       if($form == 0) {
-        if(mysqli_query($dbl, "UPDATE `items` SET `title`='".$formTitle."', `shortTitle`='".$shortTitle."', `text`=".($text === NULL ? "NULL" : "'".$text."'").", `persons`='".$persons."', `cost`='".$cost."', `difficulty`='".$difficulty."', `workDuration`='".$workDuration."', `totalDuration`='".$totalDuration."' WHERE `id`='".$id."' LIMIT 1")) {
+        if(mysqli_query($dbl, "UPDATE `items` SET `title`='".$formTitle."', `shortTitle`='".$shortTitle."', `author`=".($author === NULL ? "NULL" : "'".$author."'").", `authorURL`=".($authorURL === NULL ? "NULL" : "'".$authorURL."'").", `text`=".($text === NULL ? "NULL" : "'".$text."'").", `persons`='".$persons."', `cost`='".$cost."', `difficulty`='".$difficulty."', `workDuration`='".$workDuration."', `totalDuration`='".$totalDuration."' WHERE `id`='".$id."' LIMIT 1")) {
           mysqli_query($dbl, "INSERT INTO `log` (`accountId`, `logLevel`, `itemId`, `text`) VALUES ('".$userId."', 3, ".$id.", 'Rezept geändert')") OR DIE(MYSQLI_ERROR($dbl));
           $content.= "<div class='successbox'>Rezept erfolgreich geändert.</div>";
           $content.= "<div class='row'>".
@@ -194,6 +217,7 @@ if(!empty($_GET['id'])) {
       $form = 1;
       $row = mysqli_fetch_array($rezeptresult);
     }
+
     /**
      * Das Formular wird beim Erstaufruf und bei Fehleingaben angezeigt.
      */
@@ -229,6 +253,24 @@ if(!empty($_GET['id'])) {
       "<div class='col-s-12 col-l-3'>Kurztitel für URL</div>".
       "<div class='col-s-12 col-l-4'><input type='text' name='shortTitle' placeholder='Kurztitel' tabindex='2' value='".(isset($row['shortTitle']) ? output($row['shortTitle']) : (isset($_POST['shortTitle']) && !empty($_POST['shortTitle']) ? output($_POST['shortTitle']) : NULL))."'></div>".
       "<div class='col-s-12 col-l-5'>".Slimdown::render("`/rezept/&lt;Kurztitel&gt;`\n* muss einzigartig sein\n* 5 bis 64 Zeichen\n* keine Leerzeichen\n* keine Umlaute\n* keine Sonderzeichen\n* nur Kleinbuchstaben oder Zahlen\n* zur Worttrennung `-` oder `_` benutzen\n`0-9a-z-_`")."</div>".
+      "</div>";
+
+      /**
+       * Gastautor
+       */
+      $content.= "<div class='row hover bordered'>".
+      "<div class='col-s-12 col-l-3'>Gastautor</div>".
+      "<div class='col-s-12 col-l-4'><input type='text' name='author' placeholder='Gastautor' tabindex='2' value='".(isset($row['author']) ? output($row['author']) : (isset($_POST['author']) && !empty($_POST['author']) ? output($_POST['author']) : NULL))."'></div>".
+      "<div class='col-s-12 col-l-5'>".Slimdown::render("* optional\nFalls es sich um einen Gastbeitrag handelt, kann hier der Name des Autors eingetragen werden.\n* max. 64 Zeichen")."</div>".
+      "</div>";
+
+      /**
+       * Link zum Gastautor
+       */
+      $content.= "<div class='row hover bordered'>".
+      "<div class='col-s-12 col-l-3'>Link zum Gastautor</div>".
+      "<div class='col-s-12 col-l-4'><input type='text' name='authorURL' placeholder='Link zum Gastautor' tabindex='2' value='".(isset($row['authorURL']) ? output($row['authorURL']) : (isset($_POST['authorURL']) && !empty($_POST['authorURL']) ? output($_POST['authorURL']) : NULL))."'></div>".
+      "<div class='col-s-12 col-l-5'>".Slimdown::render("* optional\n* Wenn ein Gastautor eingetragen wurde, kann hier seine Seite / sein Profil verlinkt werden.\n* max. 200 Zeichen")."</div>".
       "</div>";
 
       /**
