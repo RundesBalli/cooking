@@ -241,7 +241,7 @@ if($form == 1) {
   $content.= "<div class='row hover bordered'>".
   "<div class='col-s-12 col-l-3'>Gastautor</div>".
   "<div class='col-s-12 col-l-4'><input type='text' name='author' placeholder='Gastautor' tabindex='2' value='".(isset($_POST['author']) && !empty($_POST['author']) ? output($_POST['author']) : NULL)."'></div>".
-  "<div class='col-s-12 col-l-5'>".Slimdown::render("* optional\nFalls es sich um einen Gastbeitrag handelt, kann hier der Name des Autors eingetragen werden.\n* max. 64 Zeichen")."</div>".
+  "<div class='col-s-12 col-l-5'>".Slimdown::render("* optional\n* Falls es sich um einen Gastbeitrag handelt, kann hier der Name des Autors eingetragen werden.\n* max. 64 Zeichen")."</div>".
   "</div>";
 
   /**
