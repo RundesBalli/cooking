@@ -140,6 +140,8 @@ CREATE TABLE `items` (
   `difficulty` tinyint(3) unsigned NOT NULL COMMENT 'Querverweis metaDifficulty.id',
   `workDuration` tinyint(3) unsigned NOT NULL COMMENT 'Querverweis metaDuration.id',
   `totalDuration` tinyint(3) unsigned NOT NULL COMMENT 'Querverweis metaDuration.id',
+  `createdAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Zeitpunkt der Anlage',
+  `lastChanged` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Zeitpunkt der letzten Änderung',
   PRIMARY KEY (`id`),
   UNIQUE KEY `shortTitle` (`shortTitle`),
   KEY `persons` (`persons`),
@@ -288,4 +290,4 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `mostClicked` AS select `cl
 DROP TABLE IF EXISTS `stats`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `stats` AS select (select count(`categories`.`id`) from `categories`) AS `catCount`,(select count(`items`.`id`) from `items`) AS `itemCount`,(select count(`clicks`.`id`) from `clicks`) AS `clickCount`,(select count(`clicks`.`id`) from `clicks` where (`clicks`.`timestamp` > cast(curdate() as datetime))) AS `clicksToday`;
 
--- 2022-04-16 20:06:53
+-- 2022-04-18 16:44:03
