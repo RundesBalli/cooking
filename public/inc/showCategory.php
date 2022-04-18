@@ -77,7 +77,7 @@ if(!isset($_GET['category']) OR empty(trim($_GET['category']))) {
               "<img src='/".($row['fileHash'] === NULL ? "assets/images/noThumb.png" : "img/thumb-".$row['id']."-".$row['fileHash'].".png")."'>".
             "</a>".
           "</div>".
-          "<div class='col-s-12 col-l-10 iteminfo'>".
+          "<div class='col-s-12 col-l-10 itemInfo'>".
             "<div class='title'><a href='/rezept/".output($row['shortTitle'])."'>".output($row['title'])."</a></div>".
             "<div class='specs'><span class='far icon cursorHelp' title='Klicks'>&#xf25a;</span> ".number_format($row['clicks'], 0, ",", ".")."</div>".
             "<div class='specs'><span class='far icon cursorHelp' title='Schwierigkeitsgrad'>&#xf0eb;</span> ".$row['difficulty']."</div>".

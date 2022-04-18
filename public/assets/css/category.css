@@ -26,7 +26,7 @@
   border: 1px solid var(--borderColor);
 }
 
-.iteminfo .title a {
+.itemInfo .title a {
   font-size: calc(var(--fontSize) * 1.8);
   font-weight: bold;
   display: block;
@@ -34,7 +34,7 @@
   text-decoration: none;
 }
 
-.iteminfo .specs {
+.itemInfo .specs {
   margin: 10px;
   display: inline-block;
 }
