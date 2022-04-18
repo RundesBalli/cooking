@@ -200,7 +200,7 @@ if($form == 1) {
   $content.= "<div class='row hover bordered'>".
   "<div class='col-s-12 col-l-3'>Name des Rezepts</div>".
   "<div class='col-s-12 col-l-4'><input type='text' name='title' placeholder='Name des Rezepts' tabindex='1' autofocus value='".(isset($_POST['title']) && !empty($_POST['title']) ? output($_POST['title']) : NULL)."'></div>".
-  "<div class='col-s-12 col-l-5'>Angezeigter Name in der Kategorie<br>5 bis 100 Zeichen</div>".
+  "<div class='col-s-12 col-l-5'>".Slimdown::render("* Angezeigter Name in der Kategorie\n* 5 bis 100 Zeichen")."</div>".
   "</div>";
 
   /**
