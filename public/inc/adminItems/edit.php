@@ -51,7 +51,7 @@ if(!empty($_GET['id'])) {
       /**
        * Sitzungstoken
        */
-      if($_POST['token'] != $sessionHash) {
+      if(!empty(trim($_POST['token'])) AND trim($_POST['token']) != $sessionHash) {
         http_response_code(403);
         $form = 1;
         $content.= "<div class='warnbox'>Ungültiges Token.</div>";
@@ -60,7 +60,7 @@ if(!empty($_GET['id'])) {
       /**
        * Titel
        */
-      if(preg_match('/^.{5,100}$/', $_POST['title'], $match) === 1) {
+      if(!empty(trim($_POST['title'])) AND preg_match('/^.{5,100}$/', trim($_POST['title']), $match) === 1) {
         $formTitle = defuse($match[0]);
       } else {
         $form = 1;
@@ -70,7 +70,7 @@ if(!empty($_GET['id'])) {
       /**
        * Kurztitel
        */
-      if(preg_match('/^[0-9a-z-_]{5,64}$/', strtolower($_POST['shortTitle']), $match) === 1) {
+      if(!empty(trim($_POST['shortTitle'])) AND preg_match('/^[0-9a-z-_]{5,64}$/', strtolower(trim($_POST['shortTitle'])), $match) === 1) {
         $shortTitle = defuse($match[0]);
       } else {
         $form = 1;
@@ -90,7 +90,7 @@ if(!empty($_GET['id'])) {
       /**
        * Personenanzahl
        */
-      if(!empty($_POST['persons']) OR $_POST['persons'] == "0") {
+      if(!empty(trim($_POST['persons'])) OR $_POST['persons'] == "0") {
         $persons = (int)defuse($_POST['persons']);
         if($persons < 0) {
           $form = 1;
@@ -106,7 +106,7 @@ if(!empty($_GET['id'])) {
       /**
        * Kosten
        */
-      if(!empty($_POST['cost'])) {
+      if(!empty(trim($_POST['cost']))) {
         $cost = (int)defuse($_POST['cost']);
         $result = mysqli_query($dbl, "SELECT `id` FROM `metaCost` WHERE `id`='".$cost."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
         if(mysqli_num_rows($result) == 0) {
@@ -121,7 +121,7 @@ if(!empty($_GET['id'])) {
       /**
        * Schwierigkeit
        */
-      if(!empty($_POST['difficulty'])) {
+      if(!empty(trim($_POST['difficulty']))) {
         $difficulty = (int)defuse($_POST['difficulty']);
         $result = mysqli_query($dbl, "SELECT `id` FROM `metaDifficulty` WHERE `id`='".$difficulty."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
         if(mysqli_num_rows($result) == 0) {
@@ -136,7 +136,7 @@ if(!empty($_GET['id'])) {
       /**
        * Arbeitszeit
        */
-      if(!empty($_POST['workDuration'])) {
+      if(!empty(trim($_POST['workDuration']))) {
         $workDuration = (int)defuse($_POST['workDuration']);
         $result = mysqli_query($dbl, "SELECT `id` FROM `metaDuration` WHERE `id`='".$workDuration."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
         if(mysqli_num_rows($result) == 0) {
@@ -151,7 +151,7 @@ if(!empty($_GET['id'])) {
       /**
        * Gesamtzeit
        */
-      if(!empty($_POST['totalDuration'])) {
+      if(!empty(trim($_POST['totalDuration']))) {
         $totalDuration = (int)defuse($_POST['totalDuration']);
         $result = mysqli_query($dbl, "SELECT `id` FROM `metaDuration` WHERE `id`='".$totalDuration."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
         if(mysqli_num_rows($result) == 0) {
