@@ -80,7 +80,7 @@ if(!empty($_GET['id'])) {
           $itemTitle = $row['title'];
           $result = mysqli_query($dbl, "SELECT * FROM `images` WHERE `itemId`='".$id."'") OR DIE(MYSQLI_ERROR($dbl));
           while($row = mysqli_fetch_array($result)) {
-            array_map('unlink', glob($uploaddir."*-".$row['fileHash'].".png"));
+            array_map('unlink', glob($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR."img".DIRECTORY_SEPARATOR."*-".$row['fileHash'].".png"));
           }
           mysqli_query($dbl, "DELETE FROM `items` WHERE `id`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
           mysqli_query($dbl, "INSERT INTO `log` (`accountId`, `logLevel`, `text`) VALUES ('".$userId."', 4, 'Rezept gelöscht: `".$itemTitle."`')") OR DIE(MYSQLI_ERROR($dbl));
