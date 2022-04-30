@@ -117,6 +117,9 @@ $actionArray = array(
     'add'  => 'add.php',
     'edit' => 'edit.php',
     'del'  => 'del.php'
+  ),
+  'adminItemIngredientAssignments' => array(
+    'show' => 'show.php',
   )
 );
 
