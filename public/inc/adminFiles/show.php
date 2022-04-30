@@ -39,7 +39,7 @@ if(!empty($_GET['id'])) {
      */
     $content.= "<div class='row'>".
     "<div class='col-s-12 col-l-12'><span class='highlight bold'>Rezept:</span> <a href='/rezept/".output($row['shortTitle'])."' target='_blank'>".output($row['title'])."<span class='fas iconright'>&#xf35d;</span></a></div>".
-    "<div class='col-s-12 col-l-12'><span class='highlight bold'>Aktionen:</span> <a href='/adminFiles/add?itemId=".output($id)."'><span class='fas icon'>&#xf067;</span>Hinzufügen</a> - <a href='/adminFiles/sort?itemId=".$id."'><span class='fas icon'>&#xf0dc;</span>Sortieren</a></div>".
+    "<div class='col-s-12 col-l-12'><span class='highlight bold'>Aktionen:</span> <a href='/adminFiles/add?id=".output($id)."'><span class='fas icon'>&#xf067;</span>Hinzufügen</a> - <a href='/adminFiles/sort?itemId=".$id."'><span class='fas icon'>&#xf0dc;</span>Sortieren</a></div>".
     "</div>";
     $content.= "<div class='spacer-m'></div>";
 
@@ -54,7 +54,7 @@ if(!empty($_GET['id'])) {
        */
       $content.= "<div class='infobox'>Das Rezept hat noch keinen Thumbnail.</div>";
       $content.= "<div class='row'>".
-      "<div class='col-s-12 col-l-12'><a href='/adminFiles/add?itemId=".output($id)."'><span class='fas icon'>&#xf067;</span>Hinzufügen</a></div>".
+      "<div class='col-s-12 col-l-12'><a href='/adminFiles/add?id=".output($id)."'><span class='fas icon'>&#xf067;</span>Hinzufügen</a></div>".
       "</div>";
     } elseif(mysqli_num_rows($result) == 1) {
       /**
@@ -81,7 +81,7 @@ if(!empty($_GET['id'])) {
       mysqli_query($dbl, "DELETE FROM `images` WHERE `itemId`='".$id."' AND `thumb`='1'") OR DIE(MYSQLI_ERROR($dbl));
       $content.= "<div class='warnbox'>Das Rezept hat Fehler im Thumbnail. Er wurde gelöscht und muss neu hochgeladen werden.</div>";
       $content.= "<div class='row'>".
-      "<div class='col-s-12 col-l-12'><a href='/adminFiles/add?itemId=".output($id)."'><span class='fas icon'>&#xf067;</span>Hinzufügen</a></div>".
+      "<div class='col-s-12 col-l-12'><a href='/adminFiles/add?id=".output($id)."'><span class='fas icon'>&#xf067;</span>Hinzufügen</a></div>".
       "</div>";
     }
 
@@ -97,7 +97,7 @@ if(!empty($_GET['id'])) {
        */
       $content.= "<div class='infobox'>Das Rezept hat noch keine Bilder.</div>";
       $content.= "<div class='row'>".
-      "<div class='col-s-12 col-l-12'><a href='/adminFiles/add?itemId=".output($id)."'><span class='fas icon'>&#xf067;</span>Hinzufügen</a></div>".
+      "<div class='col-s-12 col-l-12'><a href='/adminFiles/add?id=".output($id)."'><span class='fas icon'>&#xf067;</span>Hinzufügen</a></div>".
       "</div>";
     } else {
       /**
