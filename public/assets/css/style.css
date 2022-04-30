@@ -404,8 +404,7 @@ h3 {
 /* Footer */
 #sidebar > #footer {
   width: 100%;
-  position: absolute;
-  bottom: 0px;
+  position: relative;
   color: var(--navFontColor);
   font-size: calc(var(--fontSize) * 0.6);
   padding: calc(var(--fontSize) * 0.6);
@@ -489,7 +488,7 @@ h3 {
     text-align: center;
   }
 
-  #sidebar > #nav a, #sidebar > #nav hr, #sidebar > #nav > span {
+  #sidebar > #nav a, #sidebar > #nav hr, #sidebar > #nav > span, #sidebar > #footer {
     display: none;
   }
 
@@ -519,12 +518,12 @@ h3 {
 
   /* Footer */
   #sidebar > #footer {
-    position: fixed;
+    position: relative;
     text-align: center;
-    background-color: var(--navBgColor);
-    /*border-top: 5px solid var(--hrColor);*/
-    -webkit-box-shadow: 0px -5px 8px 7px var(--hrColor);
-    box-shadow: 0px -5px 8px 7px var(--hrColor);
+  }
+
+  #sidebar > #footer.responsive {
+    display: block;
   }
 
   #sidebar > #footer > span {

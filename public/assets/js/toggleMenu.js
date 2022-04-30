@@ -6,6 +6,7 @@
  */
 let toggleMenu = function(){
     document.getElementById("nav").classList.toggle("responsive");
+    document.getElementById("footer").classList.toggle("responsive");
     document.getElementById("toggle").classList.toggle("responsive");
 };
 
