@@ -57,7 +57,7 @@ if(!empty($_GET['id'])) {
         $options1[] = "<option value='".$key."'>".$val."</option>";
       }
       shuffle($options1);
-      $content.= "<form action='/adminItems/del?id=".$id."' method='post' autocomplete='off'>";
+      $content.= "<form action='/adminItems/del?id=".output($id)."' method='post' autocomplete='off'>";
       /**
        * Sitzungstoken
        */

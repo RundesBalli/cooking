@@ -287,7 +287,7 @@ if(!empty($_GET['id'])) {
        */
       $content.= "<div class='row hover bordered'>".
       "<div class='col-s-12 col-l-3'>Zutatenliste</div>".
-      "<div class='col-s-12 col-l-4'><a href='/adminIngredients/assign?id=".$id."' target='_blank'>Zutaten verändern<span class='fas iconright'>&#xf35d;</span></a></div>".
+      "<div class='col-s-12 col-l-4'><a href='/adminIngredients/assign?id=".output($id)."' target='_blank'>Zutaten verändern<span class='fas iconright'>&#xf35d;</span></a></div>".
       "<div class='col-s-12 col-l-5'></div>".
       "</div>";
 

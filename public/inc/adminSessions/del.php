@@ -36,7 +36,7 @@ if(!empty($_GET['id'])) {
        * CSRF Bestätigung
        */
       $content.= "<div class='infobox'>Beenden bitte bestätigen.</div>";
-      $content.= "<form action='/adminSessions/del?id=".$id."' method='post'>";
+      $content.= "<form action='/adminSessions/del?id=".output($id)."' method='post'>";
       /**
        * Sitzungstoken
        */

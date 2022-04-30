@@ -58,7 +58,7 @@ if(mysqli_num_rows($result) == 0) {
     /**
      * Formular
      */
-    $content.= "<form action='/adminFeaturedItems/del?id=".$id."' method='post' autocomplete='off'>";
+    $content.= "<form action='/adminFeaturedItems/del?id=".output($id)."' method='post' autocomplete='off'>";
 
     /**
      * Sitzungstoken
