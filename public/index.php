@@ -107,12 +107,13 @@ $actionArray = array(
     'changeDescription' => 'changeDescription.php'
   ),
   'adminIngredients' => array(
-    'show' => 'show.php'
+    'show' => 'show.php',
+    'add'  => 'add.php',
   ),
   'adminUnits' => array(
-    'show' => 'show.php'
-  ),
-
+    'show' => 'show.php',
+    'add'  => 'add.php',
+  )
 );
 
 /**
