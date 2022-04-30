@@ -136,3 +136,4 @@ if(!empty($_GET['id'])) {
   "<div class='col-s-12 col-l-12'><a href='/adminItems/show'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".
   "</div>";
 }
+?>
