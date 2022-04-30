@@ -98,7 +98,10 @@ $actionArray = array(
     'show' => 'show.php',
     'add'  => 'add.php',
     'del'  => 'del.php'
-  )
+  ),
+  'adminFiles' => array(
+    'show' => 'show.php'
+  ),
 );
 
 /**
