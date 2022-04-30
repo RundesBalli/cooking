@@ -106,6 +106,13 @@ $actionArray = array(
     'sort'              => 'sort.php',
     'changeDescription' => 'changeDescription.php'
   ),
+  'adminIngredients' => array(
+    'show' => 'show.php'
+  ),
+  'adminUnits' => array(
+    'show' => 'show.php'
+  ),
+
 );
 
 /**
@@ -145,6 +152,8 @@ if(isset($_COOKIE[$cookieName]) AND !empty($_COOKIE[$cookieName])) {
   $nav.= "<a href='/adminCategories/show'".($getp == "adminCategories" ? $a : NULL)."><span class='far icon'>&#xf07c;</span>Kategorien</a>";
   $nav.= "<a href='/adminItems/show'".($getp == "adminItems" ? $a : NULL)."><span class='fas icon'>&#xf543;</span>Rezepte</a>";
   $nav.= "<a href='/adminFeaturedItems/show'".($getp == "adminFeaturedItems" ? $a : NULL)."><span class='fas icon'>&#xf005;</span>Featured</a>";
+  $nav.= "<a href='/adminIngredients/show'".($getp == "adminIngredients" ? $a : NULL)."><span class='fas icon'>&#xf4d8;</span>Zutaten</a>";
+  $nav.= "<a href='/adminUnits/show'".($getp == "adminUnits" ? $a : NULL)."><span class='fas icon'>&#xf496;</span>Einheiten</a>";
   $nav.= "<a href='/adminSessions/show'".($getp == "adminSessions" ? $a : NULL)."><span class='fas icon'>&#xf51c;</span>Sitzungen</a>";
   $nav.= "<a href='/adminLog'".($getp == "adminLog" ? $a : NULL)."><span class='fas icon'>&#xf70e;</span>Log</a>";
   $nav.= "<a href='/adminMarkdownInfo'".($getp == "adminMarkdownInfo" ? $a : NULL)."><span class='fab icon'>&#xf60f;</span>MarkdownInfo</a>";
