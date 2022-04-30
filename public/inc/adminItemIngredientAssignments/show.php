@@ -16,7 +16,7 @@ require_once(PAGE_INCLUDE_DIR.'adminCookie.php');
 $additionalStyles[] = "input";
 
 $title = "Zutaten bearbeiten";
-$content.= "<h1><span class='far icon'>&#xf07c;</span>Zutaten bearbeiten</h1>";
+$content.= "<h1><span class='far icon'>&#xf4d8;</span>Zutaten bearbeiten</h1>";
 
 /**
  * Prüfung ob eine ID übergeben wurde.
@@ -48,6 +48,100 @@ if(!empty($_GET['id'])) {
     "<div class='col-s-12 col-l-12'><a href='/adminItems/show'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".
     "</div>";
     $content.= "<div class='spacer-m'></div>";
+
+    /**
+     * Neue Rezeptzutat anlegen
+     */
+    $content.= "<h2>Neue Rezeptzutat anlegen</h2>";
+    $form = 1;
+
+    /**
+     * Selektieren der Zutaten
+     */
+    $result = mysqli_query($dbl, "SELECT * FROM `metaIngredients` ORDER BY `title` ASC") OR DIE(MYSQLI_ERROR($dbl));
+    if(mysqli_num_rows($result) == 0) {
+      $form = 0;
+      $content.= "<div class='warnbox'>Es müssen zuerst Zutaten angelegt werden.</div>";
+    } else {
+      $ingredients = array();
+      while($row = mysqli_fetch_array($result)) {
+        $ingredients[] = "<option value='".output($row['id'])."'>".output($row['title'])."</option>";
+      }
+      $ingredients = "<select name='ingredient' tabindex='1' autofocus><option value='' selected disabled hidden>Bitte wählen</option>".implode("", $ingredients)."</select>";
+    }
+
+    /**
+     * Selektieren der Einheiten
+     */
+    $result = mysqli_query($dbl, "SELECT * FROM `metaUnits` ORDER BY `title` ASC") OR DIE(MYSQLI_ERROR($dbl));
+    if(mysqli_num_rows($result) == 0) {
+      $form = 0;
+      $content.= "<div class='warnbox'>Es müssen zuerst Maßeinheiten angelegt werden.</div>";
+    } else {
+      $units = array();
+      while($row = mysqli_fetch_array($result)) {
+        $units[] = "<option value='".output($row['id'])."'>".output($row['title'])." (".output($row['short']).")</option>";
+      }
+      $units = "<select name='unit' tabindex='3'><option value='' selected disabled hidden>Bitte wählen</option>".implode("", $units)."</select>";
+    }
+
+    /**
+     * Formular zur Anlage einer Rezeptzutat anzeigen, wenn Daten vorhanden.
+     */
+    if($form == 1) {
+      $content.= "<form action='/adminItemIngredientAssignments/add?id=".output($id)."' method='post' autocomplete='off'>";
+
+      /**
+       * Sitzungstoken
+       */
+      $content.= "<input type='hidden' name='token' value='".$sessionHash."'>";
+
+      /**
+       * Tabellenüberschrift
+       */
+      $content.= "<div class='row highlight bold bordered'>".
+      "<div class='col-s-12 col-l-3'>Bezeichnung</div>".
+      "<div class='col-s-12 col-l-4'>Feld</div>".
+      "<div class='col-s-12 col-l-5'>Ergänzungen</div>".
+      "</div>";
+
+      /**
+       * Zutat
+       */
+      $content.= "<div class='row hover bordered'>".
+      "<div class='col-s-12 col-l-3'>Zutat</div>".
+      "<div class='col-s-12 col-l-4'>".$ingredients."</div>".
+      "<div class='col-s-12 col-l-5'><a href='/adminIngredients/add' target='_blank'><span class='fas icon'>&#xf4d8;</span>Zutat hinzufügen<span class='fas iconright'>&#xf35d;</span></a><br><a href='/adminItemIngredientAssignments/show?id=".output($id)."'><span class='fas icon'>&#xf021;</span>Neu laden</a></div>".
+      "</div>";
+
+      /**
+       * Menge
+       */
+      $content.= "<div class='row hover bordered'>".
+      "<div class='col-s-12 col-l-3'>Menge</div>".
+      "<div class='col-s-12 col-l-4'><input type='text' name='quantity' tabindex='2' placeholder='Menge'></div>".
+      "<div class='col-s-12 col-l-5'>".Slimdown::render("* Kommazahlen möglich\n* Wenn die Menge = 0 ist, wird die Zutat einfach so angezeigt\n* 0xSalz = Salz")."</div>".
+      "</div>";
+
+      /**
+       * Einheit
+       */
+      $content.= "<div class='row hover bordered'>".
+      "<div class='col-s-12 col-l-3'>Einheit</div>".
+      "<div class='col-s-12 col-l-4'>".$units."</div>".
+      "<div class='col-s-12 col-l-5'>".Slimdown::render("* Wird ignoriert, wenn Menge = 0")."<a href='/adminUnits/add' target='_blank'><span class='fas icon'>&#xf496;</span>Einheit hinzufügen<span class='fas iconright'>&#xf35d;</span></a><br><a href='/adminItemIngredientAssignments/show?id=".output($id)."'><span class='fas icon'>&#xf021;</span>Neu laden</a></div>".
+      "</div>";
+
+      /**
+       * Absenden
+       */
+      $content.= "<div class='row hover bordered'>".
+      "<div class='col-s-12 col-l-3'>Zutat zuweisen</div>".
+      "<div class='col-s-12 col-l-4'><input type='submit' name='submit' value='Anlegen' tabindex='4'></div>".
+      "<div class='col-s-12 col-l-5'></div>".
+      "</div>";
+      $content.= "</form>";
+    }
 
     /**
      * Bestehende Zuweisungen anzeigen
