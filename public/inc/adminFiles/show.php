@@ -69,7 +69,7 @@ if(!empty($_GET['id'])) {
       $row = mysqli_fetch_array($result);
       $content.= "<div class='row hover bordered'>".
       "<div class='col-s-12 col-l-8'><a href='/img/thumb-".$row['itemId']."-".$row['fileHash'].".png' target='_blank'>/img/thumb-".$row['itemId']."-".$row['fileHash'].".png<span class='fas iconright'>&#xf35d;</span></a></div>".
-      "<div class='col-s-12 col-l-4'><a href='/adminFiles/del?imageId=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a></div>".
+      "<div class='col-s-12 col-l-4'><a href='/adminFiles/del?id=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a></div>".
       "<div class='col-s-12 col-l-0'><div class='spacer-s'></div></div>".
       "</div>";
     } else {
@@ -116,7 +116,7 @@ if(!empty($_GET['id'])) {
         "<div class='col-s-12 col-l-5'><a href='/img/img-".$row['itemId']."-".$row['fileHash'].".png' target='_blank'>/img/img-".$row['itemId']."-".$row['fileHash'].".png<span class='fas iconright'>&#xf35d;</span></a></div>".
         "<div class='col-s-12 col-l-3'>".($row['description'] != NULL ? output($row['description']) : "<span class='italic'>NULL</span>")."</div>".
         "<div class='col-s-12 col-l-2'>".$row['sortIndex']."</div>".
-        "<div class='col-s-12 col-l-2'><a href='/adminFiles/del?imageId=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a></div>".
+        "<div class='col-s-12 col-l-2'><a href='/adminFiles/del?id=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a></div>".
         "<div class='col-s-12 col-l-0'><div class='spacer-s'></div></div>".
         "</div>";
       }
