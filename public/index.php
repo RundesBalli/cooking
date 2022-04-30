@@ -94,7 +94,7 @@ $actionArray = array(
     'del'    => 'del.php',
     'edit'   => 'edit.php'
   ),
-  'adminItemAssignments' => array(
+  'adminCategoryItemAssignments' => array(
     'show' => 'show.php',
     'add'  => 'add.php',
     'del'  => 'del.php'

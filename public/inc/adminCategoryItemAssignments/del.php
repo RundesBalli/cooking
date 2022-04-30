@@ -1,6 +1,6 @@
 <?php
 /**
- * adminItemAssignments/del.php
+ * adminCategoryItemAssignments/del.php
  * 
  * Löschen einer Kategoriezuweisung eines Rezeptes.
  */
@@ -50,7 +50,7 @@ if(!empty($_GET['itemId']) AND !empty($_GET['categoryId'])) {
         /**
          * CSRF Bestätigung
          */
-        $content.= "<form action='/adminItemAssignments/del?itemId=".output($itemId)."&categoryId=".output($categoryId)."' method='post'>";
+        $content.= "<form action='/adminCategoryItemAssignments/del?itemId=".output($itemId)."&categoryId=".output($categoryId)."' method='post'>";
   
         /**
          * Sitzungstoken
@@ -68,7 +68,7 @@ if(!empty($_GET['itemId']) AND !empty($_GET['categoryId'])) {
         $content.= "</form>";
   
         $content.= "<div class='row'>".
-        "<div class='col-s-12 col-l-12'><a href='/adminItemAssignments/show?itemId=".output($itemId)."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".
+        "<div class='col-s-12 col-l-12'><a href='/adminCategoryItemAssignments/show?itemId=".output($itemId)."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".
         "</div>";
       } else {
         if($_POST['token'] == $sessionHash) {
@@ -83,7 +83,7 @@ if(!empty($_GET['itemId']) AND !empty($_GET['categoryId'])) {
             $content.= "<div class='warnbox'>Diese Rezept / Kategorie Zuweisung existiert nicht.</div>";
           }
           $content.= "<div class='row'>".
-          "<div class='col-s-12 col-l-12'><a href='/adminItemAssignments/show?itemId=".output($itemId)."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".
+          "<div class='col-s-12 col-l-12'><a href='/adminCategoryItemAssignments/show?itemId=".output($itemId)."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".
           "</div>";
         } else {
           /**
@@ -92,7 +92,7 @@ if(!empty($_GET['itemId']) AND !empty($_GET['categoryId'])) {
           http_response_code(403);
           $content.= "<div class='warnbox'>Ungültiges Token.</div>";
           $content.= "<div class='row'>".
-          "<div class='col-s-12 col-l-12'><a href='/adminItemAssignments/show?itemId=".output($itemId)."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".
+          "<div class='col-s-12 col-l-12'><a href='/adminCategoryItemAssignments/show?itemId=".output($itemId)."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".
           "</div>";
         }
       }
@@ -103,7 +103,7 @@ if(!empty($_GET['itemId']) AND !empty($_GET['categoryId'])) {
       http_response_code(404);
       $content.= "<div class='warnbox'>Die Rezeptzuweisung <span class='highlight italic'>".output($itemRow['title'])."</span> in der Kategorie <span class='highlight italic'>".output($categoryRow['title'])."</span> existiert nicht.</div>";
       $content.= "<div class='row'>".
-      "<div class='col-s-12 col-l-12'><a href='/adminItemAssignments/show?itemId=".output($itemId)."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".
+      "<div class='col-s-12 col-l-12'><a href='/adminCategoryItemAssignments/show?itemId=".output($itemId)."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".
       "</div>";
     }
   } else {

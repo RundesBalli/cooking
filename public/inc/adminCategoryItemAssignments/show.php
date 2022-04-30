@@ -1,6 +1,6 @@
 <?php
 /**
- * adminItemAssignments/show.php
+ * adminCategoryItemAssignments/show.php
  * 
  * Anzeige der Kategoriezuweisungen eines Rezeptes.
  */
@@ -59,7 +59,7 @@ if(!empty($_GET['itemId'])) {
       while($row = mysqli_fetch_array($result)) {
         $content.= "<div class='row hover bordered'>".
         "<div class='col-s-8 col-l-8'>".$row['title']."</div>".
-        "<div class='col-s-4 col-l-4'><a href='/adminItemAssignments/del?itemId=".output($itemId)."&categoryId=".$row['categoryId']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a> - "."<a href='/adminCategories/itemSort?id=".$row['categoryId']."' class='nowrap'><span class='fas icon'>&#xf0dc;</span>in dieser Kategorie sortieren</a></div>".
+        "<div class='col-s-4 col-l-4'><a href='/adminCategoryItemAssignments/del?itemId=".output($itemId)."&categoryId=".$row['categoryId']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a> - "."<a href='/adminCategories/itemSort?id=".$row['categoryId']."' class='nowrap'><span class='fas icon'>&#xf0dc;</span>in dieser Kategorie sortieren</a></div>".
         "</div>";
       }
     }
@@ -77,7 +77,7 @@ if(!empty($_GET['itemId'])) {
     while($row = mysqli_fetch_array($result)) {
       $content.= "<div class='row hover bordered'>".
       "<div class='col-s-8 col-l-8'><a href='/kategorie/".output($row['shortTitle'])."' target='_blank'>".output($row['title'])."<span class='fas iconright'>&#xf35d;</span></a></div>".
-      "<div class='col-s-4 col-l-4'>".($row['isset'] == 1 ? "bereits zugewiesen" : "<a href='/adminItemAssignments/add?itemId=".output($itemId)."&categoryId=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf067;</span>Hinzufügen</a>")."</div>".
+      "<div class='col-s-4 col-l-4'>".($row['isset'] == 1 ? "bereits zugewiesen" : "<a href='/adminCategoryItemAssignments/add?itemId=".output($itemId)."&categoryId=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf067;</span>Hinzufügen</a>")."</div>".
       "</div>";
     }
   }

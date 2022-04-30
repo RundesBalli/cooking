@@ -1,6 +1,6 @@
 <?php
 /**
- * adminItemAssignments/add.php
+ * adminCategoryItemAssignments/add.php
  * 
  * Anlegen einer Kategoriezuweisung eines Rezeptes.
  */
@@ -45,7 +45,7 @@ if(!empty($_GET['itemId']) AND !empty($_GET['categoryId'])) {
       /**
        * CSRF Bestätigung
        */
-      $content.= "<form action='/adminItemAssignments/add?itemId=".output($itemId)."&categoryId=".output($categoryId)."' method='post'>";
+      $content.= "<form action='/adminCategoryItemAssignments/add?itemId=".output($itemId)."&categoryId=".output($categoryId)."' method='post'>";
 
       /**
        * Sitzungstoken
@@ -63,7 +63,7 @@ if(!empty($_GET['itemId']) AND !empty($_GET['categoryId'])) {
       $content.= "</form>";
 
       $content.= "<div class='row'>".
-      "<div class='col-s-12 col-l-12'><a href='/adminItemAssignments/show?itemId=".output($itemId)."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".
+      "<div class='col-s-12 col-l-12'><a href='/adminCategoryItemAssignments/show?itemId=".output($itemId)."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".
       "</div>";
     } else {
       if($_POST['token'] == $sessionHash) {
@@ -83,7 +83,7 @@ if(!empty($_GET['itemId']) AND !empty($_GET['categoryId'])) {
           }
         }
         $content.= "<div class='row'>".
-        "<div class='col-s-12 col-l-12'><a href='/adminItemAssignments/show?itemId=".output($itemId)."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".
+        "<div class='col-s-12 col-l-12'><a href='/adminCategoryItemAssignments/show?itemId=".output($itemId)."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".
         "</div>";
       } else {
         /**
@@ -92,7 +92,7 @@ if(!empty($_GET['itemId']) AND !empty($_GET['categoryId'])) {
         http_response_code(403);
         $content.= "<div class='warnbox'>Ungültiges Token.</div>";
         $content.= "<div class='row'>".
-        "<div class='col-s-12 col-l-12'><a href='/adminItemAssignments/show?itemId=".output($itemId)."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".
+        "<div class='col-s-12 col-l-12'><a href='/adminCategoryItemAssignments/show?itemId=".output($itemId)."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".
         "</div>";
       }
     }
