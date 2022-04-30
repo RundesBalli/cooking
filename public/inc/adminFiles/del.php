@@ -78,7 +78,7 @@ if(!empty($_GET['id'])) {
       /**
        * Sitzungstoken
        */
-      $content.= "<input type='hidden' name='token' value='".$sessionHash."'>";
+      $content.= "<input type='hidden' name='token' value='".output($sessionHash)."'>";
       $content.= "<div class='row'>".
       "<div class='col-s-12 col-l-4'><select name='selection'>"."<option value='' selected disabled hidden>Bitte wählen</option>".implode("", $options1)."</select></div>".
       "<div class='col-s-12 col-l-4'><input type='submit' name='submit' value='Handeln'></div>".

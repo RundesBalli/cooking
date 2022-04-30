@@ -29,7 +29,7 @@ if(!isset($_POST['submit'])) {
   /**
    * Sitzungstoken
    */
-  $content.= "<input type='hidden' name='token' value='".$sessionHash."'>";
+  $content.= "<input type='hidden' name='token' value='".output($sessionHash)."'>";
   /**
    * Auswahl
    */

@@ -50,7 +50,7 @@ $content.= "<form action='/adminPassword/change' method='post'>";
 /**
  * Sitzungstoken
  */
-$content.= "<input type='hidden' name='token' value='".$sessionHash."'>";
+$content.= "<input type='hidden' name='token' value='".output($sessionHash)."'>";
 $content.= "<div class='row hover bordered'>".
 "<div class='col-s-12 col-l-3'>neues Passwort</div>".
 "<div class='col-s-12 col-l-4'><input type='password' name='password' tabindex='1'></div>".

@@ -226,7 +226,7 @@ if(!empty($_GET['id'])) {
       /**
        * Sitzungstoken
        */
-      $content.= "<input type='hidden' name='token' value='".$sessionHash."'>";
+      $content.= "<input type='hidden' name='token' value='".output($sessionHash)."'>";
 
       /**
        * Tabellenüberschrift
