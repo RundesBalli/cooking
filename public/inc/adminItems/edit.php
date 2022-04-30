@@ -198,7 +198,7 @@ if(!empty($_GET['id'])) {
           $content.= "<div class='successbox'>Rezept erfolgreich geändert.</div>";
           $content.= "<div class='row'>".
           "<div class='col-s-12 col-l-12'><a href='/adminItems/show'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".
-          "<div class='col-s-12 col-l-12'><a href='/adminIngredients/assign?id=".output($id)."'><span class='fas icon'>&#xf4d8;</span>Zutatenpflege</a></div>".
+          "<div class='col-s-12 col-l-12'><a href='/adminItemIngredientAssignments/show?id=".output($id)."'><span class='fas icon'>&#xf4d8;</span>Zutatenpflege</a></div>".
           "<div class='col-s-12 col-l-12'><a href='/rezept/".output($shortTitle)."'><span class='fas icon'>&#xf543;</span>Zum Rezept</a></div>".
           "</div>";
         } else {
@@ -287,7 +287,7 @@ if(!empty($_GET['id'])) {
        */
       $content.= "<div class='row hover bordered'>".
       "<div class='col-s-12 col-l-3'>Zutatenliste</div>".
-      "<div class='col-s-12 col-l-4'><a href='/adminIngredients/assign?id=".output($id)."' target='_blank'>Zutaten verändern<span class='fas iconright'>&#xf35d;</span></a></div>".
+      "<div class='col-s-12 col-l-4'><a href='/adminItemIngredientAssignments/show?id=".output($id)."' target='_blank'>Zutaten verändern<span class='fas iconright'>&#xf35d;</span></a></div>".
       "<div class='col-s-12 col-l-5'></div>".
       "</div>";
 
