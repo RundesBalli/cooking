@@ -54,7 +54,9 @@ $ogConfig['sitename'] = "";
 /**
  * Diverse Variablen
  * 
- * @var string $navTitle Seitenname der in der Navigation angezeigt wird.
+ * @var string $navTitle    Seitenname der in der Navigation angezeigt wird.
+ * @var int    $maxFileSize Maximale Dateigröße eines hochgeladenen Bildes in Bytes. Standard: 20971520 (20MB)
  */
 $navTitle = "";
+$maxFileSize = 20971520;
 ?>
