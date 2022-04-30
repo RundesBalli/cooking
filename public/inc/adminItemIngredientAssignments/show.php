@@ -52,13 +52,13 @@ if(!empty($_GET['id'])) {
     /**
      * Bestehende Zuweisungen anzeigen
      */
-    $content.= "<h2>Bestehende Zuweisungen</h2>";
+    $content.= "<h2>Bestehende Rezeptzutaten</h2>";
     $result = mysqli_query($dbl, "SELECT `metaIngredients`.`title` AS `ingredientTitle`, `metaUnits`.`title` AS `unitTitle`, `metaUnits`.`short`, `metaUnits`.`spacer`, `itemIngredients`.* FROM `itemIngredients` JOIN `metaIngredients` ON `metaIngredients`.`id` = `itemIngredients`.`ingredientId` LEFT OUTER JOIN `metaUnits` ON `metaUnits`.`id` = `itemIngredients`.`unitId` WHERE `itemIngredients`.`itemId`='$id' ORDER BY `ingredientTitle` ASC") OR DIE(MYSQLI_ERROR($dbl));
     if(mysqli_num_rows($result) == 0) {
-      $content.= "<div class='infobox'>Es wurden noch keine Zuweisungen angelegt.</div>";
+      $content.= "<div class='infobox'>Es wurden noch keine Rezeptzutaten hinzugefügt.</div>";
     } else {
       $content.= "<div class='row'>".
-      "<div class='col-s-12 col-l-12'><span class='highlight'>Info:</span> Zum Ändern einfach die selbe Zutat nochmal anlegen.</div>".
+      "<div class='col-s-12 col-l-12'><span class='highlight'>Hinweis:</span> Zum Ändern einfach die selbe Zutat nochmal anlegen.</div>".
       "</div>";
       $content.= "<div class='row highlight bold bordered'>".
       "<div class='col-s-7 col-l-4'>Zutat</div>".
