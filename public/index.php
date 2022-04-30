@@ -109,10 +109,12 @@ $actionArray = array(
   'adminIngredients' => array(
     'show' => 'show.php',
     'add'  => 'add.php',
+    'edit' => 'edit.php',
   ),
   'adminUnits' => array(
     'show' => 'show.php',
     'add'  => 'add.php',
+    'edit' => 'edit.php',
   )
 );
 
