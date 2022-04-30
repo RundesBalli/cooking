@@ -19,6 +19,7 @@ $content.= "<h1><span class='fas icon'>&#xf543;</span>Einheiten anzeigen</h1>";
 $content.= "<div class='row'>".
 "<div class='col-s-12 col-l-12'><span class='highlight bold'>Aktionen:</span> <a href='/adminUnits/add'><span class='fas icon'>&#xf067;</span>Anlegen</a></div>".
 "</div>";
+$content.= "<div class='spacer-m'></div>";
 
 /**
  * Selektieren aller Maßeinheiten.
