@@ -40,7 +40,7 @@ if(!empty($_GET['id'])) {
     /**
      * Wenn die Kategorie existiert, dann wird abgefragt ob wirklich gelöscht werden soll.
      */
-    $row = mysqli_fetch_array($result);
+    $row = mysqli_fetch_assoc($result);
     if(!isset($_POST['submit'])) {
       /**
        * Formular wurde noch nicht gesendet.
@@ -81,7 +81,7 @@ if(!empty($_GET['id'])) {
          */
         if($_POST['token'] == $sessionHash) {
           $result = mysqli_query($dbl, "SELECT * FROM `categories` WHERE `id`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
-          $row = mysqli_fetch_array($result);
+          $row = mysqli_fetch_assoc($result);
           mysqli_query($dbl, "DELETE FROM `categories` WHERE `id`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
           mysqli_query($dbl, "INSERT INTO `log` (`accountId`, `logLevel`, `text`) VALUES ('".$userId."', 4, 'Kategorie gelöscht: `".$row['title']."`')") OR DIE(MYSQLI_ERROR($dbl));
           $content.= "<div class='successbox'>Kategorie erfolgreich gelöscht.</div>";

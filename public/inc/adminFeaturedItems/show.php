@@ -41,7 +41,7 @@ if(mysqli_num_rows($result) == 0) {
   "<div class='col-s-12 col-l-2'>Aktionen</div>".
   "<div class='col-s-0 col-l-0'><div class='spacer-s'></div></div>".
   "</div>";
-  while($row = mysqli_fetch_array($result)) {
+  while($row = mysqli_fetch_assoc($result)) {
     $content.= "<div class='row hover bordered'>".
     "<div class='col-s-12 col-l-4'><a href='/rezept/".output($row['shortTitle'])."' target='_blank'>".output($row['title'])."<span class='fas iconright'>&#xf35d;</span></a></div>".
     "<div class='col-s-6 col-l-3'>".date("d.m.Y, H:i:s", strtotime($row['timestamp']))."</div>".

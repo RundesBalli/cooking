@@ -37,7 +37,7 @@ $content.= "<div class='row highlight bold'>".
  * Abrufen und Ausgeben des "stats" SQL-Views.
  */
 $result = mysqli_query($dbl, "SELECT * FROM `stats`") OR DIE(MYSQLI_ERROR($dbl));
-$row = mysqli_fetch_array($result);
+$row = mysqli_fetch_assoc($result);
 $content.= "<div class='row hover bordered'>".
 "<div class='col-s-12 col-l-3'>Anzahl Kategorien</div>".
 "<div class='col-s-12 col-l-9'>".$row['catCount']."</div>".
@@ -80,7 +80,7 @@ if(mysqli_num_rows($result) == 0) {
   "<div class='col-s-12 col-l-9'>Rezept</div>".
   "<div class='col-s-12 col-l-0'><div class='spacer-s'></div></div>".
   "</div>";
-  while($row = mysqli_fetch_array($result)) {
+  while($row = mysqli_fetch_assoc($result)) {
     $top++;
     $content.= "<div class='row hover bordered'>".
     "<div class='col-s-12 col-l-3'><span class='highlight'>#".$top."</span> (".number_format($row['c'], 0, ",", ".")." Klicks)</div>".
@@ -101,7 +101,7 @@ if(mysqli_num_rows($result) != 0) {
   $content.= "<div class='row highlight bold'>".
   "<div class='col-s-12 col-l-12'>Titel</div>".
   "</div>";
-  while($row = mysqli_fetch_array($result)) {
+  while($row = mysqli_fetch_assoc($result)) {
     $content.= "<div class='row hover bordered'>".
     "<div class='col-s-12 col-l-12'>".output($row['title'])."</div>".
     "</div>";
@@ -119,7 +119,7 @@ if(mysqli_num_rows($result) != 0) {
   "<div class='col-s-12 col-l-6'>Titel</div>".
   "<div class='col-s-12 col-l-6'>Aktionen</div>".
   "</div>";
-  while($row = mysqli_fetch_array($result)) {
+  while($row = mysqli_fetch_assoc($result)) {
     $content.= "<div class='row hover bordered'>".
     "<div class='col-s-12 col-l-6'><a href='/rezept/".output($row['shortTitle'])."' target='_blank'>".output($row['title'])."<span class='fas iconright'>&#xf35d;</span></a></div>".
     "<div class='col-s-12 col-l-6'><a href='/adminItems/edit?id=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf044;</span>Bearbeiten</a> - <a href='/adminCategoryItemAssignments/show?itemId=".$row['id']."' class='nowrap'><span class='far icon'>&#xf07c;</span>Zuweisen</a></div>".

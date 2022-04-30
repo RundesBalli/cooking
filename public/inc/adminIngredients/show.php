@@ -39,7 +39,7 @@ if(mysqli_num_rows($result) == 0) {
   "<div class='col-s-5 col-l-2'>Suchbar</div>".
   "<div class='col-s-12 col-l-7'>Aktionen</div>".
   "</div>";
-  while($row = mysqli_fetch_array($result)) {
+  while($row = mysqli_fetch_assoc($result)) {
     $content.= "<div class='row hover bordered'>".
     "<div class='col-s-7 col-l-3'>".output($row['title'])."</div>".
     "<div class='col-s-5 col-l-2'>".($row['searchable'] == 1 ? "Ja" : "Nein")."</div>".

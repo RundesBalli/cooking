@@ -36,7 +36,7 @@ if(mysqli_num_rows($result) == 0) {
   /**
    * Wenn die Rezeptvorstellung existiert, dann wird abgefragt ob wirklich gelöscht werden soll.
    */
-  $row = mysqli_fetch_array($result);
+  $row = mysqli_fetch_assoc($result);
   if(!isset($_POST['submit'])) {
     /**
      * Formular wurde noch nicht gesendet.

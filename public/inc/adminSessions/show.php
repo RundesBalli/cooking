@@ -30,7 +30,7 @@ $content.= "<div class='row highlight bold bordered'>".
 "<div class='col-s-12 col-l-3'>Beenden</div>".
 "<div class='col-s-12 col-l-0'><div class='spacer-s'></div></div>".
 "</div>";
-while($row = mysqli_fetch_array($result)) {
+while($row = mysqli_fetch_assoc($result)) {
   $content.= "<div class='row hover bordered'>";
   $content.= "<div class='col-s-12 col-l-3'>".output($row['username'])."</div>";
   $content.= "<div class='col-s-12 col-l-3'>".date("d.m.Y, H:i:s", $row['lastActivity'])."</div>";

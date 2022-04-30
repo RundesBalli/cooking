@@ -79,7 +79,7 @@ if(!empty($_GET['id'])) {
                  */
                 $result = mysqli_query($dbl, "SELECT * FROM `images` WHERE `itemId`='".$id."' AND `thumb`='1' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
                 if(mysqli_num_rows($result) == 1) {
-                  $row = mysqli_fetch_array($result);
+                  $row = mysqli_fetch_assoc($result);
                   unlink($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR."img".DIRECTORY_SEPARATOR."thumb-".$id."-".$row['fileHash'].".png");
                   mysqli_query($dbl, "DELETE FROM `images` WHERE `itemId`='".$id."' AND `thumb`='1' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
                   $content.= "<div class='infobox'>Der bestehende Thumbnail wurde entfernt.</div>";

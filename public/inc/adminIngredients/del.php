@@ -40,7 +40,7 @@ if(!empty($_GET['id'])) {
     /**
      * Wenn die Zutat existiert, dann wird abgefragt ob wirklich gelöscht werden soll.
      */
-    $row = mysqli_fetch_array($result);
+    $row = mysqli_fetch_assoc($result);
     if(!isset($_POST['submit'])) {
       /**
        * Formular wurde noch nicht gesendet.
@@ -84,7 +84,7 @@ if(!empty($_GET['id'])) {
          */
         if($_POST['token'] == $sessionHash) {
           $result = mysqli_query($dbl, "SELECT * FROM `metaIngredients` WHERE `id`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
-          $row = mysqli_fetch_array($result);
+          $row = mysqli_fetch_assoc($result);
           if(mysqli_query($dbl, "DELETE FROM `metaIngredients` WHERE `id`='".$id."' LIMIT 1")) {
             mysqli_query($dbl, "INSERT INTO `log` (`accountId`, `logLevel`, `text`) VALUES ('".$userId."', 4, 'Zutat gelöscht: `".defuse($row['title'])."`')") OR DIE(MYSQLI_ERROR($dbl));
             $content.= "<div class='successbox'>Zutat erfolgreich gelöscht.</div>";

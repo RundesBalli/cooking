@@ -40,13 +40,13 @@ if(mysqli_num_rows($result) == 0) {
   "<div class='col-s-12 col-l-2'>Kategorien</div>".
   "<div class='col-s-12 col-l-5'>Aktionen</div>".
   "</div>";
-  while($row = mysqli_fetch_array($result)) {
+  while($row = mysqli_fetch_assoc($result)) {
     $innerresult = mysqli_query($dbl, "SELECT `categories`.`title`, `categories`.`shortTitle` FROM `categoryItems` LEFT JOIN `categories` ON `categoryItems`.`categoryId`=`categories`.`id` WHERE `categoryItems`.`itemId`='".$row['id']."'") OR DIE(MYSQLI_ERROR($dbl));
     if(mysqli_num_rows($innerresult) == 0) {
       $categories = "keine";
     } else {
       $categories = array();
-      while($innerrow = mysqli_fetch_array($innerresult)) {
+      while($innerrow = mysqli_fetch_assoc($innerresult)) {
         $categories[] = "<a href='/kategorie/".output($innerrow['shortTitle'])."' target='_blank'>".output($innerrow['title'])."<span class='fas iconright'>&#xf35d;</span></a>";
       }
       $categories = implode("<br>", $categories);

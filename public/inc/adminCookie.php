@@ -20,7 +20,7 @@ if(isset($_COOKIE[$cookieName]) AND !empty($_COOKIE[$cookieName])) {
        * Wenn eine Sitzung existiert wird der letzte Nutzungszeitpunkt aktualisiert und ein paar Accountvariablen geladen.
        */
       mysqli_query($dbl, "UPDATE `sessions` SET `lastActivity`=CURRENT_TIMESTAMP WHERE `hash`='".$match[0]."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
-      $adminRow = mysqli_fetch_array($result);
+      $adminRow = mysqli_fetch_assoc($result);
       mysqli_query($dbl, "UPDATE `accounts` SET `lastActivity`=CURRENT_TIMESTAMP WHERE `id`='".$adminRow['id']."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
       setcookie($cookieName, $match[0], time()+(6*7*86400), NULL, NULL, TRUE, TRUE);
       $username = $adminRow['username'];

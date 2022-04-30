@@ -287,7 +287,7 @@ if($form == 1) {
   "<div class='col-s-12 col-l-3'>Kosten</div>".
   "<div class='col-s-12 col-l-4'><select name='cost' tabindex='5'>"."<option value='' selected disabled hidden>Bitte wählen</option>";
   $result = mysqli_query($dbl, "SELECT * FROM `metaCost` ORDER BY `id` ASC") OR DIE(MYSQLI_ERROR($dbl));
-  while($row = mysqli_fetch_array($result)) {
+  while($row = mysqli_fetch_assoc($result)) {
     $content.= "<option value='".$row['id']."'".((isset($_POST['cost']) && !empty($_POST['cost']) AND $row['id'] == $_POST['cost']) ? " selected" : NULL).">".output($row['title'])."</option>";
   }
   $content.= "</select></div>".
@@ -301,7 +301,7 @@ if($form == 1) {
   "<div class='col-s-12 col-l-3'>Schwierigkeit</div>".
   "<div class='col-s-12 col-l-4'><select name='difficulty' tabindex='6'>"."<option value='' selected disabled hidden>Bitte wählen</option>";
   $result = mysqli_query($dbl, "SELECT * FROM `metaDifficulty` ORDER BY `id` ASC") OR DIE(MYSQLI_ERROR($dbl));
-  while($row = mysqli_fetch_array($result)) {
+  while($row = mysqli_fetch_assoc($result)) {
     $content.= "<option value='".$row['id']."'".((isset($_POST['difficulty']) && !empty($_POST['difficulty']) AND $row['id'] == $_POST['difficulty']) ? " selected" : NULL).">".output($row['title'])."</option>";
   }
   $content.= "</select></div>".
@@ -315,7 +315,7 @@ if($form == 1) {
   "<div class='col-s-12 col-l-3'>Arbeitszeit</div>".
   "<div class='col-s-12 col-l-4'><select name='workDuration' tabindex='7'>"."<option value='' selected disabled hidden>Bitte wählen</option>";
   $result = mysqli_query($dbl, "SELECT * FROM `metaDuration` ORDER BY `id` ASC") OR DIE(MYSQLI_ERROR($dbl));
-  while($row = mysqli_fetch_array($result)) {
+  while($row = mysqli_fetch_assoc($result)) {
     $content.= "<option value='".$row['id']."'".((isset($_POST['workDuration']) && !empty($_POST['workDuration']) AND $row['id'] == $_POST['workDuration']) ? " selected" : NULL).">".output($row['title'])."</option>";
   }
   $content.= "</select></div>".
@@ -329,7 +329,7 @@ if($form == 1) {
   "<div class='col-s-12 col-l-3'>Gesamtzeit</div>".
   "<div class='col-s-12 col-l-4'><select name='totalDuration' tabindex='8'>"."<option value='' selected disabled hidden>Bitte wählen</option>";
   $result = mysqli_query($dbl, "SELECT * FROM `metaDuration` ORDER BY `id` ASC") OR DIE(MYSQLI_ERROR($dbl));
-  while($row = mysqli_fetch_array($result)) {
+  while($row = mysqli_fetch_assoc($result)) {
     $content.= "<option value='".$row['id']."'".((isset($_POST['totalDuration']) && !empty($_POST['totalDuration']) AND $row['id'] == $_POST['totalDuration']) ? " selected" : NULL).">".output($row['title'])."</option>";
   }
   $content.= "</select></div>".

@@ -107,7 +107,7 @@ if(isset($_POST['submit'])) {
   /**
    * Erzeugen der Rezeptliste
    */
-  while($row = mysqli_fetch_array($result)) {
+  while($row = mysqli_fetch_assoc($result)) {
     $options[] = "<option value='".$row['id']."'".($id == $row['id'] ? " selected" : NULL).">".output($row['title'])."</option>";
   }
   /**

@@ -42,7 +42,7 @@ if(!empty($_GET['id'])) {
      * Wir gehen davon aus, dass alles okay ist, demzufolge muss das Formular nicht mehr angezeigt werden.
      * Im Fehlerfall wird das Formular nochmals angezeigt.
      */
-    $row = mysqli_fetch_array($result);
+    $row = mysqli_fetch_assoc($result);
     $form = 0;
     if(isset($_POST['submit'])) {
       /**

@@ -65,7 +65,7 @@ if(!empty($_GET['id'])) {
       "<div class='col-s-12 col-l-8'>Dateiname</div>".
       "<div class='col-s-12 col-l-4'>Aktionen</div>".
       "</div>";
-      $row = mysqli_fetch_array($result);
+      $row = mysqli_fetch_assoc($result);
       $content.= "<div class='row hover bordered'>".
       "<div class='col-s-12 col-l-8'><a href='/img/thumb-".$row['itemId']."-".$row['fileHash'].".png' target='_blank'>/img/thumb-".$row['itemId']."-".$row['fileHash'].".png<span class='fas iconright'>&#xf35d;</span></a></div>".
       "<div class='col-s-12 col-l-4'><a href='/adminFiles/del?id=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a></div>".
@@ -74,7 +74,7 @@ if(!empty($_GET['id'])) {
       /**
        * Mehrere Thumbnails vorhanden, was nicht sein darf. Löschung aller Thumbnails und Aufforderung zum erneuten Hochladen.
        */
-      while($row = mysqli_fetch_array($result)) {
+      while($row = mysqli_fetch_assoc($result)) {
         unlink($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR."img".DIRECTORY_SEPARATOR."thumb-".$row['itemId']."-".$row['fileHash'].".png");
       }
       mysqli_query($dbl, "DELETE FROM `images` WHERE `itemId`='".$id."' AND `thumb`='1'") OR DIE(MYSQLI_ERROR($dbl));
@@ -108,7 +108,7 @@ if(!empty($_GET['id'])) {
       "<div class='col-s-12 col-l-2'>Sortierindex</div>".
       "<div class='col-s-12 col-l-3'>Aktionen</div>".
       "</div>";
-      while($row = mysqli_fetch_array($result)) {
+      while($row = mysqli_fetch_assoc($result)) {
         $content.= "<div class='row hover bordered'>".
         "<div class='col-s-12 col-l-4'><a href='/img/img-".$row['itemId']."-".$row['fileHash'].".png' target='_blank'>/img/img-".$row['itemId']."-".$row['fileHash'].".png<span class='fas iconright'>&#xf35d;</span></a></div>".
         "<div class='col-s-12 col-l-3'>".($row['description'] != NULL ? output($row['description']) : "<span class='italic'>NULL</span>")."</div>".

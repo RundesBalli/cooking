@@ -111,7 +111,7 @@ if(!empty($_GET['id'])) {
        * Erstaufruf = Formular wird angezeigt und befüllt.
        */
       $form = 1;
-      $row = mysqli_fetch_array($result);
+      $row = mysqli_fetch_assoc($result);
     }
     /**
      * Das Formular wird beim Erstaufruf und bei Fehleingaben angezeigt.

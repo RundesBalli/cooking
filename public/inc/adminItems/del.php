@@ -40,7 +40,7 @@ if(!empty($_GET['id'])) {
     /**
      * Wenn das Rezept existiert, dann wird abgefragt ob wirklich gelöscht werden soll.
      */
-    $row = mysqli_fetch_array($result);
+    $row = mysqli_fetch_assoc($result);
     if(!isset($_POST['submit'])) {
       /**
        * Formular wurde noch nicht gesendet.
@@ -79,7 +79,7 @@ if(!empty($_GET['id'])) {
            */
           $itemTitle = $row['title'];
           $result = mysqli_query($dbl, "SELECT * FROM `images` WHERE `itemId`='".$id."'") OR DIE(MYSQLI_ERROR($dbl));
-          while($row = mysqli_fetch_array($result)) {
+          while($row = mysqli_fetch_assoc($result)) {
             array_map('unlink', glob($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR."img".DIRECTORY_SEPARATOR."*-".$row['fileHash'].".png"));
           }
           mysqli_query($dbl, "DELETE FROM `items` WHERE `id`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));

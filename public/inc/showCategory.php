@@ -28,14 +28,14 @@ if(!isset($_GET['category']) OR empty(trim($_GET['category']))) {
    */
   $result = mysqli_query($dbl, "SELECT * FROM `categories` WHERE `shortTitle`='".$category."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
   if(mysqli_num_rows($result) == 1) {
-    $row = mysqli_fetch_array($result);
+    $row = mysqli_fetch_assoc($result);
 
     /**
      * OG-Metadaten
      */
     $thumbresult = mysqli_query($dbl, "SELECT `categoryItems`.`itemId`, `images`.`fileHash` FROM `categoryItems` JOIN `images` ON `categoryItems`.`itemId`=`images`.`itemId` AND `thumb`='1' WHERE `categoryId` = '".$row['id']."' ORDER BY RAND() LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
     if(mysqli_num_rows($thumbresult) == 1) {
-      $thumbrow = mysqli_fetch_array($thumbresult);
+      $thumbrow = mysqli_fetch_assoc($thumbresult);
       $thumb = 'https://'.$_SERVER['HTTP_HOST']."/img/thumb-".$thumbrow['itemId']."-".$thumbrow['fileHash'].".png";
     } else {
       $thumb = 'https://'.$_SERVER['HTTP_HOST'].'/assets/images/favicon.png';
@@ -70,7 +70,7 @@ if(!isset($_GET['category']) OR empty(trim($_GET['category']))) {
       $content.= "<div class='infobox'>Dieser Kategorie wurden noch keine Rezepte zugewiesen</div>";
     } else {
       $items = array();
-      while($row = mysqli_fetch_array($result)) {
+      while($row = mysqli_fetch_assoc($result)) {
         $items[] =
         "<div class='row item'>".
           "<div class='col-s-12 col-l-2'>".

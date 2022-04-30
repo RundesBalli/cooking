@@ -87,7 +87,7 @@ if(!empty($_GET['id'])) {
          * Durchgehen der einzelnen Zuweisungen.
          */
         $tabindex = 0;
-        while($row = mysqli_fetch_array($result)) {
+        while($row = mysqli_fetch_assoc($result)) {
           $tabindex++;
           $content.= "<div class='row hover bordered'>".
           "<div class='col-s-4 col-l-2'><input type='number' name='ci[".$row['id']."]' value='".$row['sortIndex']."' min='1' tabindex='".$tabindex."'".($tabindex == 1 ? " autofocus" : NULL)."></div>".

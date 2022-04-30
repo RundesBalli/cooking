@@ -60,7 +60,7 @@ if(!isset($_POST['submit'])) {
      * Durchgehen der einzelnen Kategorien.
      */
     $tabindex = 0;
-    while($row = mysqli_fetch_array($result)) {
+    while($row = mysqli_fetch_assoc($result)) {
       $tabindex++;
       $content.= "<div class='row hover bordered'>".
       "<div class='col-s-4 col-l-2'><input type='number' name='cat[".$row['id']."]' value='".$row['sortIndex']."' min='1' tabindex='".$tabindex."'></div>".

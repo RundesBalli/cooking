@@ -35,7 +35,7 @@ if(mysqli_num_rows($result) == 0) {
   "<div class='col-s-12 col-l-3'>zugewiesene Rezepte</div>".
   "<div class='col-s-12 col-l-5'>Aktionen</div>".
   "</div>";
-  while($row = mysqli_fetch_array($result)) {
+  while($row = mysqli_fetch_assoc($result)) {
     $content.= "<div class='row hover bordered'>".
     "<div class='col-s-12 col-l-4'><a href='/kategorie/".output($row['shortTitle'])."' target='_blank'>".output($row['title'])."<span class='fas iconright'>&#xf35d;</span></a></div>".
     "<div class='col-s-12 col-l-3'>".$row['itemCount']." Rezept".($row['itemCount'] == 1 ? "" : "e")."</div>".
