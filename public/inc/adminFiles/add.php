@@ -290,7 +290,7 @@ if(!empty($_GET['id'])) {
       $content.= "<div class='row hover bordered'>".
       "<div class='col-s-12 col-l-3'>Bildbeschreibung</div>".
       "<div class='col-s-12 col-l-4'><input type='text' name='description' tabindex='3' placeholder='Bildbeschreibung'></div>".
-      "<div class='col-s-12 col-l-5'>".Slimdown::render("* nur bei Bildern möglich, nicht bei Thumbnails\n* Wird am unteren Bildrand eingeblendet\n* Kein Markdown möglich\n* Spätere Änderung nicht möglich")."</div>".
+      "<div class='col-s-12 col-l-5'>".Slimdown::render("* nur bei Bildern möglich, nicht bei Thumbnails\n* Wird am unteren Bildrand eingeblendet\n* Kein Markdown möglich")."</div>".
       "</div>";
 
       /**

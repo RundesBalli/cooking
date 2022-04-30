@@ -100,10 +100,11 @@ $actionArray = array(
     'del'  => 'del.php'
   ),
   'adminFiles' => array(
-    'show' => 'show.php',
-    'add'  => 'add.php',
-    'del'  => 'del.php',
-    'sort' => 'sort.php'
+    'show'              => 'show.php',
+    'add'               => 'add.php',
+    'del'               => 'del.php',
+    'sort'              => 'sort.php',
+    'changeDescription' => 'changeDescription.php'
   ),
 );
 

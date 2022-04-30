@@ -103,18 +103,18 @@ if(!empty($_GET['id'])) {
        * Bilder vorhanden. Auflistung nach Sortierindex.
        */
       $content.= "<div class='row highlight bold bordered'>".
-      "<div class='col-s-12 col-l-5'>Dateiname</div>".
+      "<div class='col-s-12 col-l-4'>Dateiname</div>".
       "<div class='col-s-12 col-l-3'>Bildbeschreibung</div>".
       "<div class='col-s-12 col-l-2'>Sortierindex</div>".
-      "<div class='col-s-12 col-l-2'>Aktionen</div>".
+      "<div class='col-s-12 col-l-3'>Aktionen</div>".
       "</div>";
       while($row = mysqli_fetch_array($result)) {
         $content.= "<div class='row hover bordered'>".
-        "<div class='col-s-12 col-l-5'><a href='/img/img-".$row['itemId']."-".$row['fileHash'].".png' target='_blank'>/img/img-".$row['itemId']."-".$row['fileHash'].".png<span class='fas iconright'>&#xf35d;</span></a></div>".
+        "<div class='col-s-12 col-l-4'><a href='/img/img-".$row['itemId']."-".$row['fileHash'].".png' target='_blank'>/img/img-".$row['itemId']."-".$row['fileHash'].".png<span class='fas iconright'>&#xf35d;</span></a></div>".
         "<div class='col-s-12 col-l-3'>".($row['description'] != NULL ? output($row['description']) : "<span class='italic'>NULL</span>")."</div>".
         "<div class='col-s-12 col-l-2'>".$row['sortIndex']."</div>".
-        "<div class='col-s-12 col-l-2'><a href='/adminFiles/del?id=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a></div>".
-        "</div>";
+        "<div class='col-s-12 col-l-3'><a href='/adminFiles/del?id=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a> - <a href='/adminFiles/changeDescription?id=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf044;</span>Beschreibung ändern</a></div>".
+          "</div>";
       }
     }
   }
