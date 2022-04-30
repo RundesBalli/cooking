@@ -16,7 +16,7 @@ require_once(PAGE_INCLUDE_DIR.'adminCookie.php');
 $additionalStyles[] = "input";
 
 $title = "Zutat hinzufügen";
-$content.= "<h1><span class='fas icon'>&#xf543;</span>Zutat hinzufügen</h1>";
+$content.= "<h1><span class='fas icon'>&#xf067;</span>Zutat hinzufügen</h1>";
 
 /**
  * Falls das Formular übergeben wurde, gehen wir davon aus, dass alles okay ist, demzufolge muss das Formular nicht mehr angezeigt werden.

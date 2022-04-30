@@ -16,7 +16,7 @@ require_once(PAGE_INCLUDE_DIR.'adminCookie.php');
 $additionalStyles[] = "input";
 
 $title = "Einheit bearbeiten";
-$content.= "<h1><span class='fas icon'>&#xf543;</span>Einheit bearbeiten</h1>";
+$content.= "<h1><span class='fas icon'>&#xf044;</span>Einheit bearbeiten</h1>";
 
 /**
  * Prüfen ob eine ID übergeben wurde
