@@ -110,6 +110,9 @@ if(!empty($_GET['id'])) {
     }
   }
 } else {
+  /**
+   * Es wurde keine ID übergeben.
+   */
   http_response_code(400);
   $content.= "<div class='warnbox'>Keine ID übergeben.</div>";
   $content.= "<div class='row'>".
