@@ -40,7 +40,7 @@ if(!empty($_GET['id'])) {
     $row = mysqli_fetch_assoc($result);
     $content.= "<div class='row'>".
     "<div class='col-s-12 col-l-12'><span class='highlight bold'>Rezept:</span> <a href='/rezept/".output($row['shortTitle'])."' target='_blank'>".output($row['title'])."<span class='fas iconright'>&#xf35d;</span></a></div>".
-    "<div class='col-s-12 col-l-12'><span class='highlight bold'>Aktionen:</span> <a href='/adminFiles/add?id=".output($id)."'><span class='fas icon'>&#xf067;</span>Hinzufügen</a> - <a href='/adminFiles/sort?itemId=".$id."'><span class='fas icon'>&#xf0dc;</span>Sortieren</a></div>".
+    "<div class='col-s-12 col-l-12'><span class='highlight bold'>Aktionen:</span> <a href='/adminFiles/add?id=".output($id)."'><span class='fas icon'>&#xf067;</span>Hinzufügen</a> - <a href='/adminFiles/sort?id=".output($id)."'><span class='fas icon'>&#xf0dc;</span>Sortieren</a></div>".
     "</div>";
     $content.= "<div class='spacer-m'></div>";
 
