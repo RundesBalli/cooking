@@ -110,11 +110,13 @@ $actionArray = array(
     'show' => 'show.php',
     'add'  => 'add.php',
     'edit' => 'edit.php',
+    'del'  => 'del.php'
   ),
   'adminUnits' => array(
     'show' => 'show.php',
     'add'  => 'add.php',
     'edit' => 'edit.php',
+    'del'  => 'del.php'
   )
 );
 
