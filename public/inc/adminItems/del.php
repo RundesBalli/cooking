@@ -110,8 +110,11 @@ if(!empty($_GET['id'])) {
     }
   }
 } else {
+  /**
+   * Es wurde keine ID übergeben.
+   */
   http_response_code(400);
-  $content.= "<div class='warnbox'>Keine ID übergeben.</div>";
+  $content.= "<div class='warnbox'>Es wurde keine ID übergeben.</div>";
   $content.= "<div class='row'>".
   "<div class='col-s-12 col-l-12'><a href='/adminItems/show'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".
   "</div>";
