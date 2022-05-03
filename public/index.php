@@ -57,6 +57,7 @@ $pageArray = array(
   'privacy'               => 'privacy.php',
   'search'                => 'search.php',
   'showCategory'          => 'showCategory.php',
+  'showItem'              => 'showItem.php',
 
   /**
    * Administratorseiten

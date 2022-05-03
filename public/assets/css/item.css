@@ -1,0 +1,112 @@
+/**
+ * Rezept
+ */
+:root {
+  --slideshowHover: rgba(0, 0, 0, 0.5);
+}
+
+
+/**
+ * ShareButtons
+ */
+#shareButtons {
+  display: none;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+#shareButtons > a {
+  font-size: calc(var(--fontSize) * 2.0);
+  text-decoration: none;
+  margin: 0 10px;
+}
+
+@media only screen and (max-width: 700px) {
+  #shareButtons {
+    display: block;
+  }
+}
+
+
+/**
+ * Slideshow
+ * @see https://www.w3schools.com/howto/howto_js_slideshow.asp
+ */
+#slideshowContainer {
+  max-width: 450px;
+  position: relative;
+  margin: auto;
+}
+
+#slideshowContainer img {
+  border-radius: var(--fontSize);
+  border: 1px solid var(--hrColor);
+}
+
+.mySlides {
+  display: none;
+}
+
+#prev, #next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: -22px;
+  padding: var(--fontSize);
+  color: var(--navFontColor);
+  font-weight: bold;
+  font-size: var(--fontSize);
+  transition: 0.6s ease;
+  user-select: none;
+  text-decoration: none;
+}
+
+#next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+  text-shadow: 3px 2px var(--hrColor);
+}
+
+#prev {
+  left: 0;
+  border-radius: 0 3px 3px 0;
+  text-shadow: -3px 2px var(--hrColor);
+}
+
+.numberText {
+  font-size: calc(var(--fontSize) * 0.75);
+  padding: calc(var(--fontSize) * 0.5) calc(var(--fontSize) * 0.75);
+  position: absolute;
+  top: calc(var(--fontSize) * 0.5);
+  left: calc(var(--fontSize) * 0.5);
+  color: var(--navFontColor);
+  text-shadow: -1px -1px var(--hrColor);
+  transition: all 0.6s ease;
+}
+
+.imageText {
+  font-size: var(--fontSize);
+  padding: calc(var(--fontSize) * 0.5) calc(var(--fontSize) * 0.75);
+  position: absolute;
+  bottom: calc(var(--fontSize) * 1.25);
+  width: 100%;
+  text-align: center;
+  color: var(--navFontColor);
+  text-shadow: 0px 1px var(--hrColor);
+  transition: all 0.6s ease;
+}
+
+#prev:hover, #next:hover, .numberText:hover, .imageText:hover {
+  background-color: var(--slideshowHover);
+}
+
+.fade {
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@keyframes fade {
+  from { opacity: 0.4 }
+  to { opacity: 1 }
+}
