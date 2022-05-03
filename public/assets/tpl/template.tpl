@@ -34,7 +34,6 @@ https://github.com/RundesBalli/cooking
       {CONTENT}
     </div>
     <script type="text/javascript" src="/assets/js/toggleMenu.js"></script>
-    <script type="text/javascript" src="/assets/js/slideshow.js"></script>
-    <script type="text/javascript" src="/assets/js/shareLink.js"></script>
+    {ADDITIONALSCRIPTS}
   </body>
 </html>

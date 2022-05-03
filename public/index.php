@@ -208,6 +208,18 @@ if(!empty($additionalStyles)) {
 }
 
 /**
+ * Hinzufügen zusätzlicher Scripts
+ */
+if(!empty($additionalScripts)) {
+  $addScripts = "";
+  foreach($additionalScripts AS $key => $val) {
+    $addScripts.= "<script type=\"text/javascript\" src=\"/assets/js/".$val.".js\"></script>";
+  }
+} else {
+  $addScripts = NULL;
+}
+
+/**
  * Einsetzen der Inhalte
  */
 $output = preg_replace(
@@ -215,6 +227,7 @@ $output = preg_replace(
     "/{TITLE}/im",
     "/{NAV}/im",
     "/{ADDITIONALSTYLES}/im",
+    "/{ADDITIONALSCRIPTS}/im",
     "/{NAVTITLE}/im",
     "/{CONTENT}/im",
     "/{FOOTER}/im",
@@ -224,6 +237,7 @@ $output = preg_replace(
     $ogConfig['sitename'].($title == "" ? "" : " - ".$title),
     $nav,
     $addStyles,
+    $addScripts,
     $navTitle,
     $content,
     $footer,
