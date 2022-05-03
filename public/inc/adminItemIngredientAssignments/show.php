@@ -16,7 +16,7 @@ require_once(PAGE_INCLUDE_DIR.'adminCookie.php');
 $additionalStyles[] = "input";
 
 $title = "Zutaten bearbeiten";
-$content.= "<h1><span class='far icon'>&#xf4d8;</span>Zutaten bearbeiten</h1>";
+$content.= "<h1><span class='fas icon'>&#xf4d8;</span>Zutaten bearbeiten</h1>";
 
 /**
  * Prüfung ob eine ID übergeben wurde.
