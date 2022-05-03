@@ -64,7 +64,7 @@ if(!empty($_GET['id'])) {
       $content.= "<div class='warnbox'>Es müssen zuerst Zutaten angelegt werden.</div>";
     } else {
       $ingredients = array();
-      while($row = mysqli_fetch_array($result)) {
+      while($row = mysqli_fetch_assoc($result)) {
         $ingredients[] = "<option value='".output($row['id'])."'>".output($row['title'])."</option>";
       }
       $ingredients = "<select name='ingredient' tabindex='1' autofocus><option value='' selected disabled hidden>Bitte wählen</option>".implode("", $ingredients)."</select>";
@@ -79,7 +79,7 @@ if(!empty($_GET['id'])) {
       $content.= "<div class='warnbox'>Es müssen zuerst Maßeinheiten angelegt werden.</div>";
     } else {
       $units = array();
-      while($row = mysqli_fetch_array($result)) {
+      while($row = mysqli_fetch_assoc($result)) {
         $units[] = "<option value='".output($row['id'])."'>".output($row['title'])." (".output($row['short']).")</option>";
       }
       $units = "<select name='unit' tabindex='3'><option value='' selected disabled hidden>Bitte wählen</option>".implode("", $units)."</select>";
@@ -89,12 +89,17 @@ if(!empty($_GET['id'])) {
      * Formular zur Anlage einer Rezeptzutat anzeigen, wenn Daten vorhanden.
      */
     if($form == 1) {
-      $content.= "<form action='/adminItemIngredientAssignments/add?id=".output($id)."' method='post' autocomplete='off'>";
+      $content.= "<form action='/adminItemIngredientAssignments/add' method='post' autocomplete='off'>";
 
       /**
        * Sitzungstoken
        */
-      $content.= "<input type='hidden' name='token' value='".$sessionHash."'>";
+      $content.= "<input type='hidden' name='token' value='".output($sessionHash)."'>";
+
+      /**
+       * ItemID
+       */
+      $content.= "<input type='hidden' name='itemId' value='".output($id)."'>";
 
       /**
        * Tabellenüberschrift
