@@ -51,12 +51,12 @@ if(!empty($_GET['itemId']) AND !empty($_GET['categoryId'])) {
          * CSRF Bestätigung
          */
         $content.= "<form action='/adminCategoryItemAssignments/del?itemId=".output($itemId)."&categoryId=".output($categoryId)."' method='post'>";
-  
+
         /**
          * Sitzungstoken
          */
         $content.= "<input type='hidden' name='token' value='".output($sessionHash)."'>";
-  
+
         /**
          * Formular
          */
@@ -66,7 +66,7 @@ if(!empty($_GET['itemId']) AND !empty($_GET['categoryId'])) {
         "<div class='col-s-12 col-l-5'></div>".
         "</div>";
         $content.= "</form>";
-  
+
         $content.= "<div class='row'>".
         "<div class='col-s-12 col-l-12'><a href='/adminCategoryItemAssignments/show?itemId=".output($itemId)."'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".
         "</div>";

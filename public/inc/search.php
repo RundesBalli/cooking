@@ -122,17 +122,17 @@ if(isset($_POST['submit'])) {
     `tD`.`title` AS `totalDuration`,
     (SELECT COUNT(`id`) FROM `clicks` WHERE `clicks`.`itemId` = `items`.`id`) AS `clicks`,
     (SELECT `images`.`fileHash` FROM `images` WHERE `images`.`itemId` = `items`.`id` AND `images`.`thumb`=1) AS `fileHash`
-    
+
     FROM `items`
-    
+
     JOIN `metaCost` ON `items`.`cost` = `metaCost`.`id`
     JOIN `metaDifficulty` ON `items`.`difficulty` = `metaDifficulty`.`id`
     JOIN `metaDuration` AS `wD` ON `items`.`workDuration` = `wD`.`id`
     JOIN `metaDuration` AS `tD` ON `items`.`totalDuration` = `tD`.`id`
     ".$join."
-    
+
     ".(!empty($searchFlags) ? "WHERE ".implode(" AND ", $searchFlags) : NULL)."
-    
+
     ORDER BY `clicks` DESC, `items`.`id` ASC
     LIMIT 25";
   }
