@@ -19,7 +19,7 @@ https://github.com/RundesBalli/cooking
     {OGMETA}
   </head>
   <body>
-    <div id="sidebar" class="no-print">
+    <div id="sidebar">
       <span class="fas burger">&#xf805;</span>
       <span class="header">{NAVTITLE}</span>
       <a class="toggle" id="toggle"></a>

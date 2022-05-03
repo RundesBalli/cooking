@@ -1,0 +1,17 @@
+/**
+ * CSS für ausgedruckte Rezepte
+ * @see https://stackoverflow.com/a/356123
+ */
+@media print {
+  .noPrint, #slideshowContainer, #sidebar {
+    display: none !important;
+  }
+  
+  .printFullWidth {
+    width: 100%;
+  }
+
+  #content {
+    margin-left: 0px;
+  }
+}
