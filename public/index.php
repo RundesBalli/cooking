@@ -55,6 +55,7 @@ $pageArray = array(
   'start'                 => 'start.php',
   'imprint'               => 'imprint.php',
   'privacy'               => 'privacy.php',
+  'search'                => 'search.php',
   'showCategory'          => 'showCategory.php',
 
   /**
@@ -141,7 +142,8 @@ if(isset($pageArray[$getp]) AND empty($geta)) {
  */
 $a = " class='active'";
 $nav = "<a href='/'".($getp == "start" ? $a : NULL)."><span class='fas icon'>&#xf015;</span>Startseite</a>";
-
+$nav.= "<a href='/search'".($getp == "search" ? $a : NULL)."><span class='fas icon'>&#xf002;</span>Suche</a>";
+$nav.= "<hr>";
 /**
  * Alle Kategorien auflisten
  */
