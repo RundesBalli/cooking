@@ -441,17 +441,17 @@ h3 {
   }
 
   h1 {
-    font-size: calc(var(--fontSize) * 1.6);
+    font-size: calc(var(--fontSize) * 2.5);
     margin: calc(var(--fontSize) * 1.2) 0 calc(var(--fontSize) * 0.7);
   }
 
   h2 {
-    font-size: calc(var(--fontSize) * 1.5);
+    font-size: calc(var(--fontSize) * 2.0);
     margin: calc(var(--fontSize) * 1.1) 0 calc(var(--fontSize) * 0.4);
   }
 
   h3 {
-    font-size: calc(var(--fontSize) * 1.2);
+    font-size: calc(var(--fontSize) * 1.5);
     margin: calc(var(--fontSize) * 0.85) 0 calc(var(--fontSize) * 0.35);
   }
 
