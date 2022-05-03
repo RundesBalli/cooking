@@ -10,11 +10,6 @@
  */
 require_once(PAGE_INCLUDE_DIR.'adminCookie.php');
 
-/**
- * Laden der zusätzlichen CSS Datei für die Inputfelder
- */
-$additionalStyles[] = "input";
-
 $title = "Zutat hinzufügen";
 $content.= "<h1><span class='fas icon'>&#xf4d8;</span>Zutat hinzufügen</h1>";
 
