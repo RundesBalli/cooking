@@ -120,6 +120,7 @@ $actionArray = array(
   ),
   'adminItemIngredientAssignments' => array(
     'show' => 'show.php',
+    'add'  => 'add.php',
     'del'  => 'del.php'
   )
 );
