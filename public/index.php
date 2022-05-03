@@ -157,7 +157,7 @@ if(mysqli_num_rows($result) != 0) {
 /**
  * Administrator Navigation
  */
-if(isset($_COOKIE[$cookieName]) AND !empty($_COOKIE[$cookieName])) {
+if((isset($_COOKIE[$cookieName]) AND !empty($_COOKIE[$cookieName])) AND preg_match('/[a-f0-9]{64}/i', defuse($_COOKIE[$cookieName]), $match) === 1) {
   $nav.= "<hr>";
   $nav.= "<span class='bold'>Admin</span>";
   $nav.= "<a href='/adminIndex'".($getp == "adminIndex" ? $a : NULL)."><span class='fas icon'>&#xf0cb;</span>Index</a>";
