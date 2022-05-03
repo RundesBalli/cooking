@@ -44,7 +44,7 @@ if(isset($_POST['submit'])) {
     $formTitle = defuse($match[0]);
   } else {
     $form = 1;
-    $content.= "<div class='warnbox'>Der Name der Kategorie ist ungültig. Er muss zwischen 5 und 100 Zeichen lang sein.</div>".PHP_EOL;
+    $content.= "<div class='warnbox'>Der Name der Kategorie ist ungültig. Er muss zwischen 5 und 100 Zeichen lang sein.</div>";
   }
 
   /**
