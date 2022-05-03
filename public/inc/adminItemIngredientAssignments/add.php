@@ -21,7 +21,7 @@ if(!empty($_POST['itemId'])) {
   /**
    * Prüfen ob das Rezept existiert.
    */
-  $result = mysqli_query($dbl, "SELECT * FROM `items` WHERE `id`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+  $result = mysqli_query($dbl, "SELECT `id`, `shortTitle` FROM `items` WHERE `id`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
   if(mysqli_num_rows($result) == 0) {
     /**
      * Falls das Rezept nicht existiert, wird ein 404er und eine Fehlermeldung zurückgegeben.
@@ -36,6 +36,8 @@ if(!empty($_POST['itemId'])) {
      * Wir gehen davon aus, dass die Eingaben korrekt sind. Falls nicht, wird der Vorgang abgebrochen.
      */
     $add = 1;
+    $row = mysqli_fetch_assoc($result);
+    $shortTitle = $row['shortTitle'];
 
     /**
      * Zutat
