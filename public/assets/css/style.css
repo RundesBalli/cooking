@@ -436,6 +436,10 @@ h3 {
 /* Responsive */
 @media screen and (max-width: 900px) {
   /* Überschriften */
+  h1, h2, h3 {
+    text-align: center;
+  }
+
   h1 {
     font-size: calc(var(--fontSize) * 1.6);
     margin: calc(var(--fontSize) * 1.2) 0 calc(var(--fontSize) * 0.7);
@@ -532,10 +536,6 @@ h3 {
 
   .mobileSmaller {
     font-size: calc(var(--fontSize) * 0.6);
-  }
-
-  .mobileCenter {
-    text-align: center;
   }
 }
 

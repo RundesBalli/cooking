@@ -19,7 +19,7 @@ $additionalStyles[] = "category";
  * Titel und Überschrift
  */
 $title = "Suche";
-$content.= "<h1 class='mobileCenter'><span class='fas icon'>&#xf002;</span>Suche</h1>";
+$content.= "<h1><span class='fas icon'>&#xf002;</span>Suche</h1>";
 
 /**
  * Formularauswertung
@@ -244,7 +244,7 @@ $content.= "<div class='spacer-m'></div>";
  * Wenn ein Suchquery erzeugt wurde, dann wird hier das Ergebnis angezeigt.
  */
 if(!empty($searchQuery)) {
-  $content.= "<h2 class='mobileCenter'><span class='fas icon'>&#xf1e5;</span>Suchergebnisse</h2>";
+  $content.= "<h2><span class='fas icon'>&#xf1e5;</span>Suchergebnisse</h2>";
   $result = mysqli_query($dbl, $searchQuery) OR DIE(MYSQLI_ERROR($dbl));
   if(mysqli_num_rows($result) == 0) {
     $content.= "<div class='infobox'>Kein Rezept fällt in das eingetragene Suchmuster.</div>";

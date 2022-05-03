@@ -59,7 +59,7 @@ if(!isset($_GET['category']) OR empty(trim($_GET['category']))) {
     }
 
     $title = "Kategorie: ".$row['title'];
-    $content.= "<h1 class='mobileCenter'><span class='far icon'>&#xf07c;</span>Kategorie: ".output($row['title'])."</h1>";
+    $content.= "<h1><span class='far icon'>&#xf07c;</span>Kategorie: ".output($row['title'])."</h1>";
     $content.= "<div class='spacer-m'></div>";
 
     /**
