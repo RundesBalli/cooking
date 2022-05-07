@@ -6,7 +6,7 @@
   .noPrint, #slideshowContainer, #sidebar {
     display: none !important;
   }
-  
+
   .printFullWidth {
     width: 100%;
   }
