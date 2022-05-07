@@ -84,6 +84,15 @@ if(!empty($_POST['itemId'])) {
       }
     }
 
+    /**
+     * Optional
+     */
+    if(!empty($_POST['optional']) AND intval($_POST['optional']) == 1) {
+      $optional = 1;
+    } else {
+      $optional = 0;
+    }
+
     if($add == 1) {
       /**
        * Alle Daten sind ok und können angelegt oder aktualisiert werden.
@@ -96,12 +105,12 @@ if(!empty($_POST['itemId'])) {
         /**
          * Kombination existiert. Zuweisung wird aktualisiert.
          */
-        mysqli_query($dbl, "UPDATE `itemIngredients` SET `unitId`=".($unit === NULL ? NULL : "'".$unit."'").", `quantity`=".($quantity === NULL ? "NULL" : "'".$quantity."'")." WHERE `itemId`='".$id."' AND `ingredientId`='".$ingredient."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+        mysqli_query($dbl, "UPDATE `itemIngredients` SET `unitId`=".($unit === NULL ? NULL : "'".$unit."'").", `quantity`=".($quantity === NULL ? "NULL" : "'".$quantity."'").", `optional`=".$optional." WHERE `itemId`='".$id."' AND `ingredientId`='".$ingredient."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
         if(mysqli_affected_rows($dbl) == 1) {
           /**
            * Aktualisierung erfolgreich.
            */
-          mysqli_query($dbl, "INSERT INTO `log` (`accountId`, `logLevel`, `itemId`, `text`) VALUES ('".$userId."', 6, '".$id."', 'Zuweisung aktualisiert: qty: ".($quantity === NULL ? "NULL" : "`".$quantity."`")."; unit: ".($unit === NULL ? "NULL" : "`".$unitTitle."`")."; ing: `".$ingredientTitle."`')") OR DIE(MYSQLI_ERROR($dbl));
+          mysqli_query($dbl, "INSERT INTO `log` (`accountId`, `logLevel`, `itemId`, `text`) VALUES ('".$userId."', 6, '".$id."', 'Zuweisung aktualisiert: qty: ".($quantity === NULL ? "NULL" : "`".$quantity."`")."; unit: ".($unit === NULL ? "NULL" : "`".$unitTitle."`")."; ing: `".$ingredientTitle."`, opt: `".$optional."`')") OR DIE(MYSQLI_ERROR($dbl));
           $content.= "<div class='successbox'>Zuweisung aktualisiert.</div>";
         } else {
           /**
@@ -113,12 +122,12 @@ if(!empty($_POST['itemId'])) {
         /**
          * Kombination existiert nicht. Zuweisung wird angelegt.
          */
-        mysqli_query($dbl, "INSERT INTO `itemIngredients` (`itemId`, `ingredientId`, `unitId`, `quantity`) VALUES ('".$id."', '".$ingredient."', ".($unit === NULL ? "NULL" : "'".$unit."'").", ".($quantity === NULL ? "NULL" : "'".$quantity."'").")") OR DIE(MYSQLI_ERROR($dbl));
+        mysqli_query($dbl, "INSERT INTO `itemIngredients` (`itemId`, `ingredientId`, `unitId`, `quantity`, `optional`) VALUES ('".$id."', '".$ingredient."', ".($unit === NULL ? "NULL" : "'".$unit."'").", ".($quantity === NULL ? "NULL" : "'".$quantity."'").", ".$optional.")") OR DIE(MYSQLI_ERROR($dbl));
         if(mysqli_affected_rows($dbl) == 1) {
           /**
            * Eintrag erfolgreich.
            */
-          mysqli_query($dbl, "INSERT INTO `log` (`accountId`, `logLevel`, `itemId`, `text`) VALUES ('".$userId."', 6, '".$id."', 'Zuweisung angelegt: qty: ".($quantity === NULL ? "NULL" : "`".$quantity."`")."; unit: ".($unit === NULL ? "NULL" : "`".$unitTitle."`")."; ing: `".$ingredientTitle."`')") OR DIE(MYSQLI_ERROR($dbl));
+          mysqli_query($dbl, "INSERT INTO `log` (`accountId`, `logLevel`, `itemId`, `text`) VALUES ('".$userId."', 6, '".$id."', 'Zuweisung angelegt: qty: ".($quantity === NULL ? "NULL" : "`".$quantity."`")."; unit: ".($unit === NULL ? "NULL" : "`".$unitTitle."`")."; ing: `".$ingredientTitle."`, opt: `".$optional."`')") OR DIE(MYSQLI_ERROR($dbl));
           $content.= "<div class='successbox'>Zuweisung angelegt.</div>";
         } else {
           /**

@@ -158,7 +158,7 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
     /**
      * Zutatenliste vorbereiten und ggf. Umrechnen
      */
-    $ingredients = "";
+    $ingredients = "<h3 class='alignCenter'>erforderliche Zutaten</h3>";
     $customPersons = FALSE;
     if($row['persons'] > 0) {
       /**
@@ -177,11 +177,16 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
     } else {
       $persons = 0;
     }
-    $innerResult = mysqli_query($dbl, "SELECT `metaIngredients`.`title` AS `ingredientTitle`, `metaUnits`.`title` AS `unitTitle`, `metaUnits`.`short`, `metaUnits`.`spacer`, `itemIngredients`.`quantity` FROM `itemIngredients` JOIN `metaIngredients` ON `metaIngredients`.`id` = `itemIngredients`.`ingredientId` LEFT OUTER JOIN `metaUnits` ON `metaUnits`.`id` = `itemIngredients`.`unitId` WHERE `itemIngredients`.`itemId`='".$row['id']."' ORDER BY `ingredientTitle` ASC") OR DIE(MYSQLI_ERROR($dbl));
+    $innerResult = mysqli_query($dbl, "SELECT `metaIngredients`.`title` AS `ingredientTitle`, `metaUnits`.`title` AS `unitTitle`, `metaUnits`.`short`, `metaUnits`.`spacer`, `itemIngredients`.`quantity`, `itemIngredients`.`optional` FROM `itemIngredients` JOIN `metaIngredients` ON `metaIngredients`.`id` = `itemIngredients`.`ingredientId` LEFT OUTER JOIN `metaUnits` ON `metaUnits`.`id` = `itemIngredients`.`unitId` WHERE `itemIngredients`.`itemId`='".$row['id']."' ORDER BY `itemIngredients`.`optional` ASC, `ingredientTitle` ASC") OR DIE(MYSQLI_ERROR($dbl));
     if(mysqli_num_rows($innerResult) == 0) {
       $ingredients.= "<div class='warnbox'>Es wurden noch keine Zutaten hinzugefügt.</div>";
     } else {
+      $optional = 0;
       while($innerRow = mysqli_fetch_assoc($innerResult)) {
+        if($optional == 0 AND $innerRow['optional'] == 1) {
+          $ingredients.= "<h3 class='alignCenter'>optionale Zutaten</h3>";
+          $optional = 1;
+        }
         if($customPersons == TRUE) {
           $quantity = $innerRow['quantity']/$row['persons']*$persons;
         } else {

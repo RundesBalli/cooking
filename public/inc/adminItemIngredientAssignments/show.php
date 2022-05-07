@@ -138,6 +138,15 @@ if(!empty($_GET['id'])) {
       "</div>";
 
       /**
+       * Art der Zutat
+       */
+      $content.= "<div class='row hover bordered'>".
+      "<div class='col-s-12 col-l-3'>Art der Zutat</div>".
+      "<div class='col-s-12 col-l-4'><input type='radio' name='optional' value='0' id='optional-required' checked><label for='optional-required'>Erforderliche Zutat</label><br><input type='radio' name='optional' value='1' id='optional-optional'><label for='optional-optional'>Optionale Zutat</label></div>".
+      "<div class='col-s-12 col-l-5'>".Slimdown::render("* optionale Zutaten werden im Rezept separat aufgeführt\n* dies kann zum Beispiel ein bestimmtes Gewürz sein")."</div>".
+      "</div>";
+
+      /**
        * Absenden
        */
       $content.= "<div class='row hover bordered'>".
@@ -152,7 +161,7 @@ if(!empty($_GET['id'])) {
      * Bestehende Zuweisungen anzeigen
      */
     $content.= "<h2>Bestehende Rezeptzutaten</h2>";
-    $result = mysqli_query($dbl, "SELECT `metaIngredients`.`title` AS `ingredientTitle`, `metaUnits`.`title` AS `unitTitle`, `metaUnits`.`short`, `metaUnits`.`spacer`, `itemIngredients`.* FROM `itemIngredients` JOIN `metaIngredients` ON `metaIngredients`.`id` = `itemIngredients`.`ingredientId` LEFT OUTER JOIN `metaUnits` ON `metaUnits`.`id` = `itemIngredients`.`unitId` WHERE `itemIngredients`.`itemId`='$id' ORDER BY `ingredientTitle` ASC") OR DIE(MYSQLI_ERROR($dbl));
+    $result = mysqli_query($dbl, "SELECT `metaIngredients`.`title` AS `ingredientTitle`, `metaUnits`.`title` AS `unitTitle`, `metaUnits`.`short`, `metaUnits`.`spacer`, `itemIngredients`.* FROM `itemIngredients` JOIN `metaIngredients` ON `metaIngredients`.`id` = `itemIngredients`.`ingredientId` LEFT OUTER JOIN `metaUnits` ON `metaUnits`.`id` = `itemIngredients`.`unitId` WHERE `itemIngredients`.`itemId`='$id' ORDER BY `optional` ASC, `ingredientTitle` ASC") OR DIE(MYSQLI_ERROR($dbl));
     if(mysqli_num_rows($result) == 0) {
       $content.= "<div class='infobox'>Es wurden noch keine Rezeptzutaten hinzugefügt.</div>";
     } else {
@@ -160,17 +169,19 @@ if(!empty($_GET['id'])) {
       "<div class='col-s-12 col-l-12'><span class='highlight'>Hinweis:</span> Zum Ändern einfach die selbe Zutat nochmal anlegen.</div>".
       "</div>";
       $content.= "<div class='row highlight bold bordered'>".
-      "<div class='col-s-7 col-l-4'>Zutat</div>".
+      "<div class='col-s-7 col-l-3'>Zutat</div>".
       "<div class='col-s-2 col-l-2'>Menge</div>".
       "<div class='col-s-3 col-l-2'>Einheit</div>".
-      "<div class='col-s-12 col-l-4'>Aktionen</div>".
+      "<div class='col-s-3 col-l-2'>Optional</div>".
+      "<div class='col-s-12 col-l-3'>Aktionen</div>".
       "</div>";
       while($row = mysqli_fetch_assoc($result)) {
         $content.= "<div class='row hover bordered'>".
-        "<div class='col-s-7 col-l-4'>".output($row['ingredientTitle'])."</div>".
+        "<div class='col-s-7 col-l-3'>".output($row['ingredientTitle'])."</div>".
         "<div class='col-s-2 col-l-2'>".($row['quantity'] > 0 ? fractionizer($row['quantity'], 2) : "<span class='italic'>NULL</span>")."</div>".
         "<div class='col-s-3 col-l-2'>".($row['unitTitle'] == NULL ? "<span class='italic'>NULL</span>" : output($row['unitTitle']))."</div>".
-        "<div class='col-s-12 col-l-4'><a href='/adminItemIngredientAssignments/del?id=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a></div>".
+        "<div class='col-s-3 col-l-2'>".($row['optional'] == 1 ? "ja" : "nein")."</div>".
+        "<div class='col-s-12 col-l-3'><a href='/adminItemIngredientAssignments/del?id=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a></div>".
         "</div>";
       }
     }

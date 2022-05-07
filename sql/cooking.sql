@@ -116,6 +116,7 @@ CREATE TABLE `itemIngredients` (
   `ingredientId` int(10) unsigned NOT NULL COMMENT 'Querverweis metaIngredients.id',
   `unitId` int(10) unsigned DEFAULT NULL COMMENT 'Querverweis metaUnits.id',
   `quantity` double(10,2) unsigned DEFAULT NULL COMMENT 'Menge der Einheit',
+  `optional` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '1=optional;0=erforderlich',
   PRIMARY KEY (`id`),
   UNIQUE KEY `itemId_ingredientId` (`itemId`,`ingredientId`),
   KEY `ingredientId` (`ingredientId`),
@@ -290,4 +291,4 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `mostClicked` AS select `cl
 DROP TABLE IF EXISTS `stats`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `stats` AS select (select count(`categories`.`id`) from `categories`) AS `catCount`,(select count(`items`.`id`) from `items`) AS `itemCount`,(select count(`clicks`.`id`) from `clicks`) AS `clickCount`,(select count(`clicks`.`id`) from `clicks` where (`clicks`.`timestamp` > cast(curdate() as datetime))) AS `clicksToday`;
 
--- 2022-04-18 16:44:03
+-- 2022-05-07 21:34:07
