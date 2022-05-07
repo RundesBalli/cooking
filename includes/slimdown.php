@@ -27,17 +27,17 @@ class Slimdown {
   public static $rules = array (
     '/#(.*)/' => '<h3>\1</h3>',                         // headers
     '/\[([^\[]+)\]\(([^\)]+)\)\*/' => '<a href=\'\2\' target=\'_blank\' rel=\'noopener\'>\1<span class=\'fas iconright\'>&#xf35d;</span></a>', // links in blank tab
-    '/\[([^\[]+)\]\(([^\)]+)\)/' => '<a href=\'\2\' rel=\'noopener\'>\1</a>',                    // links
-    '/(\*\*|__)(.*?)\1/' => '<strong>\2</strong>',                                               // bold
-    '/(\*|_)(.*?)\1/' => '<em>\2</em>',                                                          // emphasis
-    '/\~\~(.*?)\~\~/' => '<s>\1</s>',                                                            // del
-    '/`(.*?)`/' => '<code>\1</code>',                                                            // inline code
-    '/---/' => '<div class=\'spacer-m\'></div>',                                                 // spacer
-    '/\n\*(.*)/' => 'self::ul_list',                                                             // ul lists
-    '/\n[0-9]+\.(.*)/' => 'self::ol_list',                                                       // ol lists
-    '/\n([^\n]+)\n/' => 'self::para',                                                            // add paragraphs
-    '/<\/ul>\s?<ul>/' => '',                                                                     // fix extra ul
-    '/<\/ol>\s?<ol>/' => ''                                                                      // fix extra ol
+    '/\[([^\[]+)\]\(([^\)]+)\)/' => '<a href=\'\2\' rel=\'noopener\'>\1</a>', // links
+    '/(\*\*|__)(.*?)\1/' => '<strong>\2</strong>',      // bold
+    '/(\*|_)(.*?)\1/' => '<em>\2</em>',                 // emphasis
+    '/\~\~(.*?)\~\~/' => '<s>\1</s>',                   // del
+    '/`(.*?)`/' => '<code>\1</code>',                   // inline code
+    '/---/' => '<div class=\'spacer-m\'></div>',        // spacer
+    '/\n\*(.*)/' => 'self::ul_list',                    // ul lists
+    '/\n[0-9]+\.(.*)/' => 'self::ol_list',              // ol lists
+    '/\n([^\n]+)\n/' => 'self::para',                   // add paragraphs
+    '/<\/ul>\s?<ul>/' => '',                            // fix extra ul
+    '/<\/ol>\s?<ol>/' => ''                             // fix extra ol
   );
 
   private static function para ($regs) {
