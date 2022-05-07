@@ -10,6 +10,11 @@
  */
 require_once(PAGE_INCLUDE_DIR.'adminCookie.php');
 
+/**
+ * Laden der zusätzlichen CSS Datei für die Inputfelder, die Rezept-Darstellung und für die Druckausgabe
+ */
+$additionalStyles[] = "item";
+
 $title = "Markdown Info";
 
 /**
@@ -100,6 +105,13 @@ $content.= "<div class='row bordered'>".
 "<div class='col-s-12 col-l-4'><code>1. Butter<br>2. Margarine<br>3. Bratfett</code></div>".
 "<div class='col-s-12 col-l-4'>".Slimdown::render("1. Butter\n2. Margarine\n3. Bratfett")."</div>".
 "<div class='col-s-12 col-l-4'>Eingerückte, sortierte Liste</div>".
+"<div class='col-s-12 col-l-0'><div class='spacer-s'></div></div>".
+"</div>";
+
+$content.= "<div class='row bordered'>".
+"<div class='col-s-12 col-l-4'><code>;;Lorem Ipsum dolor sit amet;;</code></div>".
+"<div class='col-s-12 col-l-4'>".Slimdown::render(";;Lorem Ipsum dolor sit amet;;")."</div>".
+"<div class='col-s-12 col-l-4'>Kachel für einzelne Zubereitungsschritte in Rezepten</div>".
 "<div class='col-s-12 col-l-0'><div class='spacer-s'></div></div>".
 "</div>";
 

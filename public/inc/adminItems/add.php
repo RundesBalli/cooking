@@ -259,7 +259,7 @@ if($form == 1) {
   $content.= "<div class='row hover bordered'>".
   "<div class='col-s-12 col-l-3'>Text</div>".
   "<div class='col-s-12 col-l-4'><textarea name='text' placeholder='Mehrzeiliger Text' tabindex='3'>".(isset($_POST['text']) && !empty($_POST['text']) ? output($_POST['text']) : NULL)."</textarea></div>".
-  "<div class='col-s-12 col-l-5'>".Slimdown::render("* [Markdown für mehrzeilige Textfelder](/adminMarkdownInfo)* möglich\n* Das hier ist das eigentliche Rezept. Der Haupttext.")."</div>".
+  "<div class='col-s-12 col-l-5'>".Slimdown::render("* [Markdown für mehrzeilige Textfelder](/adminMarkdownInfo)* möglich\n* Das hier ist das eigentliche Rezept. Der Haupttext.\n* am besten die einzelnen Punkte in doppelte Semikolons `;;` einfassen (vorne und hinten) um eine Kachel zu erzeugen.")."</div>".
   "</div>";
 
   /**
