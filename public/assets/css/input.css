@@ -15,8 +15,8 @@ input[type=text], input[type=password], select, textarea, input[type=number], in
 }
 
 textarea {
-  resize: none;
-  height: 120px;
+  resize: vertical;
+  height: 250px;
   font-family: sans-serif;
 }
 
