@@ -25,7 +25,7 @@
  */
 class Slimdown {
   public static $rules = array (
-    '/(#+)(.*)/' => 'self::header',                                                              // headers
+    '/(#+)(.*)/' => '<h3>\2</h3>',                                                              // headers
     '/\[([^\[]+)\]\(([^\)]+)\)\*/' => '<a href=\'\2\' target=\'_blank\' rel=\'noopener\'>\1<span class=\'fas iconright\'>&#xf35d;</span></a>', // links in blank tab
     '/\[([^\[]+)\]\(([^\)]+)\)/' => '<a href=\'\2\' rel=\'noopener\'>\1</a>',                    // links
     '/(\*\*|__)(.*?)\1/' => '<strong>\2</strong>',                                               // bold
