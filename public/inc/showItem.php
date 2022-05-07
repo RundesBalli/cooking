@@ -187,10 +187,16 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
         } else {
           $quantity = $innerRow['quantity'];
         }
-        $ingredients.= "<div class='row'>".
-          "<div class='col-s-6 col-l-6 alignRight'>".($quantity > 0 ? fractionizer($quantity, 2).($innerRow['spacer'] == 1 ? " " : NULL) : NULL).output($innerRow['unitTitle'])."</span></div>".
-          "<div class='col-s-6 col-l-6'>".output($innerRow['ingredientTitle'])."</div>".
-        "</div>";
+        if($quantity == 0) {
+          $ingredients.= "<div class='row'>".
+            "<div class='col-s-12 col-l-12 alignCenter'>".output($innerRow['ingredientTitle'])."</div>".
+          "</div>";
+        } else {
+          $ingredients.= "<div class='row'>".
+            "<div class='col-s-6 col-l-6 alignRight'>".fractionizer($quantity, 2)." ".output($innerRow['unitTitle'])."</span></div>".
+            "<div class='col-s-6 col-l-6'>".output($innerRow['ingredientTitle'])."</div>".
+          "</div>";
+        }
       }
       if($persons > 0) {
         $ingredients.= "<div class='spacer-s'></div>";
