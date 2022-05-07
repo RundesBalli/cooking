@@ -34,7 +34,7 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
   /**
    * Rezept abfragen
    */
-  $result = mysqli_query($dbl, "SELECT `items`.`id`, `items`.`title`, `items`.`shortTitle`, `items`.`text`, `items`.`persons`, `metaCost`.`title` AS `cost`, `metaDifficulty`.`title` AS `difficulty`, `wD`.`title` AS `workDuration`, `tD`.`title` AS `totalDuration`, (SELECT COUNT(`id`) FROM `clicks` WHERE `clicks`.`itemId` = `items`.`id`) AS `clicks` FROM `items` JOIN `metaCost` ON `items`.`cost` = `metaCost`.`id` JOIN `metaDifficulty` ON `items`.`difficulty` = `metaDifficulty`.`id` JOIN `metaDuration` AS `wD` ON `items`.`workDuration` = `wD`.`id` JOIN `metaDuration` AS `tD` ON `items`.`totalDuration` = `tD`.`id` WHERE `shortTitle`='".$item."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+  $result = mysqli_query($dbl, "SELECT `items`.`id`, `items`.`title`, `items`.`shortTitle`, `items`.`author`, `items`.`authorURL`, `items`.`text`, `items`.`persons`, `metaCost`.`title` AS `cost`, `metaDifficulty`.`title` AS `difficulty`, `wD`.`title` AS `workDuration`, `tD`.`title` AS `totalDuration`, (SELECT COUNT(`id`) FROM `clicks` WHERE `clicks`.`itemId` = `items`.`id`) AS `clicks` FROM `items` JOIN `metaCost` ON `items`.`cost` = `metaCost`.`id` JOIN `metaDifficulty` ON `items`.`difficulty` = `metaDifficulty`.`id` JOIN `metaDuration` AS `wD` ON `items`.`workDuration` = `wD`.`id` JOIN `metaDuration` AS `tD` ON `items`.`totalDuration` = `tD`.`id` WHERE `shortTitle`='".$item."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
   if(mysqli_num_rows($result) == 1) {
     $row = mysqli_fetch_assoc($result);
     /**
@@ -209,6 +209,7 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
     $content.= "<div class='row alignCenter'>".
       "<div class='col-s-12 col-l-12'>".$slideshow."</div>".
     "</div>";
+    $content.= (!empty($row['author']) ? "<h3 class='alignCenter'>Gastbeitrag von ".(!empty($row['authorURL']) ? "<a href='".output($row['authorURL'])."' target='_blank' rel='noopener'>" : NULL).output($row['author']).(!empty($row['authorURL']) ? "<span class='fas iconright'>&#xf35d;</span></a>" : NULL)."</h3>" : NULL);
     $content.= "<div class='row'>".
       "<div class='col-s-12 col-l-6 printFullWidth'><h2 class='alignCenter'><span class='fas icon'>&#xf0ce;</span>Eckdaten</h2>".$data."</div>".
       "<div class='col-s-12 col-l-6 printFullWidth'><h2 class='alignCenter'><span class='fas icon'>&#xf4d8;</span>Zutaten".($persons > 0 ? " für ".output($persons)." Person".($persons > 1 ? "en" : NULL) : NULL)."</h2>".$ingredients."</div>".
