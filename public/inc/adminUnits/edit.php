@@ -68,30 +68,11 @@ if(!empty($_GET['id'])) {
         $content.= "<div class='warnbox'>Die Bezeichnung der Maßeinheit ist ungültig. Sie muss zwischen 2 und 50 Zeichen lang sein.</div>";
       }
 
-      /**
-       * Kurzform
-       */
-      if(preg_match('/^.{1,10}$/', $_POST['short'], $match) === 1) {
-        $short = defuse($match[0]);
-      } else {
-        $form = 1;
-        $content.= "<div class='warnbox'>Die Kurzform der Maßeinheit ist ungültig. Sie muss zwischen 1 und 10 Zeichen lang sein.</div>";
-      }
-
-      /**
-       * Spacer zwischen Titel und Einheit
-       */
-      if($_POST['spacer'] == 1) {
-        $spacer = 1;
-      } else {
-        $spacer = 0;
-      }
-
       if($form == 0) {
         /**
          * Wenn durch die Postdaten-Validierung die Inhalte geprüft und entschärft wurden, kann der Query erzeugt und ausgeführt werden.
          */
-        if(mysqli_query($dbl, "UPDATE `metaUnits` SET `title`='".$formTitle."', `short`='".$short."', `spacer`='".$spacer."' WHERE `id`='".$id."' LIMIT 1")) {
+        if(mysqli_query($dbl, "UPDATE `metaUnits` SET `title`='".$formTitle."' WHERE `id`='".$id."' LIMIT 1")) {
           mysqli_query($dbl, "INSERT INTO `log` (`accountId`, `logLevel`, `text`) VALUES ('".$userId."', 3, 'Einheit geändert: von `".defuse($row['title'])."` in `".$formTitle."`')") OR DIE(MYSQLI_ERROR($dbl));
           $content.= "<div class='successbox'>Maßeinheit erfolgreich geändert.</div>";
           $content.= "<div class='row'>".
@@ -138,24 +119,6 @@ if(!empty($_GET['id'])) {
       "<div class='col-s-12 col-l-3'>Bezeichnung</div>".
       "<div class='col-s-12 col-l-4'><input type='text' name='title' placeholder='Bezeichnung der Maßeinheit' tabindex='1' autofocus value='".(isset($row['title']) ? output($row['title']) : (isset($_POST['title']) && !empty($_POST['title']) ? output($_POST['title']) : NULL))."'></div>".
       "<div class='col-s-12 col-l-5'>2 bis 50 Zeichen</div>".
-      "</div>";
-
-      /**
-       * Kurzform
-       */
-      $content.= "<div class='row hover bordered'>".
-      "<div class='col-s-12 col-l-3'>Kurzform</div>".
-      "<div class='col-s-12 col-l-4'><input type='text' name='short' placeholder='Kurzform der Maßeinheit' tabindex='2' autofocus value='".(isset($row['short']) ? output($row['short']) : (isset($_POST['short']) && !empty($_POST['short']) ? output($_POST['short']) : NULL))."'></div>".
-      "<div class='col-s-12 col-l-5'>1 bis 10 Zeichen</div>".
-      "</div>";
-
-      /**
-       * Trennung zwischen Menge und Kurzform
-       */
-      $content.= "<div class='row hover bordered'>".
-      "<div class='col-s-12 col-l-3'>Trennung</div>".
-      "<div class='col-s-12 col-l-4'><select name='spacer' tabindex='3'><option value='1'".(isset($row['spacer']) && $row['spacer'] == 1 ? " selected" : (isset($_POST['spacer']) && $_POST['spacer'] == "1" ? " selected" : NULL)).">Ja</option><option value='0'".(isset($row['spacer']) && $row['spacer'] == 0 ? " selected" : (isset($_POST['spacer']) && $_POST['spacer'] == "0" ? " selected" : NULL)).">Nein</option></select></div>".
-      "<div class='col-s-12 col-l-5'>".Slimdown::render("Trennung zwischen Menge und Kurzform\n* Ja: `100 g`\n* Nein: `100g`")."</div>".
       "</div>";
 
       /**

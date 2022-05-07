@@ -80,7 +80,7 @@ if(!empty($_GET['id'])) {
     } else {
       $units = array();
       while($row = mysqli_fetch_assoc($result)) {
-        $units[] = "<option value='".output($row['id'])."'>".output($row['title'])." (".output($row['short']).")</option>";
+        $units[] = "<option value='".output($row['id'])."'>".output($row['title'])."</option>";
       }
       $units = "<select name='unit' tabindex='3'><option value='' selected disabled hidden>Bitte wählen</option>".implode("", $units)."</select>";
     }
@@ -161,7 +161,7 @@ if(!empty($_GET['id'])) {
      * Bestehende Zuweisungen anzeigen
      */
     $content.= "<h2>Bestehende Rezeptzutaten</h2>";
-    $result = mysqli_query($dbl, "SELECT `metaIngredients`.`title` AS `ingredientTitle`, `metaUnits`.`title` AS `unitTitle`, `metaUnits`.`short`, `metaUnits`.`spacer`, `itemIngredients`.* FROM `itemIngredients` JOIN `metaIngredients` ON `metaIngredients`.`id` = `itemIngredients`.`ingredientId` LEFT OUTER JOIN `metaUnits` ON `metaUnits`.`id` = `itemIngredients`.`unitId` WHERE `itemIngredients`.`itemId`='$id' ORDER BY `optional` ASC, `ingredientTitle` ASC") OR DIE(MYSQLI_ERROR($dbl));
+    $result = mysqli_query($dbl, "SELECT `metaIngredients`.`title` AS `ingredientTitle`, `metaUnits`.`title` AS `unitTitle`, `itemIngredients`.* FROM `itemIngredients` JOIN `metaIngredients` ON `metaIngredients`.`id` = `itemIngredients`.`ingredientId` LEFT OUTER JOIN `metaUnits` ON `metaUnits`.`id` = `itemIngredients`.`unitId` WHERE `itemIngredients`.`itemId`='$id' ORDER BY `optional` ASC, `ingredientTitle` ASC") OR DIE(MYSQLI_ERROR($dbl));
     if(mysqli_num_rows($result) == 0) {
       $content.= "<div class='infobox'>Es wurden noch keine Rezeptzutaten hinzugefügt.</div>";
     } else {

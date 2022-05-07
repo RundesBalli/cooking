@@ -36,16 +36,12 @@ if(mysqli_num_rows($result) == 0) {
    */
   $content.= "<div class='row highlight bold bordered'>".
   "<div class='col-s-12 col-l-3'>Bezeichnung</div>".
-  "<div class='col-s-6 col-l-2'>Kurzform</div>".
-  "<div class='col-s-6 col-l-2'>Trennung</div>".
-  "<div class='col-s-12 col-l-5'>Aktionen</div>".
+  "<div class='col-s-12 col-l-9'>Aktionen</div>".
   "</div>";
   while($row = mysqli_fetch_assoc($result)) {
     $content.= "<div class='row hover bordered'>".
     "<div class='col-s-12 col-l-3'>".output($row['title'])."</div>".
-    "<div class='col-s-6 col-l-2'>".output($row['short'])."</div>".
-    "<div class='col-s-6 col-l-2'>".($row['spacer'] == 1 ? "Ja" : "Nein")."</div>".
-    "<div class='col-s-12 col-l-5'><a href='/adminUnits/edit?id=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf044;</span>Editieren</a> - "."<a href='/adminUnits/del?id=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a></div>".
+    "<div class='col-s-12 col-l-9'><a href='/adminUnits/edit?id=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf044;</span>Editieren</a> - "."<a href='/adminUnits/del?id=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a></div>".
     "</div>";
   }
 }

@@ -256,11 +256,8 @@ DROP TABLE IF EXISTS `metaUnits`;
 CREATE TABLE `metaUnits` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Laufende ID',
   `title` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Titel der Einheit',
-  `short` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Kurzform der Einheit',
-  `spacer` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT 'Leerzeichen zwischen Menge und Maßeinheit; 1=ja, 0=nein',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `title` (`title`),
-  UNIQUE KEY `short` (`short`)
+  UNIQUE KEY `title` (`title`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Metadaten: Einheiten';
 
 
@@ -291,4 +288,4 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `mostClicked` AS select `cl
 DROP TABLE IF EXISTS `stats`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `stats` AS select (select count(`categories`.`id`) from `categories`) AS `catCount`,(select count(`items`.`id`) from `items`) AS `itemCount`,(select count(`clicks`.`id`) from `clicks`) AS `clickCount`,(select count(`clicks`.`id`) from `clicks` where (`clicks`.`timestamp` > cast(curdate() as datetime))) AS `clicksToday`;
 
--- 2022-05-07 21:34:07
+-- 2022-05-07 22:11:46
