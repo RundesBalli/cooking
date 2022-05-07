@@ -6,6 +6,22 @@
 }
 
 
+.itemTile {
+  display: block;
+  border: 1px solid var(--hrColor);
+  border-radius: var(--fontSize);
+  padding: var(--fontSize) calc(var(--fontSize) * 0.75);
+  margin: var(--fontSize) 0px;
+  background: var(--itemTileBackground);
+  -webkit-box-shadow: 2px 2px 3px 1px var(--hrColor);
+  box-shadow: 2px 2px 3px 1px var(--hrColor);
+}
+
+.itemTile:nth-of-type(even) {
+  background: var(--itemTileBackgroundEven);
+}
+
+
 /**
  * ShareButtons
  */
