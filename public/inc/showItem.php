@@ -49,10 +49,10 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
     /**
      * OG-Metadaten
      */
-    $thumbresult = mysqli_query($dbl, "SELECT * FROM `images` WHERE `itemId`='".$row['id']."' AND `thumb`='1' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
-    if(mysqli_num_rows($thumbresult) == 1) {
-      $thumbrow = mysqli_fetch_assoc($thumbresult);
-      $thumb = 'https://'.$_SERVER['HTTP_HOST']."/img/thumb-".$thumbrow['itemId']."-".$thumbrow['fileHash'].".png";
+    $thumbResult = mysqli_query($dbl, "SELECT * FROM `images` WHERE `itemId`='".$row['id']."' AND `thumb`='1' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+    if(mysqli_num_rows($thumbResult) == 1) {
+      $thumbRow = mysqli_fetch_assoc($thumbResult);
+      $thumb = 'https://'.$_SERVER['HTTP_HOST']."/img/thumb-".$thumbRow['itemId']."-".$thumbRow['fileHash'].".png";
     } else {
       $thumb = 'https://'.$_SERVER['HTTP_HOST'].'/assets/images/favicon.png';
     }
@@ -177,19 +177,19 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
     } else {
       $persons = 0;
     }
-    $innerresult = mysqli_query($dbl, "SELECT `metaIngredients`.`title` AS `ingredientTitle`, `metaUnits`.`title` AS `unitTitle`, `metaUnits`.`short`, `metaUnits`.`spacer`, `itemIngredients`.`quantity` FROM `itemIngredients` JOIN `metaIngredients` ON `metaIngredients`.`id` = `itemIngredients`.`ingredientId` LEFT OUTER JOIN `metaUnits` ON `metaUnits`.`id` = `itemIngredients`.`unitId` WHERE `itemIngredients`.`itemId`='".$row['id']."' ORDER BY `ingredientTitle` ASC") OR DIE(MYSQLI_ERROR($dbl));
-    if(mysqli_num_rows($innerresult) == 0) {
+    $innerResult = mysqli_query($dbl, "SELECT `metaIngredients`.`title` AS `ingredientTitle`, `metaUnits`.`title` AS `unitTitle`, `metaUnits`.`short`, `metaUnits`.`spacer`, `itemIngredients`.`quantity` FROM `itemIngredients` JOIN `metaIngredients` ON `metaIngredients`.`id` = `itemIngredients`.`ingredientId` LEFT OUTER JOIN `metaUnits` ON `metaUnits`.`id` = `itemIngredients`.`unitId` WHERE `itemIngredients`.`itemId`='".$row['id']."' ORDER BY `ingredientTitle` ASC") OR DIE(MYSQLI_ERROR($dbl));
+    if(mysqli_num_rows($innerResult) == 0) {
       $ingredients.= "<div class='warnbox'>Es wurden noch keine Zutaten hinzugefügt.</div>";
     } else {
-      while($innerrow = mysqli_fetch_assoc($innerresult)) {
+      while($innerRow = mysqli_fetch_assoc($innerResult)) {
         if($customPersons == TRUE) {
-          $quantity = $innerrow['quantity']/$row['persons']*$persons;
+          $quantity = $innerRow['quantity']/$row['persons']*$persons;
         } else {
-          $quantity = $innerrow['quantity'];
+          $quantity = $innerRow['quantity'];
         }
         $ingredients.= "<div class='row'>".
-          "<div class='col-s-6 col-l-6 alignRight'>".($quantity > 0 ? fractionizer($quantity, 2).($innerrow['spacer'] == 1 ? " " : NULL) : NULL).output($innerrow['unitTitle'])."</span></div>".
-          "<div class='col-s-6 col-l-6'>".output($innerrow['ingredientTitle'])."</div>".
+          "<div class='col-s-6 col-l-6 alignRight'>".($quantity > 0 ? fractionizer($quantity, 2).($innerRow['spacer'] == 1 ? " " : NULL) : NULL).output($innerRow['unitTitle'])."</span></div>".
+          "<div class='col-s-6 col-l-6'>".output($innerRow['ingredientTitle'])."</div>".
         "</div>";
       }
       if($persons > 0) {
