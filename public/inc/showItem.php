@@ -218,7 +218,9 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
      * Text
      */
     $content.= "<div class='row alignCenter'>".
-    "<div class='col-s-12 col-l-12 preparation'><h2><span class='fas icon'>&#xf03a;</span>Zubereitung</h2>".Slimdown::render($row['text'])."</div>".
+    "<div class='col-s-0 col-l-2'></div>".
+    "<div class='col-s-12 col-l-8 printFullWidth'><h2><span class='fas icon'>&#xf03a;</span>Zubereitung</h2>".Slimdown::render($row['text'])."</div>".
+    "<div class='col-s-0 col-l-2'></div>".
     "</div>";
     $content.= "<div class='spacer-l'></div>";
   } else {
