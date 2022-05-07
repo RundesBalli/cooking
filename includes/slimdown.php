@@ -59,12 +59,6 @@ class Slimdown {
     return sprintf ("\n<ol>\n\t<li>%s</li>\n</ol>", trim ($item));
   }
 
-  private static function header ($regs) {
-    list ($tmp, $chars, $header) = $regs;
-    $level = strlen ($chars);
-    return sprintf ('<h%d>%s</h%d>', $level, trim ($header), $level);
-  }
-
   /**
    * Render some Markdown into HTML.
    */
