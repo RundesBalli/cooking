@@ -33,6 +33,7 @@ class Slimdown {
     '/\~\~(.*?)\~\~/' => '<s>\1</s>',                   // del
     '/`(.*?)`/' => '<code>\1</code>',                   // inline code
     '/---/' => '<div class=\'spacer-m\'></div>',        // spacer
+    '/;;(.*?);;/' => '<div class=\'itemTile\'>\1</div>',// itemTile in showItem.php
     '/\n\*(.*)/' => 'self::ul_list',                    // ul lists
     '/\n[0-9]+\.(.*)/' => 'self::ol_list',              // ol lists
     '/\n([^\n]+)\n/' => 'self::para',                   // add paragraphs
