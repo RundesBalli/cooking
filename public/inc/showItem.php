@@ -130,6 +130,32 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
 
 
     /**
+     * Eckdaten vorbereiten
+     */
+    $data = "".
+    $data.= "<div class='row'>".
+      "<div class='col-s-6 col-l-6 alignRight'><span class='far icon'>&#xf25a;</span>Klick".($row['clicks'] > 1 ? "s" : NULL)."</div>".
+      "<div class='col-s-6 col-l-6'>".number_format($row['clicks'], 0, ",", ".")."</div>".
+    "</div>";
+    $data.= "<div class='row'>".
+      "<div class='col-s-6 col-l-6 alignRight'><span class='far icon'>&#xf0eb;</span>Schwierigkeit</div>".
+      "<div class='col-s-6 col-l-6'>".$row['difficulty']."</div>".
+    "</div>";
+    $data.= "<div class='row'>".
+      "<div class='col-s-6 col-l-6 alignRight'><span class='fas icon'>&#xf252;</span>Arbeitszeit</div>".
+      "<div class='col-s-6 col-l-6'>".$row['workDuration']."</div>".
+    "</div>";
+    $data.= "<div class='row'>".
+      "<div class='col-s-6 col-l-6 alignRight'><span class='fas icon'>&#xf253;</span>Gesamtzeit</div>".
+      "<div class='col-s-6 col-l-6'>".$row['totalDuration']."</div>".
+    "</div>";
+    $data.= "<div class='row'>".
+      "<div class='col-s-6 col-l-6 alignRight'><span class='fas icon'>&#xf153;</span>Kosten</div>".
+      "<div class='col-s-6 col-l-6'>".$row['cost']."</div>".
+    "</div>";
+
+
+    /**
      * Zutatenliste vorbereiten und ggf. Umrechnen
      */
     $ingredients = "";
@@ -161,11 +187,11 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
         } else {
           $quantity = $innerrow['quantity'];
         }
-        $ingredientList[] = ($quantity > 0 ? fractionizer($quantity, 2).($innerrow['spacer'] == 1 ? " " : NULL)."<span class='help' title='".output($innerrow['unitTitle'])."'>".output($innerrow['short'])."</span> - " : NULL).output($innerrow['ingredientTitle']);
+        $ingredients.= "<div class='row'>".
+          "<div class='col-s-6 col-l-6 alignRight'>".($quantity > 0 ? fractionizer($quantity, 2).($innerrow['spacer'] == 1 ? " " : NULL) : NULL).output($innerrow['unitTitle'])."</span></div>".
+          "<div class='col-s-6 col-l-6'>".output($innerrow['ingredientTitle'])."</div>".
+        "</div>";
       }
-      $ingredients.= "<ul>";
-      $ingredients.= "<li>".implode("</li>"."<li>", $ingredientList)."</li>";
-      $ingredients.= "</ul>";
       if($persons > 0) {
         $ingredients.= "<div class='spacer-s'></div>";
         $ingredients.= "<form method='get'>";
@@ -178,27 +204,14 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
 
 
     /**
-     * Eckdaten vorbereiten
-     */
-    $data = "".
-    "<ul>".
-    "<li><span class='far icon'>&#xf25a;</span>".number_format($row['clicks'], 0, ",", ".")." Klick".($row['clicks'] > 1 ? "s" : NULL)."</li>".
-    "<li><span class='far icon'>&#xf0eb;</span>Schwierigkeit: ".$row['difficulty']."</li>".
-    "<li><span class='fas icon'>&#xf252;</span>Arbeitszeit: ".$row['workDuration']."</li>".
-    "<li><span class='fas icon'>&#xf253;</span>Gesamtzeit: ".$row['totalDuration']."</li>".
-    "<li><span class='fas icon'>&#xf153;</span>Kosten: ".$row['cost']."</li>".
-    "</ul>";
-
-
-    /**
      * Anzeige der aufbereiteten Daten
      */
     $content.= "<div class='row alignCenter'>".
       "<div class='col-s-12 col-l-12'>".$slideshow."</div>".
     "</div>";
-    $content.= "<div class='row alignCenter'>".
-      "<div class='col-s-12 col-l-6 printFullWidth'><h2><span class='fas icon'>&#xf0ce;</span>Eckdaten</h2>".$data."</div>".
-      "<div class='col-s-12 col-l-6 printFullWidth'><h2><span class='fas icon'>&#xf4d8;</span>Zutaten".($persons > 0 ? " für ".output($persons)." Person".($persons > 1 ? "en" : NULL) : NULL)."</h2>".$ingredients."</div>".
+    $content.= "<div class='row'>".
+      "<div class='col-s-12 col-l-6 printFullWidth'><h2 class='alignCenter'><span class='fas icon'>&#xf0ce;</span>Eckdaten</h2>".$data."</div>".
+      "<div class='col-s-12 col-l-6 printFullWidth'><h2 class='alignCenter'><span class='fas icon'>&#xf4d8;</span>Zutaten".($persons > 0 ? " für ".output($persons)." Person".($persons > 1 ? "en" : NULL) : NULL)."</h2>".$ingredients."</div>".
     "</div>";
 
     /**
