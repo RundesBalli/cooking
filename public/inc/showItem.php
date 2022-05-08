@@ -138,8 +138,8 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
      */
     $data = "";
     $data.= "<div class='row'>".
-      "<div class='col-s-6 col-l-6 alignRight'><span class='far icon'>&#xf25a;</span>Aufruf".(($newClick ? ($row['clicks']+1) : $row['clicks']) == 1 ? NULL : "e")."</div>".
-      "<div class='col-s-6 col-l-6'>".number_format(($newClick ? ($row['clicks']+1) : $row['clicks']), 0, ",", ".")."</div>".
+      "<div class='col-s-6 col-l-6 alignRight'><span class='far icon'>&#xf25a;</span>Aufruf".((!empty($newClick) ? ($row['clicks']+1) : $row['clicks']) == 1 ? NULL : "e")."</div>".
+      "<div class='col-s-6 col-l-6'>".number_format((!empty($newClick) ? ($row['clicks']+1) : $row['clicks']), 0, ",", ".")."</div>".
     "</div>";
     $data.= "<div class='row'>".
       "<div class='col-s-6 col-l-6 alignRight'><span class='far icon'>&#xf0eb;</span>Schwierigkeit</div>".
