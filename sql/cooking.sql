@@ -67,7 +67,10 @@ CREATE TABLE `clicks` (
   `itemId` int(10) unsigned NOT NULL COMMENT 'Querverweis items.id',
   `uuid` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Unique-User-Identifier',
   `timestamp` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Zeitpunkt des Zugriffs',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `itemId` (`itemId`),
+  KEY `uuid` (`uuid`),
+  KEY `timestamp` (`timestamp`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Aufrufe eines Rezepts';
 
 TRUNCATE `clicks`;
@@ -288,4 +291,4 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `mostClicked` AS select `cl
 DROP TABLE IF EXISTS `stats`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `stats` AS select (select count(`categories`.`id`) from `categories`) AS `catCount`,(select count(`items`.`id`) from `items`) AS `itemCount`,(select count(`clicks`.`id`) from `clicks`) AS `clickCount`,(select count(`clicks`.`id`) from `clicks` where (`clicks`.`timestamp` > cast(curdate() as datetime))) AS `clicksToday`;
 
--- 2022-05-07 22:11:46
+-- 2022-05-08 21:22:02
