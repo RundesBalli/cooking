@@ -37,11 +37,17 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
   $result = mysqli_query($dbl, "SELECT `items`.`id`, `items`.`title`, `items`.`shortTitle`, `items`.`author`, `items`.`authorURL`, `items`.`text`, `items`.`persons`, `metaCost`.`title` AS `cost`, `metaDifficulty`.`title` AS `difficulty`, `wD`.`title` AS `workDuration`, `tD`.`title` AS `totalDuration`, (SELECT COUNT(`id`) FROM `clicks` WHERE `clicks`.`itemId` = `items`.`id`) AS `clicks` FROM `items` JOIN `metaCost` ON `items`.`cost` = `metaCost`.`id` JOIN `metaDifficulty` ON `items`.`difficulty` = `metaDifficulty`.`id` JOIN `metaDuration` AS `wD` ON `items`.`workDuration` = `wD`.`id` JOIN `metaDuration` AS `tD` ON `items`.`totalDuration` = `tD`.`id` WHERE `shortTitle`='".$item."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
   if(mysqli_num_rows($result) == 1) {
     $row = mysqli_fetch_assoc($result);
+
+
     /**
      * Aufruf zählen oder aktualisieren
      */
-    mysqli_query($dbl, "UPDATE `clicks` SET `timestamp`=CURRENT_TIMESTAMP WHERE `uuid`='".$UUID."' AND `timestamp` > DATE_SUB(NOW(), INTERVAL 30 HOUR) LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
-    if(mysqli_affected_rows($dbl) != 1) {
+    $clickResult = mysqli_query($dbl, "SELECT `id` FROM `clicks` WHERE `itemId`='".$row['id']."' AND `uuid`='".$UUID."' AND `timestamp` > DATE_SUB(NOW(), INTERVAL 30 HOUR) LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
+    if(mysqli_num_rows($clickResult) == 1) {
+      $clickRow = mysqli_fetch_assoc($clickResult);
+      mysqli_query($dbl, "UPDATE `clicks` SET `timestamp`=NOW() WHERE `id`=".$clickRow['id']) OR DIE(MYSQLI_ERROR($dbl));
+    } else {
+      $newClick = TRUE;
       mysqli_query($dbl, "INSERT INTO `clicks` (`itemId`, `uuid`) VALUES ('".$row['id']."', '".$UUID."')") OR DIE(MYSQLI_ERROR($dbl));
     }
 
@@ -132,8 +138,8 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
      */
     $data = "";
     $data.= "<div class='row'>".
-      "<div class='col-s-6 col-l-6 alignRight'><span class='far icon'>&#xf25a;</span>Aufruf".($row['clicks'] == 1 ? NULL : "e")."</div>".
-      "<div class='col-s-6 col-l-6'>".number_format($row['clicks'], 0, ",", ".")."</div>".
+      "<div class='col-s-6 col-l-6 alignRight'><span class='far icon'>&#xf25a;</span>Aufruf".(($newClick ? ($row['clicks']+1) : $row['clicks']) == 1 ? NULL : "e")."</div>".
+      "<div class='col-s-6 col-l-6'>".number_format(($newClick ? ($row['clicks']+1) : $row['clicks']), 0, ",", ".")."</div>".
     "</div>";
     $data.= "<div class='row'>".
       "<div class='col-s-6 col-l-6 alignRight'><span class='far icon'>&#xf0eb;</span>Schwierigkeit</div>".
