@@ -144,16 +144,6 @@ if(isset($_POST['submit'])) {
 $content.= "<form action='/search' method='post' autocomplete='off'>";
 
 /**
- * Tabellenüberschrift
- */
-$content.= "<div class='row highlight bold bordered'>".
-"<div class='col-s-12 col-l-3'>Bezeichnung</div>".
-"<div class='col-s-12 col-l-4'>Feld</div>".
-"<div class='col-s-12 col-l-5'>Ergänzungen</div>".
-"<div class='col-s-12 col-l-0'><div class='spacer-s'></div></div>".
-"</div>";
-
-/**
  * Kosten
  */
 $content.= "<div class='row hover bordered'>".
@@ -165,7 +155,6 @@ while($row = mysqli_fetch_assoc($result)) {
 }
 $content.= "</select></div>".
 "<div class='col-s-12 col-l-5'></div>".
-"<div class='col-s-12 col-l-0'><div class='spacer-s'></div></div>".
 "</div>";
 
 /**
@@ -180,7 +169,6 @@ while($row = mysqli_fetch_assoc($result)) {
 }
 $content.= "</select></div>".
 "<div class='col-s-12 col-l-5'></div>".
-"<div class='col-s-12 col-l-0'><div class='spacer-s'></div></div>".
 "</div>";
 
 /**
@@ -195,7 +183,6 @@ while($row = mysqli_fetch_assoc($result)) {
 }
 $content.= "</select></div>".
 "<div class='col-s-12 col-l-5'></div>".
-"<div class='col-s-12 col-l-0'><div class='spacer-s'></div></div>".
 "</div>";
 
 /**
@@ -210,7 +197,6 @@ while($row = mysqli_fetch_assoc($result)) {
 }
 $content.= "</select></div>".
 "<div class='col-s-12 col-l-5'>Hiermit ist die Gesamtzeit des Kochvorgangs gemeint (incl. das Warten auf den Backofen, etc.).</div>".
-"<div class='col-s-12 col-l-0'><div class='spacer-s'></div></div>".
 "</div>";
 
 /**
@@ -225,7 +211,6 @@ while($row = mysqli_fetch_assoc($result)) {
 }
 $content.= "</select></div>".
 "<div class='col-s-12 col-l-5'>Diese Zutat muss im Rezept enthalten sein.</div>".
-"<div class='col-s-12 col-l-0'><div class='spacer-s'></div></div>".
 "</div>";
 
 /**
@@ -235,7 +220,6 @@ $content.= "<div class='row hover bordered'>".
 "<div class='col-s-12 col-l-3'>Suchen</div>".
 "<div class='col-s-12 col-l-4'><input type='submit' name='submit' value='Suchen' tabindex='6'></div>".
 "<div class='col-s-12 col-l-5'></div>".
-"<div class='col-s-12 col-l-0'><div class='spacer-s'></div></div>".
 "</div>";
 $content.= "</form>";
 $content.= "<div class='spacer-m'></div>";
