@@ -80,7 +80,7 @@ if(!isset($_GET['category']) OR empty(trim($_GET['category']))) {
           "</div>".
           "<div class='col-s-12 col-l-10 itemInfo'>".
             "<div class='title'><a href='/rezept/".output($row['shortTitle'])."'>".output($row['title'])."</a></div>".
-            "<div class='specs cursorHelp' title='Klicks'><span class='far icon'>&#xf25a;</span> ".number_format($row['clicks'], 0, ",", ".")."</div>".
+            "<div class='specs cursorHelp' title='Aufrufe'><span class='far icon'>&#xf25a;</span> ".number_format($row['clicks'], 0, ",", ".")."</div>".
             "<div class='specs cursorHelp' title='Schwierigkeitsgrad'><span class='far icon'>&#xf0eb;</span> ".$row['difficulty']."</div>".
             "<div class='specs cursorHelp' title='Kosten'><span class='fas icon'>&#xf153;</span> ".$row['cost']."</div>".
             "<br>".

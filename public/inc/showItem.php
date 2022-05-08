@@ -38,7 +38,7 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
   if(mysqli_num_rows($result) == 1) {
     $row = mysqli_fetch_assoc($result);
     /**
-     * Klick zählen oder aktualisieren
+     * Aufruf zählen oder aktualisieren
      */
     mysqli_query($dbl, "UPDATE `clicks` SET `timestamp`=CURRENT_TIMESTAMP WHERE `uuid`='".$UUID."' AND `timestamp` > DATE_SUB(NOW(), INTERVAL 30 HOUR) LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
     if(mysqli_affected_rows($dbl) != 1) {
@@ -134,7 +134,7 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
      */
     $data = "".
     $data.= "<div class='row'>".
-      "<div class='col-s-6 col-l-6 alignRight'><span class='far icon'>&#xf25a;</span>Klick".($row['clicks'] > 1 ? "s" : NULL)."</div>".
+      "<div class='col-s-6 col-l-6 alignRight'><span class='far icon'>&#xf25a;</span>Aufruf".($row['clicks'] > 1 ? "e" : NULL)."</div>".
       "<div class='col-s-6 col-l-6'>".number_format($row['clicks'], 0, ",", ".")."</div>".
     "</div>";
     $data.= "<div class='row'>".

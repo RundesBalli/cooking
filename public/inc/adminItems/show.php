@@ -36,7 +36,7 @@ if(mysqli_num_rows($result) == 0) {
    */
   $content.= "<div class='row highlight bold bordered mobileSmaller'>".
   "<div class='col-s-8 col-l-4'>Titel</div>".
-  "<div class='col-s-4 col-l-1'>Klicks</div>".
+  "<div class='col-s-4 col-l-1'>Aufrufe</div>".
   "<div class='col-s-12 col-l-2'>Kategorien</div>".
   "<div class='col-s-12 col-l-5'>Aktionen</div>".
   "</div>";
