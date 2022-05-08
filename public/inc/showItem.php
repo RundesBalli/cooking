@@ -125,7 +125,7 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
       /**
        * kein Bild => Standard-Thumbnail
        */
-      $slideshow.= "<img src='/assets/images/noThumb.png' alt='kein Bild vorhanden'>";
+      $slideshow = "<img src='/assets/images/noThumb.png' alt='kein Bild vorhanden'>";
     }
 
 
@@ -134,7 +134,7 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
      */
     $data = "".
     $data.= "<div class='row'>".
-      "<div class='col-s-6 col-l-6 alignRight'><span class='far icon'>&#xf25a;</span>Aufruf".($row['clicks'] > 1 ? "e" : NULL)."</div>".
+      "<div class='col-s-6 col-l-6 alignRight'><span class='far icon'>&#xf25a;</span>Aufruf".($row['clicks'] == 1 ? NULL : "e")."</div>".
       "<div class='col-s-6 col-l-6'>".number_format($row['clicks'], 0, ",", ".")."</div>".
     "</div>";
     $data.= "<div class='row'>".
