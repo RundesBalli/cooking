@@ -30,6 +30,7 @@ if(!isset($_GET['category']) OR empty(trim($_GET['category']))) {
   if(mysqli_num_rows($result) == 1) {
     $row = mysqli_fetch_assoc($result);
 
+
     /**
      * OG-Metadaten
      */
@@ -43,11 +44,10 @@ if(!isset($_GET['category']) OR empty(trim($_GET['category']))) {
     /**
      * Verändern der standardmäßig konfigurierten OG-Metadaten
      */
-    $ogMeta = array(
-      'title'            => $ogConfig['name'].' | Kategorie: '.output($row['title']),
-      'image'            => $thumb,
-      'image:secure_url' => $thumb
-    );
+    $ogMeta['title'] = $ogConfig['name'].' | Kategorie: '.output($row['title']);
+    $ogMeta['image'] = $thumb;
+    $ogMeta['image:secure_url'] = $thumb;
+
 
     /**
      * Adminschnellnavigation
@@ -58,9 +58,11 @@ if(!isset($_GET['category']) OR empty(trim($_GET['category']))) {
       "</div>";
     }
 
+
     $title = "Kategorie: ".$row['title'];
     $content.= "<h1><span class='far icon'>&#xf07c;</span>Kategorie: ".output($row['title'])."</h1>";
     $content.= "<div class='spacer-m'></div>";
+
 
     /**
      * Inhalte der Kategorie anzeigen.

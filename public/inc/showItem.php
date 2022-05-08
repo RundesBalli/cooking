@@ -59,11 +59,9 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
     /**
      * Verändern der standardmäßig konfigurierten OG-Metadaten
      */
-    $ogMeta = array(
-      'title'            => $ogConfig['name'].' | Rezept: '.output($row['title']),
-      'image'            => $thumb,
-      'image:secure_url' => $thumb
-    );
+    $ogMeta['title'] = $ogConfig['name'].' | Rezept: '.output($row['title']);
+    $ogMeta['image'] = $thumb;
+    $ogMeta['image:secure_url'] = $thumb;
 
 
     /**
@@ -132,7 +130,7 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
     /**
      * Eckdaten vorbereiten
      */
-    $data = "".
+    $data = "";
     $data.= "<div class='row'>".
       "<div class='col-s-6 col-l-6 alignRight'><span class='far icon'>&#xf25a;</span>Aufruf".($row['clicks'] == 1 ? NULL : "e")."</div>".
       "<div class='col-s-6 col-l-6'>".number_format($row['clicks'], 0, ",", ".")."</div>".
