@@ -126,7 +126,7 @@ if($form == 1) {
   $content.= "<div class='row hover bordered'>".
   "<div class='col-s-12 col-l-3'>Plural Bezeichnung</div>".
   "<div class='col-s-12 col-l-4'><input type='text' name='titlePlural' placeholder='Plural Bezeichnung der Zutat' tabindex='2' autofocus value='".(isset($_POST['titlePlural']) && !empty($_POST['titlePlural']) ? output($_POST['titlePlural']) : NULL)."'></div>".
-  "<div class='col-s-12 col-l-5'>2 bis 150 Zeichen</div>".
+  "<div class='col-s-12 col-l-5'>".Slimdown::render("2 bis 150 Zeichen\nWird angezeigt wenn Maßeinheit ungleich 1 ist.")."</div>".
   "</div>";
 
   /**
