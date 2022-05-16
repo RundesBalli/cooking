@@ -86,7 +86,7 @@ if(!empty($_GET['id'])) {
           $result = mysqli_query($dbl, "SELECT * FROM `metaIngredients` WHERE `id`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
           $row = mysqli_fetch_assoc($result);
           if(mysqli_query($dbl, "DELETE FROM `metaIngredients` WHERE `id`='".$id."' LIMIT 1")) {
-            mysqli_query($dbl, "INSERT INTO `log` (`accountId`, `logLevel`, `text`) VALUES ('".$userId."', 4, 'Zutat gelöscht: `".defuse($row['title'])."`')") OR DIE(MYSQLI_ERROR($dbl));
+            mysqli_query($dbl, "INSERT INTO `log` (`accountId`, `logLevel`, `text`) VALUES ('".$userId."', 4, 'Zutat gelöscht: `".defuse($row['title'])."`/`".defuse($row['titlePlural'])."`')") OR DIE(MYSQLI_ERROR($dbl));
             $content.= "<div class='successbox'>Zutat erfolgreich gelöscht.</div>";
           } elseif(mysqli_errno($dbl) == 1451) {
             $content.= "<div class='warnbox'>Die Zutat ist noch in Rezepten zugewiesen. Es müssen zuerst alle Zuweisungen entfernt werden, bevor die Zutat gelöscht werden kann.</div>";

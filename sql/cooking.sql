@@ -248,9 +248,11 @@ DROP TABLE IF EXISTS `metaIngredients`;
 CREATE TABLE `metaIngredients` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Laufende ID',
   `title` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Bezeichnung der Zutat',
+  `titlePlural` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Bezeichnung der Zutat wenn Menge != 1',
   `searchable` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '0=nicht suchbar; 1=suchbar',
   PRIMARY KEY (`id`),
   UNIQUE KEY `title` (`title`),
+  UNIQUE KEY `titlePlural` (`titlePlural`),
   KEY `searchable` (`searchable`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Metadaten: Zutaten';
 
@@ -293,4 +295,4 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `mostClicked` AS select `cl
 DROP TABLE IF EXISTS `stats`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `stats` AS select (select count(`categories`.`id`) from `categories`) AS `catCount`,(select count(`items`.`id`) from `items`) AS `itemCount`,(select count(`clicks`.`id`) from `clicks`) AS `clickCount`,(select count(`clicks`.`id`) from `clicks` where (`clicks`.`timestamp` > cast(curdate() as datetime))) AS `clicksToday`;
 
--- 2022-05-16 19:36:25
+-- 2022-05-16 19:50:11

@@ -36,14 +36,16 @@ if(mysqli_num_rows($result) == 0) {
    */
   $content.= "<div class='row highlight bold bordered'>".
   "<div class='col-s-7 col-l-3'>Bezeichnung</div>".
+  "<div class='col-s-7 col-l-3'>Bezeichnung</div>".
   "<div class='col-s-5 col-l-2'>Suchbar</div>".
-  "<div class='col-s-12 col-l-7'>Aktionen</div>".
+  "<div class='col-s-12 col-l-4'>Aktionen</div>".
   "</div>";
   while($row = mysqli_fetch_assoc($result)) {
     $content.= "<div class='row hover bordered'>".
     "<div class='col-s-7 col-l-3'>".output($row['title'])."</div>".
+    "<div class='col-s-7 col-l-3'>".output($row['titlePlural'])."</div>".
     "<div class='col-s-5 col-l-2'>".($row['searchable'] == 1 ? "Ja" : "Nein")."</div>".
-    "<div class='col-s-12 col-l-7'><a href='/adminIngredients/edit?id=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf044;</span>Editieren</a> - "."<a href='/adminIngredients/del?id=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a></div>".
+    "<div class='col-s-12 col-l-4'><a href='/adminIngredients/edit?id=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf044;</span>Editieren</a> - "."<a href='/adminIngredients/del?id=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a></div>".
     "</div>";
   }
 }

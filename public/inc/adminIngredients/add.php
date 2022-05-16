@@ -48,6 +48,16 @@ if(isset($_POST['submit'])) {
   }
 
   /**
+   * Plural Bezeichnung
+   */
+  if(preg_match('/^.{2,150}$/', $_POST['titlePlural'], $match) === 1) {
+    $formTitlePlural = defuse($match[0]);
+  } else {
+    $form = 1;
+    $content.= "<div class='warnbox'>Die Plural Bezeichnung der Zutat ist ungültig. Sie muss zwischen 2 und 150 Zeichen lang sein.</div>";
+  }
+
+  /**
    * Suchbar-Flag
    */
   if(!empty($_POST['searchable']) AND $_POST['searchable'] == 1) {
@@ -60,8 +70,8 @@ if(isset($_POST['submit'])) {
    * Wenn durch die Postdaten-Validierung die Inhalte geprüft und entschärft wurden, kann der Query erzeugt und ausgeführt werden.
    */
   if($form == 0) {
-    if(mysqli_query($dbl, "INSERT INTO `metaIngredients` (`title`, `searchable`) VALUES ('".$formTitle."', '".$searchable."')")) {
-      mysqli_query($dbl, "INSERT INTO `log` (`accountId`, `logLevel`, `text`) VALUES ('".$userId."', 2, 'Zutat angelegt: `".$formTitle."`')") OR DIE(MYSQLI_ERROR($dbl));
+    if(mysqli_query($dbl, "INSERT INTO `metaIngredients` (`title`, `titlePlural`, `searchable`) VALUES ('".$formTitle."', '".$formTitlePlural."', '".$searchable."')")) {
+      mysqli_query($dbl, "INSERT INTO `log` (`accountId`, `logLevel`, `text`) VALUES ('".$userId."', 2, 'Zutat angelegt: `".$formTitle."`/`".$formTitlePlural."`')") OR DIE(MYSQLI_ERROR($dbl));
       $content.= "<div class='successbox'>Zutat erfolgreich angelegt.</div>";
       $content.= "<div class='row'>".
       "<div class='col-s-12 col-l-12'><a href='/adminIngredients/show'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".
@@ -111,11 +121,20 @@ if($form == 1) {
   "</div>";
 
   /**
+   * Plural Bezeichnung
+   */
+  $content.= "<div class='row hover bordered'>".
+  "<div class='col-s-12 col-l-3'>Plural Bezeichnung</div>".
+  "<div class='col-s-12 col-l-4'><input type='text' name='titlePlural' placeholder='Plural Bezeichnung der Zutat' tabindex='2' autofocus value='".(isset($_POST['titlePlural']) && !empty($_POST['titlePlural']) ? output($_POST['titlePlural']) : NULL)."'></div>".
+  "<div class='col-s-12 col-l-5'>2 bis 150 Zeichen</div>".
+  "</div>";
+
+  /**
    * Suchbar
    */
   $content.= "<div class='row hover bordered'>".
   "<div class='col-s-12 col-l-3'>Suchbar?</div>".
-  "<div class='col-s-12 col-l-4'><select name='searchable' tabindex='2'><option value='' selected hidden disabled>Bitte auswählen</option><option value='1'>Ja</option><option value='0'>Nein</option></select></div>".
+  "<div class='col-s-12 col-l-4'><select name='searchable' tabindex='3'><option value='' selected hidden disabled>Bitte auswählen</option><option value='1'>Ja</option><option value='0'>Nein</option></select></div>".
   "<div class='col-s-12 col-l-5'>".Slimdown::render("Zutat suchbar machen.\nEin Beispiel für `nein` wäre \"Salz\".")."</div>".
   "</div>";
 
@@ -124,7 +143,7 @@ if($form == 1) {
    */
   $content.= "<div class='row hover bordered'>".
   "<div class='col-s-12 col-l-3'>Zutat anlegen</div>".
-  "<div class='col-s-12 col-l-4'><input type='submit' name='submit' value='Anlegen' tabindex='3'></div>".
+  "<div class='col-s-12 col-l-4'><input type='submit' name='submit' value='Anlegen' tabindex='4'></div>".
   "<div class='col-s-12 col-l-5'></div>".
   "</div>";
   $content.= "</form>";

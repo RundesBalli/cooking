@@ -181,7 +181,7 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
     } else {
       $persons = 0;
     }
-    $innerResult = mysqli_query($dbl, "SELECT `metaIngredients`.`title` AS `ingredientTitle`, `metaUnits`.`title` AS `unitTitle`, `metaUnits`.`titlePlural` AS `unitTitlePlural`, `itemIngredients`.`quantity`, `itemIngredients`.`optional` FROM `itemIngredients` JOIN `metaIngredients` ON `metaIngredients`.`id` = `itemIngredients`.`ingredientId` LEFT OUTER JOIN `metaUnits` ON `metaUnits`.`id` = `itemIngredients`.`unitId` WHERE `itemIngredients`.`itemId`='".$row['id']."' ORDER BY `itemIngredients`.`optional` ASC, `ingredientTitle` ASC") OR DIE(MYSQLI_ERROR($dbl));
+    $innerResult = mysqli_query($dbl, "SELECT `metaIngredients`.`title` AS `ingredientTitle`, `metaIngredients`.`titlePlural` AS `ingredientTitlePlural`, `metaUnits`.`title` AS `unitTitle`, `metaUnits`.`titlePlural` AS `unitTitlePlural`, `itemIngredients`.`quantity`, `itemIngredients`.`optional` FROM `itemIngredients` JOIN `metaIngredients` ON `metaIngredients`.`id` = `itemIngredients`.`ingredientId` LEFT OUTER JOIN `metaUnits` ON `metaUnits`.`id` = `itemIngredients`.`unitId` WHERE `itemIngredients`.`itemId`='".$row['id']."' ORDER BY `itemIngredients`.`optional` ASC, `ingredientTitle` ASC") OR DIE(MYSQLI_ERROR($dbl));
     if(mysqli_num_rows($innerResult) == 0) {
       $ingredients.= "<div class='warnbox'>Es wurden noch keine Zutaten hinzugefügt.</div>";
     } else {
@@ -198,12 +198,12 @@ if(!isset($_GET['item']) OR empty(trim($_GET['item']))) {
         }
         if($quantity == 0) {
           $ingredients.= "<div class='row'>".
-            "<div class='col-s-12 col-l-12 alignCenter'>".output($innerRow['ingredientTitle'])."</div>".
+            "<div class='col-s-12 col-l-12 alignCenter'>".output($innerRow['ingredientTitlePlural'])."</div>".
           "</div>";
         } else {
           $ingredients.= "<div class='row'>".
             "<div class='col-s-6 col-l-6 alignRight'>".fractionizer($quantity, 2)." ".($quantity == 1 ? output($innerRow['unitTitle']) : output($innerRow['unitTitlePlural']))."</span></div>".
-            "<div class='col-s-6 col-l-6'>".output($innerRow['ingredientTitle'])."</div>".
+            "<div class='col-s-6 col-l-6'>".($quantity == 1 ? output($innerRow['ingredientTitle']) : output($innerRow['ingredientTitlePlural']))."</div>".
           "</div>";
         }
       }
