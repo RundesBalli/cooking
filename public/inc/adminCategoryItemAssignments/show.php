@@ -53,13 +53,13 @@ if(!empty($_GET['itemId'])) {
       $content.= "<div class='infobox'>Dieses Rezept wurde noch keiner Kategorie zugewiesen.</div>";
     } else {
       $content.= "<div class='row highlight bold bordered'>".
-      "<div class='col-s-8 col-l-8'>Kategorie</div>".
-      "<div class='col-s-4 col-l-4'>Aktionen</div>".
+      "<div class='col-s-12 col-l-4'>Kategorie</div>".
+      "<div class='col-s-12 col-l-8'>Aktionen</div>".
       "</div>";
       while($row = mysqli_fetch_assoc($result)) {
         $content.= "<div class='row hover bordered'>".
-        "<div class='col-s-8 col-l-8'>".$row['title']."</div>".
-        "<div class='col-s-4 col-l-4'><a href='/adminCategoryItemAssignments/del?itemId=".output($itemId)."&categoryId=".$row['categoryId']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a> - "."<a href='/adminCategories/itemSort?id=".$row['categoryId']."' class='nowrap'><span class='fas icon'>&#xf0dc;</span>in dieser Kategorie sortieren</a></div>".
+        "<div class='col-s-12 col-l-4'>".$row['title']."</div>".
+        "<div class='col-s-12 col-l-8'><a href='/adminCategoryItemAssignments/del?itemId=".output($itemId)."&categoryId=".$row['categoryId']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a> - "."<a href='/adminCategories/itemSort?id=".$row['categoryId']."' class='nowrap'><span class='fas icon'>&#xf0dc;</span>in dieser Kategorie sortieren</a></div>".
         "</div>";
       }
     }
@@ -70,14 +70,14 @@ if(!empty($_GET['itemId'])) {
     $content.= "<div class='spacer-m'></div>";
     $content.= "<h2>Neu zuweisen</h2>";
     $content.= "<div class='row highlight bold bordered'>".
-    "<div class='col-s-8 col-l-8'>Kategorie</div>".
-    "<div class='col-s-4 col-l-4'>Aktionen</div>".
+    "<div class='col-s-12 col-l-4'>Kategorie</div>".
+    "<div class='col-s-12 col-l-8'>Aktionen</div>".
     "</div>";
     $result = mysqli_query($dbl, "SELECT `categories`.`id`, `categories`.`title`, `categories`.`shortTitle`, (SELECT COUNT(`id`) FROM `categoryItems` WHERE `categoryItems`.`categoryId`=`categories`.`id` AND `categoryItems`.`itemId`='".$itemId."') AS `isset` FROM `categories` ORDER BY `categories`.`sortIndex` ASC, `categories`.`title` ASC") OR DIE(MYSQLI_ERROR($dbl));
     while($row = mysqli_fetch_assoc($result)) {
       $content.= "<div class='row hover bordered'>".
-      "<div class='col-s-8 col-l-8'><a href='/kategorie/".output($row['shortTitle'])."' target='_blank'>".output($row['title'])."<span class='fas iconright'>&#xf35d;</span></a></div>".
-      "<div class='col-s-4 col-l-4'>".($row['isset'] == 1 ? "bereits zugewiesen" : "<a href='/adminCategoryItemAssignments/add?itemId=".output($itemId)."&categoryId=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf067;</span>Hinzufügen</a>")."</div>".
+      "<div class='col-s-12 col-l-4'><a href='/kategorie/".output($row['shortTitle'])."' target='_blank'>".output($row['title'])."<span class='fas iconright'>&#xf35d;</span></a></div>".
+      "<div class='col-s-12 col-l-8'>".($row['isset'] == 1 ? "bereits zugewiesen" : "<a href='/adminCategoryItemAssignments/add?itemId=".output($itemId)."&categoryId=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf067;</span>Hinzufügen</a>")."</div>".
       "</div>";
     }
   }
