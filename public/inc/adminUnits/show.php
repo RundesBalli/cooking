@@ -36,12 +36,14 @@ if(mysqli_num_rows($result) == 0) {
    */
   $content.= "<div class='row highlight bold bordered'>".
   "<div class='col-s-12 col-l-3'>Bezeichnung</div>".
-  "<div class='col-s-12 col-l-9'>Aktionen</div>".
+  "<div class='col-s-12 col-l-3'>Bezeichnung Plural</div>".
+  "<div class='col-s-12 col-l-6'>Aktionen</div>".
   "</div>";
   while($row = mysqli_fetch_assoc($result)) {
     $content.= "<div class='row hover bordered'>".
     "<div class='col-s-12 col-l-3'>".output($row['title'])."</div>".
-    "<div class='col-s-12 col-l-9'><a href='/adminUnits/edit?id=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf044;</span>Editieren</a> - "."<a href='/adminUnits/del?id=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a></div>".
+    "<div class='col-s-12 col-l-3'>".output($row['titlePlural'])."</div>".
+    "<div class='col-s-12 col-l-6'><a href='/adminUnits/edit?id=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf044;</span>Editieren</a> - "."<a href='/adminUnits/del?id=".$row['id']."' class='nowrap'><span class='fas icon'>&#xf2ed;</span>Löschen</a></div>".
     "</div>";
   }
 }

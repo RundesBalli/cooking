@@ -48,11 +48,21 @@ if(isset($_POST['submit'])) {
   }
 
   /**
+   * Plural Bezeichnung
+   */
+  if(preg_match('/^.{2,50}$/', $_POST['titlePlural'], $match) === 1) {
+    $formTitlePlural = defuse($match[0]);
+  } else {
+    $form = 1;
+    $content.= "<div class='warnbox'>Die Plural Bezeichnung der Maßeinheit ist ungültig. Sie muss zwischen 2 und 50 Zeichen lang sein.</div>";
+  }
+
+  /**
    * Wenn durch die Postdaten-Validierung die Inhalte geprüft und entschärft wurden, kann der Query erzeugt und ausgeführt werden.
    */
   if($form == 0) {
-    if(mysqli_query($dbl, "INSERT INTO `metaUnits` (`title`) VALUES ('".$formTitle."')")) {
-      mysqli_query($dbl, "INSERT INTO `log` (`accountId`, `logLevel`, `text`) VALUES ('".$userId."', 2, 'Einheit angelegt: `".$formTitle."`')") OR DIE(MYSQLI_ERROR($dbl));
+    if(mysqli_query($dbl, "INSERT INTO `metaUnits` (`title`, `titlePlural`) VALUES ('".$formTitle."', '".$formTitlePlural."')")) {
+      mysqli_query($dbl, "INSERT INTO `log` (`accountId`, `logLevel`, `text`) VALUES ('".$userId."', 2, 'Einheit angelegt: `".$formTitle."`/`".$formTitlePlural."`')") OR DIE(MYSQLI_ERROR($dbl));
       $content.= "<div class='successbox'>Maßeinheit erfolgreich angelegt.</div>";
       $content.= "<div class='row'>".
       "<div class='col-s-12 col-l-12'><a href='/adminUnits/show'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".
@@ -102,11 +112,20 @@ if($form == 1) {
   "</div>";
 
   /**
+   * Plural Bezeichnung
+   */
+  $content.= "<div class='row hover bordered'>".
+  "<div class='col-s-12 col-l-3'>Plural Bezeichnung</div>".
+  "<div class='col-s-12 col-l-4'><input type='text' name='titlePlural' placeholder='Plural Bezeichnung der Maßeinheit' tabindex='2' value='".(isset($_POST['titlePlural']) && !empty($_POST['titlePlural']) ? output($_POST['titlePlural']) : NULL)."'></div>".
+  "<div class='col-s-12 col-l-5'>2 bis 50 Zeichen</div>".
+  "</div>";
+
+  /**
    * Absenden
    */
   $content.= "<div class='row hover bordered'>".
   "<div class='col-s-12 col-l-3'>Maßeinheit anlegen</div>".
-  "<div class='col-s-12 col-l-4'><input type='submit' name='submit' value='Anlegen' tabindex='4'></div>".
+  "<div class='col-s-12 col-l-4'><input type='submit' name='submit' value='Anlegen' tabindex='3'></div>".
   "<div class='col-s-12 col-l-5'></div>".
   "</div>";
   $content.= "</form>";

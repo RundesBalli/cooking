@@ -68,12 +68,22 @@ if(!empty($_GET['id'])) {
         $content.= "<div class='warnbox'>Die Bezeichnung der Maßeinheit ist ungültig. Sie muss zwischen 2 und 50 Zeichen lang sein.</div>";
       }
 
+      /**
+       * Plural Bezeichnung
+       */
+      if(preg_match('/^.{2,50}$/', $_POST['titlePlural'], $match) === 1) {
+        $formTitlePlural = defuse($match[0]);
+      } else {
+        $form = 1;
+        $content.= "<div class='warnbox'>Die Plural Bezeichnung der Maßeinheit ist ungültig. Sie muss zwischen 2 und 50 Zeichen lang sein.</div>";
+      }
+
       if($form == 0) {
         /**
          * Wenn durch die Postdaten-Validierung die Inhalte geprüft und entschärft wurden, kann der Query erzeugt und ausgeführt werden.
          */
-        if(mysqli_query($dbl, "UPDATE `metaUnits` SET `title`='".$formTitle."' WHERE `id`='".$id."' LIMIT 1")) {
-          mysqli_query($dbl, "INSERT INTO `log` (`accountId`, `logLevel`, `text`) VALUES ('".$userId."', 3, 'Einheit geändert: von `".defuse($row['title'])."` in `".$formTitle."`')") OR DIE(MYSQLI_ERROR($dbl));
+        if(mysqli_query($dbl, "UPDATE `metaUnits` SET `title`='".$formTitle."', `titlePlural`='".$formTitlePlural."' WHERE `id`='".$id."' LIMIT 1")) {
+          mysqli_query($dbl, "INSERT INTO `log` (`accountId`, `logLevel`, `text`) VALUES ('".$userId."', 3, 'Einheit geändert: von `".defuse($row['title'])."`/`".defuse($row['titlePlural'])."` in `".$formTitle."`/`".$formTitlePlural."`')") OR DIE(MYSQLI_ERROR($dbl));
           $content.= "<div class='successbox'>Maßeinheit erfolgreich geändert.</div>";
           $content.= "<div class='row'>".
           "<div class='col-s-12 col-l-12'><a href='/adminUnits/show'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".
@@ -122,11 +132,20 @@ if(!empty($_GET['id'])) {
       "</div>";
 
       /**
+       * Plural Bezeichnung
+       */
+      $content.= "<div class='row hover bordered'>".
+      "<div class='col-s-12 col-l-3'>Plural Bezeichnung</div>".
+      "<div class='col-s-12 col-l-4'><input type='text' name='titlePlural' placeholder='Plural Bezeichnung der Maßeinheit' tabindex='2' value='".(isset($row['titlePlural']) ? output($row['titlePlural']) : (isset($_POST['titlePlural']) && !empty($_POST['titlePlural']) ? output($_POST['titlePlural']) : NULL))."'></div>".
+      "<div class='col-s-12 col-l-5'>2 bis 50 Zeichen</div>".
+      "</div>";
+
+      /**
        * Absenden
        */
       $content.= "<div class='row hover bordered'>".
       "<div class='col-s-12 col-l-3'>Kategorie anlegen</div>".
-      "<div class='col-s-12 col-l-4'><input type='submit' name='submit' value='Anlegen' tabindex='4'></div>".
+      "<div class='col-s-12 col-l-4'><input type='submit' name='submit' value='Anlegen' tabindex='3'></div>".
       "<div class='col-s-12 col-l-5'></div>".
       "</div>";
       $content.= "</form>";
