@@ -65,9 +65,9 @@ if(!empty($_GET['id'])) {
     } else {
       $ingredients = array();
       while($row = mysqli_fetch_assoc($result)) {
-        $ingredients[] = "<option value='".output($row['id'])."'>".output($row['title'])."</option>";
+        $ingredients[] = "<option value='".output($row['id'])."'>".output($row['titlePlural'])." / ".output($row['title'])."</option>";
       }
-      $ingredients = "<select name='ingredient' tabindex='1' autofocus><option value='' selected disabled hidden>Bitte wählen</option>".implode("", $ingredients)."</select>";
+      $ingredients = "<select name='ingredient' tabindex='1' autofocus><option value='' selected disabled hidden>Bitte wählen, Plural/Singular</option>".implode("", $ingredients)."</select>";
     }
 
     /**
@@ -80,9 +80,9 @@ if(!empty($_GET['id'])) {
     } else {
       $units = array();
       while($row = mysqli_fetch_assoc($result)) {
-        $units[] = "<option value='".output($row['id'])."'>".output($row['title'])."</option>";
+        $units[] = "<option value='".output($row['id'])."'>".output($row['titlePlural'])." / ".output($row['title'])."</option>";
       }
-      $units = "<select name='unit' tabindex='3'><option value='' selected disabled hidden>Bitte wählen</option>".implode("", $units)."</select>";
+      $units = "<select name='unit' tabindex='3'><option value='' selected disabled hidden>Bitte wählen, Plural/Singular</option>".implode("", $units)."</select>";
     }
 
     /**
@@ -125,7 +125,7 @@ if(!empty($_GET['id'])) {
       $content.= "<div class='row hover bordered'>".
       "<div class='col-s-12 col-l-3'>Menge</div>".
       "<div class='col-s-12 col-l-4'><input type='text' name='quantity' tabindex='2' placeholder='Menge'></div>".
-      "<div class='col-s-12 col-l-5'>".Slimdown::render("* Kommazahlen möglich\n* Wenn die Menge = 0 ist, wird die Zutat einfach so angezeigt\n* 0xSalz = Salz")."</div>".
+      "<div class='col-s-12 col-l-5'>".Slimdown::render("* Kommazahlen möglich\n* Wenn die Menge = 0 ist, wird die Zutat einfach so angezeigt\n* 0xSalz = Salz\n* Nur wenn Menge = 1 wird der Singular angezeigt, sonst immer Plural")."</div>".
       "</div>";
 
       /**
@@ -134,7 +134,7 @@ if(!empty($_GET['id'])) {
       $content.= "<div class='row hover bordered'>".
       "<div class='col-s-12 col-l-3'>Einheit</div>".
       "<div class='col-s-12 col-l-4'>".$units."</div>".
-      "<div class='col-s-12 col-l-5'>".Slimdown::render("* Wird ignoriert, wenn Menge = 0")."<a href='/adminUnits/add' target='_blank'><span class='fas icon'>&#xf496;</span>Einheit hinzufügen<span class='fas iconright'>&#xf35d;</span></a><br><a href='/adminItemIngredientAssignments/show?id=".output($id)."'><span class='fas icon'>&#xf021;</span>Neu laden</a></div>".
+      "<div class='col-s-12 col-l-5'>".Slimdown::render("* Wird ignoriert, wenn Menge = 0\n* Nur wenn Menge = 1 wird der Singular angezeigt, sonst immer Plural")."<a href='/adminUnits/add' target='_blank'><span class='fas icon'>&#xf496;</span>Einheit hinzufügen<span class='fas iconright'>&#xf35d;</span></a><br><a href='/adminItemIngredientAssignments/show?id=".output($id)."'><span class='fas icon'>&#xf021;</span>Neu laden</a></div>".
       "</div>";
 
       /**
