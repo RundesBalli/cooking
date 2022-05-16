@@ -207,7 +207,7 @@ $content.= "<div class='row hover bordered'>".
 "<div class='col-s-12 col-l-4'><select name='ingredient' tabindex='5'>"."<option value='' selected>-- egal --</option>";
 $result = mysqli_query($dbl, "SELECT * FROM `metaIngredients` WHERE `searchable`='1' ORDER BY `title` ASC") OR DIE(MYSQLI_ERROR($dbl));
 while($row = mysqli_fetch_assoc($result)) {
-  $content.= "<option value='".$row['id']."'".((isset($_POST['ingredient']) && !empty($_POST['ingredient']) AND $row['id'] == $_POST['ingredient']) ? " selected" : NULL).">".output($row['title'])."</option>";
+  $content.= "<option value='".$row['id']."'".((isset($_POST['ingredient']) && !empty($_POST['ingredient']) AND $row['id'] == $_POST['ingredient']) ? " selected" : NULL).">".output($row['titlePlural'])."</option>";
 }
 $content.= "</select></div>".
 "<div class='col-s-12 col-l-5'>Diese Zutat muss im Rezept enthalten sein.</div>".
