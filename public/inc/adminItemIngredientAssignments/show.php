@@ -142,7 +142,7 @@ if(!empty($_GET['id'])) {
        */
       $content.= "<div class='row hover bordered'>".
       "<div class='col-s-12 col-l-3'>Art der Zutat</div>".
-      "<div class='col-s-12 col-l-4'><input type='radio' name='optional' value='0' id='optional-required' checked><label for='optional-required'>Erforderliche Zutat</label><br><input type='radio' name='optional' value='1' id='optional-optional'><label for='optional-optional'>Optionale Zutat</label></div>".
+      "<div class='col-s-12 col-l-4'><input type='radio' name='optional' tabindex='4' value='0' id='optional-required' checked><label for='optional-required'>Erforderliche Zutat</label><br><input type='radio' name='optional' value='1' id='optional-optional'><label for='optional-optional'>Optionale Zutat</label></div>".
       "<div class='col-s-12 col-l-5'>".Slimdown::render("* optionale Zutaten werden im Rezept separat aufgeführt\n* dies kann zum Beispiel ein bestimmtes Gewürz sein")."</div>".
       "</div>";
 
@@ -151,7 +151,7 @@ if(!empty($_GET['id'])) {
        */
       $content.= "<div class='row hover bordered'>".
       "<div class='col-s-12 col-l-3'>Zutat zuweisen</div>".
-      "<div class='col-s-12 col-l-4'><input type='submit' name='submit' value='Anlegen' tabindex='4'></div>".
+      "<div class='col-s-12 col-l-4'><input type='submit' name='submit' value='Anlegen' tabindex='5'></div>".
       "<div class='col-s-12 col-l-5'></div>".
       "</div>";
       $content.= "</form>";
