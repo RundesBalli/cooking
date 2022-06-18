@@ -83,7 +83,7 @@ if(!empty($_GET['id'])) {
             array_map('unlink', glob($_SERVER['DOCUMENT_ROOT'].DIRECTORY_SEPARATOR."img".DIRECTORY_SEPARATOR."*-".$row['fileHash'].".png"));
           }
           mysqli_query($dbl, "DELETE FROM `items` WHERE `id`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
-          mysqli_query($dbl, "INSERT INTO `log` (`accountId`, `logLevel`, `text`) VALUES ('".$userId."', 4, 'Rezept gelöscht: `".$itemTitle."`')") OR DIE(MYSQLI_ERROR($dbl));
+          mysqli_query($dbl, "INSERT INTO `log` (`accountId`, `logLevel`, `text`) VALUES ('".$userId."', 4, 'Rezept gelöscht: `".defuse($itemTitle)."`')") OR DIE(MYSQLI_ERROR($dbl));
           $content.= "<div class='successbox'>Rezept erfolgreich gelöscht.</div>";
           $content.= "<div class='row'>".
           "<div class='col-s-12 col-l-12'><a href='/adminItems/show'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".

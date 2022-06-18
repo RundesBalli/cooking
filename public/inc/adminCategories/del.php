@@ -83,7 +83,7 @@ if(!empty($_GET['id'])) {
           $result = mysqli_query($dbl, "SELECT * FROM `categories` WHERE `id`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
           $row = mysqli_fetch_assoc($result);
           mysqli_query($dbl, "DELETE FROM `categories` WHERE `id`='".$id."' LIMIT 1") OR DIE(MYSQLI_ERROR($dbl));
-          mysqli_query($dbl, "INSERT INTO `log` (`accountId`, `logLevel`, `text`) VALUES ('".$userId."', 4, 'Kategorie gelöscht: `".$row['title']."`')") OR DIE(MYSQLI_ERROR($dbl));
+          mysqli_query($dbl, "INSERT INTO `log` (`accountId`, `logLevel`, `text`) VALUES ('".$userId."', 4, 'Kategorie gelöscht: `".defuse($row['title'])."`')") OR DIE(MYSQLI_ERROR($dbl));
           $content.= "<div class='successbox'>Kategorie erfolgreich gelöscht.</div>";
           $content.= "<div class='row'>".
           "<div class='col-s-12 col-l-12'><a href='/adminCategories/show'><span class='fas icon'>&#xf359;</span>Zurück zur Übersicht</a></div>".

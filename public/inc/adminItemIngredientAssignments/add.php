@@ -110,7 +110,7 @@ if(!empty($_POST['itemId'])) {
           /**
            * Aktualisierung erfolgreich.
            */
-          mysqli_query($dbl, "INSERT INTO `log` (`accountId`, `logLevel`, `itemId`, `text`) VALUES ('".$userId."', 6, '".$id."', 'Zuweisung aktualisiert: qty: ".($quantity === NULL ? "NULL" : "`".$quantity."`")."; unit: ".($unit === NULL ? "NULL" : "`".$unitTitle."`")."; ing: `".$ingredientTitle."`, opt: `".$optional."`')") OR DIE(MYSQLI_ERROR($dbl));
+          mysqli_query($dbl, "INSERT INTO `log` (`accountId`, `logLevel`, `itemId`, `text`) VALUES ('".$userId."', 6, '".$id."', 'Zuweisung aktualisiert: qty: ".($quantity === NULL ? "NULL" : "`".$quantity."`")."; unit: ".($unit === NULL ? "NULL" : "`".defuse($unitTitle)."`")."; ing: `".defuse($ingredientTitle)."`, opt: `".$optional."`')") OR DIE(MYSQLI_ERROR($dbl));
           $content.= "<div class='successbox'>Zuweisung aktualisiert.</div>";
         } else {
           /**
@@ -127,7 +127,7 @@ if(!empty($_POST['itemId'])) {
           /**
            * Eintrag erfolgreich.
            */
-          mysqli_query($dbl, "INSERT INTO `log` (`accountId`, `logLevel`, `itemId`, `text`) VALUES ('".$userId."', 6, '".$id."', 'Zuweisung angelegt: qty: ".($quantity === NULL ? "NULL" : "`".$quantity."`")."; unit: ".($unit === NULL ? "NULL" : "`".$unitTitle."`")."; ing: `".$ingredientTitle."`, opt: `".$optional."`')") OR DIE(MYSQLI_ERROR($dbl));
+          mysqli_query($dbl, "INSERT INTO `log` (`accountId`, `logLevel`, `itemId`, `text`) VALUES ('".$userId."', 6, '".$id."', 'Zuweisung angelegt: qty: ".($quantity === NULL ? "NULL" : "`".$quantity."`")."; unit: ".($unit === NULL ? "NULL" : "`".defuse($unitTitle)."`")."; ing: `".defuse($ingredientTitle)."`, opt: `".$optional."`')") OR DIE(MYSQLI_ERROR($dbl));
           $content.= "<div class='successbox'>Zuweisung angelegt.</div>";
         } else {
           /**
