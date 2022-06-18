@@ -355,10 +355,15 @@ h3 {
   box-shadow: 5px 0px 8px 7px var(--hrColor);
 }
 
-#sidebar > span, #sidebar > #nav > span {
+#sidebar > #headerContainer, #sidebar > #headerContainer > a > span, #sidebar > #nav > span {
   width: 100%;
   display: block;
   text-align: center;
+}
+
+#sidebar > #headerContainer > a {
+  color: var(--navFontColor);
+  text-decoration: none;
 }
 
 #sidebar .burger {
