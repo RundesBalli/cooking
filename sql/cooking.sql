@@ -13,8 +13,6 @@ USE `cooking`;
 
 DELIMITER ;;
 
-CREATE EVENT `Featuredbereinigung` ON SCHEDULE EVERY 1 HOUR STARTS '2022-03-01 00:00:00' ON COMPLETION NOT PRESERVE ENABLE COMMENT 'Löscht Rezeptvorschläge die älter als zwei Wochen sind' DO DELETE FROM `featured` WHERE `timestamp` < DATE_SUB(NOW(), INTERVAL 2 WEEK);;
-
 CREATE EVENT `Sitzungsbereinigung Admin` ON SCHEDULE EVERY 1 HOUR STARTS '2022-03-01 00:00:00' ON COMPLETION NOT PRESERVE ENABLE COMMENT 'Löscht abgelaufene Administratorsitzungen nach sechs Wochen' DO DELETE FROM `sessions` WHERE `lastActivity` < DATE_SUB(NOW(), INTERVAL 6 WEEK);;
 
 DELIMITER ;
@@ -295,4 +293,4 @@ CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `mostClicked` AS select `cl
 DROP TABLE IF EXISTS `stats`;
 CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `stats` AS select (select count(`categories`.`id`) from `categories`) AS `catCount`,(select count(`items`.`id`) from `items`) AS `itemCount`,(select count(`clicks`.`id`) from `clicks`) AS `clickCount`,(select count(`clicks`.`id`) from `clicks` where (`clicks`.`timestamp` > cast(curdate() as datetime))) AS `clicksToday`;
 
--- 2022-05-16 19:50:11
+-- 2022-06-18 22:21:23
