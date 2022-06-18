@@ -1,7 +1,8 @@
 # :hamburger: :fork_and_knife: nezos.cooking
-[Rezeptseite nezos.cooking](https://nezos.cooking) meines Freundes [Nezos](https://nezos.wtf).
+[Rezeptseite](https://nezos.cooking) meines Freundes [Nezos](https://nezos.wtf).
 
-Feedback, Kritik, Verbesserungsvorschläge oder Bugs gerne per [Issue](https://github.com/RundesBalli/cooking/issues) oder [direkt an mich](https://rundesballi.com).
+Feedback, Kritik, Verbesserungsvorschläge oder Bugs zur Seite gerne per [Issue](https://github.com/RundesBalli/cooking/issues) oder [direkt an mich](https://rundesballi.com).  
+Jegliche Rezeptangelegenheiten bitte an [Nezos](https://nezos.wtf).
 
 ## Danksagung
 Danke an meinen Freund [NullDev](https://github.com/NullDev) für seine Unterstützung bei JavaScript und für diverse CSS Tricks, wie z.B. den Kacheln auf der Startseite oder die im alten Branch verwendete Sternfunktion.
